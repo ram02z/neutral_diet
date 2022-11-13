@@ -1,0 +1,32 @@
+package service
+
+import (
+	"context"
+
+	"github.com/bufbuild/connect-go"
+	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
+)
+
+type ConnectWrapper struct {
+	s *Service
+}
+
+func NewConnectWrapper(s *Service) *ConnectWrapper {
+	return &ConnectWrapper{s: s}
+}
+
+func (c *ConnectWrapper) CreateFoodItem(
+	ctx context.Context,
+	req *connect.Request[foodv1.CreateFoodItemRequest],
+) (*connect.Response[foodv1.CreateFoodItemResponse], error) {
+	res, err := c.s.CreateFoodItem(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+	// TODO: export the headers
+	out.Header().Set("API-Version", "v1")
+
+	return out, nil
+}
