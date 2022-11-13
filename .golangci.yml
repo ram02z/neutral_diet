@@ -13,3 +13,9 @@ issues:
   exclude-use-default: false
   max-issues-per-linter: 0
   max-same-issues: 0
+  exclude-rules:
+    - path: embed.go
+      text: "pattern (.+): cannot embed directory (.+): contains no embeddable files"
+    - path: embed.go
+      text: "pattern (.+): no matching files found"
+
