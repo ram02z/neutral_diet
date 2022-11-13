@@ -24,5 +24,6 @@ jobs:
       - uses: bufbuild/buf-lint-action@v1
       - uses: bufbuild/buf-breaking-action@v1
         with:
+          input: "internal/proto"
           # The 'master' branch of the GitHub repository that defines the module.
-          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=master"
+          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=master,subdir=internal/proto"
