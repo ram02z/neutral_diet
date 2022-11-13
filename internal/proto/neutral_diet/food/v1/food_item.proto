@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package neutral_diet.food.v1;
+
+option go_package = "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1;foodv1";
+
+message FoodItem {
+  int32 id = 1;
+  string name = 2;
+  string emissions = 3;
+}

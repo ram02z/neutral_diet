@@ -1,0 +1,27 @@
+root = true
+
+[*]
+charset = utf-8
+indent_size = 2
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+end_of_line = lf
+
+[*.{htm,html,js,jsm,ts,tsx,css,sass,scss,less,svg,vue}]
+indent_size = 2
+
+[{Makefile,go.mod,go.sum,*.go,.gitmodules}]
+indent_style = tab
+max_line_length = 99
+
+[*.{md,norg}]
+indent_size = 4
+trim_trailing_whitespace = false
+
+[Dockerfile]
+indent_size = 4
+
+[*.py]
+indent_size = 4
+max_line_length = 88

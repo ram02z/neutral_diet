@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package neutral_diet.food.v1;
+
+import "neutral_diet/food/v1/food_item.proto";
+
+option go_package = "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1;foodv1";
+
+message CreateFoodItemRequest {
+  string name = 1;
+  float emissions = 2;
+}
+
+message CreateFoodItemResponse {
+  FoodItem food_item = 1;
+}
+
+service FoodService {
+  rpc CreateFoodItem(CreateFoodItemRequest) returns (CreateFoodItemResponse) {}
+}
