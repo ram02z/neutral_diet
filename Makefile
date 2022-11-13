@@ -5,15 +5,15 @@ all:
 
 .PHONY: gen-proto
 gen-proto:
-	docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf mod update internal/proto
-	docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf lint
-	docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf format -w
-	docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf generate
+	buf mod update internal/proto
+	buf lint
+	buf format -w
+	buf generate
 
 .PHONY: gen-models
 gen-models:
-	docker run --rm --volume "$(shell pwd):/src" --workdir /src kjconroy/sqlc compile
-	docker run --rm --volume "$(shell pwd):/src" --workdir /src kjconroy/sqlc generate
+	sqlc compile
+	sqlc generate
 
 .PHONY: migrate-up
 migrate-up:
