@@ -1,10 +1,6 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
+// Importing Root and App using Promise.all (by using HTTP/2 multiplexing) loads them in parallel
+Promise.all([import('@/Root'), import('@/App')]).then(([{ default: render }, { default: App }]) => {
+  render(App);
+});
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
+export {}

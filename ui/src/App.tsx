@@ -1,19 +1,23 @@
-import { useState } from 'react'
-import './App.css'
+import { Fragment } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
+import CssBaseline from '@mui/material/CssBaseline';
+
+import Header from '@/sections/Header';
+import Pages from '@/routes/Pages';
+import Navigation from '@/sections/Navigation';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <h1>Neutral Diet</h1>
-      <div>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-    </div>
-  )
+    <Fragment>
+      <CssBaseline />
+      <BrowserRouter>
+        <Header />
+        <Pages />
+        <Navigation />
+      </BrowserRouter>
+    </Fragment>
+  );
 }
 
-export default App
+export default App;

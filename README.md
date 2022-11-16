@@ -1,4 +1,4 @@
-# Neutral diet
+# Neutral Diet
 
 ## License
 
@@ -6,5 +6,5 @@
 
 ## Credits
 
-[api-go-template](https://github.com/kevinmichaelchen/api-go-template) for the
-boilerplate architecture for the Go backend
+[api-go-template](https://github.com/kevinmichaelchen/api-go-template) for the Go backend boilerplate architecture
+[react-pwa](https://github.com/suren-atoyan/react-pwa) for React frontend boilerplate architecture
