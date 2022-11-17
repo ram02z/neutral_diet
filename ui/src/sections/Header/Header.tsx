@@ -10,12 +10,12 @@ import Typography from '@mui/material/Typography';
 import ThemeToggler from '@/components/ThemeToggler';
 import routes from '@/routes';
 import { Pages } from '@/routes/types';
-import useHeader from '@/store/header';
 import useNavigation from '@/store/navigation';
 
-function Header() {
-  const [headerValue] = useHeader();
-  const [, navigationActions] = useNavigation()
+import type { HeaderProps } from './types';
+
+function Header({ title }: HeaderProps) {
+  const [, navigationActions] = useNavigation();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -23,7 +23,7 @@ function Header() {
         <Toolbar>
           <ThemeToggler />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, ml: 2 }}>
-            {headerValue}
+            {title}
           </Typography>
           <IconButton
             size="large"

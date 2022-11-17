@@ -3,16 +3,16 @@ import { BrowserRouter } from 'react-router-dom';
 
 import CssBaseline from '@mui/material/CssBaseline';
 
-import Header from '@/sections/Header';
 import Pages from '@/routes/Pages';
 import Navigation from '@/sections/Navigation';
+import Header from './sections/Header';
 
 function App() {
   return (
     <Fragment>
       <CssBaseline />
       <BrowserRouter>
-        <Header />
+        <Header title='Neutral Diet' />
         <Pages />
         <Navigation />
       </BrowserRouter>

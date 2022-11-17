@@ -19,14 +19,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import CircularProgress from '@mui/material/CircularProgress';
-
 import { FullSizeCenteredFlexBox } from '@/components/styled';
+import { Skeleton } from '@mui/material';
 
 function Loading() {
   return (
     <FullSizeCenteredFlexBox>
-      <CircularProgress />
+      <Skeleton />
     </FullSizeCenteredFlexBox>
   );
 }
