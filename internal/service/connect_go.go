@@ -30,3 +30,51 @@ func (c *ConnectWrapper) CreateFoodItem(
 
 	return out, nil
 }
+
+func (c *ConnectWrapper) CreateSource(
+	ctx context.Context,
+	req *connect.Request[foodv1.CreateSourceRequest],
+) (*connect.Response[foodv1.CreateSourceResponse], error) {
+	res, err := c.s.CreateSource(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+	// TODO: export the headers
+	out.Header().Set("API-Version", "v1")
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) CreateTypology(
+	ctx context.Context,
+	req *connect.Request[foodv1.CreateTypologyRequest],
+) (*connect.Response[foodv1.CreateTypologyResponse], error) {
+	res, err := c.s.CreateTypology(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+	// TODO: export the headers
+	out.Header().Set("API-Version", "v1")
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) ListFoodItems(
+	ctx context.Context,
+	req *connect.Request[foodv1.ListFoodItemsRequest],
+) (*connect.Response[foodv1.ListFoodItemsResponse], error) {
+	res, err := c.s.ListFoodItems(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+	// TODO: export the headers
+	out.Header().Set("API-Version", "v1")
+
+	return out, nil
+}

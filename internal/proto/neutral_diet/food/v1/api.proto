@@ -9,12 +9,42 @@ option go_package = "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_die
 message CreateFoodItemRequest {
   string name = 1;
   float emissions = 2;
+  int32 typology_id = 3;
+  int32 source_id = 4;
 }
 
 message CreateFoodItemResponse {
-  FoodItem food_item = 1;
+  int32 id = 1;
+}
+
+message CreateTypologyRequest {
+  string name = 1;
+  repeated string sub_typologies = 2;
+}
+
+message CreateTypologyResponse {
+  int32 id = 1;
+}
+
+message CreateSourceRequest {
+  string reference = 1;
+  optional int32 year = 2;
+  optional string location = 3;
+}
+
+message CreateSourceResponse {
+  int32 id = 1;
+}
+
+message ListFoodItemsRequest {}
+
+message ListFoodItemsResponse {
+  repeated FoodItem food_items = 1;
 }
 
 service FoodService {
   rpc CreateFoodItem(CreateFoodItemRequest) returns (CreateFoodItemResponse) {}
+  rpc ListFoodItems(ListFoodItemsRequest) returns (ListFoodItemsResponse) {}
+  rpc CreateTypology(CreateTypologyRequest) returns (CreateTypologyResponse) {}
+  rpc CreateSource(CreateSourceRequest) returns (CreateSourceResponse) {}
 }

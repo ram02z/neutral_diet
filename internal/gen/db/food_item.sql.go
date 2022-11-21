@@ -7,22 +7,32 @@ package db
 
 import (
 	"context"
+
+	"github.com/jackc/pgtype"
 )
 
-const getFoodItem = `-- name: GetFoodItem :one
-SELECT id, name, carbon_footprint, typology_id, source_id FROM food_item
-WHERE id = $1 LIMIT 1
+const createFoodItem = `-- name: CreateFoodItem :one
+INSERT INTO food_item (name, carbon_footprint, typology_id, source_id)
+    VALUES ($1, $2, $3, $4)
+RETURNING
+    id
 `
 
-func (q *Queries) GetFoodItem(ctx context.Context, id int32) (FoodItem, error) {
-	row := q.db.QueryRow(ctx, getFoodItem, id)
-	var i FoodItem
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.CarbonFootprint,
-		&i.TypologyID,
-		&i.SourceID,
+type CreateFoodItemParams struct {
+	Name            string
+	CarbonFootprint pgtype.Numeric
+	TypologyID      int32
+	SourceID        int32
+}
+
+func (q *Queries) CreateFoodItem(ctx context.Context, arg CreateFoodItemParams) (int32, error) {
+	row := q.db.QueryRow(ctx, createFoodItem,
+		arg.Name,
+		arg.CarbonFootprint,
+		arg.TypologyID,
+		arg.SourceID,
 	)
-	return i, err
+	var id int32
+	err := row.Scan(&id)
+	return id, err
 }

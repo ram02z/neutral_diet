@@ -28,6 +28,9 @@ const (
 // FoodServiceClient is a client for the neutral_diet.food.v1.FoodService service.
 type FoodServiceClient interface {
 	CreateFoodItem(context.Context, *connect_go.Request[v1.CreateFoodItemRequest]) (*connect_go.Response[v1.CreateFoodItemResponse], error)
+	ListFoodItems(context.Context, *connect_go.Request[v1.ListFoodItemsRequest]) (*connect_go.Response[v1.ListFoodItemsResponse], error)
+	CreateTypology(context.Context, *connect_go.Request[v1.CreateTypologyRequest]) (*connect_go.Response[v1.CreateTypologyResponse], error)
+	CreateSource(context.Context, *connect_go.Request[v1.CreateSourceRequest]) (*connect_go.Response[v1.CreateSourceResponse], error)
 }
 
 // NewFoodServiceClient constructs a client for the neutral_diet.food.v1.FoodService service. By
@@ -45,12 +48,30 @@ func NewFoodServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+"/neutral_diet.food.v1.FoodService/CreateFoodItem",
 			opts...,
 		),
+		listFoodItems: connect_go.NewClient[v1.ListFoodItemsRequest, v1.ListFoodItemsResponse](
+			httpClient,
+			baseURL+"/neutral_diet.food.v1.FoodService/ListFoodItems",
+			opts...,
+		),
+		createTypology: connect_go.NewClient[v1.CreateTypologyRequest, v1.CreateTypologyResponse](
+			httpClient,
+			baseURL+"/neutral_diet.food.v1.FoodService/CreateTypology",
+			opts...,
+		),
+		createSource: connect_go.NewClient[v1.CreateSourceRequest, v1.CreateSourceResponse](
+			httpClient,
+			baseURL+"/neutral_diet.food.v1.FoodService/CreateSource",
+			opts...,
+		),
 	}
 }
 
 // foodServiceClient implements FoodServiceClient.
 type foodServiceClient struct {
 	createFoodItem *connect_go.Client[v1.CreateFoodItemRequest, v1.CreateFoodItemResponse]
+	listFoodItems  *connect_go.Client[v1.ListFoodItemsRequest, v1.ListFoodItemsResponse]
+	createTypology *connect_go.Client[v1.CreateTypologyRequest, v1.CreateTypologyResponse]
+	createSource   *connect_go.Client[v1.CreateSourceRequest, v1.CreateSourceResponse]
 }
 
 // CreateFoodItem calls neutral_diet.food.v1.FoodService.CreateFoodItem.
@@ -58,9 +79,27 @@ func (c *foodServiceClient) CreateFoodItem(ctx context.Context, req *connect_go.
 	return c.createFoodItem.CallUnary(ctx, req)
 }
 
+// ListFoodItems calls neutral_diet.food.v1.FoodService.ListFoodItems.
+func (c *foodServiceClient) ListFoodItems(ctx context.Context, req *connect_go.Request[v1.ListFoodItemsRequest]) (*connect_go.Response[v1.ListFoodItemsResponse], error) {
+	return c.listFoodItems.CallUnary(ctx, req)
+}
+
+// CreateTypology calls neutral_diet.food.v1.FoodService.CreateTypology.
+func (c *foodServiceClient) CreateTypology(ctx context.Context, req *connect_go.Request[v1.CreateTypologyRequest]) (*connect_go.Response[v1.CreateTypologyResponse], error) {
+	return c.createTypology.CallUnary(ctx, req)
+}
+
+// CreateSource calls neutral_diet.food.v1.FoodService.CreateSource.
+func (c *foodServiceClient) CreateSource(ctx context.Context, req *connect_go.Request[v1.CreateSourceRequest]) (*connect_go.Response[v1.CreateSourceResponse], error) {
+	return c.createSource.CallUnary(ctx, req)
+}
+
 // FoodServiceHandler is an implementation of the neutral_diet.food.v1.FoodService service.
 type FoodServiceHandler interface {
 	CreateFoodItem(context.Context, *connect_go.Request[v1.CreateFoodItemRequest]) (*connect_go.Response[v1.CreateFoodItemResponse], error)
+	ListFoodItems(context.Context, *connect_go.Request[v1.ListFoodItemsRequest]) (*connect_go.Response[v1.ListFoodItemsResponse], error)
+	CreateTypology(context.Context, *connect_go.Request[v1.CreateTypologyRequest]) (*connect_go.Response[v1.CreateTypologyResponse], error)
+	CreateSource(context.Context, *connect_go.Request[v1.CreateSourceRequest]) (*connect_go.Response[v1.CreateSourceResponse], error)
 }
 
 // NewFoodServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -75,6 +114,21 @@ func NewFoodServiceHandler(svc FoodServiceHandler, opts ...connect_go.HandlerOpt
 		svc.CreateFoodItem,
 		opts...,
 	))
+	mux.Handle("/neutral_diet.food.v1.FoodService/ListFoodItems", connect_go.NewUnaryHandler(
+		"/neutral_diet.food.v1.FoodService/ListFoodItems",
+		svc.ListFoodItems,
+		opts...,
+	))
+	mux.Handle("/neutral_diet.food.v1.FoodService/CreateTypology", connect_go.NewUnaryHandler(
+		"/neutral_diet.food.v1.FoodService/CreateTypology",
+		svc.CreateTypology,
+		opts...,
+	))
+	mux.Handle("/neutral_diet.food.v1.FoodService/CreateSource", connect_go.NewUnaryHandler(
+		"/neutral_diet.food.v1.FoodService/CreateSource",
+		svc.CreateSource,
+		opts...,
+	))
 	return "/neutral_diet.food.v1.FoodService/", mux
 }
 
@@ -83,4 +137,16 @@ type UnimplementedFoodServiceHandler struct{}
 
 func (UnimplementedFoodServiceHandler) CreateFoodItem(context.Context, *connect_go.Request[v1.CreateFoodItemRequest]) (*connect_go.Response[v1.CreateFoodItemResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.food.v1.FoodService.CreateFoodItem is not implemented"))
+}
+
+func (UnimplementedFoodServiceHandler) ListFoodItems(context.Context, *connect_go.Request[v1.ListFoodItemsRequest]) (*connect_go.Response[v1.ListFoodItemsResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.food.v1.FoodService.ListFoodItems is not implemented"))
+}
+
+func (UnimplementedFoodServiceHandler) CreateTypology(context.Context, *connect_go.Request[v1.CreateTypologyRequest]) (*connect_go.Response[v1.CreateTypologyResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.food.v1.FoodService.CreateTypology is not implemented"))
+}
+
+func (UnimplementedFoodServiceHandler) CreateSource(context.Context, *connect_go.Request[v1.CreateSourceRequest]) (*connect_go.Response[v1.CreateSourceResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.food.v1.FoodService.CreateSource is not implemented"))
 }

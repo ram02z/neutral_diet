@@ -24,3 +24,27 @@ func (s *Service) CreateFoodItem(
 	// TODO: Validation
 	return s.dataStore.CreateFoodItem(ctx, r)
 }
+
+func (s *Service) CreateSource(
+	ctx context.Context,
+	r *foodv1.CreateSourceRequest,
+) (*foodv1.CreateSourceResponse, error) {
+	// TODO: Validation
+	return s.dataStore.CreateSource(ctx, r)
+}
+
+func (s *Service) CreateTypology(
+	ctx context.Context,
+	r *foodv1.CreateTypologyRequest,
+) (*foodv1.CreateTypologyResponse, error) {
+	// TODO: Validation
+	return s.dataStore.CreateTypology(ctx, r)
+}
+
+func (s *Service) ListFoodItems(
+	ctx context.Context,
+	r *foodv1.ListFoodItemsRequest,
+) (*foodv1.ListFoodItemsResponse, error) {
+	// TODO: Validation
+	return s.dataStore.ListFoodItems(ctx, r)
+}
