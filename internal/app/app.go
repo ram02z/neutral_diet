@@ -26,14 +26,13 @@ func Run() {
 	}()
 
 	dataStore := service.NewDataStore(pgpool)
-	service := service.NewService(dataStore)
 
 	// Connect service
 	connectCfg, err := connectgo.NewConfig()
 	if err != nil {
 		l.Fatal().Err(err).Msg("Could not create connect-go config")
 	}
-	connectWrapper := connectgo.NewConnectWrapper(service)
+	connectWrapper := connectgo.NewConnectWrapper(dataStore)
 	server := connectgo.NewConnectGoServer(l, connectCfg)
 	registerIn := connectgo.RegisterConnectGoServerInput{
 		Logger:     l,

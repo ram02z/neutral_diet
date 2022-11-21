@@ -5,13 +5,14 @@ import (
 
 	"github.com/bufbuild/connect-go"
 	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
+	"github.com/ram02z/neutral_diet/internal/service/db"
 )
 
 type ConnectWrapper struct {
-	s *Service
+	s *db.Store
 }
 
-func NewConnectWrapper(s *Service) *ConnectWrapper {
+func NewConnectWrapper(s *db.Store) *ConnectWrapper {
 	return &ConnectWrapper{s: s}
 }
 

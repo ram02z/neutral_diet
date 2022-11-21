@@ -11,6 +11,7 @@ import (
 	frontend "github.com/ram02z/neutral_diet"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1/foodv1connect"
 	"github.com/ram02z/neutral_diet/internal/service"
+	"github.com/ram02z/neutral_diet/internal/service/db"
 	"github.com/rs/cors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/hlog"
@@ -49,7 +50,7 @@ type Server struct {
 	ShutdownTimeout time.Duration
 }
 
-func NewConnectWrapper(s *service.Service) *service.ConnectWrapper {
+func NewConnectWrapper(s *db.Store) *service.ConnectWrapper {
 	return service.NewConnectWrapper(s)
 }
 
