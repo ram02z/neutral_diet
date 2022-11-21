@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  eslint:
+  frontend_lint:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -17,34 +17,17 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v2
-        with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
+          cache: 'npm'
+          cache-dependency-path: 'ui/package-lock.json'
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-      - uses: sibiraj-s/action-eslint@v2
-        with:
-          eslint-args: "--ignore-path=.gitignore --quiet"
-          extensions: "js,ts,tsx,json"
-          annotations: true
-
-  prettier:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ui
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
-      - name: Install prettier
-        run: npm i prettier
       - name: Run prettier
         run: |-
           npx prettier --check 'src/**/*.{js,ts,tsx,json,css,md}'
+      - name: Run eslint
+        run: |-
+          npx 'src/**/*.{js,ts,tsx,json}'
+
   golangci_lint:
     runs-on: ubuntu-latest
     steps:
