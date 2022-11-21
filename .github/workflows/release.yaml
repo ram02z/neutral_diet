@@ -21,7 +21,7 @@ jobs:
         working-directory: ui
       - uses: wangyoucao577/go-release-action@v1.33
         with:
-          project_path: cmd/app/main.go
+          project_path: 'cmd/app/'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: linux
           goarch: amd64
