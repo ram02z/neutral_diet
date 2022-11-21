@@ -3,4 +3,4 @@ Promise.all([import('@/Root'), import('@/App')]).then(([{ default: render }, { d
   render(App);
 });
 
-export {}
+export {};

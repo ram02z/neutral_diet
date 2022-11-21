@@ -15,7 +15,7 @@ function useNavigation(): [number, Actions] {
   }
 
   function reset() {
-    setValue(-1)
+    setValue(-1);
   }
 
   return [value, { change, reset }];

@@ -1,3 +1,3 @@
-import ThemeToggler from "./ThemeToggler";
+import ThemeToggler from './ThemeToggler';
 
 export default ThemeToggler;

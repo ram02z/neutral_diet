@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 import Pages from '@/routes/Pages';
 import Navigation from '@/sections/Navigation';
+
 import Header from './sections/Header';
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
     <Fragment>
       <CssBaseline />
       <BrowserRouter>
-        <Header title='Neutral Diet' />
+        <Header title="Neutral Diet" />
         <Pages />
         <Navigation />
       </BrowserRouter>

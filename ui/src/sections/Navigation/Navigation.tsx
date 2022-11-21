@@ -15,10 +15,7 @@ function Navigation() {
   return (
     <Box>
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-        <BottomNavigation
-          value={navigationValue}
-          onChange={navigationActions.change}
-        >
+        <BottomNavigation value={navigationValue} onChange={navigationActions.change}>
           {Object.values(routes)
             .filter((route) => route.title)
             .filter((route) => route.navigation)
