@@ -10,3 +10,9 @@ plugins:
   - remote: buf.build/bufbuild/plugins/connect-go:v1.1.0-1
     out: internal/gen/idl
     opt: paths=source_relative
+  - remote: buf.build/bufbuild/plugins/es:v0.2.1-1
+    out: ui/src/api/gen
+    opt: target=ts
+  - remote: buf.build/bufbuild/plugins/connect-web:v0.3.1-1
+    out: ui/src/api/gen
+    opt: target=ts
