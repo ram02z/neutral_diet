@@ -36,3 +36,40 @@ func (q *Queries) CreateFoodItem(ctx context.Context, arg CreateFoodItemParams) 
 	err := row.Scan(&id)
 	return id, err
 }
+
+const listFoodItems = `-- name: ListFoodItems :many
+SELECT
+    id,
+    name,
+    carbon_footprint
+FROM
+    food_item
+ORDER BY
+    ID
+`
+
+type ListFoodItemsRow struct {
+	ID              int32
+	Name            string
+	CarbonFootprint pgtype.Numeric
+}
+
+func (q *Queries) ListFoodItems(ctx context.Context) ([]ListFoodItemsRow, error) {
+	rows, err := q.db.Query(ctx, listFoodItems)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListFoodItemsRow
+	for rows.Next() {
+		var i ListFoodItemsRow
+		if err := rows.Scan(&i.ID, &i.Name, &i.CarbonFootprint); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
