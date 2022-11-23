@@ -1,4 +1,8 @@
 version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/ram02z/neutral_diet/internal/gen/idl
 plugins:
   - remote: buf.build/protocolbuffers/plugins/go:v1.28.1-1
     out: internal/gen/idl
