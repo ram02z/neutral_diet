@@ -4,7 +4,7 @@
 /* @ts-nocheck */
 
 import type {BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage} from "@bufbuild/protobuf";
-import {Message, proto3} from "@bufbuild/protobuf";
+import {Message, proto3, protoInt64} from "@bufbuild/protobuf";
 
 /**
  * @generated from message neutral_diet.food.v1.FoodItem
@@ -52,6 +52,61 @@ export class FoodItem extends Message<FoodItem> {
 
   static equals(a: FoodItem | PlainMessage<FoodItem> | undefined, b: FoodItem | PlainMessage<FoodItem> | undefined): boolean {
     return proto3.util.equals(FoodItem, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.food.v1.AggregateFoodItem
+ */
+export class AggregateFoodItem extends Message<AggregateFoodItem> {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name = "";
+
+  /**
+   * @generated from field: int64 n = 3;
+   */
+  n = protoInt64.zero;
+
+  /**
+   * @generated from field: string median_emissions = 2;
+   */
+  medianEmissions = "";
+
+  /**
+   * @generated from field: int32 typology_id = 4;
+   */
+  typologyId = 0;
+
+  constructor(data?: PartialMessage<AggregateFoodItem>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.food.v1.AggregateFoodItem";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "n", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
+    { no: 2, name: "median_emissions", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "typology_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AggregateFoodItem {
+    return new AggregateFoodItem().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AggregateFoodItem {
+    return new AggregateFoodItem().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AggregateFoodItem {
+    return new AggregateFoodItem().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: AggregateFoodItem | PlainMessage<AggregateFoodItem> | undefined, b: AggregateFoodItem | PlainMessage<AggregateFoodItem> | undefined): boolean {
+    return proto3.util.equals(AggregateFoodItem, a, b);
   }
 }
 

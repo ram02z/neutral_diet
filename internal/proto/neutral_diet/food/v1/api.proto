@@ -3,6 +3,7 @@ syntax = "proto3";
 package neutral_diet.food.v1;
 
 import "neutral_diet/food/v1/food_item.proto";
+import "neutral_diet/food/v1/food_item_log.proto";
 
 message CreateFoodItemRequest {
   string name = 1;
@@ -34,15 +35,30 @@ message CreateSourceResponse {
   int32 id = 1;
 }
 
+message CreateFoodItemLogRequest {
+  FoodItemLog food_item_log = 1;
+}
+
+message CreateFoodItemLogResponse {
+  int32 id = 1;
+}
+
 message ListFoodItemsRequest {}
 
 message ListFoodItemsResponse {
   repeated FoodItem food_items = 1;
 }
 
+message ListAggregateFoodItemsRequest {}
+
+message ListAggregateFoodItemsResponse {
+  repeated AggregateFoodItem food_items = 1;
+}
+
 service FoodService {
   rpc CreateFoodItem(CreateFoodItemRequest) returns (CreateFoodItemResponse) {}
   rpc ListFoodItems(ListFoodItemsRequest) returns (ListFoodItemsResponse) {}
+  rpc ListAggregateFoodItems(ListAggregateFoodItemsRequest) returns (ListAggregateFoodItemsResponse) {}
   rpc CreateTypology(CreateTypologyRequest) returns (CreateTypologyResponse) {}
   rpc CreateSource(CreateSourceRequest) returns (CreateSourceResponse) {}
 }

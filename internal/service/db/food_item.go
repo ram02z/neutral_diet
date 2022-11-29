@@ -51,6 +51,24 @@ func (s *Store) ListFoodItems(
 	return &foodv1.ListFoodItemsResponse{FoodItems: foodItems}, nil
 }
 
+func (s *Store) ListAggregateFoodItems(
+	ctx context.Context,
+	r *foodv1.ListAggregateFoodItemsRequest,
+) (*foodv1.ListAggregateFoodItemsResponse, error) {
+	queries := db.New(s.dbPool)
+	foodItemRows, err := queries.ListAggregateFoodItems(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	foodItems, err := mapToAggregateFoodItems(foodItemRows)
+	if err != nil {
+		return nil, err
+	}
+
+	return &foodv1.ListAggregateFoodItemsResponse{FoodItems: foodItems}, nil
+}
+
 func mapToFoodItems(foodItemRows []db.ListFoodItemsRow) ([]*foodv1.FoodItem, error) {
 	foodItems := make([]*foodv1.FoodItem, len(foodItemRows))
 	for i := range foodItemRows {
@@ -63,6 +81,25 @@ func mapToFoodItems(foodItemRows []db.ListFoodItemsRow) ([]*foodv1.FoodItem, err
 			Id:        foodItemRows[i].ID,
 			Name:      foodItemRows[i].Name,
 			Emissions: emissions,
+		}
+	}
+
+	return foodItems, nil
+}
+
+func mapToAggregateFoodItems(foodItemRows []db.AggregateFoodItem) ([]*foodv1.AggregateFoodItem, error) {
+	foodItems := make([]*foodv1.AggregateFoodItem, len(foodItemRows))
+	for i := range foodItemRows {
+		var emissions string
+		err := foodItemRows[i].MedianCarbonFootprint.AssignTo(&emissions)
+		if err != nil {
+			return nil, err
+		}
+		foodItems[i] = &foodv1.AggregateFoodItem{
+			Name:            foodItemRows[i].Name,
+			N:               foodItemRows[i].N,
+			MedianEmissions: emissions,
+			TypologyId:      foodItemRows[i].TypologyID,
 		}
 	}
 

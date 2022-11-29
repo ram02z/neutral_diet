@@ -13,3 +13,9 @@ FROM
     food_item
 ORDER BY
     ID;
+
+-- name: ListAggregateFoodItems :many
+SELECT
+    *
+FROM
+    aggregate_food_item;

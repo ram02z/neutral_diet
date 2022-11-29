@@ -3,7 +3,7 @@
 /* eslint-disable */
 /* @ts-nocheck */
 
-import {CreateFoodItemRequest, CreateFoodItemResponse, CreateSourceRequest, CreateSourceResponse, CreateTypologyRequest, CreateTypologyResponse, ListFoodItemsRequest, ListFoodItemsResponse} from "./api_pb.js";
+import {CreateFoodItemRequest, CreateFoodItemResponse, CreateSourceRequest, CreateSourceResponse, CreateTypologyRequest, CreateTypologyResponse, ListAggregateFoodItemsRequest, ListAggregateFoodItemsResponse, ListFoodItemsRequest, ListFoodItemsResponse} from "./api_pb.js";
 import {MethodKind} from "@bufbuild/protobuf";
 
 /**
@@ -28,6 +28,15 @@ export const FoodService = {
       name: "ListFoodItems",
       I: ListFoodItemsRequest,
       O: ListFoodItemsResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.food.v1.FoodService.ListAggregateFoodItems
+     */
+    listAggregateFoodItems: {
+      name: "ListAggregateFoodItems",
+      I: ListAggregateFoodItemsRequest,
+      O: ListAggregateFoodItemsResponse,
       kind: MethodKind.Unary,
     },
     /**

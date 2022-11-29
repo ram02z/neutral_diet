@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package neutral_diet.food.v1;
+
+message FoodItemLog {
+  string food_item_name = 1;
+  int32 typology_id = 2;
+  float weight = 3;
+  float carbon_footprint = 4;
+}

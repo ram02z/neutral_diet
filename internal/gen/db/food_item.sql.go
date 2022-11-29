@@ -37,6 +37,39 @@ func (q *Queries) CreateFoodItem(ctx context.Context, arg CreateFoodItemParams) 
 	return id, err
 }
 
+const listAggregateFoodItems = `-- name: ListAggregateFoodItems :many
+SELECT
+    name, n, median_carbon_footprint, typology_id, id
+FROM
+    aggregate_food_item
+`
+
+func (q *Queries) ListAggregateFoodItems(ctx context.Context) ([]AggregateFoodItem, error) {
+	rows, err := q.db.Query(ctx, listAggregateFoodItems)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []AggregateFoodItem
+	for rows.Next() {
+		var i AggregateFoodItem
+		if err := rows.Scan(
+			&i.Name,
+			&i.N,
+			&i.MedianCarbonFootprint,
+			&i.TypologyID,
+			&i.ID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listFoodItems = `-- name: ListFoodItems :many
 SELECT
     id,

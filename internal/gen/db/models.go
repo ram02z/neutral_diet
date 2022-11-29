@@ -6,9 +6,18 @@ package db
 
 import (
 	"database/sql"
+	"time"
 
 	"github.com/jackc/pgtype"
 )
+
+type AggregateFoodItem struct {
+	Name                  string
+	N                     int64
+	MedianCarbonFootprint pgtype.Numeric
+	TypologyID            int32
+	ID                    int32
+}
 
 type FoodItem struct {
 	ID              int32
@@ -16,6 +25,15 @@ type FoodItem struct {
 	CarbonFootprint pgtype.Numeric
 	TypologyID      int32
 	SourceID        int32
+}
+
+type FoodItemLog struct {
+	ID                  int32
+	AggregateFoodItemID int32
+	Weight              pgtype.Numeric
+	CarbonFootprint     pgtype.Numeric
+	CreatedAt           time.Time
+	UpdatedAt           time.Time
 }
 
 type Source struct {

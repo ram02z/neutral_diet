@@ -7,3 +7,10 @@ message FoodItem {
   string name = 2;
   string emissions = 3;
 }
+
+message AggregateFoodItem {
+  string name = 1;
+  int64 n = 3;
+  string median_emissions = 2;
+  int32 typology_id = 4;
+}
