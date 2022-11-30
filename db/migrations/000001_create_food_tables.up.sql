@@ -11,12 +11,12 @@ CREATE TABLE IF NOT EXISTS "source" (
 
 CREATE TABLE IF NOT EXISTS "sub_typology" (
     "id" serial PRIMARY KEY,
-    "name" text NOT NULL
+    "name" text UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "typology" (
     "id" serial PRIMARY KEY,
-    "name" text NOT NULL,
+    "name" text UNIQUE NOT NULL,
     "description" text,
     "sub_typology_id" int REFERENCES "sub_typology" ("id") ON DELETE CASCADE
 );
