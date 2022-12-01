@@ -3,7 +3,7 @@
 /* eslint-disable */
 /* @ts-nocheck */
 
-import {CreateFoodItemRequest, CreateFoodItemResponse, CreateSourceRequest, CreateSourceResponse, CreateTypologyRequest, CreateTypologyResponse, ListFoodItemsRequest, ListFoodItemsResponse} from "./api_pb.js";
+import {CreateFoodItemRequest, CreateFoodItemResponse, CreateLifeCycleRequest, CreateLifeCycleResponse, CreateRegionRequest, CreateRegionResponse, CreateSourceRequest, CreateSourceResponse, CreateSubTypologyRequest, CreateSubTypologyResponse, CreateTypologyRequest, CreateTypologyResponse} from "./api_pb.js";
 import {MethodKind} from "@bufbuild/protobuf";
 
 /**
@@ -13,21 +13,21 @@ export const FoodService = {
   typeName: "neutral_diet.food.v1.FoodService",
   methods: {
     /**
+     * @generated from rpc neutral_diet.food.v1.FoodService.CreateLifeCycle
+     */
+    createLifeCycle: {
+      name: "CreateLifeCycle",
+      I: CreateLifeCycleRequest,
+      O: CreateLifeCycleResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
      * @generated from rpc neutral_diet.food.v1.FoodService.CreateFoodItem
      */
     createFoodItem: {
       name: "CreateFoodItem",
       I: CreateFoodItemRequest,
       O: CreateFoodItemResponse,
-      kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc neutral_diet.food.v1.FoodService.ListFoodItems
-     */
-    listFoodItems: {
-      name: "ListFoodItems",
-      I: ListFoodItemsRequest,
-      O: ListFoodItemsResponse,
       kind: MethodKind.Unary,
     },
     /**
@@ -40,12 +40,30 @@ export const FoodService = {
       kind: MethodKind.Unary,
     },
     /**
+     * @generated from rpc neutral_diet.food.v1.FoodService.CreateSubTypology
+     */
+    createSubTypology: {
+      name: "CreateSubTypology",
+      I: CreateSubTypologyRequest,
+      O: CreateSubTypologyResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
      * @generated from rpc neutral_diet.food.v1.FoodService.CreateSource
      */
     createSource: {
       name: "CreateSource",
       I: CreateSourceRequest,
       O: CreateSourceResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.food.v1.FoodService.CreateRegion
+     */
+    createRegion: {
+      name: "CreateRegion",
+      I: CreateRegionRequest,
+      O: CreateRegionResponse,
       kind: MethodKind.Unary,
     },
   }

@@ -3,12 +3,22 @@ syntax = "proto3";
 package neutral_diet.food.v1;
 
 import "neutral_diet/food/v1/food_item.proto";
+import "neutral_diet/food/v1/life_cycle.proto";
+import "neutral_diet/food/v1/region.proto";
+import "neutral_diet/food/v1/source.proto";
+import "neutral_diet/food/v1/sub_typology.proto";
+import "neutral_diet/food/v1/typology.proto";
+
+message CreateLifeCycleRequest {
+  LifeCycle life_cycle = 1;
+}
+
+message CreateLifeCycleResponse {
+  int32 id = 1;
+}
 
 message CreateFoodItemRequest {
-  string name = 1;
-  float emissions = 2;
-  int32 typology_id = 3;
-  int32 source_id = 4;
+  FoodItem food_item = 1;
 }
 
 message CreateFoodItemResponse {
@@ -16,33 +26,40 @@ message CreateFoodItemResponse {
 }
 
 message CreateTypologyRequest {
-  string name = 1;
-  repeated string sub_typologies = 2;
+  Typology typology = 1;
 }
 
 message CreateTypologyResponse {
   int32 id = 1;
 }
 
+message CreateSubTypologyRequest {
+  SubTypology sub_typology = 1;
+}
+
+message CreateSubTypologyResponse {
+  int32 id = 1;
+}
+
 message CreateSourceRequest {
-  string reference = 1;
-  optional int32 year = 2;
-  optional string location = 3;
+  Source source = 1;
 }
 
 message CreateSourceResponse {
   int32 id = 1;
 }
 
-message ListFoodItemsRequest {}
-
-message ListFoodItemsResponse {
-  repeated FoodItem food_items = 1;
+message CreateRegionRequest {
+  Region region = 1;
 }
 
+message CreateRegionResponse {}
+
 service FoodService {
+  rpc CreateLifeCycle(CreateLifeCycleRequest) returns (CreateLifeCycleResponse) {}
   rpc CreateFoodItem(CreateFoodItemRequest) returns (CreateFoodItemResponse) {}
-  rpc ListFoodItems(ListFoodItemsRequest) returns (ListFoodItemsResponse) {}
   rpc CreateTypology(CreateTypologyRequest) returns (CreateTypologyResponse) {}
+  rpc CreateSubTypology(CreateSubTypologyRequest) returns (CreateSubTypologyResponse) {}
   rpc CreateSource(CreateSourceRequest) returns (CreateSourceResponse) {}
+  rpc CreateRegion(CreateRegionRequest) returns (CreateRegionResponse) {}
 }

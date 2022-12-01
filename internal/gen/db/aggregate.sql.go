@@ -21,7 +21,7 @@ FROM
     INNER JOIN food_item f ON l.food_item_id = f.id
     INNER JOIN source s ON l.source_id = s.id
 WHERE
-    s.region = $1
+    s.region_name = $1
 GROUP BY
     f.id
 `
@@ -32,8 +32,8 @@ type ListAggregateFoodItemsRow struct {
 	MedianCarbonFootprint pgtype.Numeric
 }
 
-func (q *Queries) ListAggregateFoodItems(ctx context.Context, region string) ([]ListAggregateFoodItemsRow, error) {
-	rows, err := q.db.Query(ctx, listAggregateFoodItems, region)
+func (q *Queries) ListAggregateFoodItems(ctx context.Context, regionName string) ([]ListAggregateFoodItemsRow, error) {
+	rows, err := q.db.Query(ctx, listAggregateFoodItems, regionName)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ FROM
     INNER JOIN typology t ON f.typology_id = t.id
     INNER JOIN sub_typology st ON t.sub_typology_id = st.id
 WHERE
-    s.region = $1
+    s.region_name = $1
 GROUP BY
     st.id
 `
@@ -75,8 +75,8 @@ type ListAggregateSubTypologiesRow struct {
 	MedianCarbonFootprint pgtype.Numeric
 }
 
-func (q *Queries) ListAggregateSubTypologies(ctx context.Context, region string) ([]ListAggregateSubTypologiesRow, error) {
-	rows, err := q.db.Query(ctx, listAggregateSubTypologies, region)
+func (q *Queries) ListAggregateSubTypologies(ctx context.Context, regionName string) ([]ListAggregateSubTypologiesRow, error) {
+	rows, err := q.db.Query(ctx, listAggregateSubTypologies, regionName)
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +106,7 @@ FROM
     INNER JOIN source s ON l.source_id = s.id
     INNER JOIN typology t ON f.typology_id = t.id
 WHERE
-    s.region = $1
+    s.region_name = $1
 GROUP BY
     t.id
 `
@@ -117,8 +117,8 @@ type ListAggregateTypologiesRow struct {
 	MedianCarbonFootprint pgtype.Numeric
 }
 
-func (q *Queries) ListAggregateTypologies(ctx context.Context, region string) ([]ListAggregateTypologiesRow, error) {
-	rows, err := q.db.Query(ctx, listAggregateTypologies, region)
+func (q *Queries) ListAggregateTypologies(ctx context.Context, regionName string) ([]ListAggregateTypologiesRow, error) {
+	rows, err := q.db.Query(ctx, listAggregateTypologies, regionName)
 	if err != nil {
 		return nil, err
 	}

@@ -74,10 +74,10 @@ type Region struct {
 }
 
 type Source struct {
-	ID        int32
-	Reference string
-	Year      int16
-	Region    string
+	ID         int32
+	Reference  string
+	Year       int32
+	RegionName string
 }
 
 type SubTypology struct {

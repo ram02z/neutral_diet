@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package neutral_diet.food.v1;
+
+message Source {
+  string reference = 1;
+  int32 year = 2;
+  string region_name = 3;
+}

@@ -5,5 +5,12 @@ package neutral_diet.food.v1;
 message FoodItem {
   int32 id = 1;
   string name = 2;
-  string emissions = 3;
+  int32 typology_id = 3;
+  enum CfType {
+    CF_TYPE_UNSPECIFIED = 0;
+    CF_TYPE_TYPOLOGY = 1;
+    CF_TYPE_SUB_TYPOLOGY = 2;
+    CF_TYPE_ITEM = 3;
+  }
+  CfType cf_type = 4;
 }
