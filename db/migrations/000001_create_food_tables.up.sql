@@ -17,27 +17,17 @@ CREATE TABLE IF NOT EXISTS "sub_typology" (
 CREATE TABLE IF NOT EXISTS "typology" (
     "id" serial PRIMARY KEY,
     "name" text UNIQUE NOT NULL,
-    "description" text,
+    "description" text NOT NULL,
     "sub_typology_id" int REFERENCES "sub_typology" ("id") ON DELETE CASCADE
 );
 
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT
-            1
-        FROM
-            pg_type
-        WHERE
-            typname = 'cf_types') THEN
-    CREATE TYPE cf_types AS ENUM (
-        'typology',
-        'sub_typology',
-        'item'
+DROP TYPE IF EXISTS cf_types;
+
+CREATE TYPE cf_types AS ENUM (
+    'typology',
+    'sub_typology',
+    'item'
 );
-END IF;
-END
-$$;
 
 CREATE TABLE IF NOT EXISTS "food_item" (
     "id" serial PRIMARY KEY,
