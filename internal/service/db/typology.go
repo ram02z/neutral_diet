@@ -23,7 +23,6 @@ func (s *Store) CreateTypology(
 
 	source := db.CreateTypologyParams{
 		Name:          r.Typology.GetName(),
-		Description:   r.Typology.GetDescription(),
 		SubTypologyID: *subTypologyID,
 	}
 

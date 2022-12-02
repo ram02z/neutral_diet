@@ -16,11 +16,6 @@ export class Typology extends Message<Typology> {
   name = "";
 
   /**
-   * @generated from field: optional string description = 2;
-   */
-  description?: string;
-
-  /**
    * @generated from field: optional int32 sub_typology_id = 3;
    */
   subTypologyId?: number;
@@ -34,7 +29,6 @@ export class Typology extends Message<Typology> {
   static readonly typeName = "neutral_diet.food.v1.Typology";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
     { no: 3, name: "sub_typology_id", kind: "scalar", T: 5 /* ScalarType.INT32 */, opt: true },
   ]);
 

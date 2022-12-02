@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS "sub_typology" (
 CREATE TABLE IF NOT EXISTS "typology" (
     "id" serial PRIMARY KEY,
     "name" text UNIQUE NOT NULL,
-    "description" text NOT NULL,
     "sub_typology_id" int REFERENCES "sub_typology" ("id") ON DELETE CASCADE
 );
 

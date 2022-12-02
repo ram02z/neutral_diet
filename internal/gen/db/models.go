@@ -88,6 +88,5 @@ type SubTypology struct {
 type Typology struct {
 	ID            int32
 	Name          string
-	Description   string
 	SubTypologyID sql.NullInt32
 }
