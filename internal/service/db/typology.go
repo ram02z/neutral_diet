@@ -16,9 +16,9 @@ func (s *Store) CreateTypology(
 	queries := db.New(s.dbPool)
 
 	subTypologyID := &sql.NullInt32{}
-	err := subTypologyID.Scan(r.Typology.SubTypologyId)
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, err)
+	if r.Typology.SubTypologyId != nil {
+		subTypologyID.Valid = true;
+		subTypologyID.Int32 = *r.Typology.SubTypologyId
 	}
 
 	source := db.CreateTypologyParams{

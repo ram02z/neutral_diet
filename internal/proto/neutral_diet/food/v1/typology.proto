@@ -4,5 +4,5 @@ package neutral_diet.food.v1;
 
 message Typology {
   string name = 1;
-  optional int32 sub_typology_id = 3;
+  optional int32 sub_typology_id = 2;
 }
