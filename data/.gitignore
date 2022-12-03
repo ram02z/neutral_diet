@@ -1,0 +1,3 @@
+.venv/
+*.xlsx
+!SuEatableLife_Food_Fooprint_database.xlsx
