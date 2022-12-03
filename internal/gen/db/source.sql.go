@@ -7,24 +7,23 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createSource = `-- name: CreateSource :one
-INSERT INTO source (reference, year, location)
+INSERT INTO source (reference, year, region_name)
     VALUES ($1, $2, $3)
 RETURNING
     id
 `
 
 type CreateSourceParams struct {
-	Reference string
-	Year      sql.NullInt16
-	Location  sql.NullString
+	Reference  string
+	Year       int32
+	RegionName string
 }
 
 func (q *Queries) CreateSource(ctx context.Context, arg CreateSourceParams) (int32, error) {
-	row := q.db.QueryRow(ctx, createSource, arg.Reference, arg.Year, arg.Location)
+	row := q.db.QueryRow(ctx, createSource, arg.Reference, arg.Year, arg.RegionName)
 	var id int32
 	err := row.Scan(&id)
 	return id, err

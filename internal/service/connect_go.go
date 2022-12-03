@@ -16,6 +16,22 @@ func NewConnectWrapper(s *db.Store) *ConnectWrapper {
 	return &ConnectWrapper{s: s}
 }
 
+func (c *ConnectWrapper) CreateLifeCycle(
+	ctx context.Context,
+	req *connect.Request[foodv1.CreateLifeCycleRequest],
+) (*connect.Response[foodv1.CreateLifeCycleResponse], error) {
+	res, err := c.s.CreateLifeCycle(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+	// TODO: export the headers
+	out.Header().Set("API-Version", "v1")
+
+	return out, nil
+}
+
 func (c *ConnectWrapper) CreateFoodItem(
 	ctx context.Context,
 	req *connect.Request[foodv1.CreateFoodItemRequest],
@@ -48,6 +64,22 @@ func (c *ConnectWrapper) CreateSource(
 	return out, nil
 }
 
+func (c *ConnectWrapper) CreateRegion(
+	ctx context.Context,
+	req *connect.Request[foodv1.CreateRegionRequest],
+) (*connect.Response[foodv1.CreateRegionResponse], error) {
+	res, err := c.s.CreateRegion(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+	// TODO: export the headers
+	out.Header().Set("API-Version", "v1")
+
+	return out, nil
+}
+
 func (c *ConnectWrapper) CreateTypology(
 	ctx context.Context,
 	req *connect.Request[foodv1.CreateTypologyRequest],
@@ -64,11 +96,11 @@ func (c *ConnectWrapper) CreateTypology(
 	return out, nil
 }
 
-func (c *ConnectWrapper) ListFoodItems(
+func (c *ConnectWrapper) CreateSubTypology(
 	ctx context.Context,
-	req *connect.Request[foodv1.ListFoodItemsRequest],
-) (*connect.Response[foodv1.ListFoodItemsResponse], error) {
-	res, err := c.s.ListFoodItems(ctx, req.Msg)
+	req *connect.Request[foodv1.CreateSubTypologyRequest],
+) (*connect.Response[foodv1.CreateSubTypologyResponse], error) {
+	res, err := c.s.CreateSubTypology(ctx, req.Msg)
 	if err != nil {
 		return nil, err
 	}

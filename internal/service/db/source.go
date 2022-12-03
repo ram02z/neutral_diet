@@ -2,8 +2,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
 
+	"github.com/bufbuild/connect-go"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
 	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 )
@@ -14,21 +14,15 @@ func (s *Store) CreateSource(
 ) (*foodv1.CreateSourceResponse, error) {
 	queries := db.New(s.dbPool)
 
-	source := &db.CreateSourceParams{
-		Reference: r.GetReference(),
-		Year: sql.NullInt16{
-			Int16: int16(r.GetYear()),
-			Valid: true,
-		},
-		Location: sql.NullString{
-			String: r.GetLocation(),
-			Valid:  true,
-		},
+	source := db.CreateSourceParams{
+		Reference:  r.Source.GetReference(),
+		Year:       r.Source.GetYear(),
+		RegionName: r.Source.GetRegionName(),
 	}
 
-	sourceID, err := queries.CreateSource(ctx, *source)
+	sourceID, err := queries.CreateSource(ctx, source)
 	if err != nil {
-		return nil, err
+		return nil, connect.NewError(connect.CodeAlreadyExists, err)
 	}
 
 	return &foodv1.CreateSourceResponse{Id: sourceID}, nil
