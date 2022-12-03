@@ -17,7 +17,7 @@ func (s *Store) CreateTypology(
 
 	subTypologyID := &sql.NullInt32{}
 	if r.Typology.SubTypologyId != nil {
-		subTypologyID.Valid = true;
+		subTypologyID.Valid = true
 		subTypologyID.Int32 = *r.Typology.SubTypologyId
 	}
 
