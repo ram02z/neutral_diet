@@ -4,7 +4,7 @@
 /* @ts-nocheck */
 
 import type {BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage} from "@bufbuild/protobuf";
-import {Message, proto3} from "@bufbuild/protobuf";
+import {Message, proto3, protoInt64} from "@bufbuild/protobuf";
 
 /**
  * @generated from message neutral_diet.food.v1.FoodItem
@@ -92,4 +92,71 @@ proto3.util.setEnumType(FoodItem_CfType, "neutral_diet.food.v1.FoodItem.CfType",
   { no: 2, name: "CF_TYPE_SUB_TYPOLOGY" },
   { no: 3, name: "CF_TYPE_ITEM" },
 ]);
+
+/**
+ * @generated from message neutral_diet.food.v1.AggregateFoodItem
+ */
+export class AggregateFoodItem extends Message<AggregateFoodItem> {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id = 0;
+
+  /**
+   * @generated from field: string food_name = 2;
+   */
+  foodName = "";
+
+  /**
+   * @generated from field: string typology_name = 3;
+   */
+  typologyName = "";
+
+  /**
+   * @generated from field: string sub_typology_name = 4;
+   */
+  subTypologyName = "";
+
+  /**
+   * @generated from field: int64 n = 5;
+   */
+  n = protoInt64.zero;
+
+  /**
+   * @generated from field: string median_carbon_footprint = 6;
+   */
+  medianCarbonFootprint = "";
+
+  constructor(data?: PartialMessage<AggregateFoodItem>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.food.v1.AggregateFoodItem";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "food_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "sub_typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "n", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
+    { no: 6, name: "median_carbon_footprint", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AggregateFoodItem {
+    return new AggregateFoodItem().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AggregateFoodItem {
+    return new AggregateFoodItem().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AggregateFoodItem {
+    return new AggregateFoodItem().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: AggregateFoodItem | PlainMessage<AggregateFoodItem> | undefined, b: AggregateFoodItem | PlainMessage<AggregateFoodItem> | undefined): boolean {
+    return proto3.util.equals(AggregateFoodItem, a, b);
+  }
+}
 

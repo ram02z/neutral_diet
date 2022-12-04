@@ -1,8 +1,16 @@
 -- name: ListAggregateFoodItems :many
 SELECT
-    *
+    a.food_item_id AS id,
+    f.name AS food_name,
+    t.name AS typology_name,
+    s.name AS sub_typology_name,
+    a.n,
+    a.median_carbon_footprint
 FROM
-    aggregate_food_item;
+    aggregate_food_item a
+    INNER JOIN food_item f ON a.food_item_id = f.id
+    INNER JOIN typology t ON f.typology_id = t.id
+    LEFT JOIN sub_typology s ON t.sub_typology_id = s.id;
 
 -- name: ListAggregateFoodItemsByRegion :many
 SELECT

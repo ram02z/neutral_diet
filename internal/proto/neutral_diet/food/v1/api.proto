@@ -55,6 +55,13 @@ message CreateRegionRequest {
 
 message CreateRegionResponse {}
 
+/* TODO: allow filtering by region */
+message ListAggregateFoodItemsRequest {}
+
+message ListAggregateFoodItemsResponse {
+  repeated AggregateFoodItem food_items = 1;
+}
+
 service FoodService {
   rpc CreateLifeCycle(CreateLifeCycleRequest) returns (CreateLifeCycleResponse) {}
   rpc CreateFoodItem(CreateFoodItemRequest) returns (CreateFoodItemResponse) {}
@@ -62,4 +69,5 @@ service FoodService {
   rpc CreateSubTypology(CreateSubTypologyRequest) returns (CreateSubTypologyResponse) {}
   rpc CreateSource(CreateSourceRequest) returns (CreateSourceResponse) {}
   rpc CreateRegion(CreateRegionRequest) returns (CreateRegionResponse) {}
+  rpc ListAggregateFoodItems(ListAggregateFoodItemsRequest) returns (ListAggregateFoodItemsResponse) {}
 }

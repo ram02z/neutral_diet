@@ -111,3 +111,19 @@ func (c *ConnectWrapper) CreateSubTypology(
 
 	return out, nil
 }
+
+func (c *ConnectWrapper) ListAggregateFoodItems(
+	ctx context.Context,
+	req *connect.Request[foodv1.ListAggregateFoodItemsRequest],
+) (*connect.Response[foodv1.ListAggregateFoodItemsResponse], error) {
+	res, err := c.s.ListAggregateFoodItems(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+	// TODO: export the headers
+	out.Header().Set("API-Version", "v1")
+
+	return out, nil
+}

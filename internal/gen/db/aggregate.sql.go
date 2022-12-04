@@ -7,27 +7,52 @@ package db
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/jackc/pgtype"
 )
 
 const listAggregateFoodItems = `-- name: ListAggregateFoodItems :many
 SELECT
-    food_item_id, n, median_carbon_footprint
+    a.food_item_id AS id,
+    f.name AS food_name,
+    t.name AS typology_name,
+    s.name AS sub_typology_name,
+    a.n,
+    a.median_carbon_footprint
 FROM
-    aggregate_food_item
+    aggregate_food_item a
+    INNER JOIN food_item f ON a.food_item_id = f.id
+    INNER JOIN typology t ON f.typology_id = t.id
+    LEFT JOIN sub_typology s ON t.sub_typology_id = s.id
 `
 
-func (q *Queries) ListAggregateFoodItems(ctx context.Context) ([]AggregateFoodItem, error) {
+type ListAggregateFoodItemsRow struct {
+	ID                    int32
+	FoodName              string
+	TypologyName          string
+	SubTypologyName       sql.NullString
+	N                     int64
+	MedianCarbonFootprint pgtype.Numeric
+}
+
+func (q *Queries) ListAggregateFoodItems(ctx context.Context) ([]ListAggregateFoodItemsRow, error) {
 	rows, err := q.db.Query(ctx, listAggregateFoodItems)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []AggregateFoodItem
+	var items []ListAggregateFoodItemsRow
 	for rows.Next() {
-		var i AggregateFoodItem
-		if err := rows.Scan(&i.FoodItemID, &i.N, &i.MedianCarbonFootprint); err != nil {
+		var i ListAggregateFoodItemsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.FoodName,
+			&i.TypologyName,
+			&i.SubTypologyName,
+			&i.N,
+			&i.MedianCarbonFootprint,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
