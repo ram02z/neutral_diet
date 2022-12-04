@@ -19,7 +19,7 @@ SELECT
     t.name AS typology_name,
     s.name AS sub_typology_name,
     a.n,
-    a.median_carbon_footprint
+    ROUND(a.median_carbon_footprint::decimal, 3) AS median_carbon_footprint
 FROM
     aggregate_food_item a
     INNER JOIN food_item f ON a.food_item_id = f.id
@@ -67,7 +67,7 @@ const listAggregateFoodItemsByRegion = `-- name: ListAggregateFoodItemsByRegion 
 SELECT
     f.id AS food_item_id,
     COUNT(*) AS n,
-    CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL) AS median_carbon_footprint
+    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -108,7 +108,7 @@ const listAggregateSubTypologiesByRegion = `-- name: ListAggregateSubTypologiesB
 SELECT
     st.id AS sub_typology_id,
     COUNT(*) AS n,
-    CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL) AS median_carbon_footprint
+    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -151,7 +151,7 @@ const listAggregateTypologiesByRegion = `-- name: ListAggregateTypologiesByRegio
 SELECT
     t.id AS typology_id,
     COUNT(*) AS n,
-    CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL) AS median_carbon_footprint
+    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id
