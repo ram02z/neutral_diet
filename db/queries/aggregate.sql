@@ -1,5 +1,11 @@
 -- name: ListAggregateFoodItems :many
 SELECT
+    *
+FROM
+    aggregate_food_item;
+
+-- name: ListAggregateFoodItemsByRegion :many
+SELECT
     f.id AS food_item_id,
     COUNT(*) AS n,
     CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL) AS median_carbon_footprint
@@ -12,7 +18,7 @@ WHERE
 GROUP BY
     f.id;
 
--- name: ListAggregateTypologies :many
+-- name: ListAggregateTypologiesByRegion :many
 SELECT
     t.id AS typology_id,
     COUNT(*) AS n,
@@ -27,7 +33,7 @@ WHERE
 GROUP BY
     t.id;
 
--- name: ListAggregateSubTypologies :many
+-- name: ListAggregateSubTypologiesByRegion :many
 SELECT
     st.id AS sub_typology_id,
     COUNT(*) AS n,
