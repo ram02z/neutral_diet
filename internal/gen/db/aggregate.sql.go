@@ -7,15 +7,67 @@ package db
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/jackc/pgtype"
 )
 
 const listAggregateFoodItems = `-- name: ListAggregateFoodItems :many
 SELECT
+    a.food_item_id AS id,
+    f.name AS food_name,
+    t.name AS typology_name,
+    s.name AS sub_typology_name,
+    a.n,
+    ROUND(a.median_carbon_footprint::decimal, 3) AS median_carbon_footprint
+FROM
+    aggregate_food_item a
+    INNER JOIN food_item f ON a.food_item_id = f.id
+    INNER JOIN typology t ON f.typology_id = t.id
+    LEFT JOIN sub_typology s ON t.sub_typology_id = s.id
+`
+
+type ListAggregateFoodItemsRow struct {
+	ID                    int32
+	FoodName              string
+	TypologyName          string
+	SubTypologyName       sql.NullString
+	N                     int64
+	MedianCarbonFootprint pgtype.Numeric
+}
+
+func (q *Queries) ListAggregateFoodItems(ctx context.Context) ([]ListAggregateFoodItemsRow, error) {
+	rows, err := q.db.Query(ctx, listAggregateFoodItems)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListAggregateFoodItemsRow
+	for rows.Next() {
+		var i ListAggregateFoodItemsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.FoodName,
+			&i.TypologyName,
+			&i.SubTypologyName,
+			&i.N,
+			&i.MedianCarbonFootprint,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listAggregateFoodItemsByRegion = `-- name: ListAggregateFoodItemsByRegion :many
+SELECT
     f.id AS food_item_id,
     COUNT(*) AS n,
-    CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL) AS median_carbon_footprint
+    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -26,21 +78,21 @@ GROUP BY
     f.id
 `
 
-type ListAggregateFoodItemsRow struct {
+type ListAggregateFoodItemsByRegionRow struct {
 	FoodItemID            int32
 	N                     int64
 	MedianCarbonFootprint pgtype.Numeric
 }
 
-func (q *Queries) ListAggregateFoodItems(ctx context.Context, regionName string) ([]ListAggregateFoodItemsRow, error) {
-	rows, err := q.db.Query(ctx, listAggregateFoodItems, regionName)
+func (q *Queries) ListAggregateFoodItemsByRegion(ctx context.Context, regionName string) ([]ListAggregateFoodItemsByRegionRow, error) {
+	rows, err := q.db.Query(ctx, listAggregateFoodItemsByRegion, regionName)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []ListAggregateFoodItemsRow
+	var items []ListAggregateFoodItemsByRegionRow
 	for rows.Next() {
-		var i ListAggregateFoodItemsRow
+		var i ListAggregateFoodItemsByRegionRow
 		if err := rows.Scan(&i.FoodItemID, &i.N, &i.MedianCarbonFootprint); err != nil {
 			return nil, err
 		}
@@ -52,11 +104,11 @@ func (q *Queries) ListAggregateFoodItems(ctx context.Context, regionName string)
 	return items, nil
 }
 
-const listAggregateSubTypologies = `-- name: ListAggregateSubTypologies :many
+const listAggregateSubTypologiesByRegion = `-- name: ListAggregateSubTypologiesByRegion :many
 SELECT
     st.id AS sub_typology_id,
     COUNT(*) AS n,
-    CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL) AS median_carbon_footprint
+    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -69,21 +121,21 @@ GROUP BY
     st.id
 `
 
-type ListAggregateSubTypologiesRow struct {
+type ListAggregateSubTypologiesByRegionRow struct {
 	SubTypologyID         int32
 	N                     int64
 	MedianCarbonFootprint pgtype.Numeric
 }
 
-func (q *Queries) ListAggregateSubTypologies(ctx context.Context, regionName string) ([]ListAggregateSubTypologiesRow, error) {
-	rows, err := q.db.Query(ctx, listAggregateSubTypologies, regionName)
+func (q *Queries) ListAggregateSubTypologiesByRegion(ctx context.Context, regionName string) ([]ListAggregateSubTypologiesByRegionRow, error) {
+	rows, err := q.db.Query(ctx, listAggregateSubTypologiesByRegion, regionName)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []ListAggregateSubTypologiesRow
+	var items []ListAggregateSubTypologiesByRegionRow
 	for rows.Next() {
-		var i ListAggregateSubTypologiesRow
+		var i ListAggregateSubTypologiesByRegionRow
 		if err := rows.Scan(&i.SubTypologyID, &i.N, &i.MedianCarbonFootprint); err != nil {
 			return nil, err
 		}
@@ -95,11 +147,11 @@ func (q *Queries) ListAggregateSubTypologies(ctx context.Context, regionName str
 	return items, nil
 }
 
-const listAggregateTypologies = `-- name: ListAggregateTypologies :many
+const listAggregateTypologiesByRegion = `-- name: ListAggregateTypologiesByRegion :many
 SELECT
     t.id AS typology_id,
     COUNT(*) AS n,
-    CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL) AS median_carbon_footprint
+    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -111,21 +163,21 @@ GROUP BY
     t.id
 `
 
-type ListAggregateTypologiesRow struct {
+type ListAggregateTypologiesByRegionRow struct {
 	TypologyID            int32
 	N                     int64
 	MedianCarbonFootprint pgtype.Numeric
 }
 
-func (q *Queries) ListAggregateTypologies(ctx context.Context, regionName string) ([]ListAggregateTypologiesRow, error) {
-	rows, err := q.db.Query(ctx, listAggregateTypologies, regionName)
+func (q *Queries) ListAggregateTypologiesByRegion(ctx context.Context, regionName string) ([]ListAggregateTypologiesByRegionRow, error) {
+	rows, err := q.db.Query(ctx, listAggregateTypologiesByRegion, regionName)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []ListAggregateTypologiesRow
+	var items []ListAggregateTypologiesByRegionRow
 	for rows.Next() {
-		var i ListAggregateTypologiesRow
+		var i ListAggregateTypologiesByRegionRow
 		if err := rows.Scan(&i.TypologyID, &i.N, &i.MedianCarbonFootprint); err != nil {
 			return nil, err
 		}

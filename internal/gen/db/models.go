@@ -8,6 +8,7 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"fmt"
+	"time"
 
 	"github.com/jackc/pgtype"
 )
@@ -55,11 +56,26 @@ func (ns NullCfTypes) Value() (driver.Value, error) {
 	return ns.CfTypes, nil
 }
 
+type AggregateFoodItem struct {
+	FoodItemID            int32
+	N                     int64
+	MedianCarbonFootprint pgtype.Numeric
+}
+
 type FoodItem struct {
 	ID          int32
 	Name        string
 	TypologyID  int32
 	SuggestedCf CfTypes
+}
+
+type FoodItemLog struct {
+	ID              int32
+	FoodItemID      int32
+	Weight          pgtype.Numeric
+	CarbonFootprint pgtype.Numeric
+	CreatedAt       time.Time
+	UpdatedAt       time.Time
 }
 
 type LifeCycle struct {

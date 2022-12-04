@@ -6,7 +6,7 @@
 import type {BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage} from "@bufbuild/protobuf";
 import {Message, proto3} from "@bufbuild/protobuf";
 import {LifeCycle} from "./life_cycle_pb.js";
-import {FoodItem} from "./food_item_pb.js";
+import {AggregateFoodItem, FoodItem} from "./food_item_pb.js";
 import {Typology} from "./typology_pb.js";
 import {SubTypology} from "./sub_typology_pb.js";
 import {Source} from "./source_pb.js";
@@ -447,6 +447,76 @@ export class CreateRegionResponse extends Message<CreateRegionResponse> {
 
   static equals(a: CreateRegionResponse | PlainMessage<CreateRegionResponse> | undefined, b: CreateRegionResponse | PlainMessage<CreateRegionResponse> | undefined): boolean {
     return proto3.util.equals(CreateRegionResponse, a, b);
+  }
+}
+
+/**
+ * TODO: allow filtering by region 
+ *
+ * @generated from message neutral_diet.food.v1.ListAggregateFoodItemsRequest
+ */
+export class ListAggregateFoodItemsRequest extends Message<ListAggregateFoodItemsRequest> {
+  constructor(data?: PartialMessage<ListAggregateFoodItemsRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.food.v1.ListAggregateFoodItemsRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListAggregateFoodItemsRequest {
+    return new ListAggregateFoodItemsRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListAggregateFoodItemsRequest {
+    return new ListAggregateFoodItemsRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListAggregateFoodItemsRequest {
+    return new ListAggregateFoodItemsRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ListAggregateFoodItemsRequest | PlainMessage<ListAggregateFoodItemsRequest> | undefined, b: ListAggregateFoodItemsRequest | PlainMessage<ListAggregateFoodItemsRequest> | undefined): boolean {
+    return proto3.util.equals(ListAggregateFoodItemsRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.food.v1.ListAggregateFoodItemsResponse
+ */
+export class ListAggregateFoodItemsResponse extends Message<ListAggregateFoodItemsResponse> {
+  /**
+   * @generated from field: repeated neutral_diet.food.v1.AggregateFoodItem food_items = 1;
+   */
+  foodItems: AggregateFoodItem[] = [];
+
+  constructor(data?: PartialMessage<ListAggregateFoodItemsResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.food.v1.ListAggregateFoodItemsResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "food_items", kind: "message", T: AggregateFoodItem, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListAggregateFoodItemsResponse {
+    return new ListAggregateFoodItemsResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListAggregateFoodItemsResponse {
+    return new ListAggregateFoodItemsResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListAggregateFoodItemsResponse {
+    return new ListAggregateFoodItemsResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ListAggregateFoodItemsResponse | PlainMessage<ListAggregateFoodItemsResponse> | undefined, b: ListAggregateFoodItemsResponse | PlainMessage<ListAggregateFoodItemsResponse> | undefined): boolean {
+    return proto3.util.equals(ListAggregateFoodItemsResponse, a, b);
   }
 }
 

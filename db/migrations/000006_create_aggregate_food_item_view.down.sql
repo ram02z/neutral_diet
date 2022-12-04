@@ -1,0 +1,1 @@
+DROP MATERIALIZED VIEW IF EXISTS aggregate_food_item;

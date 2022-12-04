@@ -33,6 +33,7 @@ type FoodServiceClient interface {
 	CreateSubTypology(context.Context, *connect_go.Request[v1.CreateSubTypologyRequest]) (*connect_go.Response[v1.CreateSubTypologyResponse], error)
 	CreateSource(context.Context, *connect_go.Request[v1.CreateSourceRequest]) (*connect_go.Response[v1.CreateSourceResponse], error)
 	CreateRegion(context.Context, *connect_go.Request[v1.CreateRegionRequest]) (*connect_go.Response[v1.CreateRegionResponse], error)
+	ListAggregateFoodItems(context.Context, *connect_go.Request[v1.ListAggregateFoodItemsRequest]) (*connect_go.Response[v1.ListAggregateFoodItemsResponse], error)
 }
 
 // NewFoodServiceClient constructs a client for the neutral_diet.food.v1.FoodService service. By
@@ -75,17 +76,23 @@ func NewFoodServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+"/neutral_diet.food.v1.FoodService/CreateRegion",
 			opts...,
 		),
+		listAggregateFoodItems: connect_go.NewClient[v1.ListAggregateFoodItemsRequest, v1.ListAggregateFoodItemsResponse](
+			httpClient,
+			baseURL+"/neutral_diet.food.v1.FoodService/ListAggregateFoodItems",
+			opts...,
+		),
 	}
 }
 
 // foodServiceClient implements FoodServiceClient.
 type foodServiceClient struct {
-	createLifeCycle   *connect_go.Client[v1.CreateLifeCycleRequest, v1.CreateLifeCycleResponse]
-	createFoodItem    *connect_go.Client[v1.CreateFoodItemRequest, v1.CreateFoodItemResponse]
-	createTypology    *connect_go.Client[v1.CreateTypologyRequest, v1.CreateTypologyResponse]
-	createSubTypology *connect_go.Client[v1.CreateSubTypologyRequest, v1.CreateSubTypologyResponse]
-	createSource      *connect_go.Client[v1.CreateSourceRequest, v1.CreateSourceResponse]
-	createRegion      *connect_go.Client[v1.CreateRegionRequest, v1.CreateRegionResponse]
+	createLifeCycle        *connect_go.Client[v1.CreateLifeCycleRequest, v1.CreateLifeCycleResponse]
+	createFoodItem         *connect_go.Client[v1.CreateFoodItemRequest, v1.CreateFoodItemResponse]
+	createTypology         *connect_go.Client[v1.CreateTypologyRequest, v1.CreateTypologyResponse]
+	createSubTypology      *connect_go.Client[v1.CreateSubTypologyRequest, v1.CreateSubTypologyResponse]
+	createSource           *connect_go.Client[v1.CreateSourceRequest, v1.CreateSourceResponse]
+	createRegion           *connect_go.Client[v1.CreateRegionRequest, v1.CreateRegionResponse]
+	listAggregateFoodItems *connect_go.Client[v1.ListAggregateFoodItemsRequest, v1.ListAggregateFoodItemsResponse]
 }
 
 // CreateLifeCycle calls neutral_diet.food.v1.FoodService.CreateLifeCycle.
@@ -118,6 +125,11 @@ func (c *foodServiceClient) CreateRegion(ctx context.Context, req *connect_go.Re
 	return c.createRegion.CallUnary(ctx, req)
 }
 
+// ListAggregateFoodItems calls neutral_diet.food.v1.FoodService.ListAggregateFoodItems.
+func (c *foodServiceClient) ListAggregateFoodItems(ctx context.Context, req *connect_go.Request[v1.ListAggregateFoodItemsRequest]) (*connect_go.Response[v1.ListAggregateFoodItemsResponse], error) {
+	return c.listAggregateFoodItems.CallUnary(ctx, req)
+}
+
 // FoodServiceHandler is an implementation of the neutral_diet.food.v1.FoodService service.
 type FoodServiceHandler interface {
 	CreateLifeCycle(context.Context, *connect_go.Request[v1.CreateLifeCycleRequest]) (*connect_go.Response[v1.CreateLifeCycleResponse], error)
@@ -126,6 +138,7 @@ type FoodServiceHandler interface {
 	CreateSubTypology(context.Context, *connect_go.Request[v1.CreateSubTypologyRequest]) (*connect_go.Response[v1.CreateSubTypologyResponse], error)
 	CreateSource(context.Context, *connect_go.Request[v1.CreateSourceRequest]) (*connect_go.Response[v1.CreateSourceResponse], error)
 	CreateRegion(context.Context, *connect_go.Request[v1.CreateRegionRequest]) (*connect_go.Response[v1.CreateRegionResponse], error)
+	ListAggregateFoodItems(context.Context, *connect_go.Request[v1.ListAggregateFoodItemsRequest]) (*connect_go.Response[v1.ListAggregateFoodItemsResponse], error)
 }
 
 // NewFoodServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -165,6 +178,11 @@ func NewFoodServiceHandler(svc FoodServiceHandler, opts ...connect_go.HandlerOpt
 		svc.CreateRegion,
 		opts...,
 	))
+	mux.Handle("/neutral_diet.food.v1.FoodService/ListAggregateFoodItems", connect_go.NewUnaryHandler(
+		"/neutral_diet.food.v1.FoodService/ListAggregateFoodItems",
+		svc.ListAggregateFoodItems,
+		opts...,
+	))
 	return "/neutral_diet.food.v1.FoodService/", mux
 }
 
@@ -193,4 +211,8 @@ func (UnimplementedFoodServiceHandler) CreateSource(context.Context, *connect_go
 
 func (UnimplementedFoodServiceHandler) CreateRegion(context.Context, *connect_go.Request[v1.CreateRegionRequest]) (*connect_go.Response[v1.CreateRegionResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.food.v1.FoodService.CreateRegion is not implemented"))
+}
+
+func (UnimplementedFoodServiceHandler) ListAggregateFoodItems(context.Context, *connect_go.Request[v1.ListAggregateFoodItemsRequest]) (*connect_go.Response[v1.ListAggregateFoodItemsResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.food.v1.FoodService.ListAggregateFoodItems is not implemented"))
 }

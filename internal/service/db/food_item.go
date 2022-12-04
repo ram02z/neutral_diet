@@ -46,38 +46,41 @@ func mapToDBCfTypes(cfType foodv1.FoodItem_CfType) (db.CfTypes, error) {
 	return "", errors.New("could not map CfType")
 }
 
-// func (s *Store) ListFoodItems(
-// 	ctx context.Context,
-// 	r *foodv1.ListFoodItemsRequest,
-// ) (*foodv1.ListFoodItemsResponse, error) {
-// 	queries := db.New(s.dbPool)
-// 	foodItemRows, err := queries.ListAggregateFoodItems(ctx)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (s *Store) ListAggregateFoodItems(
+	ctx context.Context,
+	r *foodv1.ListAggregateFoodItemsRequest,
+) (*foodv1.ListAggregateFoodItemsResponse, error) {
+	queries := db.New(s.dbPool)
+	foodItemRows, err := queries.ListAggregateFoodItems(ctx)
+	if err != nil {
+		return nil, err
+	}
 
-// 	foodItems, err := mapToFoodItems(foodItemRows)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	foodItems, err := mapToFoodItems(foodItemRows)
+	if err != nil {
+		return nil, err
+	}
 
-// 	return &foodv1.ListFoodItemsResponse{FoodItems: foodItems}, nil
-// }
+	return &foodv1.ListAggregateFoodItemsResponse{FoodItems: foodItems}, nil
+}
 
-// func mapToFoodItems(foodItemRows []db.ListAggregateFoodItemsRow) ([]*foodv1.FoodItem, error) {
-// 	foodItems := make([]*foodv1.FoodItem, len(foodItemRows))
-// 	for i := range foodItemRows {
-// 		var emissions string
-// 		err := foodItemRows[i].MedianCarbonFootprint.AssignTo(&emissions)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 		foodItems[i] = &foodv1.FoodItem{
-// 			Id:        foodItemRows[i].N,
-// 			Name:      foodItemRows[i].Name,
-// 			Emissions: emissions,
-// 		}
-// 	}
+func mapToFoodItems(foodItemRows []db.ListAggregateFoodItemsRow) ([]*foodv1.AggregateFoodItem, error) {
+	foodItems := make([]*foodv1.AggregateFoodItem, len(foodItemRows))
+	for i := range foodItemRows {
+		var cf string
+		err := foodItemRows[i].MedianCarbonFootprint.AssignTo(&cf)
+		if err != nil {
+			return nil, err
+		}
+		foodItems[i] = &foodv1.AggregateFoodItem{
+			Id:                    foodItemRows[i].ID,
+			FoodName:              foodItemRows[i].FoodName,
+			TypologyName:          foodItemRows[i].TypologyName,
+			SubTypologyName:       foodItemRows[i].SubTypologyName.String,
+			N:                     foodItemRows[i].N,
+			MedianCarbonFootprint: cf,
+		}
+	}
 
-// 	return foodItems, nil
-// }
+	return foodItems, nil
+}

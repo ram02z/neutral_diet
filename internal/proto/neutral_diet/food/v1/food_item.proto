@@ -14,3 +14,12 @@ message FoodItem {
   }
   CfType cf_type = 4;
 }
+
+message AggregateFoodItem {
+  int32 id = 1;
+  string food_name = 2;
+  string typology_name = 3;
+  string sub_typology_name = 4;
+  int64 n = 5;
+  string median_carbon_footprint = 6;
+}
