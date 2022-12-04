@@ -73,11 +73,11 @@ func mapToFoodItems(foodItemRows []db.ListAggregateFoodItemsRow) ([]*foodv1.Aggr
 			return nil, err
 		}
 		foodItems[i] = &foodv1.AggregateFoodItem{
-			Id:              foodItemRows[i].ID,
-			FoodName:        foodItemRows[i].FoodName,
-			TypologyName:    foodItemRows[i].TypologyName,
-			SubTypologyName: foodItemRows[i].SubTypologyName.String,
-			N:               foodItemRows[i].N,
+			Id:                    foodItemRows[i].ID,
+			FoodName:              foodItemRows[i].FoodName,
+			TypologyName:          foodItemRows[i].TypologyName,
+			SubTypologyName:       foodItemRows[i].SubTypologyName.String,
+			N:                     foodItemRows[i].N,
 			MedianCarbonFootprint: cf,
 		}
 	}
