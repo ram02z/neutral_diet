@@ -109,7 +109,8 @@ func NewConnectGoServer(
 
 func (s *Server) start(logger *zerolog.Logger) {
 	go func() {
-		logger.Info().Str("address", s.Server.Addr).Msg("Listening for connect-go")
+		logger.Info().Str("address", s.Server.Addr).Str("path", "/").Msg("Serving static files")
+		logger.Info().Str("address", s.Server.Addr).Str("path", "/api").Msg("Listening for connect-go")
 		s.notify <- s.Server.ListenAndServe()
 		close(s.notify)
 	}()
