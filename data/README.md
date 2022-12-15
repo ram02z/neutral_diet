@@ -4,6 +4,8 @@
 
 Run the following to populate the DB locally
 
+> Ensure to run `make migrate-up` in project root to initialise tables and relations
+
 ```sh
 poetry install \
 source .venv/bin/activate \

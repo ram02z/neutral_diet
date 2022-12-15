@@ -3,16 +3,21 @@ managed:
   enabled: true
   go_package_prefix:
     default: github.com/ram02z/neutral_diet/internal/gen/idl
+    except:
+      - buf.build/envoyproxy/protoc-gen-validate
 plugins:
-  - remote: buf.build/protocolbuffers/plugins/go:v1.28.1-1
+  - plugin: buf.build/bufbuild/connect-go:v1.4.0
     out: internal/gen/idl
     opt: paths=source_relative
-  - remote: buf.build/bufbuild/plugins/connect-go:v1.1.0-1
+  - plugin: buf.build/bufbuild/validate-go
     out: internal/gen/idl
     opt: paths=source_relative
-  - remote: buf.build/bufbuild/plugins/es:v0.2.1-1
+  - plugin: buf.build/protocolbuffers/go:v1.28.1
+    out: internal/gen/idl
+    opt: paths=source_relative
+  - plugin: buf.build/bufbuild/connect-web:v0.4.0
     out: ui/src/api/gen
     opt: target=ts
-  - remote: buf.build/bufbuild/plugins/connect-web:v0.3.1-1
+  - plugin: buf.build/bufbuild/es:v0.5.0
     out: ui/src/api/gen
     opt: target=ts
