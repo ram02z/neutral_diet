@@ -8,7 +8,7 @@ import (
 )
 
 func TestCreateFoodItem(t *testing.T) {
-	validRequest := func() *foodv1.CreateFoodItemRequest {
+	buildValidRequest := func() *foodv1.CreateFoodItemRequest {
 		return &foodv1.CreateFoodItemRequest{
 			FoodItem: &foodv1.FoodItem{
 				Name:       "Apple",
@@ -23,8 +23,18 @@ func TestCreateFoodItem(t *testing.T) {
 		expect func(t *testing.T, err error)
 	}{
 		"Valid": {
-			build:  validRequest,
+			build:  buildValidRequest,
 			expect: func(t *testing.T, err error) { require.NoError(t, err) },
+		},
+		"Invalid CfType": {
+			build: func() *foodv1.CreateFoodItemRequest {
+				p := buildValidRequest()
+				p.FoodItem.CfType = -1
+				return p
+			},
+			expect: func(t *testing.T, err error) {
+				require.EqualError(t, err, `invalid CreateFoodItemRequest.FoodItem: embedded message failed validation | caused by: invalid FoodItem.CfType: value must be one of the defined enum values`)
+			},
 		},
 	}
 
