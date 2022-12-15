@@ -11,11 +11,12 @@ require (
 	github.com/rs/cors v1.8.2
 	github.com/rs/zerolog v1.28.0
 	github.com/sethvargo/go-envconfig v0.8.2
-	golang.org/x/net v0.1.0
+	golang.org/x/net v0.2.0
 	google.golang.org/protobuf v1.28.1
 )
 
 require (
+	github.com/envoyproxy/protoc-gen-validate v0.9.1 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect

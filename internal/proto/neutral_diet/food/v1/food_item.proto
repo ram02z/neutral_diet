@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package neutral_diet.food.v1;
 
+import "validate/validate.proto";
+
 message FoodItem {
   int32 id = 1;
   string name = 2;
@@ -12,7 +14,7 @@ message FoodItem {
     CF_TYPE_SUB_TYPOLOGY = 2;
     CF_TYPE_ITEM = 3;
   }
-  CfType cf_type = 4;
+  CfType cf_type = 4 [(validate.rules).enum.defined_only = true];
 }
 
 message AggregateFoodItem {

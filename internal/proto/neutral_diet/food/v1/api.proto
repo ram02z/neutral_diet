@@ -8,9 +8,10 @@ import "neutral_diet/food/v1/region.proto";
 import "neutral_diet/food/v1/source.proto";
 import "neutral_diet/food/v1/sub_typology.proto";
 import "neutral_diet/food/v1/typology.proto";
+import "validate/validate.proto";
 
 message CreateLifeCycleRequest {
-  LifeCycle life_cycle = 1;
+  LifeCycle life_cycle = 1 [(validate.rules).message.required = true];
 }
 
 message CreateLifeCycleResponse {
@@ -18,7 +19,7 @@ message CreateLifeCycleResponse {
 }
 
 message CreateFoodItemRequest {
-  FoodItem food_item = 1;
+  FoodItem food_item = 1 [(validate.rules).message.required = true];
 }
 
 message CreateFoodItemResponse {
@@ -26,7 +27,7 @@ message CreateFoodItemResponse {
 }
 
 message CreateTypologyRequest {
-  Typology typology = 1;
+  Typology typology = 1 [(validate.rules).message.required = true];
 }
 
 message CreateTypologyResponse {
@@ -34,7 +35,7 @@ message CreateTypologyResponse {
 }
 
 message CreateSubTypologyRequest {
-  SubTypology sub_typology = 1;
+  SubTypology sub_typology = 1 [(validate.rules).message.required = true];
 }
 
 message CreateSubTypologyResponse {
@@ -42,7 +43,7 @@ message CreateSubTypologyResponse {
 }
 
 message CreateSourceRequest {
-  Source source = 1;
+  Source source = 1 [(validate.rules).message.required = true];
 }
 
 message CreateSourceResponse {
@@ -50,7 +51,7 @@ message CreateSourceResponse {
 }
 
 message CreateRegionRequest {
-  Region region = 1;
+  Region region = 1 [(validate.rules).message.required = true];
 }
 
 message CreateRegionResponse {}
