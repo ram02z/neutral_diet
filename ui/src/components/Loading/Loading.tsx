@@ -15,14 +15,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-import { Skeleton } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 
 function Loading() {
   return (
     <FullSizeCenteredFlexBox>
-      <Skeleton />
+      <CircularProgress />
     </FullSizeCenteredFlexBox>
   );
 }
