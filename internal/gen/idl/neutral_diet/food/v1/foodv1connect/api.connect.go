@@ -34,6 +34,8 @@ type FoodServiceClient interface {
 	CreateSource(context.Context, *connect_go.Request[v1.CreateSourceRequest]) (*connect_go.Response[v1.CreateSourceResponse], error)
 	CreateRegion(context.Context, *connect_go.Request[v1.CreateRegionRequest]) (*connect_go.Response[v1.CreateRegionResponse], error)
 	ListAggregateFoodItems(context.Context, *connect_go.Request[v1.ListAggregateFoodItemsRequest]) (*connect_go.Response[v1.ListAggregateFoodItemsResponse], error)
+	// TODO: move to own service
+	CreateUser(context.Context, *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.CreateUserResponse], error)
 }
 
 // NewFoodServiceClient constructs a client for the neutral_diet.food.v1.FoodService service. By
@@ -81,6 +83,11 @@ func NewFoodServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+"/neutral_diet.food.v1.FoodService/ListAggregateFoodItems",
 			opts...,
 		),
+		createUser: connect_go.NewClient[v1.CreateUserRequest, v1.CreateUserResponse](
+			httpClient,
+			baseURL+"/neutral_diet.food.v1.FoodService/CreateUser",
+			opts...,
+		),
 	}
 }
 
@@ -93,6 +100,7 @@ type foodServiceClient struct {
 	createSource           *connect_go.Client[v1.CreateSourceRequest, v1.CreateSourceResponse]
 	createRegion           *connect_go.Client[v1.CreateRegionRequest, v1.CreateRegionResponse]
 	listAggregateFoodItems *connect_go.Client[v1.ListAggregateFoodItemsRequest, v1.ListAggregateFoodItemsResponse]
+	createUser             *connect_go.Client[v1.CreateUserRequest, v1.CreateUserResponse]
 }
 
 // CreateLifeCycle calls neutral_diet.food.v1.FoodService.CreateLifeCycle.
@@ -130,6 +138,11 @@ func (c *foodServiceClient) ListAggregateFoodItems(ctx context.Context, req *con
 	return c.listAggregateFoodItems.CallUnary(ctx, req)
 }
 
+// CreateUser calls neutral_diet.food.v1.FoodService.CreateUser.
+func (c *foodServiceClient) CreateUser(ctx context.Context, req *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.CreateUserResponse], error) {
+	return c.createUser.CallUnary(ctx, req)
+}
+
 // FoodServiceHandler is an implementation of the neutral_diet.food.v1.FoodService service.
 type FoodServiceHandler interface {
 	CreateLifeCycle(context.Context, *connect_go.Request[v1.CreateLifeCycleRequest]) (*connect_go.Response[v1.CreateLifeCycleResponse], error)
@@ -139,6 +152,8 @@ type FoodServiceHandler interface {
 	CreateSource(context.Context, *connect_go.Request[v1.CreateSourceRequest]) (*connect_go.Response[v1.CreateSourceResponse], error)
 	CreateRegion(context.Context, *connect_go.Request[v1.CreateRegionRequest]) (*connect_go.Response[v1.CreateRegionResponse], error)
 	ListAggregateFoodItems(context.Context, *connect_go.Request[v1.ListAggregateFoodItemsRequest]) (*connect_go.Response[v1.ListAggregateFoodItemsResponse], error)
+	// TODO: move to own service
+	CreateUser(context.Context, *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.CreateUserResponse], error)
 }
 
 // NewFoodServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -183,6 +198,11 @@ func NewFoodServiceHandler(svc FoodServiceHandler, opts ...connect_go.HandlerOpt
 		svc.ListAggregateFoodItems,
 		opts...,
 	))
+	mux.Handle("/neutral_diet.food.v1.FoodService/CreateUser", connect_go.NewUnaryHandler(
+		"/neutral_diet.food.v1.FoodService/CreateUser",
+		svc.CreateUser,
+		opts...,
+	))
 	return "/neutral_diet.food.v1.FoodService/", mux
 }
 
@@ -215,4 +235,8 @@ func (UnimplementedFoodServiceHandler) CreateRegion(context.Context, *connect_go
 
 func (UnimplementedFoodServiceHandler) ListAggregateFoodItems(context.Context, *connect_go.Request[v1.ListAggregateFoodItemsRequest]) (*connect_go.Response[v1.ListAggregateFoodItemsResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.food.v1.FoodService.ListAggregateFoodItems is not implemented"))
+}
+
+func (UnimplementedFoodServiceHandler) CreateUser(context.Context, *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.CreateUserResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.food.v1.FoodService.CreateUser is not implemented"))
 }
