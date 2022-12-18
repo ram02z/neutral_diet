@@ -106,3 +106,12 @@ type Typology struct {
 	Name          string
 	SubTypologyID sql.NullInt32
 }
+
+type User struct {
+	ID          int32
+	FirebaseUid string
+	Region      sql.NullString
+	CfLimit     pgtype.Numeric
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+}
