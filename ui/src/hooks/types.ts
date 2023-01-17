@@ -2,7 +2,7 @@ import { AuthError, User, UserCredential } from "firebase/auth";
 
 export type LoadingHook<T, E> = [T | undefined, boolean, E | undefined];
 
-export type AuthStateHook = LoadingHook<User | null, Error>;
+export type IdTokenHook = LoadingHook<User | null, Error>;
 
 export type AuthActionHook<M> = [
   M,

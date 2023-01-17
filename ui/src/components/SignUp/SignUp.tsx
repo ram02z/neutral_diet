@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { auth } from '@/core/firebase';
 import useDefaultSignUp from '@/hooks/useDefaultSignUp';
 
-import Loading from '../Loading';
+import Loading from '@/components/Loading';
 
 function SignUp() {
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [signUp, user, loading, error] = useDefaultSignUp(auth);
+  const [signUp, _, loading, error] = useDefaultSignUp(auth);
 
   if (error) {
     return (
@@ -25,7 +25,7 @@ function SignUp() {
 
   return (
     <>
-      <p>Please sign-up:</p>
+      <p>Create your account</p>
       <input
         placeholder="Name"
         type="text"
@@ -44,7 +44,7 @@ function SignUp() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={() => signUp(displayName, email, password)}>Register</button>
+      <button onClick={() => signUp(displayName, email, password)}>Continue</button>
     </>
   );
 }

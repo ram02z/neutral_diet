@@ -36,6 +36,16 @@ const routes: Routes = {
     icon: AccountCircleIcon,
     navigation: false,
   },
+  [Pages.LogIn]: {
+    component: asyncComponentLoader(() => import('@/pages/LogIn')),
+    path: '/login',
+    navigation: false,
+  },
+  [Pages.SignUp]: {
+    component: asyncComponentLoader(() => import('@/pages/SignUp')),
+    path: 'signup',
+    navigation: false,
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('@/pages/NotFound')),
     path: '*',

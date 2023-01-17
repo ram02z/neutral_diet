@@ -1,13 +1,16 @@
-import Loading from '../Loading';
-import { auth } from '@/core/firebase';
 import { useState } from 'react';
+
+import { auth } from '@/core/firebase';
 import useDefaultSignIn from '@/hooks/useDefaultSignIn';
 
-function SignIn() {
+import Loading from '@/components/Loading';
+
+function LogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [signIn, user, loading, error] = useDefaultSignIn(auth);
+  const [signIn, _, loading, error] = useDefaultSignIn(auth);
 
+  // TODO: handle errors by type
   if (error) {
     return (
       <div>
@@ -22,12 +25,12 @@ function SignIn() {
 
   return (
     <>
-      <p>Please sign-in:</p>
+      <p>Welcome back</p>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={() => signIn(email, password)}>Sign In</button>
+      <button onClick={() => signIn(email, password)}>Continue</button>
     </>
   );
 }
 
-export default SignIn;
+export default LogIn;

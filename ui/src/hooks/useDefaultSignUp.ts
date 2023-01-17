@@ -1,9 +1,18 @@
 import { useCallback, useState } from 'react';
 
-import { Auth, AuthError, UserCredential, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import {
+  Auth,
+  AuthError,
+  UserCredential,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
+
+import client from '@/api/food_service';
+
 import { DefaultSignUpHook } from './types';
 
-function useDefaultSignUp(auth: Auth) : DefaultSignUpHook {
+function useDefaultSignUp(auth: Auth): DefaultSignUpHook {
   const [error, setError] = useState<AuthError>();
   const [registeredUser, setRegisteredUser] = useState<UserCredential>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -14,7 +23,9 @@ function useDefaultSignUp(auth: Auth) : DefaultSignUpHook {
       setError(undefined);
       try {
         const user = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(user.user, { displayName: displayName });
+        updateProfile(user.user, { displayName: displayName });
+        // Add user to backend DB
+        client.createUser({ firebaseUid: user.user.uid });
 
         setRegisteredUser(user);
 

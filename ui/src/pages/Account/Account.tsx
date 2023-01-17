@@ -1,17 +1,20 @@
+import { Button } from '@mui/material';
+import { Box } from '@mui/system';
+
 import { signOut } from 'firebase/auth';
 
 import Loading from '@/components/Loading';
-import SignIn from '@/components/SignIn';
-import SignUp from '@/components/SignUp';
+import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { auth } from '@/core/firebase';
-import useAuthState from '@/hooks/useAuthState';
+import useIdToken from '@/hooks/useIdToken';
+import { Link } from 'react-router-dom';
 
 const logout = () => {
   signOut(auth);
 };
 
 function Account() {
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading, error] = useIdToken(auth);
 
   if (loading) {
     return (
@@ -29,6 +32,7 @@ function Account() {
       </div>
     );
   }
+
   if (user) {
     return (
       <div>
@@ -39,9 +43,12 @@ function Account() {
   }
 
   return (
-    <>
-      <SignIn /> <SignUp />
-    </>
+    <FullSizeCenteredFlexBox>
+      <Box m="auto" sx={{ textAlign: 'center' }}>
+        <Button component={Link} to="/login" variant="contained">Log in</Button>
+        <Button component={Link} to="/signup" variant="contained">Sign up</Button>
+      </Box>
+    </FullSizeCenteredFlexBox>
   );
 }
 
