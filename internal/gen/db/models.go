@@ -76,6 +76,7 @@ type FoodItemLog struct {
 	CarbonFootprint pgtype.Numeric
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
+	UserID          int32
 }
 
 type LifeCycle struct {

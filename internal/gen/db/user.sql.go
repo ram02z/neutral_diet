@@ -23,12 +23,35 @@ func (q *Queries) CreateUser(ctx context.Context, firebaseUid string) (int32, er
 	return id, err
 }
 
-const deleteUser = `-- name: DeleteUser :exec
+const deleteUserByFirebaseUID = `-- name: DeleteUserByFirebaseUID :exec
 DELETE FROM "user"
 WHERE firebase_uid = $1
 `
 
-func (q *Queries) DeleteUser(ctx context.Context, firebaseUid string) error {
-	_, err := q.db.Exec(ctx, deleteUser, firebaseUid)
+func (q *Queries) DeleteUserByFirebaseUID(ctx context.Context, firebaseUid string) error {
+	_, err := q.db.Exec(ctx, deleteUserByFirebaseUID, firebaseUid)
 	return err
+}
+
+const getUserByFirebaseUID = `-- name: GetUserByFirebaseUID :one
+SELECT
+    id, firebase_uid, region, cf_limit, created_at, updated_at
+FROM
+    "user"
+WHERE
+    firebase_uid = $1
+`
+
+func (q *Queries) GetUserByFirebaseUID(ctx context.Context, firebaseUid string) (User, error) {
+	row := q.db.QueryRow(ctx, getUserByFirebaseUID, firebaseUid)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.FirebaseUid,
+		&i.Region,
+		&i.CfLimit,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
 }

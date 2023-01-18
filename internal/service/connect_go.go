@@ -191,3 +191,24 @@ func (c *ConnectWrapper) CreateUser(
 
 	return out, nil
 }
+
+func (c *ConnectWrapper) AddFoodItem(
+	ctx context.Context,
+	req *connect.Request[foodv1.AddFoodItemRequest],
+) (*connect.Response[foodv1.AddFoodItemResponse], error) {
+	err := validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.AddFoodItemToLog(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+	// TODO: export the headers
+	out.Header().Set("API-Version", "v1")
+
+	return out, nil
+}

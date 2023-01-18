@@ -4,6 +4,14 @@ INSERT INTO "user" (firebase_uid)
 RETURNING
     id;
 
--- name: DeleteUser :exec
+-- name: DeleteUserByFirebaseUID :exec
 DELETE FROM "user"
 WHERE firebase_uid = $1;
+
+-- name: GetUserByFirebaseUID :one
+SELECT
+    *
+FROM
+    "user"
+WHERE
+    firebase_uid = $1;
