@@ -5,6 +5,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/joho/godotenv"
 	"github.com/ram02z/neutral_diet/internal/app/auth"
 	"github.com/ram02z/neutral_diet/internal/app/connectgo"
 	"github.com/ram02z/neutral_diet/internal/app/logging"
@@ -14,6 +15,19 @@ import (
 
 func Run() {
 	l := logging.NewLogger()
+
+	// Load .env variables
+	env := os.Getenv("APP_ENV")
+	if env == "" {
+		env = "development"
+	}
+
+	godotenv.Load(".env." + env + ".local")
+	if env != "test" {
+		godotenv.Load(".env.local")
+	}
+	godotenv.Load(".env." + env)
+	godotenv.Load()
 
 	// Firebase Auth service
 	firebaseCfg, err := auth.NewConfig()
