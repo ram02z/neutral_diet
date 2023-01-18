@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CreateFoodItemRequest, CreateFoodItemResponse, CreateLifeCycleRequest, CreateLifeCycleResponse, CreateRegionRequest, CreateRegionResponse, CreateSourceRequest, CreateSourceResponse, CreateSubTypologyRequest, CreateSubTypologyResponse, CreateTypologyRequest, CreateTypologyResponse, ListAggregateFoodItemsRequest, ListAggregateFoodItemsResponse } from "./api_pb.js";
+import { AddFoodItemRequest, AddFoodItemResponse, CreateFoodItemRequest, CreateFoodItemResponse, CreateLifeCycleRequest, CreateLifeCycleResponse, CreateRegionRequest, CreateRegionResponse, CreateSourceRequest, CreateSourceResponse, CreateSubTypologyRequest, CreateSubTypologyResponse, CreateTypologyRequest, CreateTypologyResponse, CreateUserRequest, CreateUserResponse, ListAggregateFoodItemsRequest, ListAggregateFoodItemsResponse } from "./api_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -73,6 +73,26 @@ export const FoodService = {
       name: "ListAggregateFoodItems",
       I: ListAggregateFoodItemsRequest,
       O: ListAggregateFoodItemsResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.food.v1.FoodService.AddFoodItem
+     */
+    addFoodItem: {
+      name: "AddFoodItem",
+      I: AddFoodItemRequest,
+      O: AddFoodItemResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * TODO: move to own service 
+     *
+     * @generated from rpc neutral_diet.food.v1.FoodService.CreateUser
+     */
+    createUser: {
+      name: "CreateUser",
+      I: CreateUserRequest,
+      O: CreateUserResponse,
       kind: MethodKind.Unary,
     },
   }

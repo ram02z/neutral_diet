@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"firebase.google.com/go/auth"
 	"github.com/bufbuild/connect-go"
 	"github.com/justinas/alice"
 	frontend "github.com/ram02z/neutral_diet"
@@ -50,8 +51,8 @@ type Server struct {
 	ShutdownTimeout time.Duration
 }
 
-func NewConnectWrapper(s *db.Store) *service.ConnectWrapper {
-	return service.NewConnectWrapper(s)
+func NewConnectWrapper(s *db.Store, a *auth.Client) *service.ConnectWrapper {
+	return service.NewConnectWrapper(s, a)
 }
 
 func NewConnectGoServer(
@@ -59,7 +60,7 @@ func NewConnectGoServer(
 	cfg Config,
 ) *Server {
 	mux := http.NewServeMux()
-	address := fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)
+	address := fmt.Sprintf("%s:%d", cfg.ConnectConfig.Host, cfg.ConnectConfig.Port)
 
 	c := alice.New()
 	c = c.Append(hlog.NewHandler(*logger))
@@ -99,7 +100,7 @@ func NewConnectGoServer(
 		Server:          srv,
 		Mux:             mux,
 		notify:          make(chan error, 1),
-		ShutdownTimeout: cfg.ShutdownTimeout,
+		ShutdownTimeout: cfg.ConnectConfig.ShutdownTimeout,
 	}
 
 	s.start(logger)

@@ -3,6 +3,7 @@ syntax = "proto3";
 package neutral_diet.food.v1;
 
 import "neutral_diet/food/v1/food_item.proto";
+import "neutral_diet/food/v1/food_item_log.proto";
 import "neutral_diet/food/v1/life_cycle.proto";
 import "neutral_diet/food/v1/region.proto";
 import "neutral_diet/food/v1/source.proto";
@@ -63,6 +64,22 @@ message ListAggregateFoodItemsResponse {
   repeated AggregateFoodItem food_items = 1;
 }
 
+message AddFoodItemRequest {
+  FoodLogItem food_log_item = 2 [(validate.rules).message.required = true];
+}
+
+message AddFoodItemResponse {
+  int32 id = 1;
+}
+
+message CreateUserRequest {
+  string firebase_uid = 1 [(validate.rules).string.min_len = 1];
+}
+
+message CreateUserResponse {
+  int32 id = 1;
+}
+
 service FoodService {
   rpc CreateLifeCycle(CreateLifeCycleRequest) returns (CreateLifeCycleResponse) {}
   rpc CreateFoodItem(CreateFoodItemRequest) returns (CreateFoodItemResponse) {}
@@ -71,4 +88,7 @@ service FoodService {
   rpc CreateSource(CreateSourceRequest) returns (CreateSourceResponse) {}
   rpc CreateRegion(CreateRegionRequest) returns (CreateRegionResponse) {}
   rpc ListAggregateFoodItems(ListAggregateFoodItemsRequest) returns (ListAggregateFoodItemsResponse) {}
+  rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
+  /* TODO: move to own service */
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
 }

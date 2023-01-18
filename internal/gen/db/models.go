@@ -76,6 +76,7 @@ type FoodItemLog struct {
 	CarbonFootprint pgtype.Numeric
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
+	UserID          int32
 }
 
 type LifeCycle struct {
@@ -105,4 +106,13 @@ type Typology struct {
 	ID            int32
 	Name          string
 	SubTypologyID sql.NullInt32
+}
+
+type User struct {
+	ID          int32
+	FirebaseUid string
+	Region      sql.NullString
+	CfLimit     pgtype.Numeric
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }

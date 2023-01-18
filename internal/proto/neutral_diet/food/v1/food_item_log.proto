@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package neutral_diet.food.v1;
+
+message FoodLogItem {
+  int32 food_item_id = 1;
+  double weight = 2;
+  double carbon_footprint = 3;
+}

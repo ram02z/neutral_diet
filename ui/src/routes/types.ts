@@ -8,11 +8,14 @@ enum Pages {
   Diary,
   Search,
   Account,
+  LogIn,
+  SignUp,
   NotFound,
 }
 
 type PathRouteCustomProps = {
   title?: string;
+  path: string;
   component: FC;
   icon?: FC<SvgIconProps>;
   navigation: boolean;

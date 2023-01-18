@@ -15,10 +15,6 @@ const columns: GridColDef[] = [
   { field: 'medianCarbonFootprint', headerName: 'CO2e/kg', flex: 1 },
 ];
 
-BigInt.prototype.toJSON = function () {
-  return this.toString();
-};
-
 function Home() {
   const [foodItems, setFoodItems] = useState<AggregateFoodItem[]>([]);
   useEffect(() => {
