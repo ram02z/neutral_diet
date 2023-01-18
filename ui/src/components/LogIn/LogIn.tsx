@@ -1,9 +1,8 @@
 import { useState } from 'react';
 
+import Loading from '@/components/Loading';
 import { auth } from '@/core/firebase';
 import useDefaultSignIn from '@/hooks/useDefaultSignIn';
-
-import Loading from '@/components/Loading';
 
 function LogIn() {
   const [email, setEmail] = useState('');

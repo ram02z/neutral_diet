@@ -7,6 +7,6 @@ export const app = initializeApp({
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   measurementId: import.meta.env.VITE_GA_MEASUREMENT_ID,
-})
+});
 
-export const auth = getAuth(app)
+export const auth = getAuth(app);

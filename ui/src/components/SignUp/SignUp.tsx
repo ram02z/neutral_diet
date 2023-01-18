@@ -1,9 +1,8 @@
 import { useState } from 'react';
 
+import Loading from '@/components/Loading';
 import { auth } from '@/core/firebase';
 import useDefaultSignUp from '@/hooks/useDefaultSignUp';
-
-import Loading from '@/components/Loading';
 
 function SignUp() {
   const [displayName, setDisplayName] = useState('');

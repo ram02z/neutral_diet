@@ -15,7 +15,6 @@ const columns: GridColDef[] = [
   { field: 'medianCarbonFootprint', headerName: 'CO2e/kg', flex: 1 },
 ];
 
-
 function Home() {
   const [foodItems, setFoodItems] = useState<AggregateFoodItem[]>([]);
   useEffect(() => {

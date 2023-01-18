@@ -1,13 +1,8 @@
 import { useCallback, useState } from 'react';
 
-import {
-  Auth,
-  AuthError,
-  UserCredential,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
-import { DefaultSignInHook } from './types';
+import { Auth, AuthError, UserCredential, signInWithEmailAndPassword } from 'firebase/auth';
 
+import { DefaultSignInHook } from './types';
 
 function useDefaultSignIn(auth: Auth): DefaultSignInHook {
   const [error, setError] = useState<AuthError>();
