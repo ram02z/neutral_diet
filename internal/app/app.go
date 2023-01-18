@@ -22,12 +22,24 @@ func Run() {
 		env = "development"
 	}
 
-	godotenv.Load(".env." + env + ".local")
-	if env != "test" {
-		godotenv.Load(".env.local")
+	err := godotenv.Load(".env." + env + ".local")
+	if err != nil {
+		l.Warn().Msg(err.Error())
 	}
-	godotenv.Load(".env." + env)
-	godotenv.Load()
+	if env != "test" {
+		err = godotenv.Load(".env.local")
+		if err != nil {
+			l.Warn().Msg(err.Error())
+		}
+	}
+	err = godotenv.Load(".env." + env)
+	if err != nil {
+		l.Warn().Msg(err.Error())
+	}
+	err = godotenv.Load()
+	if err != nil {
+		l.Warn().Msg(err.Error())
+	}
 
 	// Firebase Auth service
 	firebaseCfg, err := auth.NewConfig()
@@ -38,6 +50,7 @@ func Run() {
 	if err != nil {
 		l.Fatal().Err(err)
 	}
+	l.Info().Msg("Successfully created Firebase Auth client")
 
 	// Database service
 	pgpool, err := sql.NewDatabase()

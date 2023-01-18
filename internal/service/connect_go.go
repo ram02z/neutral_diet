@@ -34,7 +34,7 @@ func validate(r Validator) error {
 }
 
 func (c *ConnectWrapper) verify(
-  ctx context.Context,
+	ctx context.Context,
 	header http.Header,
 ) (*auth.Token, error) {
 	accessToken := header.Get("X-ID-Token")

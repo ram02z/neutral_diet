@@ -35,9 +35,9 @@ func RegisterConnectGoServer(in RegisterConnectGoServerInput) {
 		interceptors,
 	))
 	api.Handle(userv1connect.NewUserServiceHandler(
-    in.ConnectSvc,
-    interceptors,
-  ))
+		in.ConnectSvc,
+		interceptors,
+	))
 	// checker := grpchealth.NewStaticChecker(
 	// 	// protoc-gen-connect-go generates package-level constants
 	// 	// for these fully-qualified protobuf service names, so we'd be able
