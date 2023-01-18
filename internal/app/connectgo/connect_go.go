@@ -11,6 +11,7 @@ import (
 	"github.com/justinas/alice"
 	frontend "github.com/ram02z/neutral_diet"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1/foodv1connect"
+	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1/userv1connect"
 	"github.com/ram02z/neutral_diet/internal/service"
 	"github.com/ram02z/neutral_diet/internal/service/db"
 	"github.com/rs/cors"
@@ -33,6 +34,10 @@ func RegisterConnectGoServer(in RegisterConnectGoServerInput) {
 		in.ConnectSvc,
 		interceptors,
 	))
+	api.Handle(userv1connect.NewUserServiceHandler(
+    in.ConnectSvc,
+    interceptors,
+  ))
 	// checker := grpchealth.NewStaticChecker(
 	// 	// protoc-gen-connect-go generates package-level constants
 	// 	// for these fully-qualified protobuf service names, so we'd be able

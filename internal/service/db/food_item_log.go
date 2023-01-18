@@ -6,14 +6,14 @@ import (
 	"github.com/bufbuild/connect-go"
 	"github.com/jackc/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
-	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
+	userv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1"
 )
 
 func (s *Store) AddFoodItemToLog(
 	ctx context.Context,
-	r *foodv1.AddFoodItemRequest,
+	r *userv1.AddFoodItemRequest,
 	firebaseUID string,
-) (*foodv1.AddFoodItemResponse, error) {
+) (*userv1.AddFoodItemResponse, error) {
 	queries := db.New(s.dbPool)
 
 	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
@@ -41,5 +41,5 @@ func (s *Store) AddFoodItemToLog(
 		return nil, err
 	}
 
-	return &foodv1.AddFoodItemResponse{Id: foodItemLogID}, nil
+	return &userv1.AddFoodItemResponse{Id: foodItemLogID}, nil
 }
