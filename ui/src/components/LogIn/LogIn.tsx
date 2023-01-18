@@ -7,7 +7,7 @@ import useDefaultSignIn from '@/hooks/useDefaultSignIn';
 function LogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [signIn, _, loading, error] = useDefaultSignIn(auth);
+  const [signIn, , loading, error] = useDefaultSignIn(auth);
 
   // TODO: handle errors by type
   if (error) {

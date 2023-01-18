@@ -15,7 +15,6 @@ export default (auth: Auth): IdTokenHook => {
       async (user) => {
         setLoading(true);
         setUser(user);
-        console.log(user);
         setLoading(false);
       },
       setError,

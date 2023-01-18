@@ -8,7 +8,7 @@ function SignUp() {
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [signUp, _, loading, error] = useDefaultSignUp(auth);
+  const [signUp, , loading, error] = useDefaultSignUp(auth);
 
   if (error) {
     return (
