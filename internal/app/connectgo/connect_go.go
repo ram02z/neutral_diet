@@ -59,7 +59,7 @@ func NewConnectGoServer(
 	cfg Config,
 ) *Server {
 	mux := http.NewServeMux()
-	address := fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)
+	address := fmt.Sprintf("%s:%d", cfg.ConnectConfig.Host, cfg.ConnectConfig.Port)
 
 	c := alice.New()
 	c = c.Append(hlog.NewHandler(*logger))
@@ -99,7 +99,7 @@ func NewConnectGoServer(
 		Server:          srv,
 		Mux:             mux,
 		notify:          make(chan error, 1),
-		ShutdownTimeout: cfg.ShutdownTimeout,
+		ShutdownTimeout: cfg.ConnectConfig.ShutdownTimeout,
 	}
 
 	s.start(logger)
