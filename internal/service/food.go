@@ -22,8 +22,6 @@ func (c *ConnectWrapper) CreateLifeCycle(
 	}
 
 	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
 
 	return out, nil
 }
@@ -43,8 +41,6 @@ func (c *ConnectWrapper) CreateFoodItem(
 	}
 
 	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
 
 	return out, nil
 }
@@ -64,8 +60,6 @@ func (c *ConnectWrapper) CreateSource(
 	}
 
 	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
 
 	return out, nil
 }
@@ -85,8 +79,6 @@ func (c *ConnectWrapper) CreateRegion(
 	}
 
 	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
 
 	return out, nil
 }
@@ -106,8 +98,6 @@ func (c *ConnectWrapper) CreateTypology(
 	}
 
 	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
 
 	return out, nil
 }
@@ -127,8 +117,6 @@ func (c *ConnectWrapper) CreateSubTypology(
 	}
 
 	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
 
 	return out, nil
 }
@@ -143,8 +131,6 @@ func (c *ConnectWrapper) ListAggregateFoodItems(
 	}
 
 	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
 
 	return out, nil
 }

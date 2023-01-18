@@ -22,8 +22,6 @@ func (c *ConnectWrapper) CreateUser(
 	}
 
 	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
 
 	return out, nil
 }
@@ -48,8 +46,6 @@ func (c *ConnectWrapper) AddFoodItem(
 	}
 
 	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
 
 	return out, nil
 }
