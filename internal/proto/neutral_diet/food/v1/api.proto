@@ -65,7 +65,6 @@ message ListAggregateFoodItemsResponse {
 }
 
 message AddFoodItemRequest {
-  string firebase_uid = 1 [(validate.rules).string.min_len = 1];
   FoodLogItem food_log_item = 2 [(validate.rules).message.required = true];
 }
 

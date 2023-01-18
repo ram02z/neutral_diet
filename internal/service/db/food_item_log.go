@@ -12,10 +12,11 @@ import (
 func (s *Store) AddFoodItemToLog(
 	ctx context.Context,
 	r *foodv1.AddFoodItemRequest,
+	firebaseUID string,
 ) (*foodv1.AddFoodItemResponse, error) {
 	queries := db.New(s.dbPool)
 
-	user, err := queries.GetUserByFirebaseUID(ctx, r.FirebaseUid)
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}

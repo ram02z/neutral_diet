@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"firebase.google.com/go/auth"
 	"github.com/bufbuild/connect-go"
 	"github.com/justinas/alice"
 	frontend "github.com/ram02z/neutral_diet"
@@ -50,8 +51,8 @@ type Server struct {
 	ShutdownTimeout time.Duration
 }
 
-func NewConnectWrapper(s *db.Store) *service.ConnectWrapper {
-	return service.NewConnectWrapper(s)
+func NewConnectWrapper(s *db.Store, a *auth.Client) *service.ConnectWrapper {
+	return service.NewConnectWrapper(s, a)
 }
 
 func NewConnectGoServer(

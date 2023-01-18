@@ -2,7 +2,10 @@ package service
 
 import (
 	"context"
+	"errors"
+	"fmt"
 
+	"firebase.google.com/go/auth"
 	"github.com/bufbuild/connect-go"
 	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 	"github.com/ram02z/neutral_diet/internal/service/db"
@@ -10,14 +13,15 @@ import (
 
 type ConnectWrapper struct {
 	s *db.Store
+	a *auth.Client
 }
 
 type Validator interface {
 	Validate() error
 }
 
-func NewConnectWrapper(s *db.Store) *ConnectWrapper {
-	return &ConnectWrapper{s: s}
+func NewConnectWrapper(s *db.Store, a *auth.Client) *ConnectWrapper {
+	return &ConnectWrapper{s: s, a: a}
 }
 
 func validate(r Validator) error {
@@ -196,12 +200,29 @@ func (c *ConnectWrapper) AddFoodItem(
 	ctx context.Context,
 	req *connect.Request[foodv1.AddFoodItemRequest],
 ) (*connect.Response[foodv1.AddFoodItemResponse], error) {
-	err := validate(req.Msg)
+	accessToken := req.Header().Get("X-ID-Token")
+	if accessToken == "" {
+		return nil, connect.NewError(
+			connect.CodeInvalidArgument,
+			errors.New("request is missing 'X-ID-Token' header"),
+		)
+	}
+
+	// TODO: move to middleware
+	token, err := c.a.VerifyIDToken(ctx, accessToken)
+	if err != nil {
+		return nil, connect.NewError(
+			connect.CodeInvalidArgument,
+			fmt.Errorf("'accessToken' header is invalid: %v", err),
+		)
+	}
+
+	err = validate(req.Msg)
 	if err != nil {
 		return nil, err
 	}
 
-	res, err := c.s.AddFoodItemToLog(ctx, req.Msg)
+	res, err := c.s.AddFoodItemToLog(ctx, req.Msg, token.UID)
 	if err != nil {
 		return nil, err
 	}

@@ -526,11 +526,6 @@ export class ListAggregateFoodItemsResponse extends Message<ListAggregateFoodIte
  */
 export class AddFoodItemRequest extends Message<AddFoodItemRequest> {
   /**
-   * @generated from field: string firebase_uid = 1;
-   */
-  firebaseUid = "";
-
-  /**
    * @generated from field: neutral_diet.food.v1.FoodLogItem food_log_item = 2;
    */
   foodLogItem?: FoodLogItem;
@@ -543,7 +538,6 @@ export class AddFoodItemRequest extends Message<AddFoodItemRequest> {
   static readonly runtime = proto3;
   static readonly typeName = "neutral_diet.food.v1.AddFoodItemRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "firebase_uid", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "food_log_item", kind: "message", T: FoodLogItem },
   ]);
 

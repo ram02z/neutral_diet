@@ -5,6 +5,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/ram02z/neutral_diet/internal/app/auth"
 	"github.com/ram02z/neutral_diet/internal/app/connectgo"
 	"github.com/ram02z/neutral_diet/internal/app/logging"
 	"github.com/ram02z/neutral_diet/internal/app/service"
@@ -13,6 +14,16 @@ import (
 
 func Run() {
 	l := logging.NewLogger()
+
+	// Firebase Auth service
+	firebaseCfg, err := auth.NewConfig()
+	if err != nil {
+		l.Fatal().Err(err).Msg("Could not create firebase config")
+	}
+	authClient, err := auth.NewAuth(firebaseCfg)
+	if err != nil {
+		l.Fatal().Err(err)
+	}
 
 	// Database service
 	pgpool, err := sql.NewDatabase()
@@ -32,7 +43,7 @@ func Run() {
 	if err != nil {
 		l.Fatal().Err(err).Msg("Could not create connect-go config")
 	}
-	connectWrapper := connectgo.NewConnectWrapper(dataStore)
+	connectWrapper := connectgo.NewConnectWrapper(dataStore, authClient)
 	server := connectgo.NewConnectGoServer(l, connectCfg)
 	registerIn := connectgo.RegisterConnectGoServerInput{
 		Logger:     l,

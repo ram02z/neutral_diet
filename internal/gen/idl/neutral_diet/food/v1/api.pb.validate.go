@@ -1771,17 +1771,6 @@ func (m *AddFoodItemRequest) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetFirebaseUid()) < 1 {
-		err := AddFoodItemRequestValidationError{
-			field:  "FirebaseUid",
-			reason: "value length must be at least 1 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
 	if m.GetFoodLogItem() == nil {
 		err := AddFoodItemRequestValidationError{
 			field:  "FoodLogItem",
