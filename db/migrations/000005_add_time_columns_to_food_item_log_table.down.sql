@@ -1,7 +1,7 @@
 ALTER TABLE "food_item_log"
-    DROP COLUMN "created_at";
+    DROP COLUMN IF EXISTS "created_at";
 
 ALTER TABLE "food_item_log"
-    DROP COLUMN "updated_at";
+    DROP COLUMN IF EXISTS "updated_at";
 
 DROP TRIGGER IF EXISTS update_updated_at_time_trigger ON "food_item_log";
