@@ -1,3 +1,3 @@
-import DeleteAccount from "./DeleteAccount";
+import DeleteAccount from './DeleteAccount';
 
 export default DeleteAccount;
