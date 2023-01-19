@@ -27,8 +27,8 @@ func (c *ConnectWrapper) CreateUser(
 }
 
 func (c *ConnectWrapper) DeleteUser(
-  ctx context.Context,
-  req *connect.Request[userv1.DeleteUserRequest],
+	ctx context.Context,
+	req *connect.Request[userv1.DeleteUserRequest],
 ) (*connect.Response[userv1.DeleteUserResponse], error) {
 	token, err := c.verify(ctx, req.Header())
 	if err != nil {
@@ -41,7 +41,10 @@ func (c *ConnectWrapper) DeleteUser(
 	}
 
 	// Delete user from firebase user table
-	c.a.DeleteUser(ctx, token.UID)
+	err = c.a.DeleteUser(ctx, token.UID)
+	if err != nil {
+		return nil, err
+	}
 
 	out := connect.NewResponse(res)
 
