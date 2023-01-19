@@ -26,6 +26,28 @@ func (c *ConnectWrapper) CreateUser(
 	return out, nil
 }
 
+func (c *ConnectWrapper) DeleteUser(
+  ctx context.Context,
+  req *connect.Request[userv1.DeleteUserRequest],
+) (*connect.Response[userv1.DeleteUserResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.DeleteUser(ctx, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	// Delete user from firebase user table
+	c.a.DeleteUser(ctx, token.UID)
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
 func (c *ConnectWrapper) AddFoodItem(
 	ctx context.Context,
 	req *connect.Request[userv1.AddFoodItemRequest],
