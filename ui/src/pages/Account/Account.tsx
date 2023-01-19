@@ -5,6 +5,7 @@ import { Box } from '@mui/system';
 
 import { signOut } from 'firebase/auth';
 
+import DeleteAccount from '@/components/DeleteAccount';
 import Loading from '@/components/Loading';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { auth } from '@/core/firebase';
@@ -38,7 +39,8 @@ function Account() {
     return (
       <div>
         <p>Current User: {user.displayName}</p>
-        <button onClick={logout}>Log out</button>
+        <Button onClick={logout}>Log out</Button>
+        <DeleteAccount user={user}></DeleteAccount>
       </div>
     );
   }

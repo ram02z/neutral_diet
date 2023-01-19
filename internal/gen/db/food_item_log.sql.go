@@ -36,3 +36,13 @@ func (q *Queries) AddFoodItemToLog(ctx context.Context, arg AddFoodItemToLogPara
 	err := row.Scan(&id)
 	return id, err
 }
+
+const deleteUserLog = `-- name: DeleteUserLog :exec
+DELETE FROM "food_item_log"
+WHERE user_id = $1
+`
+
+func (q *Queries) DeleteUserLog(ctx context.Context, userID int32) error {
+	_, err := q.db.Exec(ctx, deleteUserLog, userID)
+	return err
+}

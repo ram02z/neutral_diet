@@ -21,3 +21,22 @@ func (s *Store) CreateUser(
 
 	return &userv1.CreateUserResponse{Id: userID}, nil
 }
+
+func (s *Store) DeleteUser(
+	ctx context.Context,
+	firebaseUID string,
+) (*userv1.DeleteUserResponse, error) {
+	queries := db.New(s.dbPool)
+
+	userID, err := queries.DeleteUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeNotFound, err)
+	}
+
+	err = queries.DeleteUserLog(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &userv1.DeleteUserResponse{}, nil
+}

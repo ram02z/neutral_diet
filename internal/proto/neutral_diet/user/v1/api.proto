@@ -21,7 +21,12 @@ message CreateUserResponse {
   int32 id = 1;
 }
 
+message DeleteUserRequest {}
+
+message DeleteUserResponse {}
+
 service UserService {
   rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
 }
