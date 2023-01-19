@@ -8,7 +8,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 
-import client from '@/api/food_service';
+import client from '@/api/user_service';
 
 import { DefaultSignUpHook } from './types';
 

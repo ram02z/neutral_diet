@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
 
 	"firebase.google.com/go/auth"
 	"github.com/bufbuild/connect-go"
-	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 	"github.com/ram02z/neutral_diet/internal/service/db"
 )
 
@@ -33,174 +33,11 @@ func validate(r Validator) error {
 	return nil
 }
 
-func (c *ConnectWrapper) CreateLifeCycle(
+func (c *ConnectWrapper) verify(
 	ctx context.Context,
-	req *connect.Request[foodv1.CreateLifeCycleRequest],
-) (*connect.Response[foodv1.CreateLifeCycleResponse], error) {
-	err := validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.CreateLifeCycle(ctx, req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
-
-	return out, nil
-}
-
-func (c *ConnectWrapper) CreateFoodItem(
-	ctx context.Context,
-	req *connect.Request[foodv1.CreateFoodItemRequest],
-) (*connect.Response[foodv1.CreateFoodItemResponse], error) {
-	err := validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.CreateFoodItem(ctx, req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
-
-	return out, nil
-}
-
-func (c *ConnectWrapper) CreateSource(
-	ctx context.Context,
-	req *connect.Request[foodv1.CreateSourceRequest],
-) (*connect.Response[foodv1.CreateSourceResponse], error) {
-	err := validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.CreateSource(ctx, req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
-
-	return out, nil
-}
-
-func (c *ConnectWrapper) CreateRegion(
-	ctx context.Context,
-	req *connect.Request[foodv1.CreateRegionRequest],
-) (*connect.Response[foodv1.CreateRegionResponse], error) {
-	err := validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.CreateRegion(ctx, req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
-
-	return out, nil
-}
-
-func (c *ConnectWrapper) CreateTypology(
-	ctx context.Context,
-	req *connect.Request[foodv1.CreateTypologyRequest],
-) (*connect.Response[foodv1.CreateTypologyResponse], error) {
-	err := validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.CreateTypology(ctx, req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
-
-	return out, nil
-}
-
-func (c *ConnectWrapper) CreateSubTypology(
-	ctx context.Context,
-	req *connect.Request[foodv1.CreateSubTypologyRequest],
-) (*connect.Response[foodv1.CreateSubTypologyResponse], error) {
-	err := validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.CreateSubTypology(ctx, req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
-
-	return out, nil
-}
-
-func (c *ConnectWrapper) ListAggregateFoodItems(
-	ctx context.Context,
-	req *connect.Request[foodv1.ListAggregateFoodItemsRequest],
-) (*connect.Response[foodv1.ListAggregateFoodItemsResponse], error) {
-	res, err := c.s.ListAggregateFoodItems(ctx, req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
-
-	return out, nil
-}
-
-func (c *ConnectWrapper) CreateUser(
-	ctx context.Context,
-	req *connect.Request[foodv1.CreateUserRequest],
-) (*connect.Response[foodv1.CreateUserResponse], error) {
-	err := validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.CreateUser(ctx, req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
-
-	return out, nil
-}
-
-func (c *ConnectWrapper) AddFoodItem(
-	ctx context.Context,
-	req *connect.Request[foodv1.AddFoodItemRequest],
-) (*connect.Response[foodv1.AddFoodItemResponse], error) {
-	accessToken := req.Header().Get("X-ID-Token")
+	header http.Header,
+) (*auth.Token, error) {
+	accessToken := header.Get("X-ID-Token")
 	if accessToken == "" {
 		return nil, connect.NewError(
 			connect.CodeInvalidArgument,
@@ -208,7 +45,6 @@ func (c *ConnectWrapper) AddFoodItem(
 		)
 	}
 
-	// TODO: move to middleware
 	token, err := c.a.VerifyIDToken(ctx, accessToken)
 	if err != nil {
 		return nil, connect.NewError(
@@ -217,19 +53,5 @@ func (c *ConnectWrapper) AddFoodItem(
 		)
 	}
 
-	err = validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.AddFoodItemToLog(ctx, req.Msg, token.UID)
-	if err != nil {
-		return nil, err
-	}
-
-	out := connect.NewResponse(res)
-	// TODO: export the headers
-	out.Header().Set("API-Version", "v1")
-
-	return out, nil
+	return token, nil
 }

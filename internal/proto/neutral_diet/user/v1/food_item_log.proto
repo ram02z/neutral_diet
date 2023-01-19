@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package neutral_diet.food.v1;
+package neutral_diet.user.v1;
 
 message FoodLogItem {
   int32 food_item_id = 1;

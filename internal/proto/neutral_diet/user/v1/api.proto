@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package neutral_diet.user.v1;
+
+import "neutral_diet/user/v1/food_item_log.proto";
+import "validate/validate.proto";
+
+message AddFoodItemRequest {
+  FoodLogItem food_log_item = 2 [(validate.rules).message.required = true];
+}
+
+message AddFoodItemResponse {
+  int32 id = 1;
+}
+
+message CreateUserRequest {
+  string firebase_uid = 1 [(validate.rules).string.min_len = 1];
+}
+
+message CreateUserResponse {
+  int32 id = 1;
+}
+
+service UserService {
+  rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+}
