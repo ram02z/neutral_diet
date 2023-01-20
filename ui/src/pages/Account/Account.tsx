@@ -40,7 +40,7 @@ function Account() {
     return (
       <div>
         <p>Current User: {user.displayName}</p>
-        <RegionSelect></RegionSelect>
+        <RegionSelect user={user}></RegionSelect>
         <br />
         <Button onClick={logout}>Log out</Button>
         <DeleteAccount user={user}></DeleteAccount>

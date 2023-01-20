@@ -1,12 +1,38 @@
 import { useEffect, useState } from 'react';
 
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
 import { Box } from '@mui/system';
 
-import client from '@/api/food_service';
-import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
+import { User } from 'firebase/auth';
 
-function RegionSelect() {
+import * as food_service from '@/api/food_service';
+import * as user_service from '@/api/user_service';
+import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
+import { ID_TOKEN_HEADER } from '@/api/transport';
+
+type RegionSelectProps = {
+  user: User;
+};
+
+function updateUserRegion(user: User, regionName: string) {
+  user.getIdToken().then((idToken) => {
+    const headers = new Headers();
+    headers.set(ID_TOKEN_HEADER, idToken);
+    user_service.default.updateUserRegion(
+      { region: new Region({ name: regionName }) },
+      { headers: headers },
+    );
+  });
+}
+
+function RegionSelect({ user }: RegionSelectProps) {
   const [regions, setRegions] = useState<Region[]>([]);
   const [regionName, setRegionName] = useState('');
 
@@ -14,7 +40,7 @@ function RegionSelect() {
     setRegionName(event.target.value as string);
   };
   useEffect(() => {
-    client
+    food_service.default
       .listRegions({})
       .then((response) => setRegions(response.regions))
       .catch((e) => console.error(e.message));
@@ -39,6 +65,7 @@ function RegionSelect() {
             ))}
           </Select>
         </FormControl>
+        <Button onClick={() => updateUserRegion(user, regionName)}>Save</Button>
       </Box>
     </>
   );
