@@ -54,7 +54,7 @@ func (s *Store) DeleteUser(
 func (s *Store) GetUser(
 	ctx context.Context,
 	firebaseUID string,
-) (*userv1.GetUserResponse, error) {
+) (*userv1.GetUserSettingsResponse, error) {
 	queries := db.New(s.dbPool)
 
 	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
@@ -62,8 +62,8 @@ func (s *Store) GetUser(
 		return nil, connect.NewError(connect.CodeNotFound, err)
 	}
 
-	userResponse := userv1.GetUserResponse{
-		User: &userv1.User{
+	userResponse := userv1.GetUserSettingsResponse{
+		UserSettings: &userv1.UserSettings{
 			Region:  &foodv1.Region{
 				Name: user.Region.String,
 			},

@@ -33,16 +33,16 @@ message UpdateUserRegionRequest {
 
 message UpdateUserRegionResponse {}
 
-message GetUserRequest {}
+message GetUserSettingsRequest {}
 
-message GetUserResponse {
-  User user = 1;
+message GetUserSettingsResponse {
+  UserSettings user_settings = 1;
 }
 
 service UserService {
   rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
-  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+  rpc GetUserSettings(GetUserSettingsRequest) returns (GetUserSettingsResponse) {}
   rpc UpdateUserRegion(UpdateUserRegionRequest) returns (UpdateUserRegionResponse) {}
 }

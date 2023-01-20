@@ -30,7 +30,7 @@ type UserServiceClient interface {
 	AddFoodItem(context.Context, *connect_go.Request[v1.AddFoodItemRequest]) (*connect_go.Response[v1.AddFoodItemResponse], error)
 	CreateUser(context.Context, *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.CreateUserResponse], error)
 	DeleteUser(context.Context, *connect_go.Request[v1.DeleteUserRequest]) (*connect_go.Response[v1.DeleteUserResponse], error)
-	GetUser(context.Context, *connect_go.Request[v1.GetUserRequest]) (*connect_go.Response[v1.GetUserResponse], error)
+	GetUserSettings(context.Context, *connect_go.Request[v1.GetUserSettingsRequest]) (*connect_go.Response[v1.GetUserSettingsResponse], error)
 	UpdateUserRegion(context.Context, *connect_go.Request[v1.UpdateUserRegionRequest]) (*connect_go.Response[v1.UpdateUserRegionResponse], error)
 }
 
@@ -59,9 +59,9 @@ func NewUserServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+"/neutral_diet.user.v1.UserService/DeleteUser",
 			opts...,
 		),
-		getUser: connect_go.NewClient[v1.GetUserRequest, v1.GetUserResponse](
+		getUserSettings: connect_go.NewClient[v1.GetUserSettingsRequest, v1.GetUserSettingsResponse](
 			httpClient,
-			baseURL+"/neutral_diet.user.v1.UserService/GetUser",
+			baseURL+"/neutral_diet.user.v1.UserService/GetUserSettings",
 			opts...,
 		),
 		updateUserRegion: connect_go.NewClient[v1.UpdateUserRegionRequest, v1.UpdateUserRegionResponse](
@@ -77,7 +77,7 @@ type userServiceClient struct {
 	addFoodItem      *connect_go.Client[v1.AddFoodItemRequest, v1.AddFoodItemResponse]
 	createUser       *connect_go.Client[v1.CreateUserRequest, v1.CreateUserResponse]
 	deleteUser       *connect_go.Client[v1.DeleteUserRequest, v1.DeleteUserResponse]
-	getUser          *connect_go.Client[v1.GetUserRequest, v1.GetUserResponse]
+	getUserSettings  *connect_go.Client[v1.GetUserSettingsRequest, v1.GetUserSettingsResponse]
 	updateUserRegion *connect_go.Client[v1.UpdateUserRegionRequest, v1.UpdateUserRegionResponse]
 }
 
@@ -96,9 +96,9 @@ func (c *userServiceClient) DeleteUser(ctx context.Context, req *connect_go.Requ
 	return c.deleteUser.CallUnary(ctx, req)
 }
 
-// GetUser calls neutral_diet.user.v1.UserService.GetUser.
-func (c *userServiceClient) GetUser(ctx context.Context, req *connect_go.Request[v1.GetUserRequest]) (*connect_go.Response[v1.GetUserResponse], error) {
-	return c.getUser.CallUnary(ctx, req)
+// GetUserSettings calls neutral_diet.user.v1.UserService.GetUserSettings.
+func (c *userServiceClient) GetUserSettings(ctx context.Context, req *connect_go.Request[v1.GetUserSettingsRequest]) (*connect_go.Response[v1.GetUserSettingsResponse], error) {
+	return c.getUserSettings.CallUnary(ctx, req)
 }
 
 // UpdateUserRegion calls neutral_diet.user.v1.UserService.UpdateUserRegion.
@@ -111,7 +111,7 @@ type UserServiceHandler interface {
 	AddFoodItem(context.Context, *connect_go.Request[v1.AddFoodItemRequest]) (*connect_go.Response[v1.AddFoodItemResponse], error)
 	CreateUser(context.Context, *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.CreateUserResponse], error)
 	DeleteUser(context.Context, *connect_go.Request[v1.DeleteUserRequest]) (*connect_go.Response[v1.DeleteUserResponse], error)
-	GetUser(context.Context, *connect_go.Request[v1.GetUserRequest]) (*connect_go.Response[v1.GetUserResponse], error)
+	GetUserSettings(context.Context, *connect_go.Request[v1.GetUserSettingsRequest]) (*connect_go.Response[v1.GetUserSettingsResponse], error)
 	UpdateUserRegion(context.Context, *connect_go.Request[v1.UpdateUserRegionRequest]) (*connect_go.Response[v1.UpdateUserRegionResponse], error)
 }
 
@@ -137,9 +137,9 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect_go.HandlerOpt
 		svc.DeleteUser,
 		opts...,
 	))
-	mux.Handle("/neutral_diet.user.v1.UserService/GetUser", connect_go.NewUnaryHandler(
-		"/neutral_diet.user.v1.UserService/GetUser",
-		svc.GetUser,
+	mux.Handle("/neutral_diet.user.v1.UserService/GetUserSettings", connect_go.NewUnaryHandler(
+		"/neutral_diet.user.v1.UserService/GetUserSettings",
+		svc.GetUserSettings,
 		opts...,
 	))
 	mux.Handle("/neutral_diet.user.v1.UserService/UpdateUserRegion", connect_go.NewUnaryHandler(
@@ -165,8 +165,8 @@ func (UnimplementedUserServiceHandler) DeleteUser(context.Context, *connect_go.R
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.DeleteUser is not implemented"))
 }
 
-func (UnimplementedUserServiceHandler) GetUser(context.Context, *connect_go.Request[v1.GetUserRequest]) (*connect_go.Response[v1.GetUserResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.GetUser is not implemented"))
+func (UnimplementedUserServiceHandler) GetUserSettings(context.Context, *connect_go.Request[v1.GetUserSettingsRequest]) (*connect_go.Response[v1.GetUserSettingsResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.GetUserSettings is not implemented"))
 }
 
 func (UnimplementedUserServiceHandler) UpdateUserRegion(context.Context, *connect_go.Request[v1.UpdateUserRegionRequest]) (*connect_go.Response[v1.UpdateUserRegionResponse], error) {

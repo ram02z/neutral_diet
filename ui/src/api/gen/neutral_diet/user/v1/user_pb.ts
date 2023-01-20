@@ -8,9 +8,9 @@ import { Message, proto3 } from "@bufbuild/protobuf";
 import { Region } from "../../food/v1/region_pb.js";
 
 /**
- * @generated from message neutral_diet.user.v1.User
+ * @generated from message neutral_diet.user.v1.UserSettings
  */
-export class User extends Message<User> {
+export class UserSettings extends Message<UserSettings> {
   /**
    * @generated from field: neutral_diet.food.v1.Region region = 1;
    */
@@ -21,32 +21,32 @@ export class User extends Message<User> {
    */
   cfLimit = 0;
 
-  constructor(data?: PartialMessage<User>) {
+  constructor(data?: PartialMessage<UserSettings>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime = proto3;
-  static readonly typeName = "neutral_diet.user.v1.User";
+  static readonly typeName = "neutral_diet.user.v1.UserSettings";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "region", kind: "message", T: Region },
     { no: 2, name: "cf_limit", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): User {
-    return new User().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserSettings {
+    return new UserSettings().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): User {
-    return new User().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UserSettings {
+    return new UserSettings().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): User {
-    return new User().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UserSettings {
+    return new UserSettings().fromJsonString(jsonString, options);
   }
 
-  static equals(a: User | PlainMessage<User> | undefined, b: User | PlainMessage<User> | undefined): boolean {
-    return proto3.util.equals(User, a, b);
+  static equals(a: UserSettings | PlainMessage<UserSettings> | undefined, b: UserSettings | PlainMessage<UserSettings> | undefined): boolean {
+    return proto3.util.equals(UserSettings, a, b);
   }
 }
 

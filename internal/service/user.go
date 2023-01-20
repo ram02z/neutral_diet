@@ -99,10 +99,10 @@ func (c *ConnectWrapper) UpdateUserRegion(
 	return out, nil
 }
 
-func (c *ConnectWrapper) GetUser(
+func (c *ConnectWrapper) GetUserSettings(
 	ctx context.Context,
-	req *connect.Request[userv1.GetUserRequest],
-) (*connect.Response[userv1.GetUserResponse], error) {
+	req *connect.Request[userv1.GetUserSettingsRequest],
+) (*connect.Response[userv1.GetUserSettingsResponse], error) {
 	token, err := c.verify(ctx, req.Header())
 	if err != nil {
 		return nil, err

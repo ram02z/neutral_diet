@@ -7,7 +7,7 @@ import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialM
 import { Message, proto3 } from "@bufbuild/protobuf";
 import { FoodLogItem } from "./food_item_log_pb.js";
 import { Region } from "../../food/v1/region_pb.js";
-import { User } from "./user_pb.js";
+import { UserSettings } from "./user_pb.js";
 
 /**
  * @generated from message neutral_diet.user.v1.AddFoodItemRequest
@@ -288,70 +288,70 @@ export class UpdateUserRegionResponse extends Message<UpdateUserRegionResponse> 
 }
 
 /**
- * @generated from message neutral_diet.user.v1.GetUserRequest
+ * @generated from message neutral_diet.user.v1.GetUserSettingsRequest
  */
-export class GetUserRequest extends Message<GetUserRequest> {
-  constructor(data?: PartialMessage<GetUserRequest>) {
+export class GetUserSettingsRequest extends Message<GetUserSettingsRequest> {
+  constructor(data?: PartialMessage<GetUserSettingsRequest>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime = proto3;
-  static readonly typeName = "neutral_diet.user.v1.GetUserRequest";
+  static readonly typeName = "neutral_diet.user.v1.GetUserSettingsRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserRequest {
-    return new GetUserRequest().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserSettingsRequest {
+    return new GetUserSettingsRequest().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserRequest {
-    return new GetUserRequest().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserSettingsRequest {
+    return new GetUserSettingsRequest().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserRequest {
-    return new GetUserRequest().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserSettingsRequest {
+    return new GetUserSettingsRequest().fromJsonString(jsonString, options);
   }
 
-  static equals(a: GetUserRequest | PlainMessage<GetUserRequest> | undefined, b: GetUserRequest | PlainMessage<GetUserRequest> | undefined): boolean {
-    return proto3.util.equals(GetUserRequest, a, b);
+  static equals(a: GetUserSettingsRequest | PlainMessage<GetUserSettingsRequest> | undefined, b: GetUserSettingsRequest | PlainMessage<GetUserSettingsRequest> | undefined): boolean {
+    return proto3.util.equals(GetUserSettingsRequest, a, b);
   }
 }
 
 /**
- * @generated from message neutral_diet.user.v1.GetUserResponse
+ * @generated from message neutral_diet.user.v1.GetUserSettingsResponse
  */
-export class GetUserResponse extends Message<GetUserResponse> {
+export class GetUserSettingsResponse extends Message<GetUserSettingsResponse> {
   /**
-   * @generated from field: neutral_diet.user.v1.User user = 1;
+   * @generated from field: neutral_diet.user.v1.UserSettings user_settings = 1;
    */
-  user?: User;
+  userSettings?: UserSettings;
 
-  constructor(data?: PartialMessage<GetUserResponse>) {
+  constructor(data?: PartialMessage<GetUserSettingsResponse>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime = proto3;
-  static readonly typeName = "neutral_diet.user.v1.GetUserResponse";
+  static readonly typeName = "neutral_diet.user.v1.GetUserSettingsResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "user", kind: "message", T: User },
+    { no: 1, name: "user_settings", kind: "message", T: UserSettings },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserResponse {
-    return new GetUserResponse().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserSettingsResponse {
+    return new GetUserSettingsResponse().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserResponse {
-    return new GetUserResponse().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserSettingsResponse {
+    return new GetUserSettingsResponse().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserResponse {
-    return new GetUserResponse().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserSettingsResponse {
+    return new GetUserSettingsResponse().fromJsonString(jsonString, options);
   }
 
-  static equals(a: GetUserResponse | PlainMessage<GetUserResponse> | undefined, b: GetUserResponse | PlainMessage<GetUserResponse> | undefined): boolean {
-    return proto3.util.equals(GetUserResponse, a, b);
+  static equals(a: GetUserSettingsResponse | PlainMessage<GetUserSettingsResponse> | undefined, b: GetUserSettingsResponse | PlainMessage<GetUserSettingsResponse> | undefined): boolean {
+    return proto3.util.equals(GetUserSettingsResponse, a, b);
   }
 }
 
