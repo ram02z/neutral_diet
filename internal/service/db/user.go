@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/bufbuild/connect-go"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
@@ -39,4 +40,26 @@ func (s *Store) DeleteUser(
 	}
 
 	return &userv1.DeleteUserResponse{}, nil
+}
+
+func (s *Store) UpdateUserRegion(
+	ctx context.Context,
+	r *userv1.UpdateUserRegionRequest,
+	firebaseUID string,
+) (*userv1.UpdateUserRegionResponse, error) {
+	queries := db.New(s.dbPool)
+
+	err := queries.UpdateUserRegion(ctx, db.UpdateUserRegionParams{
+		FirebaseUid: firebaseUID,
+		Region:     sql.NullString{
+			String: r.Region.GetName(),
+			Valid:  true,
+		},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &userv1.UpdateUserRegionResponse{}, nil
 }

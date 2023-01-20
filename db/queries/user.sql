@@ -10,6 +10,14 @@ WHERE firebase_uid = $1
 RETURNING
     id;
 
+-- name: UpdateUserRegion :exec
+UPDATE
+    "user"
+SET
+    region = $2
+WHERE
+    firebase_uid = $1;
+
 -- name: GetUserByFirebaseUID :one
 SELECT
     *

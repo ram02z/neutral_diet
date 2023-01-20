@@ -7,6 +7,7 @@ package db
 
 import (
 	"context"
+	"database/sql"
 )
 
 const createUser = `-- name: CreateUser :one
@@ -58,4 +59,23 @@ func (q *Queries) GetUserByFirebaseUID(ctx context.Context, firebaseUid string) 
 		&i.UpdatedAt,
 	)
 	return i, err
+}
+
+const updateUserRegion = `-- name: UpdateUserRegion :exec
+UPDATE
+    "user"
+SET
+    region = $2
+WHERE
+    firebase_uid = $1
+`
+
+type UpdateUserRegionParams struct {
+	FirebaseUid string
+	Region      sql.NullString
+}
+
+func (q *Queries) UpdateUserRegion(ctx context.Context, arg UpdateUserRegionParams) error {
+	_, err := q.db.Exec(ctx, updateUserRegion, arg.FirebaseUid, arg.Region)
+	return err
 }

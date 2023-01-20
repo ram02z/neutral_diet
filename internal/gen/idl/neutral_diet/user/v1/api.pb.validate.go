@@ -701,3 +701,236 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeleteUserResponseValidationError{}
+
+// Validate checks the field values on UpdateUserRegionRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateUserRegionRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateUserRegionRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateUserRegionRequestMultiError, or nil if none found.
+func (m *UpdateUserRegionRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateUserRegionRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetRegion()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateUserRegionRequestValidationError{
+					field:  "Region",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateUserRegionRequestValidationError{
+					field:  "Region",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRegion()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateUserRegionRequestValidationError{
+				field:  "Region",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateUserRegionRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateUserRegionRequestMultiError is an error wrapping multiple validation
+// errors returned by UpdateUserRegionRequest.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateUserRegionRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateUserRegionRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateUserRegionRequestMultiError) AllErrors() []error { return m }
+
+// UpdateUserRegionRequestValidationError is the validation error returned by
+// UpdateUserRegionRequest.Validate if the designated constraints aren't met.
+type UpdateUserRegionRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateUserRegionRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateUserRegionRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateUserRegionRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateUserRegionRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateUserRegionRequestValidationError) ErrorName() string {
+	return "UpdateUserRegionRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateUserRegionRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateUserRegionRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateUserRegionRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateUserRegionRequestValidationError{}
+
+// Validate checks the field values on UpdateUserRegionResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateUserRegionResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateUserRegionResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateUserRegionResponseMultiError, or nil if none found.
+func (m *UpdateUserRegionResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateUserRegionResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return UpdateUserRegionResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateUserRegionResponseMultiError is an error wrapping multiple validation
+// errors returned by UpdateUserRegionResponse.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateUserRegionResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateUserRegionResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateUserRegionResponseMultiError) AllErrors() []error { return m }
+
+// UpdateUserRegionResponseValidationError is the validation error returned by
+// UpdateUserRegionResponse.Validate if the designated constraints aren't met.
+type UpdateUserRegionResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateUserRegionResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateUserRegionResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateUserRegionResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateUserRegionResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateUserRegionResponseValidationError) ErrorName() string {
+	return "UpdateUserRegionResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateUserRegionResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateUserRegionResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateUserRegionResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateUserRegionResponseValidationError{}

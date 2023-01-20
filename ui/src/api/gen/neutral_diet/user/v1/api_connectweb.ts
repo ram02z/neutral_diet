@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { AddFoodItemRequest, AddFoodItemResponse, CreateUserRequest, CreateUserResponse, DeleteUserRequest, DeleteUserResponse } from "./api_pb.js";
+import { AddFoodItemRequest, AddFoodItemResponse, CreateUserRequest, CreateUserResponse, DeleteUserRequest, DeleteUserResponse, UpdateUserRegionRequest, UpdateUserRegionResponse } from "./api_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -37,6 +37,15 @@ export const UserService = {
       name: "DeleteUser",
       I: DeleteUserRequest,
       O: DeleteUserResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.UpdateUserRegion
+     */
+    updateUserRegion: {
+      name: "UpdateUserRegion",
+      I: UpdateUserRegionRequest,
+      O: UpdateUserRegionResponse,
       kind: MethodKind.Unary,
     },
   }
