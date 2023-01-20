@@ -8,6 +8,8 @@ import (
 	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 )
 
+const DefaultRegionName string = "World"
+
 func (s *Store) CreateRegion(
 	ctx context.Context,
 	r *foodv1.CreateRegionRequest,

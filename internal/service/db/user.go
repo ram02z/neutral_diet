@@ -15,7 +15,13 @@ func (s *Store) CreateUser(
 ) (*userv1.CreateUserResponse, error) {
 	queries := db.New(s.dbPool)
 
-	userID, err := queries.CreateUser(ctx, r.FirebaseUid)
+	userID, err := queries.CreateUser(ctx, db.CreateUserParams{
+		FirebaseUid: r.FirebaseUid,
+		Region: sql.NullString{
+			String: DefaultRegionName,
+			Valid:  true,
+		},
+	})
 	if err != nil {
 		return nil, connect.NewError(connect.CodeAlreadyExists, err)
 	}
@@ -51,12 +57,11 @@ func (s *Store) UpdateUserRegion(
 
 	err := queries.UpdateUserRegion(ctx, db.UpdateUserRegionParams{
 		FirebaseUid: firebaseUID,
-		Region:     sql.NullString{
+		Region: sql.NullString{
 			String: r.Region.GetName(),
 			Valid:  true,
 		},
 	})
-
 	if err != nil {
 		return nil, err
 	}

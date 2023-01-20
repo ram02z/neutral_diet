@@ -11,14 +11,19 @@ import (
 )
 
 const createUser = `-- name: CreateUser :one
-INSERT INTO "user" (firebase_uid)
-    VALUES ($1)
+INSERT INTO "user" (firebase_uid, region)
+    VALUES ($1, $2)
 RETURNING
     id
 `
 
-func (q *Queries) CreateUser(ctx context.Context, firebaseUid string) (int32, error) {
-	row := q.db.QueryRow(ctx, createUser, firebaseUid)
+type CreateUserParams struct {
+	FirebaseUid string
+	Region      sql.NullString
+}
+
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (int32, error) {
+	row := q.db.QueryRow(ctx, createUser, arg.FirebaseUid, arg.Region)
 	var id int32
 	err := row.Scan(&id)
 	return id, err
