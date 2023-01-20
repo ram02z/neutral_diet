@@ -63,6 +63,12 @@ message ListAggregateFoodItemsResponse {
   repeated AggregateFoodItem food_items = 1;
 }
 
+message ListRegionsRequest {}
+
+message ListRegionsResponse {
+  repeated Region regions = 1;
+}
+
 service FoodService {
   rpc CreateLifeCycle(CreateLifeCycleRequest) returns (CreateLifeCycleResponse) {}
   rpc CreateFoodItem(CreateFoodItemRequest) returns (CreateFoodItemResponse) {}
@@ -70,5 +76,6 @@ service FoodService {
   rpc CreateSubTypology(CreateSubTypologyRequest) returns (CreateSubTypologyResponse) {}
   rpc CreateSource(CreateSourceRequest) returns (CreateSourceResponse) {}
   rpc CreateRegion(CreateRegionRequest) returns (CreateRegionResponse) {}
+  rpc ListRegions(ListRegionsRequest) returns (ListRegionsResponse) {}
   rpc ListAggregateFoodItems(ListAggregateFoodItemsRequest) returns (ListAggregateFoodItemsResponse) {}
 }

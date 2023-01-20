@@ -21,3 +21,22 @@ func (s *Store) CreateRegion(
 
 	return &foodv1.CreateRegionResponse{}, nil
 }
+
+func (s *Store) ListRegions(
+	ctx context.Context,
+	r *foodv1.ListRegionsRequest,
+) (*foodv1.ListRegionsResponse, error) {
+	queries := db.New(s.dbPool)
+
+	regions, err := queries.ListRegions(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	regionsRes := make([]*foodv1.Region, len(regions))
+	for i := range regions {
+		regionsRes[i] = &foodv1.Region{Name: regions[i]}
+	}
+
+	return &foodv1.ListRegionsResponse{Regions: regionsRes}, nil
+}

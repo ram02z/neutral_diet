@@ -121,6 +121,20 @@ func (c *ConnectWrapper) CreateSubTypology(
 	return out, nil
 }
 
+func (c *ConnectWrapper) ListRegions(
+	ctx context.Context,
+	req *connect.Request[foodv1.ListRegionsRequest],
+) (*connect.Response[foodv1.ListRegionsResponse], error) {
+	res, err := c.s.ListRegions(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
 func (c *ConnectWrapper) ListAggregateFoodItems(
 	ctx context.Context,
 	req *connect.Request[foodv1.ListAggregateFoodItemsRequest],
