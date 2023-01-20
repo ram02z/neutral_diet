@@ -14,6 +14,7 @@ require (
 	github.com/rs/cors v1.8.2
 	github.com/rs/zerolog v1.28.0
 	github.com/sethvargo/go-envconfig v0.8.2
+	github.com/shopspring/decimal v1.3.1
 	github.com/stretchr/testify v1.8.1
 	golang.org/x/net v0.5.0
 	google.golang.org/api v0.107.0
@@ -45,7 +46,6 @@ require (
 	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rs/xid v1.4.0 // indirect
-	github.com/shopspring/decimal v1.3.1 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
 	golang.org/x/oauth2 v0.4.0 // indirect
