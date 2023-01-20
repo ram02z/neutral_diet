@@ -6,7 +6,9 @@ import (
 
 	"github.com/bufbuild/connect-go"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
+	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 	userv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1"
+	"github.com/shopspring/decimal"
 )
 
 func (s *Store) CreateUser(
@@ -21,6 +23,7 @@ func (s *Store) CreateUser(
 			String: DefaultRegionName,
 			Valid:  true,
 		},
+		CfLimit: decimal.NewFromFloat(0.0),
 	})
 	if err != nil {
 		return nil, connect.NewError(connect.CodeAlreadyExists, err)
@@ -46,6 +49,29 @@ func (s *Store) DeleteUser(
 	}
 
 	return &userv1.DeleteUserResponse{}, nil
+}
+
+func (s *Store) GetUser(
+	ctx context.Context,
+	firebaseUID string,
+) (*userv1.GetUserResponse, error) {
+	queries := db.New(s.dbPool)
+
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeNotFound, err)
+	}
+
+	userResponse := userv1.GetUserResponse{
+		User: &userv1.User{
+			Region:  &foodv1.Region{
+				Name: user.Region.String,
+			},
+			CfLimit: user.CfLimit.InexactFloat64(),
+		},
+	}
+
+	return &userResponse, nil
 }
 
 func (s *Store) UpdateUserRegion(

@@ -4,6 +4,7 @@ package neutral_diet.user.v1;
 
 import "neutral_diet/food/v1/region.proto";
 import "neutral_diet/user/v1/food_item_log.proto";
+import "neutral_diet/user/v1/user.proto";
 import "validate/validate.proto";
 
 message AddFoodItemRequest {
@@ -32,9 +33,16 @@ message UpdateUserRegionRequest {
 
 message UpdateUserRegionResponse {}
 
+message GetUserRequest {}
+
+message GetUserResponse {
+  User user = 1;
+}
+
 service UserService {
   rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
   rpc UpdateUserRegion(UpdateUserRegionRequest) returns (UpdateUserRegionResponse) {}
 }

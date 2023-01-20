@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/jackc/pgtype"
+	"github.com/shopspring/decimal"
 )
 
 type CfTypes string
@@ -59,7 +59,7 @@ func (ns NullCfTypes) Value() (driver.Value, error) {
 type AggregateFoodItem struct {
 	FoodItemID            int32
 	N                     int64
-	MedianCarbonFootprint pgtype.Numeric
+	MedianCarbonFootprint decimal.Decimal
 }
 
 type FoodItem struct {
@@ -72,8 +72,8 @@ type FoodItem struct {
 type FoodItemLog struct {
 	ID              int32
 	FoodItemID      int32
-	Weight          pgtype.Numeric
-	CarbonFootprint pgtype.Numeric
+	Weight          decimal.Decimal
+	CarbonFootprint decimal.Decimal
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
 	UserID          int32
@@ -81,7 +81,7 @@ type FoodItemLog struct {
 
 type LifeCycle struct {
 	ID              int32
-	CarbonFootprint pgtype.Numeric
+	CarbonFootprint decimal.Decimal
 	FoodItemID      int32
 	SourceID        int32
 }
@@ -112,7 +112,7 @@ type User struct {
 	ID          int32
 	FirebaseUid string
 	Region      sql.NullString
-	CfLimit     pgtype.Numeric
+	CfLimit     decimal.Decimal
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }

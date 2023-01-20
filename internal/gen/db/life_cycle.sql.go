@@ -8,7 +8,7 @@ package db
 import (
 	"context"
 
-	"github.com/jackc/pgtype"
+	"github.com/shopspring/decimal"
 )
 
 const createLifeCycle = `-- name: CreateLifeCycle :one
@@ -19,7 +19,7 @@ RETURNING
 `
 
 type CreateLifeCycleParams struct {
-	CarbonFootprint pgtype.Numeric
+	CarbonFootprint decimal.Decimal
 	FoodItemID      int32
 	SourceID        int32
 }

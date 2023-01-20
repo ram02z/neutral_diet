@@ -8,11 +8,13 @@ package db
 import (
 	"context"
 	"database/sql"
+
+	"github.com/shopspring/decimal"
 )
 
 const createUser = `-- name: CreateUser :one
-INSERT INTO "user" (firebase_uid, region)
-    VALUES ($1, $2)
+INSERT INTO "user" (firebase_uid, region, cf_limit)
+    VALUES ($1, $2, $3)
 RETURNING
     id
 `
@@ -20,10 +22,11 @@ RETURNING
 type CreateUserParams struct {
 	FirebaseUid string
 	Region      sql.NullString
+	CfLimit     decimal.Decimal
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (int32, error) {
-	row := q.db.QueryRow(ctx, createUser, arg.FirebaseUid, arg.Region)
+	row := q.db.QueryRow(ctx, createUser, arg.FirebaseUid, arg.Region, arg.CfLimit)
 	var id int32
 	err := row.Scan(&id)
 	return id, err

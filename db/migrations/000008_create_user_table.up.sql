@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS "user" (
     "id" serial PRIMARY KEY,
     "firebase_uid" text UNIQUE NOT NULL,
     "region" text REFERENCES "region" ("name"),
-    "cf_limit" decimal,
+    "cf_limit" decimal NOT NULL,
     "created_at" timestamptz NOT NULL DEFAULT NOW(),
     "updated_at" timestamptz NOT NULL DEFAULT NOW()
 );

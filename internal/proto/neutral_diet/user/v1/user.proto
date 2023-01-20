@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package neutral_diet.user.v1;
+
+import "neutral_diet/food/v1/region.proto";
+
+message User {
+  food.v1.Region region = 1;
+  double cf_limit = 2;
+}

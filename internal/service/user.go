@@ -98,3 +98,22 @@ func (c *ConnectWrapper) UpdateUserRegion(
 
 	return out, nil
 }
+
+func (c *ConnectWrapper) GetUser(
+	ctx context.Context,
+	req *connect.Request[userv1.GetUserRequest],
+) (*connect.Response[userv1.GetUserResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.GetUser(ctx, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}

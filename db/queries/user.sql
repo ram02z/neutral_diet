@@ -1,6 +1,6 @@
 -- name: CreateUser :one
-INSERT INTO "user" (firebase_uid, region)
-    VALUES ($1, $2)
+INSERT INTO "user" (firebase_uid, region, cf_limit)
+    VALUES ($1, $2, $3)
 RETURNING
     id;
 

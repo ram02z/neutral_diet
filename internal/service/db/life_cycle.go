@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/bufbuild/connect-go"
-	"github.com/jackc/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
 	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
+	"github.com/shopspring/decimal"
 )
 
 func (s *Store) CreateLifeCycle(
@@ -15,14 +15,8 @@ func (s *Store) CreateLifeCycle(
 ) (*foodv1.CreateLifeCycleResponse, error) {
 	queries := db.New(s.dbPool)
 
-	carbonFootprint := new(pgtype.Numeric)
-	err := carbonFootprint.Set(r.LifeCycle.GetCarbonFootprint())
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInvalidArgument, err)
-	}
-
 	lifeCycle := db.CreateLifeCycleParams{
-		CarbonFootprint: *carbonFootprint,
+		CarbonFootprint: decimal.NewFromFloat(r.LifeCycle.CarbonFootprint),
 		FoodItemID:      r.LifeCycle.GetFoodItemId(),
 		SourceID:        r.LifeCycle.GetFoodItemId(),
 	}
