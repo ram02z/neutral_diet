@@ -10,6 +10,7 @@ import Loading from '@/components/Loading';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { auth } from '@/core/firebase';
 import useIdToken from '@/hooks/useIdToken';
+import RegionSelect from '@/components/RegionSelect';
 
 const logout = () => {
   signOut(auth);
@@ -39,6 +40,8 @@ function Account() {
     return (
       <div>
         <p>Current User: {user.displayName}</p>
+        <RegionSelect></RegionSelect>
+        <br />
         <Button onClick={logout}>Log out</Button>
         <DeleteAccount user={user}></DeleteAccount>
       </div>
