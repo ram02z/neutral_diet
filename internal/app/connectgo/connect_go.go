@@ -14,7 +14,6 @@ import (
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1/userv1connect"
 	"github.com/ram02z/neutral_diet/internal/service"
 	"github.com/ram02z/neutral_diet/internal/service/db"
-	"github.com/rs/cors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/hlog"
 	"golang.org/x/net/http2"
@@ -135,38 +134,4 @@ func (s *Server) Shutdown() error {
 
 func handleStatic() http.Handler {
 	return http.FileServer(frontend.DistFS())
-}
-
-func newCORS() *cors.Cors {
-	// To let web developers play with the demo service from browsers, we need a
-	// very permissive CORS setup.
-	return cors.New(cors.Options{
-		AllowedMethods: []string{
-			http.MethodHead,
-			http.MethodGet,
-			http.MethodPost,
-			http.MethodPut,
-			http.MethodPatch,
-			http.MethodDelete,
-		},
-		AllowOriginFunc: func(origin string) bool {
-			// Allow all origins, which effectively disables CORS.
-			return true
-		},
-		AllowedHeaders: []string{"*"},
-		ExposedHeaders: []string{
-			// Content-Type is in the default safelist.
-			"Accept",
-			"Accept-Encoding",
-			"Accept-Post",
-			"Connect-Accept-Encoding",
-			"Connect-Content-Encoding",
-			"Content-Encoding",
-			"Grpc-Accept-Encoding",
-			"Grpc-Encoding",
-			"Grpc-Message",
-			"Grpc-Status",
-			"Grpc-Status-Details-Bin",
-		},
-	})
 }
