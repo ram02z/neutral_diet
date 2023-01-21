@@ -1059,6 +1059,17 @@ func (m *GetUserSettingsResponse) validate(all bool) error {
 
 	var errors []error
 
+	if m.GetUserSettings() == nil {
+		err := GetUserSettingsResponseValidationError{
+			field:  "UserSettings",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if all {
 		switch v := interface{}(m.GetUserSettings()).(type) {
 		case interface{ ValidateAll() error }:

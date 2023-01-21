@@ -57,6 +57,17 @@ func (m *UserSettings) validate(all bool) error {
 
 	var errors []error
 
+	if m.GetRegion() == nil {
+		err := UserSettingsValidationError{
+			field:  "Region",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if all {
 		switch v := interface{}(m.GetRegion()).(type) {
 		case interface{ ValidateAll() error }:
@@ -86,7 +97,16 @@ func (m *UserSettings) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for CfLimit
+	if m.GetCfLimit() < 0 {
+		err := UserSettingsValidationError{
+			field:  "CfLimit",
+			reason: "value must be greater than or equal to 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if len(errors) > 0 {
 		return UserSettingsMultiError(errors)

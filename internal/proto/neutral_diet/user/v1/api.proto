@@ -36,7 +36,7 @@ message UpdateUserRegionResponse {}
 message GetUserSettingsRequest {}
 
 message GetUserSettingsResponse {
-  UserSettings user_settings = 1;
+  UserSettings user_settings = 1 [(validate.rules).message.required = true];
 }
 
 service UserService {

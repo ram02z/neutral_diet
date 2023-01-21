@@ -115,5 +115,10 @@ func (c *ConnectWrapper) GetUserSettings(
 
 	out := connect.NewResponse(res)
 
+	err = validate(out.Msg)
+	if err != nil {
+		return nil, err
+	}
+
 	return out, nil
 }

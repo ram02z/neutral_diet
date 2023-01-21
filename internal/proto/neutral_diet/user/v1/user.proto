@@ -3,8 +3,9 @@ syntax = "proto3";
 package neutral_diet.user.v1;
 
 import "neutral_diet/food/v1/region.proto";
+import "validate/validate.proto";
 
 message UserSettings {
-  food.v1.Region region = 1;
-  double cf_limit = 2;
+  food.v1.Region region = 1 [(validate.rules).message.required = true];
+  double cf_limit = 2 [(validate.rules).double = {gte: 0.0}];
 }
