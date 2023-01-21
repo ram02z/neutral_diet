@@ -5,7 +5,7 @@ import { useConfirm } from 'material-ui-confirm';
 
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
-import { auth } from '@/core/firebase';
+import { useSignOut } from '@/hooks/useSignOut';
 
 type DeleteAccountProps = {
   user: User;
@@ -13,6 +13,7 @@ type DeleteAccountProps = {
 
 function DeleteAccount({ user }: DeleteAccountProps) {
   const confirm = useConfirm();
+  const signOut = useSignOut();
 
   const handleClick = async () => {
     confirm({
@@ -38,7 +39,7 @@ function DeleteAccount({ user }: DeleteAccountProps) {
         const headers = new Headers();
         headers.set(ID_TOKEN_HEADER, idToken);
         client.deleteUser({}, { headers: headers });
-        auth.signOut();
+        signOut();
       });
     });
   };
