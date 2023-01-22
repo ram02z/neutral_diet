@@ -1,7 +1,8 @@
-import { Actions } from "@/store/theme/types";
-import ThemeModeState from "@/store/theme";
-import { Themes } from "@/theme/types";
-import { useRecoilState } from "recoil";
+import { useRecoilState } from 'recoil';
+
+import ThemeModeState from '@/store/theme';
+import { Actions } from '@/store/theme/types';
+import { Themes } from '@/theme/types';
 
 export function useTheme(): [Themes, Actions] {
   const [themeMode, setThemeMode] = useRecoilState(ThemeModeState);

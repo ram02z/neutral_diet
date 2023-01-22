@@ -1,3 +1,3 @@
-import RegionSelect from "./RegionSelect";
+import RegionSelect from './RegionSelect';
 
 export default RegionSelect;

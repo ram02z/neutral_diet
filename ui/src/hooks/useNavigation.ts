@@ -1,6 +1,7 @@
-import NavigationState from "@/store/navigation";
-import { Actions } from "@/store/navigation/types";
-import { useRecoilState } from "recoil";
+import { useRecoilState } from 'recoil';
+
+import NavigationState from '@/store/navigation';
+import { Actions } from '@/store/navigation/types';
 
 export function useNavigation(): [number, Actions] {
   const [value, setValue] = useRecoilState(NavigationState);
@@ -15,4 +16,3 @@ export function useNavigation(): [number, Actions] {
 
   return [value, { change, reset }];
 }
-

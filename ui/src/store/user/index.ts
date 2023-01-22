@@ -1,10 +1,12 @@
-import { UserSettings } from "@/api/gen/neutral_diet/user/v1/user_pb";
-import { ID_TOKEN_HEADER } from "@/api/transport";
-import client from "@/api/user_service";
-import { auth } from "@/core/firebase";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { User } from "firebase/auth";
-import { atom } from "recoil";
+import { atom } from 'recoil';
+
+import { User } from 'firebase/auth';
+
+import { UserSettings } from '@/api/gen/neutral_diet/user/v1/user_pb';
+import { ID_TOKEN_HEADER } from '@/api/transport';
+import client from '@/api/user_service';
+import { auth } from '@/core/firebase';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
