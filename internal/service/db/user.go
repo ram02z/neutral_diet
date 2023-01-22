@@ -64,7 +64,7 @@ func (s *Store) GetUser(
 
 	userResponse := userv1.GetUserSettingsResponse{
 		UserSettings: &userv1.UserSettings{
-			Region:  &foodv1.Region{
+			Region: &foodv1.Region{
 				Name: user.Region.String,
 			},
 			CfLimit: user.CfLimit.InexactFloat64(),
