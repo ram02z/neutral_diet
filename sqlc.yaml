@@ -9,3 +9,6 @@ sql:
         emit_prepared_queries: true
         sql_package: "pgx/v4"
         out: "internal/gen/db"
+        overrides:
+          - db_type: "pg_catalog.numeric"
+            go_type: "github.com/shopspring/decimal.Decimal"

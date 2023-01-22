@@ -123,9 +123,9 @@ export class AggregateFoodItem extends Message<AggregateFoodItem> {
   n = protoInt64.zero;
 
   /**
-   * @generated from field: string median_carbon_footprint = 6;
+   * @generated from field: double median_carbon_footprint = 6;
    */
-  medianCarbonFootprint = "";
+  medianCarbonFootprint = 0;
 
   constructor(data?: PartialMessage<AggregateFoodItem>) {
     super();
@@ -140,7 +140,7 @@ export class AggregateFoodItem extends Message<AggregateFoodItem> {
     { no: 3, name: "typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "sub_typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "n", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
-    { no: 6, name: "median_carbon_footprint", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "median_carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AggregateFoodItem {

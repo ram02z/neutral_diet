@@ -2,7 +2,9 @@ syntax = "proto3";
 
 package neutral_diet.user.v1;
 
+import "neutral_diet/food/v1/region.proto";
 import "neutral_diet/user/v1/food_item_log.proto";
+import "neutral_diet/user/v1/user.proto";
 import "validate/validate.proto";
 
 message AddFoodItemRequest {
@@ -25,8 +27,22 @@ message DeleteUserRequest {}
 
 message DeleteUserResponse {}
 
+message UpdateUserRegionRequest {
+  food.v1.Region region = 1;
+}
+
+message UpdateUserRegionResponse {}
+
+message GetUserSettingsRequest {}
+
+message GetUserSettingsResponse {
+  UserSettings user_settings = 1 [(validate.rules).message.required = true];
+}
+
 service UserService {
   rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
+  rpc GetUserSettings(GetUserSettingsRequest) returns (GetUserSettingsResponse) {}
+  rpc UpdateUserRegion(UpdateUserRegionRequest) returns (UpdateUserRegionResponse) {}
 }

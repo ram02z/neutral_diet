@@ -9,7 +9,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/jackc/pgtype"
+	"github.com/shopspring/decimal"
 )
 
 const listAggregateFoodItems = `-- name: ListAggregateFoodItems :many
@@ -19,7 +19,7 @@ SELECT
     t.name AS typology_name,
     s.name AS sub_typology_name,
     a.n,
-    ROUND(a.median_carbon_footprint::decimal, 3) AS median_carbon_footprint
+    ROUND(a.median_carbon_footprint, 3)::decimal AS median_carbon_footprint
 FROM
     aggregate_food_item a
     INNER JOIN food_item f ON a.food_item_id = f.id
@@ -33,7 +33,7 @@ type ListAggregateFoodItemsRow struct {
 	TypologyName          string
 	SubTypologyName       sql.NullString
 	N                     int64
-	MedianCarbonFootprint pgtype.Numeric
+	MedianCarbonFootprint decimal.Decimal
 }
 
 func (q *Queries) ListAggregateFoodItems(ctx context.Context) ([]ListAggregateFoodItemsRow, error) {
@@ -67,7 +67,7 @@ const listAggregateFoodItemsByRegion = `-- name: ListAggregateFoodItemsByRegion 
 SELECT
     f.id AS food_item_id,
     COUNT(*) AS n,
-    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
+    ROUND(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint), 3)::decimal AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -81,7 +81,7 @@ GROUP BY
 type ListAggregateFoodItemsByRegionRow struct {
 	FoodItemID            int32
 	N                     int64
-	MedianCarbonFootprint pgtype.Numeric
+	MedianCarbonFootprint decimal.Decimal
 }
 
 func (q *Queries) ListAggregateFoodItemsByRegion(ctx context.Context, regionName string) ([]ListAggregateFoodItemsByRegionRow, error) {
@@ -108,7 +108,7 @@ const listAggregateSubTypologiesByRegion = `-- name: ListAggregateSubTypologiesB
 SELECT
     st.id AS sub_typology_id,
     COUNT(*) AS n,
-    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
+    ROUND(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint), 3)::decimal AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -124,7 +124,7 @@ GROUP BY
 type ListAggregateSubTypologiesByRegionRow struct {
 	SubTypologyID         int32
 	N                     int64
-	MedianCarbonFootprint pgtype.Numeric
+	MedianCarbonFootprint decimal.Decimal
 }
 
 func (q *Queries) ListAggregateSubTypologiesByRegion(ctx context.Context, regionName string) ([]ListAggregateSubTypologiesByRegionRow, error) {
@@ -151,7 +151,7 @@ const listAggregateTypologiesByRegion = `-- name: ListAggregateTypologiesByRegio
 SELECT
     t.id AS typology_id,
     COUNT(*) AS n,
-    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
+    ROUND(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint), 3)::decimal AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -166,7 +166,7 @@ GROUP BY
 type ListAggregateTypologiesByRegionRow struct {
 	TypologyID            int32
 	N                     int64
-	MedianCarbonFootprint pgtype.Numeric
+	MedianCarbonFootprint decimal.Decimal
 }
 
 func (q *Queries) ListAggregateTypologiesByRegion(ctx context.Context, regionName string) ([]ListAggregateTypologiesByRegionRow, error) {

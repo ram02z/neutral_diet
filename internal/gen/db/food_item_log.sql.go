@@ -8,7 +8,7 @@ package db
 import (
 	"context"
 
-	"github.com/jackc/pgtype"
+	"github.com/shopspring/decimal"
 )
 
 const addFoodItemToLog = `-- name: AddFoodItemToLog :one
@@ -20,8 +20,8 @@ RETURNING
 
 type AddFoodItemToLogParams struct {
 	FoodItemID      int32
-	Weight          pgtype.Numeric
-	CarbonFootprint pgtype.Numeric
+	Weight          decimal.Decimal
+	CarbonFootprint decimal.Decimal
 	UserID          int32
 }
 

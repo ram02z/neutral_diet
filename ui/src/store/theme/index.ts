@@ -15,17 +15,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-import { atom, useRecoilState } from 'recoil';
+import { atom } from 'recoil';
 
 import { Themes } from '@/theme/types';
 
 import type { AtomEffectParams } from '../types';
-import type { Actions } from './types';
 
 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-const themeModeState = atom({
-  key: 'theme-mode-state',
+const ThemeModeState = atom({
+  key: 'ThemeModeState',
   default: isDarkMode ? ('dark' as Themes) : ('light' as Themes),
   effects: [synchronizeWithLocalStorage],
 });
@@ -36,14 +35,4 @@ function synchronizeWithLocalStorage({ setSelf, onSet }: AtomEffectParams) {
   onSet((value: Themes) => localStorage.setItem('theme-mode', value));
 }
 
-function useTheme(): [Themes, Actions] {
-  const [themeMode, setThemeMode] = useRecoilState(themeModeState);
-
-  function toggle() {
-    setThemeMode((mode: Themes) => (mode === Themes.DARK ? Themes.LIGHT : Themes.DARK));
-  }
-
-  return [themeMode, { toggle }];
-}
-
-export default useTheme;
+export default ThemeModeState;

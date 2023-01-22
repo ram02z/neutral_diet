@@ -7,17 +7,26 @@ package db
 
 import (
 	"context"
+	"database/sql"
+
+	"github.com/shopspring/decimal"
 )
 
 const createUser = `-- name: CreateUser :one
-INSERT INTO "user" (firebase_uid)
-    VALUES ($1)
+INSERT INTO "user" (firebase_uid, region, cf_limit)
+    VALUES ($1, $2, $3)
 RETURNING
     id
 `
 
-func (q *Queries) CreateUser(ctx context.Context, firebaseUid string) (int32, error) {
-	row := q.db.QueryRow(ctx, createUser, firebaseUid)
+type CreateUserParams struct {
+	FirebaseUid string
+	Region      sql.NullString
+	CfLimit     decimal.Decimal
+}
+
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (int32, error) {
+	row := q.db.QueryRow(ctx, createUser, arg.FirebaseUid, arg.Region, arg.CfLimit)
 	var id int32
 	err := row.Scan(&id)
 	return id, err
@@ -58,4 +67,23 @@ func (q *Queries) GetUserByFirebaseUID(ctx context.Context, firebaseUid string) 
 		&i.UpdatedAt,
 	)
 	return i, err
+}
+
+const updateUserRegion = `-- name: UpdateUserRegion :exec
+UPDATE
+    "user"
+SET
+    region = $2
+WHERE
+    firebase_uid = $1
+`
+
+type UpdateUserRegionParams struct {
+	FirebaseUid string
+	Region      sql.NullString
+}
+
+func (q *Queries) UpdateUserRegion(ctx context.Context, arg UpdateUserRegionParams) error {
+	_, err := q.db.Exec(ctx, updateUserRegion, arg.FirebaseUid, arg.Region)
+	return err
 }

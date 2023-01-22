@@ -1,22 +1,6 @@
-import { atom, useRecoilValueLoadable } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 
-import { User } from 'firebase/auth';
-
-import { auth } from '@/core/firebase';
-
-export const CurrentUser = atom<User | null>({
-  key: 'CurrentUser',
-  dangerouslyAllowMutability: true,
-  effects: [
-    (ctx) => {
-      if (ctx.trigger === 'get') {
-        return auth.onAuthStateChanged((user) => {
-          ctx.setSelf(user);
-        });
-      }
-    },
-  ],
-});
+import { CurrentUserState } from '@/store/user';
 
 /**
  * The currently logged-in (authenticated) user object.
@@ -32,6 +16,6 @@ export const CurrentUser = atom<User | null>({
  *   }
  */
 export function useCurrentUser() {
-  const value = useRecoilValueLoadable(CurrentUser);
+  const value = useRecoilValueLoadable(CurrentUserState);
   return value.state === 'loading' ? undefined : value.valueOrThrow();
 }

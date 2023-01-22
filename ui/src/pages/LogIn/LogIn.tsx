@@ -5,44 +5,32 @@ import { Box } from '@mui/system';
 import Loading from '@/components/Loading';
 import LogIn from '@/components/LogIn';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
-import { auth } from '@/core/firebase';
-import useIdToken from '@/hooks/useIdToken';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import routes from '@/routes';
 import { Pages } from '@/routes/types';
 
 function LogInPage() {
-  const [user, loading, error] = useIdToken(auth);
+  const user = useCurrentUser();
 
-  if (loading) {
+  if (user === undefined) {
     return (
       <>
         <Loading />
       </>
     );
-  }
-
-  if (error) {
+  } else if (user === null) {
     return (
-      <div>
-        <p>Error:</p>
-        <>{error}</>
-      </div>
+      <>
+        <FullSizeCenteredFlexBox>
+          <Box>
+            <LogIn />
+          </Box>
+        </FullSizeCenteredFlexBox>
+      </>
     );
-  }
-
-  if (user) {
+  } else {
     return <Navigate to={routes[Pages.Account].path} />;
   }
-
-  return (
-    <>
-      <FullSizeCenteredFlexBox>
-        <Box>
-          <LogIn />
-        </Box>
-      </FullSizeCenteredFlexBox>
-    </>
-  );
 }
 
 export default LogInPage;

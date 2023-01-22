@@ -5,7 +5,7 @@ SELECT
     t.name AS typology_name,
     s.name AS sub_typology_name,
     a.n,
-    ROUND(a.median_carbon_footprint::decimal, 3) AS median_carbon_footprint
+    ROUND(a.median_carbon_footprint, 3)::decimal AS median_carbon_footprint
 FROM
     aggregate_food_item a
     INNER JOIN food_item f ON a.food_item_id = f.id
@@ -16,7 +16,7 @@ FROM
 SELECT
     f.id AS food_item_id,
     COUNT(*) AS n,
-    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
+    ROUND(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint), 3)::decimal AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -30,7 +30,7 @@ GROUP BY
 SELECT
     t.id AS typology_id,
     COUNT(*) AS n,
-    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
+    ROUND(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint), 3)::decimal AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -45,7 +45,7 @@ GROUP BY
 SELECT
     st.id AS sub_typology_id,
     COUNT(*) AS n,
-    ROUND(CAST(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint) AS DECIMAL), 3) AS median_carbon_footprint
+    ROUND(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint), 3)::decimal AS median_carbon_footprint
 FROM
     life_cycle l
     INNER JOIN food_item f ON l.food_item_id = f.id

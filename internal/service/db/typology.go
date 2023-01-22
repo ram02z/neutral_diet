@@ -15,7 +15,7 @@ func (s *Store) CreateTypology(
 ) (*foodv1.CreateTypologyResponse, error) {
 	queries := db.New(s.dbPool)
 
-	subTypologyID := &sql.NullInt32{}
+	subTypologyID := sql.NullInt32{}
 	if r.Typology.SubTypologyId != nil {
 		subTypologyID.Valid = true
 		subTypologyID.Int32 = *r.Typology.SubTypologyId
@@ -23,7 +23,7 @@ func (s *Store) CreateTypology(
 
 	source := db.CreateTypologyParams{
 		Name:          r.Typology.GetName(),
-		SubTypologyID: *subTypologyID,
+		SubTypologyID: subTypologyID,
 	}
 
 	typologyID, err := queries.CreateTypology(ctx, source)

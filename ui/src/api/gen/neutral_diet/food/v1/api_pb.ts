@@ -520,3 +520,71 @@ export class ListAggregateFoodItemsResponse extends Message<ListAggregateFoodIte
   }
 }
 
+/**
+ * @generated from message neutral_diet.food.v1.ListRegionsRequest
+ */
+export class ListRegionsRequest extends Message<ListRegionsRequest> {
+  constructor(data?: PartialMessage<ListRegionsRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.food.v1.ListRegionsRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListRegionsRequest {
+    return new ListRegionsRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListRegionsRequest {
+    return new ListRegionsRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListRegionsRequest {
+    return new ListRegionsRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ListRegionsRequest | PlainMessage<ListRegionsRequest> | undefined, b: ListRegionsRequest | PlainMessage<ListRegionsRequest> | undefined): boolean {
+    return proto3.util.equals(ListRegionsRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.food.v1.ListRegionsResponse
+ */
+export class ListRegionsResponse extends Message<ListRegionsResponse> {
+  /**
+   * @generated from field: repeated neutral_diet.food.v1.Region regions = 1;
+   */
+  regions: Region[] = [];
+
+  constructor(data?: PartialMessage<ListRegionsResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.food.v1.ListRegionsResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "regions", kind: "message", T: Region, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListRegionsResponse {
+    return new ListRegionsResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListRegionsResponse {
+    return new ListRegionsResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListRegionsResponse {
+    return new ListRegionsResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ListRegionsResponse | PlainMessage<ListRegionsResponse> | undefined, b: ListRegionsResponse | PlainMessage<ListRegionsResponse> | undefined): boolean {
+    return proto3.util.equals(ListRegionsResponse, a, b);
+  }
+}
+

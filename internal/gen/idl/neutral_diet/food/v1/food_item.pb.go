@@ -149,12 +149,12 @@ type AggregateFoodItem struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id                    int32  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	FoodName              string `protobuf:"bytes,2,opt,name=food_name,json=foodName,proto3" json:"food_name,omitempty"`
-	TypologyName          string `protobuf:"bytes,3,opt,name=typology_name,json=typologyName,proto3" json:"typology_name,omitempty"`
-	SubTypologyName       string `protobuf:"bytes,4,opt,name=sub_typology_name,json=subTypologyName,proto3" json:"sub_typology_name,omitempty"`
-	N                     int64  `protobuf:"varint,5,opt,name=n,proto3" json:"n,omitempty"`
-	MedianCarbonFootprint string `protobuf:"bytes,6,opt,name=median_carbon_footprint,json=medianCarbonFootprint,proto3" json:"median_carbon_footprint,omitempty"`
+	Id                    int32   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	FoodName              string  `protobuf:"bytes,2,opt,name=food_name,json=foodName,proto3" json:"food_name,omitempty"`
+	TypologyName          string  `protobuf:"bytes,3,opt,name=typology_name,json=typologyName,proto3" json:"typology_name,omitempty"`
+	SubTypologyName       string  `protobuf:"bytes,4,opt,name=sub_typology_name,json=subTypologyName,proto3" json:"sub_typology_name,omitempty"`
+	N                     int64   `protobuf:"varint,5,opt,name=n,proto3" json:"n,omitempty"`
+	MedianCarbonFootprint float64 `protobuf:"fixed64,6,opt,name=median_carbon_footprint,json=medianCarbonFootprint,proto3" json:"median_carbon_footprint,omitempty"`
 }
 
 func (x *AggregateFoodItem) Reset() {
@@ -224,11 +224,11 @@ func (x *AggregateFoodItem) GetN() int64 {
 	return 0
 }
 
-func (x *AggregateFoodItem) GetMedianCarbonFootprint() string {
+func (x *AggregateFoodItem) GetMedianCarbonFootprint() float64 {
 	if x != nil {
 		return x.MedianCarbonFootprint
 	}
-	return ""
+	return 0
 }
 
 var File_neutral_diet_food_v1_food_item_proto protoreflect.FileDescriptor
@@ -267,7 +267,7 @@ var file_neutral_diet_food_v1_food_item_proto_rawDesc = []byte{
 	0x70, 0x6f, 0x6c, 0x6f, 0x67, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x0c, 0x0a, 0x01, 0x6e, 0x18,
 	0x05, 0x20, 0x01, 0x28, 0x03, 0x52, 0x01, 0x6e, 0x12, 0x36, 0x0a, 0x17, 0x6d, 0x65, 0x64, 0x69,
 	0x61, 0x6e, 0x5f, 0x63, 0x61, 0x72, 0x62, 0x6f, 0x6e, 0x5f, 0x66, 0x6f, 0x6f, 0x74, 0x70, 0x72,
-	0x69, 0x6e, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x15, 0x6d, 0x65, 0x64, 0x69, 0x61,
+	0x69, 0x6e, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x01, 0x52, 0x15, 0x6d, 0x65, 0x64, 0x69, 0x61,
 	0x6e, 0x43, 0x61, 0x72, 0x62, 0x6f, 0x6e, 0x46, 0x6f, 0x6f, 0x74, 0x70, 0x72, 0x69, 0x6e, 0x74,
 	0x42, 0xe4, 0x01, 0x0a, 0x18, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c,
 	0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x42, 0x0d, 0x46,
