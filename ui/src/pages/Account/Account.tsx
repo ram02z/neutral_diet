@@ -9,7 +9,6 @@ import RegionSelect from '@/components/RegionSelect';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useSignOut } from '@/hooks/useSignOut';
-import { useCurrentUserSettings } from '@/hooks/useCurrentUserSettings';
 
 function Account() {
   const user = useCurrentUser();

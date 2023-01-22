@@ -6,8 +6,8 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
+import { useNavigation } from '@/hooks/useNavigation';
 import routes from '@/routes';
-import useNavigation from '@/store/navigation';
 
 function Navigation() {
   const [navigationValue, navigationActions] = useNavigation();

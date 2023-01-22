@@ -3,7 +3,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
-import useTheme from '@/store/theme';
+import { useTheme } from '@/hooks/useTheme';
 
 function ThemeToggler() {
   const [theme, themeActions] = useTheme();

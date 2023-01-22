@@ -8,9 +8,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
 import ThemeToggler from '@/components/ThemeToggler';
+import { useNavigation } from '@/hooks/useNavigation';
 import routes from '@/routes';
 import { Pages } from '@/routes/types';
-import useNavigation from '@/store/navigation';
 
 import type { HeaderProps } from './types';
 
