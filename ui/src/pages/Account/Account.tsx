@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
 import DeleteAccount from '@/components/DeleteAccount';
@@ -36,7 +36,7 @@ function Account() {
   } else {
     return (
       <div>
-        <p>Current User: {user.displayName}</p>
+        <Typography>Current User: {user.displayName}</Typography>
         <RegionSelect user={user}></RegionSelect>
         <br />
         <Button onClick={signOut}>Log out</Button>
