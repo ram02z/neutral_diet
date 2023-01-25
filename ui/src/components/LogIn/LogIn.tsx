@@ -26,7 +26,6 @@ function LogIn() {
 
   return (
     <>
-      <Typography>Welcome back</Typography>
       <form onSubmit={handleFormSubmit}>
         <TextField
           variant="filled"

@@ -28,7 +28,6 @@ function SignUp() {
 
   return (
     <>
-      <Typography>Create your account</Typography>
       <form onSubmit={handleFormSubmit}>
         <TextField
           variant="filled"

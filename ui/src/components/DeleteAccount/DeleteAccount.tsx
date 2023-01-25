@@ -46,7 +46,7 @@ function DeleteAccount({ user }: DeleteAccountProps) {
 
   return (
     <>
-      <Button onClick={handleClick}>Delete account</Button>
+      <Button variant="contained" color='error' onClick={handleClick}>Delete account</Button>
     </>
   );
 }
