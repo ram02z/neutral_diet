@@ -49,8 +49,7 @@ function LogIn() {
           fullWidth
           required
         />
-        <br />
-        <FormControl variant="filled" fullWidth required>
+        <FormControl variant="filled" margin="dense" fullWidth required>
           <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
           <FilledInput
             margin="dense"
