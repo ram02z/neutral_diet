@@ -1,10 +1,10 @@
 import { Navigate } from 'react-router-dom';
 
-import { Box } from '@mui/material';
+import { Typography } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import Loading from '@/components/Loading';
 import SignUp from '@/components/SignUp';
-import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import routes from '@/routes';
 import { Pages } from '@/routes/types';
@@ -21,11 +21,19 @@ function SignUpPage() {
   } else if (user === null) {
     return (
       <>
-        <FullSizeCenteredFlexBox>
-          <Box>
+        <Grid
+          container
+          direction="column"
+          columns={10}
+          justifyContent="center"
+          alignItems="center"
+          height="100%"
+        >
+          <Typography variant="h4">Create your account</Typography>
+          <Grid xs={7} sm={6} md={5} lg={4} xl={3}>
             <SignUp />
-          </Box>
-        </FullSizeCenteredFlexBox>
+          </Grid>
+        </Grid>
       </>
     );
   } else {

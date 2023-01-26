@@ -16,9 +16,8 @@ import * as food_service from '@/api/food_service';
 import * as user_service from '@/api/user_service';
 import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
 import { ID_TOKEN_HEADER } from '@/api/transport';
+import Loading from '@/components/Loading';
 import { useCurrentUserSettings } from '@/hooks/useCurrentUserSettings';
-
-import Loading from '../Loading';
 
 type RegionSelectProps = {
   user: User;

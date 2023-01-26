@@ -20,6 +20,7 @@ import { styled } from '@mui/system';
 
 const FlexBox = styled(Box)({
   display: 'flex',
+  flexFlow: 1,
 });
 
 const CenteredFlexBox = styled(FlexBox)({

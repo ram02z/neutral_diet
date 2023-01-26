@@ -1,6 +1,9 @@
 import { useState } from 'react';
 
-import Loading from '@/components/Loading';
+import { LoadingButton } from '@mui/lab';
+import { TextField, Typography } from '@mui/material';
+
+import PasswordTextField from '@/components/PasswordTextField';
 import { auth } from '@/core/firebase';
 import useDefaultSignUp from '@/hooks/useDefaultSignUp';
 
@@ -10,40 +13,49 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [signUp, , loading, error] = useDefaultSignUp(auth);
 
-  if (error) {
-    return (
-      <div>
-        <p>Error: {error.message}</p>
-      </div>
-    );
-  }
+  const handleFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    signUp(displayName, email, password);
+    setDisplayName('');
+    setEmail('');
+    setPassword('');
+  };
 
-  if (loading) {
-    return <Loading />;
-  }
+  const handleSetPassword = (newPassword: string) => {
+    setPassword(newPassword);
+  };
 
   return (
     <>
-      <p>Create your account</p>
-      <input
-        placeholder="Name"
-        type="text"
-        value={displayName}
-        onChange={(e) => setDisplayName(e.target.value)}
-      />
-      <input
-        placeholder="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        placeholder="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={() => signUp(displayName, email, password)}>Continue</button>
+      <form onSubmit={handleFormSubmit}>
+        <TextField
+          variant="filled"
+          margin="dense"
+          label="Name"
+          type="text"
+          placeholder="Enter name"
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+          fullWidth
+          required
+        />
+        <TextField
+          variant="filled"
+          margin="dense"
+          label="Email"
+          placeholder="Enter email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value as string)}
+          fullWidth
+          required
+        />
+        <PasswordTextField password={password} onChangeHandler={handleSetPassword} />
+        <LoadingButton loading={loading} variant="contained" type="submit" fullWidth>
+          Continue
+        </LoadingButton>
+      </form>
+      {error !== undefined && <Typography>Error occurred. Try again! </Typography>}
     </>
   );
 }
