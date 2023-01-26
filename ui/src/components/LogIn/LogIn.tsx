@@ -3,10 +3,9 @@ import { useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { TextField, Typography } from '@mui/material';
 
+import PasswordTextField from '@/components/PasswordTextField';
 import { auth } from '@/core/firebase';
 import useDefaultSignIn from '@/hooks/useDefaultSignIn';
-
-import PasswordTextField from '@/components/PasswordTextField';
 
 function LogIn() {
   const [email, setEmail] = useState('');

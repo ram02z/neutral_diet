@@ -3,10 +3,9 @@ import { useState } from 'react';
 import { LoadingButton } from '@mui/lab';
 import { TextField, Typography } from '@mui/material';
 
+import PasswordTextField from '@/components/PasswordTextField';
 import { auth } from '@/core/firebase';
 import useDefaultSignUp from '@/hooks/useDefaultSignUp';
-
-import PasswordTextField from '@/components/PasswordTextField';
 
 function SignUp() {
   const [displayName, setDisplayName] = useState('');
