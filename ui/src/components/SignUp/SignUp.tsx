@@ -6,7 +6,7 @@ import { TextField, Typography } from '@mui/material';
 import { auth } from '@/core/firebase';
 import useDefaultSignUp from '@/hooks/useDefaultSignUp';
 
-import PasswordTextField from '../PasswordTextField';
+import PasswordTextField from '@/components/PasswordTextField';
 
 function SignUp() {
   const [displayName, setDisplayName] = useState('');

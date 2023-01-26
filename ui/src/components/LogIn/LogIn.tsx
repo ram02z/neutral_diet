@@ -6,7 +6,7 @@ import { TextField, Typography } from '@mui/material';
 import { auth } from '@/core/firebase';
 import useDefaultSignIn from '@/hooks/useDefaultSignIn';
 
-import PasswordTextField from '../PasswordTextField';
+import PasswordTextField from '@/components/PasswordTextField';
 
 function LogIn() {
   const [email, setEmail] = useState('');

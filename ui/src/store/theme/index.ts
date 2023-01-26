@@ -19,7 +19,7 @@ import { atom } from 'recoil';
 
 import { Themes } from '@/theme/types';
 
-import type { AtomEffectParams } from '../types';
+import type { AtomEffectParams } from '@/store/types';
 
 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
