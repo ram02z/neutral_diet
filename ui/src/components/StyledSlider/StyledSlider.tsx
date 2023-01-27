@@ -3,13 +3,14 @@ import { Box, Slider, SliderValueLabelProps, Tooltip, Typography } from '@mui/ma
 type SliderMark = {
   value: number;
   label: string;
-}
+};
 
 type StyledSliderProps = {
   label: string;
-  defaultValue: number;
+  value: number;
   step: number;
   marks: Array<SliderMark>;
+  handleChange: (event: Event, value: number | number[]) => void;
   valueText?: (value: number) => string;
 };
 
@@ -23,8 +24,8 @@ function ValueLabelComponent(props: SliderValueLabelProps) {
   );
 }
 
-function StyledSlider({ label, defaultValue, step, marks, valueText }: StyledSliderProps) {
-  const max = Math.max(...marks.map(m => m.value));
+function StyledSlider({ label, value, step, marks, valueText, handleChange }: StyledSliderProps) {
+  const max = Math.max(...marks.map((m) => m.value));
   return (
     <Box>
       <Typography gutterBottom>{label}</Typography>
@@ -33,7 +34,8 @@ function StyledSlider({ label, defaultValue, step, marks, valueText }: StyledSli
         slots={{ valueLabel: ValueLabelComponent }}
         aria-label={label}
         getAriaValueText={valueText}
-        defaultValue={defaultValue}
+        onChange={handleChange}
+        value={value}
         step={step}
         marks={marks}
         max={max}
