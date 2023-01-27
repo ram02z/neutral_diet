@@ -8,6 +8,7 @@ import { Box } from '@mui/system';
 import DeleteAccount from '@/components/DeleteAccount';
 import Loading from '@/components/Loading';
 import RegionSelect from '@/components/RegionSelect';
+import { CarbonFootprintSlider } from '@/components/StyledSlider';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useSignOut } from '@/hooks/useSignOut';
 
@@ -69,7 +70,10 @@ function Account() {
           disableEqualOverflow
         >
           <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
-            <RegionSelect user={user}></RegionSelect>
+            <RegionSelect user={user}/>
+          </Grid>
+          <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
+            <CarbonFootprintSlider/>
           </Grid>
           <Grid textAlign="center" xs={8} sm={7} md={6} lg={5} xl={4}>
             <Button variant="contained" onClick={signOut}>
@@ -77,7 +81,7 @@ function Account() {
             </Button>
           </Grid>
           <Grid textAlign="center" xs={8} sm={7} md={6} lg={5} xl={4}>
-            <DeleteAccount user={user}></DeleteAccount>
+            <DeleteAccount user={user}/>
           </Grid>
         </Grid>
       </Box>
