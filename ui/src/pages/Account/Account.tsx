@@ -6,24 +6,39 @@ import { Button, Chip, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Box } from '@mui/system';
 
+import { ID_TOKEN_HEADER } from '@/api/transport';
+import client from '@/api/user_service';
 import DeleteAccount from '@/components/DeleteAccount';
 import Loading from '@/components/Loading';
 import RegionSelect from '@/components/RegionSelect';
 import { CarbonFootprintSlider } from '@/components/StyledSlider';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useSignOut } from '@/hooks/useSignOut';
-import { LocalUserSettingsState } from '@/store/user';
+import {
+  CurrentUserTokenIDState,
+  LocalUserSettingsState,
+  RemoteUserSettingsState,
+} from '@/store/user';
 
 function Account() {
   const user = useCurrentUser();
+  const idToken = useRecoilValue(CurrentUserTokenIDState);
   const localUserSettings = useRecoilValue(LocalUserSettingsState);
+  const remoteUserSettings = useRecoilValue(RemoteUserSettingsState);
   const setLocalUserSettings = useSetRecoilState(LocalUserSettingsState);
   const signOut = useSignOut();
   const saveSettings = () => {
-    // TODO: sync userSettings
     setLocalUserSettings((old) => {
       return { ...old, dirty: false };
     });
+    if (idToken) {
+      const headers = new Headers();
+      headers.set(ID_TOKEN_HEADER, idToken);
+      client
+        .updateUserSettings({ userSettings: remoteUserSettings }, { headers: headers })
+        // TODO: show snackbar with error
+        .catch((err) => console.error(err));
+    }
   };
 
   if (user === undefined) {

@@ -10,11 +10,12 @@ WHERE firebase_uid = $1
 RETURNING
     id;
 
--- name: UpdateUserRegion :exec
+-- name: UpdateUserSettings :exec
 UPDATE
     "user"
 SET
-    region = $2
+    region = $2,
+    cf_limit = $3
 WHERE
     firebase_uid = $1;
 

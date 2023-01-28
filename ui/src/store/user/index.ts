@@ -2,6 +2,7 @@ import { atom, selector } from 'recoil';
 
 import { User } from 'firebase/auth';
 
+import { UserSettings } from '@/api/gen/neutral_diet/user/v1/user_pb';
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import { auth } from '@/core/firebase';
@@ -48,4 +49,15 @@ export const LocalUserSettingsState = atom<LocalUserSettings>({
       return defaults;
     },
   }),
+});
+
+export const RemoteUserSettingsState = selector({
+  key: 'RemoteUserSettingsState',
+  get: ({ get }) => {
+    const localUserSettings = get(LocalUserSettingsState);
+    return new UserSettings({
+      region: { name: localUserSettings.region },
+      cfLimit: localUserSettings.cfLimit,
+    });
+  },
 });
