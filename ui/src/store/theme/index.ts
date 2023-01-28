@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
-import { Themes } from '@/theme/types';
 import { persistAtom } from '@/store';
+import { Themes } from '@/theme/types';
 
 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 

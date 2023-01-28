@@ -1,4 +1,4 @@
-import { recoilPersist } from "recoil-persist";
+import { recoilPersist } from 'recoil-persist';
 
 // TODO: use localForage
-export const { persistAtom } = recoilPersist()
+export const { persistAtom } = recoilPersist();
