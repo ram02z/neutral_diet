@@ -1,8 +1,8 @@
 import { useRecoilValueLoadable } from 'recoil';
 
-import { CurrentUserSettingsState } from '@/store/user';
+import { RemoteUserSettingsState } from '@/store/user';
 
 export function useCurrentUserSettings() {
-  const value = useRecoilValueLoadable(CurrentUserSettingsState);
+  const value = useRecoilValueLoadable(RemoteUserSettingsState);
   return value.state === 'loading' ? undefined : value.valueOrThrow();
 }

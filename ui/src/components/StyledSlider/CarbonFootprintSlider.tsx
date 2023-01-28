@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import Loading from '@/components/Loading';
-import { useCurrentUserSettings } from '@/hooks/useCurrentUserSettings';
+import { LocalUserSettingsState } from '@/store/user';
 
 import StyledSlider from './StyledSlider';
 
 function CarbonFootprintSlider() {
-  const userSettings = useCurrentUserSettings();
-  const [cfLimit, setCfLimit] = useState(0.0);
+  const localUserSettings = useRecoilValue(LocalUserSettingsState);
+  const setLocalUserSettings = useSetRecoilState(LocalUserSettingsState);
 
   const marks = [
     { value: 0.0, label: '0.0kg' },
@@ -16,32 +15,26 @@ function CarbonFootprintSlider() {
 
   const valueText = (value: number) => `${value}kg`;
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    setCfLimit(newValue as number);
+  const handleChange = (_: Event, newValue: number | number[]) => {
+    setLocalUserSettings((old) => {
+      return {
+        ...old,
+        cfLimit: newValue as number,
+        dirty: true,
+      };
+    });
   };
 
-  useEffect(() => {
-    if (userSettings) setCfLimit(userSettings.cfLimit);
-  }, [userSettings]);
-
-  if (userSettings === undefined || userSettings === null) {
-    return (
-      <>
-        <Loading />
-      </>
-    );
-  } else {
-    return (
-      <StyledSlider
-        label="Carbon footprint limit (CO2e/day)"
-        marks={marks}
-        value={cfLimit}
-        step={0.5}
-        handleChange={handleChange}
-        valueText={valueText}
-      />
-    );
-  }
+  return (
+    <StyledSlider
+      label="Carbon footprint limit (CO2e/day)"
+      marks={marks}
+      value={localUserSettings.cfLimit}
+      step={0.5}
+      handleChange={handleChange}
+      valueText={valueText}
+    />
+  );
 }
 
 export default CarbonFootprintSlider;
