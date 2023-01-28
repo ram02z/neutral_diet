@@ -3,4 +3,3 @@ export type LocalUserSettings = {
   cfLimit: number;
   dirty: boolean;
 };
-
