@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
 import { User } from 'firebase/auth';
 
@@ -6,7 +6,8 @@ import { UserSettings } from '@/api/gen/neutral_diet/user/v1/user_pb';
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import { auth } from '@/core/firebase';
-import { useCurrentUser } from '@/hooks/useCurrentUser';
+
+import { LocalUserSettings } from './types';
 
 export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
@@ -22,21 +23,41 @@ export const CurrentUserState = atom<User | null>({
   ],
 });
 
-export const CurrentUserSettingsState = atom<UserSettings | null>({
-  key: 'CurrentUserSettingsState',
-  dangerouslyAllowMutability: true,
-  effects: [
-    (ctx) => {
-      if (ctx.trigger === 'get') {
-        const user = useCurrentUser();
-        user?.getIdToken().then((idToken) => {
-          const headers = new Headers();
-          headers.set(ID_TOKEN_HEADER, idToken);
-          client.getUserSettings({}, { headers: headers }).then((response) => {
-            if (response.userSettings) ctx.setSelf(response.userSettings);
-          });
-        });
+export const CurrentUserTokenIDState = selector({
+  key: 'CurrentUserTokenIDState',
+  get: async ({ get }) => {
+    const idToken = await get(CurrentUserState)?.getIdToken();
+    return idToken;
+  },
+});
+
+export const LocalUserSettingsState = atom<LocalUserSettings>({
+  key: 'LocalUserSettingsState',
+  default: selector({
+    key: 'LocalUserSettingsState/Default',
+    get: async ({ get }) => {
+      const defaults: LocalUserSettings = { region: 'World', cfLimit: 0.0, dirty: false };
+
+      const idToken = get(CurrentUserTokenIDState);
+      if (idToken) {
+        const headers = new Headers();
+        headers.set(ID_TOKEN_HEADER, idToken);
+        const response = await client.getUserSettings({}, { headers: headers });
+        defaults.cfLimit = response.userSettings?.cfLimit ?? defaults.cfLimit;
+        defaults.region = response.userSettings?.region?.name ?? defaults.region;
       }
+      return defaults;
     },
-  ],
+  }),
+});
+
+export const RemoteUserSettingsState = selector({
+  key: 'RemoteUserSettingsState',
+  get: ({ get }) => {
+    const localUserSettings = get(LocalUserSettingsState);
+    return new UserSettings({
+      region: { name: localUserSettings.region },
+      cfLimit: localUserSettings.cfLimit,
+    });
+  },
 });

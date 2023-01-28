@@ -74,23 +74,24 @@ func (s *Store) GetUser(
 	return &userResponse, nil
 }
 
-func (s *Store) UpdateUserRegion(
+func (s *Store) UpdateUserSettings(
 	ctx context.Context,
-	r *userv1.UpdateUserRegionRequest,
+	r *userv1.UpdateUserSettingsRequest,
 	firebaseUID string,
-) (*userv1.UpdateUserRegionResponse, error) {
+) (*userv1.UpdateUserSettingsResponse, error) {
 	queries := db.New(s.dbPool)
 
-	err := queries.UpdateUserRegion(ctx, db.UpdateUserRegionParams{
+	err := queries.UpdateUserSettings(ctx, db.UpdateUserSettingsParams{
 		FirebaseUid: firebaseUID,
 		Region: sql.NullString{
-			String: r.Region.GetName(),
+			String: r.GetUserSettings().GetRegion().Name,
 			Valid:  true,
 		},
+		CfLimit: decimal.NewFromFloat(r.GetUserSettings().CfLimit),
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	return &userv1.UpdateUserRegionResponse{}, nil
+	return &userv1.UpdateUserSettingsResponse{}, nil
 }
