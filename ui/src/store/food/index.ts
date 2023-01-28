@@ -8,7 +8,6 @@ export const RegionsState = atom({
     key: 'Regions',
     get: async () => {
       const response = await client.listRegions({});
-      await new Promise(r => setTimeout(r, 2000));
       return response.regions;
     },
   }),
