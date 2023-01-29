@@ -44,11 +44,11 @@ function DeleteAccount({ user }: DeleteAccountProps) {
           headers.set(ID_TOKEN_HEADER, idToken);
           client
             .deleteUser({}, { headers: headers })
-            .then(() => enqueueSnackbar('Deleted account successfully.'));
+            .then(() => enqueueSnackbar('Deleted account successfully.', { variant: 'success' }));
           signOut();
         })
         .catch((err) => {
-          enqueueSnackbar('Could not delete account.');
+          enqueueSnackbar('Could not delete account.', { variant: 'error' });
           console.error(err);
         });
     });

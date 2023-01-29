@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -21,7 +22,6 @@ import {
   LocalUserSettingsState,
   RemoteUserSettingsState,
 } from '@/store/user';
-import { useEffect } from 'react';
 
 function Account() {
   const user = useCurrentUser();
@@ -39,10 +39,10 @@ function Account() {
       headers.set(ID_TOKEN_HEADER, idToken);
       client
         .updateUserSettings({ userSettings: remoteUserSettings }, { headers: headers })
-        .then(() => enqueueSnackbar("Updated account settings."))
+        .then(() => enqueueSnackbar('Updated account settings.', { variant: 'success' }))
         .catch((err) => {
           // TODO: show snackbar error variant
-          enqueueSnackbar("Could not save account settings.")
+          enqueueSnackbar('Could not save account settings.', { variant: 'error' });
           console.error(err);
         });
     }
@@ -50,11 +50,10 @@ function Account() {
 
   useEffect(() => {
     if (localUserSettings.dirty === true) {
-      enqueueSnackbar("Unsaved changes to settings.")
+      enqueueSnackbar('Unsaved changes to settings.', { variant: 'warning' });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (user === undefined) {
     return (
