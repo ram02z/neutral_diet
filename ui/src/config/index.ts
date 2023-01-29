@@ -8,6 +8,7 @@ const notifications: Notifications = {
     },
   },
   maxSnack: 1,
+  preventDuplicate: true,
 };
 
 export { notifications };

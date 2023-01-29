@@ -22,6 +22,7 @@ function render(App: ComponentType) {
               <SnackbarProvider
                 maxSnack={notifications.maxSnack}
                 anchorOrigin={notifications.options.anchorOrigin}
+                preventDuplicate={notifications.preventDuplicate}
               >
                 <App />
               </SnackbarProvider>
