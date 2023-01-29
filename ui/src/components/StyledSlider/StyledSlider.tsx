@@ -11,6 +11,10 @@ type StyledSliderProps = {
   step: number;
   marks: Array<SliderMark>;
   handleChange: (event: Event, value: number | number[]) => void;
+  handleChangeCommitted: (
+    event: Event | React.SyntheticEvent<Element, Event>,
+    value: number | number[],
+  ) => void;
   valueText?: (value: number) => string;
 };
 
@@ -24,7 +28,15 @@ function ValueLabelComponent(props: SliderValueLabelProps) {
   );
 }
 
-function StyledSlider({ label, value, step, marks, valueText, handleChange }: StyledSliderProps) {
+function StyledSlider({
+  label,
+  value,
+  step,
+  marks,
+  valueText,
+  handleChange,
+  handleChangeCommitted,
+}: StyledSliderProps) {
   const max = Math.max(...marks.map((m) => m.value));
   return (
     <Box>
@@ -35,6 +47,7 @@ function StyledSlider({ label, value, step, marks, valueText, handleChange }: St
         aria-label={label}
         getAriaValueText={valueText}
         onChange={handleChange}
+        onChangeCommitted={handleChangeCommitted}
         value={value}
         step={step}
         marks={marks}

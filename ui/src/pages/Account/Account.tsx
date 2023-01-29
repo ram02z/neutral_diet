@@ -1,10 +1,13 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Button, Chip, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Box } from '@mui/system';
+
+import { useSnackbar } from 'notistack';
 
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
@@ -23,10 +26,10 @@ import {
 function Account() {
   const user = useCurrentUser();
   const idToken = useRecoilValue(CurrentUserTokenIDState);
-  const localUserSettings = useRecoilValue(LocalUserSettingsState);
   const remoteUserSettings = useRecoilValue(RemoteUserSettingsState);
-  const setLocalUserSettings = useSetRecoilState(LocalUserSettingsState);
+  const [localUserSettings, setLocalUserSettings] = useRecoilState(LocalUserSettingsState);
   const signOut = useSignOut();
+  const { enqueueSnackbar } = useSnackbar();
   const saveSettings = () => {
     setLocalUserSettings((old) => {
       return { ...old, dirty: false };
@@ -36,10 +39,21 @@ function Account() {
       headers.set(ID_TOKEN_HEADER, idToken);
       client
         .updateUserSettings({ userSettings: remoteUserSettings }, { headers: headers })
-        // TODO: show snackbar with error
-        .catch((err) => console.error(err));
+        .then(() => enqueueSnackbar('Updated account settings.', { variant: 'success' }))
+        .catch((err) => {
+          // TODO: show snackbar error variant
+          enqueueSnackbar('Could not save account settings.', { variant: 'error' });
+          console.error(err);
+        });
     }
   };
+
+  useEffect(() => {
+    if (localUserSettings.dirty === true) {
+      enqueueSnackbar('Unsaved changes to settings.', { variant: 'warning' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (user === undefined) {
     return (

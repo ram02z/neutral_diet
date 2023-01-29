@@ -2,6 +2,7 @@ import { Alert, Button, Typography } from '@mui/material';
 
 import { User } from 'firebase/auth';
 import { useConfirm } from 'material-ui-confirm';
+import { useSnackbar } from 'notistack';
 
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
@@ -14,6 +15,7 @@ type DeleteAccountProps = {
 function DeleteAccount({ user }: DeleteAccountProps) {
   const confirm = useConfirm();
   const signOut = useSignOut();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClick = async () => {
     confirm({
@@ -35,12 +37,20 @@ function DeleteAccount({ user }: DeleteAccountProps) {
       confirmationText: 'Delete',
       confirmationButtonProps: { color: 'error', variant: 'contained' },
     }).then(() => {
-      user.getIdToken().then((idToken) => {
-        const headers = new Headers();
-        headers.set(ID_TOKEN_HEADER, idToken);
-        client.deleteUser({}, { headers: headers });
-        signOut();
-      });
+      user
+        .getIdToken()
+        .then((idToken) => {
+          const headers = new Headers();
+          headers.set(ID_TOKEN_HEADER, idToken);
+          client
+            .deleteUser({}, { headers: headers })
+            .then(() => enqueueSnackbar('Deleted account successfully.', { variant: 'success' }));
+          signOut();
+        })
+        .catch((err) => {
+          enqueueSnackbar('Could not delete account.', { variant: 'error' });
+          console.error(err);
+        });
     });
   };
 
