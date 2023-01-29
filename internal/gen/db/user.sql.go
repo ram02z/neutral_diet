@@ -69,21 +69,23 @@ func (q *Queries) GetUserByFirebaseUID(ctx context.Context, firebaseUid string) 
 	return i, err
 }
 
-const updateUserRegion = `-- name: UpdateUserRegion :exec
+const updateUserSettings = `-- name: UpdateUserSettings :exec
 UPDATE
     "user"
 SET
-    region = $2
+    region = $2,
+    cf_limit = $3
 WHERE
     firebase_uid = $1
 `
 
-type UpdateUserRegionParams struct {
+type UpdateUserSettingsParams struct {
 	FirebaseUid string
 	Region      sql.NullString
+	CfLimit     decimal.Decimal
 }
 
-func (q *Queries) UpdateUserRegion(ctx context.Context, arg UpdateUserRegionParams) error {
-	_, err := q.db.Exec(ctx, updateUserRegion, arg.FirebaseUid, arg.Region)
+func (q *Queries) UpdateUserSettings(ctx context.Context, arg UpdateUserSettingsParams) error {
+	_, err := q.db.Exec(ctx, updateUserSettings, arg.FirebaseUid, arg.Region, arg.CfLimit)
 	return err
 }

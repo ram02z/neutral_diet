@@ -6,7 +6,6 @@
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
 import { FoodLogItem } from "./food_item_log_pb.js";
-import { Region } from "../../food/v1/region_pb.js";
 import { UserSettings } from "./user_pb.js";
 
 /**
@@ -220,70 +219,70 @@ export class DeleteUserResponse extends Message<DeleteUserResponse> {
 }
 
 /**
- * @generated from message neutral_diet.user.v1.UpdateUserRegionRequest
+ * @generated from message neutral_diet.user.v1.UpdateUserSettingsRequest
  */
-export class UpdateUserRegionRequest extends Message<UpdateUserRegionRequest> {
+export class UpdateUserSettingsRequest extends Message<UpdateUserSettingsRequest> {
   /**
-   * @generated from field: neutral_diet.food.v1.Region region = 1;
+   * @generated from field: neutral_diet.user.v1.UserSettings user_settings = 1;
    */
-  region?: Region;
+  userSettings?: UserSettings;
 
-  constructor(data?: PartialMessage<UpdateUserRegionRequest>) {
+  constructor(data?: PartialMessage<UpdateUserSettingsRequest>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime = proto3;
-  static readonly typeName = "neutral_diet.user.v1.UpdateUserRegionRequest";
+  static readonly typeName = "neutral_diet.user.v1.UpdateUserSettingsRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "region", kind: "message", T: Region },
+    { no: 1, name: "user_settings", kind: "message", T: UserSettings },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateUserRegionRequest {
-    return new UpdateUserRegionRequest().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateUserSettingsRequest {
+    return new UpdateUserSettingsRequest().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateUserRegionRequest {
-    return new UpdateUserRegionRequest().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateUserSettingsRequest {
+    return new UpdateUserSettingsRequest().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateUserRegionRequest {
-    return new UpdateUserRegionRequest().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateUserSettingsRequest {
+    return new UpdateUserSettingsRequest().fromJsonString(jsonString, options);
   }
 
-  static equals(a: UpdateUserRegionRequest | PlainMessage<UpdateUserRegionRequest> | undefined, b: UpdateUserRegionRequest | PlainMessage<UpdateUserRegionRequest> | undefined): boolean {
-    return proto3.util.equals(UpdateUserRegionRequest, a, b);
+  static equals(a: UpdateUserSettingsRequest | PlainMessage<UpdateUserSettingsRequest> | undefined, b: UpdateUserSettingsRequest | PlainMessage<UpdateUserSettingsRequest> | undefined): boolean {
+    return proto3.util.equals(UpdateUserSettingsRequest, a, b);
   }
 }
 
 /**
- * @generated from message neutral_diet.user.v1.UpdateUserRegionResponse
+ * @generated from message neutral_diet.user.v1.UpdateUserSettingsResponse
  */
-export class UpdateUserRegionResponse extends Message<UpdateUserRegionResponse> {
-  constructor(data?: PartialMessage<UpdateUserRegionResponse>) {
+export class UpdateUserSettingsResponse extends Message<UpdateUserSettingsResponse> {
+  constructor(data?: PartialMessage<UpdateUserSettingsResponse>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime = proto3;
-  static readonly typeName = "neutral_diet.user.v1.UpdateUserRegionResponse";
+  static readonly typeName = "neutral_diet.user.v1.UpdateUserSettingsResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateUserRegionResponse {
-    return new UpdateUserRegionResponse().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateUserSettingsResponse {
+    return new UpdateUserSettingsResponse().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateUserRegionResponse {
-    return new UpdateUserRegionResponse().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateUserSettingsResponse {
+    return new UpdateUserSettingsResponse().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateUserRegionResponse {
-    return new UpdateUserRegionResponse().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateUserSettingsResponse {
+    return new UpdateUserSettingsResponse().fromJsonString(jsonString, options);
   }
 
-  static equals(a: UpdateUserRegionResponse | PlainMessage<UpdateUserRegionResponse> | undefined, b: UpdateUserRegionResponse | PlainMessage<UpdateUserRegionResponse> | undefined): boolean {
-    return proto3.util.equals(UpdateUserRegionResponse, a, b);
+  static equals(a: UpdateUserSettingsResponse | PlainMessage<UpdateUserSettingsResponse> | undefined, b: UpdateUserSettingsResponse | PlainMessage<UpdateUserSettingsResponse> | undefined): boolean {
+    return proto3.util.equals(UpdateUserSettingsResponse, a, b);
   }
 }
 

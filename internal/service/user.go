@@ -75,10 +75,10 @@ func (c *ConnectWrapper) AddFoodItem(
 	return out, nil
 }
 
-func (c *ConnectWrapper) UpdateUserRegion(
+func (c *ConnectWrapper) UpdateUserSettings(
 	ctx context.Context,
-	req *connect.Request[userv1.UpdateUserRegionRequest],
-) (*connect.Response[userv1.UpdateUserRegionResponse], error) {
+	req *connect.Request[userv1.UpdateUserSettingsRequest],
+) (*connect.Response[userv1.UpdateUserSettingsResponse], error) {
 	token, err := c.verify(ctx, req.Header())
 	if err != nil {
 		return nil, err
@@ -89,7 +89,7 @@ func (c *ConnectWrapper) UpdateUserRegion(
 		return nil, err
 	}
 
-	res, err := c.s.UpdateUserRegion(ctx, req.Msg, token.UID)
+	res, err := c.s.UpdateUserSettings(ctx, req.Msg, token.UID)
 	if err != nil {
 		return nil, err
 	}
