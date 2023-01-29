@@ -11,7 +11,10 @@ type StyledSliderProps = {
   step: number;
   marks: Array<SliderMark>;
   handleChange: (event: Event, value: number | number[]) => void;
-  handleChangeCommitted: (event: Event | React.SyntheticEvent<Element, Event>, value: number | number[]) => void;
+  handleChangeCommitted: (
+    event: Event | React.SyntheticEvent<Element, Event>,
+    value: number | number[],
+  ) => void;
   valueText?: (value: number) => string;
 };
 
