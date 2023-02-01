@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { LoadingButton } from '@mui/lab';
-import { TextField, Typography } from '@mui/material';
+import { Alert, Collapse, TextField } from '@mui/material';
 
 import PasswordTextField from '@/components/PasswordTextField';
 import { auth } from '@/core/firebase';
@@ -12,6 +12,7 @@ function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [signUp, , loading, error] = useDefaultSignUp(auth);
+  const [open, setOpen] = useState(false);
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -19,6 +20,7 @@ function SignUp() {
     setDisplayName('');
     setEmail('');
     setPassword('');
+    setOpen(true);
   };
 
   const handleSetPassword = (newPassword: string) => {
@@ -28,6 +30,17 @@ function SignUp() {
   return (
     <>
       <form onSubmit={handleFormSubmit}>
+        <Collapse in={error && open}>
+          <Alert
+            icon={false}
+            severity="error"
+            onClose={() => {
+              setOpen(false);
+            }}
+          >
+            Error occurred. Try again!
+          </Alert>
+        </Collapse>
         <TextField
           variant="filled"
           margin="dense"
@@ -55,7 +68,6 @@ function SignUp() {
           Continue
         </LoadingButton>
       </form>
-      {error !== undefined && <Typography>Error occurred. Try again! </Typography>}
     </>
   );
 }
