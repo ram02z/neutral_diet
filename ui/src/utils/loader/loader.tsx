@@ -70,22 +70,20 @@ function getDelayedFallback(Fallback: FC, delay: number) {
 // ensure that the fallback component will be rendered for that minimum amount of time
 
 const getLazyComponent = (loadComponent: LoadComponent, loaderOptions: LoaderDefaultOptions) =>
-  lazy(() => {
+  lazy(async () => {
     // fix the moment of starting loading
     const start = performance.now();
     // start loading
-    return loadComponent().then((moduleExports) => {
+    const moduleExports = await loadComponent();
       // loading is finished
       const end = performance.now();
       const diff = end - start;
-
       // first of all, let's remember that we also have `loaderOptions` optionally
       // provided by user, it has `delay` and `minimumLoading`:
       // 1) `delay` - if the loading process is finished during this amount of time
       //    the user will not see the fallback component at all
       // 2) `minimumLoading` - but if it appears, it will stay rendered for at least
       //    this amount of time
-
       // so, according to above mentioned, there are three conditions we are interested in
       // 1) when `diff` is less than `delay`; in this case, we will immediately return
       //    the result, thereby we will prevent the rendering of the fallback
@@ -96,18 +94,14 @@ const getLazyComponent = (loadComponent: LoadComponent, loaderOptions: LoaderDef
       //    amount of time
       // 3) when `diff` is bigger than `delay + minimumLoading`. It means we don't need to wait
       //    anymore and we should immediately return the result as we do it in 1) case.
-
       // so, in the 1) and 3) cases we return the result immediately, and in 2) case we have to wait
       // at least for `delay + minimumLoading - diff` amount of time
-
       const { delay, minimumLoading } = loaderOptions;
-
       if (diff < delay || (diff > delay && diff > delay + minimumLoading)) {
-        return moduleExports;
+          return moduleExports;
       }
-
-      return sleep(delay + minimumLoading - diff).then(() => moduleExports);
-    });
+      await sleep(delay + minimumLoading - diff);
+      return moduleExports;
   });
 
 /* ================================================================================== */

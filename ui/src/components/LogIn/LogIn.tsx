@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import LoadingButton from '@mui/lab/LoadingButton';
-import { TextField, Typography } from '@mui/material';
+import { Alert, Collapse, TextField, Typography } from '@mui/material';
 
 import PasswordTextField from '@/components/PasswordTextField';
 import { auth } from '@/core/firebase';
@@ -11,6 +11,7 @@ function LogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [signIn, , loading, error] = useDefaultSignIn(auth);
+  const [open, setOpen] = useState(false);
 
   const handleSetPassword = (newPassword: string) => {
     setPassword(newPassword);
@@ -21,11 +22,17 @@ function LogIn() {
     signIn(email, password);
     setEmail('');
     setPassword('');
+    setOpen(true);
   };
 
   return (
     <>
       <form onSubmit={handleFormSubmit}>
+        <Collapse in={error && open}>
+          <Alert icon={false} severity="error" onClose={() => {setOpen(false)}}>
+            Incorrect username or password.
+          </Alert>
+        </Collapse>
         <TextField
           variant="filled"
           margin="dense"
@@ -42,7 +49,6 @@ function LogIn() {
           Continue
         </LoadingButton>
       </form>
-      {error !== undefined && <Typography>Error occurred. Try again! </Typography>}
     </>
   );
 }

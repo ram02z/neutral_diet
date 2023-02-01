@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 
 import {
   Auth,
-  AuthError,
   UserCredential,
   createUserWithEmailAndPassword,
   updateProfile,
@@ -13,14 +12,14 @@ import client from '@/api/user_service';
 import { DefaultSignUpHook } from './types';
 
 function useDefaultSignUp(auth: Auth): DefaultSignUpHook {
-  const [error, setError] = useState<AuthError>();
+  const [error, setError] = useState<boolean>(false);
   const [registeredUser, setRegisteredUser] = useState<UserCredential>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const signUp = useCallback(
     async (displayName: string, email: string, password: string) => {
       setLoading(true);
-      setError(undefined);
+      setError(false);
       try {
         const user = await createUserWithEmailAndPassword(auth, email, password);
         updateProfile(user.user, { displayName: displayName });
@@ -31,7 +30,8 @@ function useDefaultSignUp(auth: Auth): DefaultSignUpHook {
 
         return user;
       } catch (err) {
-        setError(err as AuthError);
+        console.error(err);
+        setError(true);
       } finally {
         setLoading(false);
       }

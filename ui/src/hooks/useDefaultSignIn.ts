@@ -1,25 +1,26 @@
 import { useCallback, useState } from 'react';
 
-import { Auth, AuthError, UserCredential, signInWithEmailAndPassword } from 'firebase/auth';
+import { Auth,  UserCredential, signInWithEmailAndPassword } from 'firebase/auth';
 
 import { DefaultSignInHook } from './types';
 
 function useDefaultSignIn(auth: Auth): DefaultSignInHook {
-  const [error, setError] = useState<AuthError>();
+  const [error, setError] = useState<boolean>(false);
   const [loggedInUser, setLoggedInUser] = useState<UserCredential>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const signIn = useCallback(
     async (email: string, password: string) => {
       setLoading(true);
-      setError(undefined);
+      setError(false);
       try {
         const user = await signInWithEmailAndPassword(auth, email, password);
         setLoggedInUser(user);
 
         return user;
       } catch (err) {
-        setError(err as AuthError);
+        console.error(err);
+        setError(true);
       } finally {
         setLoading(false);
       }
