@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { Auth,  UserCredential, signInWithEmailAndPassword } from 'firebase/auth';
+import { Auth, UserCredential, signInWithEmailAndPassword } from 'firebase/auth';
 
 import { DefaultSignInHook } from './types';
 

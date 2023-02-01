@@ -1,11 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import {
-  Auth,
-  UserCredential,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from 'firebase/auth';
+import { Auth, UserCredential, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 import client from '@/api/user_service';
 

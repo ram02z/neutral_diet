@@ -31,7 +31,13 @@ function SignUp() {
     <>
       <form onSubmit={handleFormSubmit}>
         <Collapse in={error && open}>
-          <Alert icon={false} severity="error" onClose={() => {setOpen(false)}}>
+          <Alert
+            icon={false}
+            severity="error"
+            onClose={() => {
+              setOpen(false);
+            }}
+          >
             Error occurred. Try again!
           </Alert>
         </Collapse>
