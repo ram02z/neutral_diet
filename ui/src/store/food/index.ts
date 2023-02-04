@@ -12,3 +12,14 @@ export const RegionsState = atom({
     },
   }),
 });
+
+export const FoodItemsState = atom({
+  key: 'FoodItemsState',
+  default: selector({
+    key: 'FoodItems',
+    get: async () => {
+      const response = await client.listAggregateFoodItems({});
+      return response.foodItems;
+    },
+  }),
+});
