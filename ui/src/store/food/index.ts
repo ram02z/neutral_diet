@@ -1,6 +1,8 @@
 import { atom, selector } from 'recoil';
 
 import client from '@/api/food_service';
+import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
+import { persistAtom } from '@/store';
 
 export const RegionsState = atom({
   key: 'RegionsState',
@@ -23,3 +25,10 @@ export const FoodItemsState = atom({
     },
   }),
 });
+
+// TODO: should food history be managed by user?
+export const FoodHistoryState = atom<AggregateFoodItem[]>({
+  key: 'FoodHistoryState',
+  default: [],
+  // effects: [persistAtom],
+})

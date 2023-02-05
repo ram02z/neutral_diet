@@ -2,31 +2,58 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { Close, SearchRounded } from '@mui/icons-material';
-import { FormControl, IconButton, InputAdornment, OutlinedInput } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  Typography,
+} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Box } from '@mui/system';
 
 import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import FoodItemCard from '@/components/FoodItemCard';
-import { FoodItemsState } from '@/store/food';
+import { FoodHistoryState, FoodItemsState } from '@/store/food';
 
 function Search() {
   const foodItems = useRecoilValue(FoodItemsState);
+  const foodHistory = useRecoilValue(FoodHistoryState);
   const [searchFoodItems, setSearchFoodItems] = useState<AggregateFoodItem[]>([]);
+  const [searchFoodHistory, setSearchFoodHistory] = useState<AggregateFoodItem[]>(foodHistory);
   const [searchText, setSearchText] = useState('');
+  const [showHistory, setShowHistory] = useState(true);
 
-  const handleSubmit = (e) => {
-    if (e?.key === 'Enter') {
-      const newFoodItems = foodItems.filter((foodItem) => {
-        return foodItem.foodName.toLowerCase().includes(searchText.toLowerCase());
-      });
-      setSearchFoodItems(newFoodItems);
+  const handleSearch = (foodItemArray: AggregateFoodItem[]) => {
+    return foodItemArray.filter((foodItem) => {
+      return foodItem.foodName.toLowerCase().includes(searchText.toLowerCase());
+    });
+  };
+
+  const handleSubmit = () => {
+    const newFoodItems = handleSearch(foodItems);
+    setShowHistory(false);
+    setSearchFoodItems(newFoodItems);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setSearchText(e.target.value as string);
+    setSearchFoodItems([]);
+    if (e.target.value.length > 0) {
+      const newFoodItems = handleSearch(foodHistory);
+      setSearchFoodHistory(newFoodItems);
+    } else {
+      setSearchFoodHistory(foodHistory);
     }
+    setShowHistory(true);
   };
 
   const clearSearch = () => {
     setSearchText('');
     setSearchFoodItems([]);
+    setSearchFoodHistory(foodHistory);
+    setShowHistory(true);
   };
 
   // TODO: use react-window
@@ -46,8 +73,10 @@ function Search() {
             <OutlinedInput
               placeholder="Search for food"
               value={searchText}
-              onKeyDown={handleSubmit}
-              onChange={(e) => setSearchText(e.target.value as string)}
+              onKeyDown={(e) => {
+                if (e.key == 'Enter') handleSubmit();
+              }}
+              onChange={handleChange}
               startAdornment={
                 <InputAdornment position="start">
                   <SearchRounded />
@@ -65,6 +94,25 @@ function Search() {
             />
           </FormControl>
         </Grid>
+        {showHistory && (
+          <>
+            <Grid>
+              <Typography variant="h4">History</Typography>
+            </Grid>
+            {searchFoodHistory.map((foodItem, idx) => (
+              <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
+                <FoodItemCard foodItem={foodItem} />
+              </Grid>
+            ))}
+            {searchText.length > 0 && (
+              <Grid textAlign="center" xs={8} sm={7} md={6} lg={5} xl={4}>
+                <Button onClick={handleSubmit} variant="outlined" startIcon={<SearchRounded />}>
+                  {`Search all foods for "${searchText}"`}
+                </Button>
+              </Grid>
+            )}
+          </>
+        )}
         {searchFoodItems.map((foodItem, idx) => (
           <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
             <FoodItemCard foodItem={foodItem} />
