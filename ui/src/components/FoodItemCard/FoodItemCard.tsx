@@ -28,8 +28,8 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
   return (
     <Card sx={{ minWidth: 250 }}>
       <CardContent>
-        <Grid container columns={3}>
-          <Grid xs={2} sx={{ pt: 1, pl: 1 }}>
+        <Grid container columns={5}>
+          <Grid xs={4} sx={{ pt: 1, pl: 1 }}>
             <Typography sx={{ textTransform: 'capitalize' }} variant="h5" component="div">
               {foodItem.foodName.toLowerCase()}
             </Typography>
