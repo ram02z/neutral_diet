@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 
 import { Add } from '@mui/icons-material';
 import { Card, CardContent, IconButton, Typography } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import { FoodHistoryState } from '@/store/food';
@@ -26,21 +27,29 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
 
   return (
     <Card sx={{ minWidth: 250 }}>
-        <CardContent>
-          <IconButton
-            onClick={addToHistory}
-            sx={{ float: 'right' }}
-            aria-label="add"
+      <CardContent>
+        <Grid container columns={3}>
+          <Grid xs={2} sx={{ pt: 1, pl: 1 }}>
+            <Typography sx={{ textTransform: 'capitalize' }} variant="h5" component="div">
+              {foodItem.foodName.toLowerCase()}
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary" component="div">
+              {foodItem.medianCarbonFootprint}
+            </Typography>
+          </Grid>
+          <Grid
+            xs
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="center"
+            sx={{ pt: 1, pl: 1 }}
           >
-            <Add />
-          </IconButton>
-          <Typography sx={{ textTransform: 'capitalize' }} variant="h5" component="div">
-            {foodItem.foodName.toLowerCase()}
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div">
-            {foodItem.medianCarbonFootprint}
-          </Typography>
-        </CardContent>
+            <IconButton onClick={addToHistory} aria-label="add" sx={{ float: 'right' }}>
+              <Add />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </CardContent>
     </Card>
   );
 }

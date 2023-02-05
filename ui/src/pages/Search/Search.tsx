@@ -94,7 +94,7 @@ function Search() {
             />
           </FormControl>
         </Grid>
-        {showHistory && (
+        {showHistory ? (
           <>
             <Grid>
               <Typography variant="h4">History</Typography>
@@ -112,12 +112,18 @@ function Search() {
               </Grid>
             )}
           </>
+        ) : (
+          <>
+            <Grid>
+              <Typography variant="h4">Search Results</Typography>
+            </Grid>
+            {searchFoodItems.map((foodItem, idx) => (
+              <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
+                <FoodItemCard foodItem={foodItem} />
+              </Grid>
+            ))}
+          </>
         )}
-        {searchFoodItems.map((foodItem, idx) => (
-          <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
-            <FoodItemCard foodItem={foodItem} />
-          </Grid>
-        ))}
       </Grid>
     </Box>
   );
