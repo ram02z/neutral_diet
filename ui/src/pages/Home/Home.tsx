@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
-import client from '@/api/food_service';
 import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
+import { FoodItemsState } from '@/store/food';
 
 const columns: GridColDef[] = [
   { field: 'typologyName', headerName: 'Category', flex: 1 },
@@ -16,13 +16,7 @@ const columns: GridColDef[] = [
 ];
 
 function Home() {
-  const [foodItems, setFoodItems] = useState<AggregateFoodItem[]>([]);
-  useEffect(() => {
-    client
-      .listAggregateFoodItems({})
-      .then((response) => setFoodItems(response.foodItems))
-      .catch((e) => console.error(e.message));
-  }, []);
+  const foodItems = useRecoilValue(FoodItemsState);
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Alert, Collapse, TextField, Typography } from '@mui/material';
+import { Alert, Collapse, TextField } from '@mui/material';
 
 import PasswordTextField from '@/components/PasswordTextField';
 import { auth } from '@/core/firebase';

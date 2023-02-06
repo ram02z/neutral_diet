@@ -1,4 +1,4 @@
-import { AuthError, UserCredential } from 'firebase/auth';
+import { UserCredential } from 'firebase/auth';
 
 export type AuthActionHook<M> = [M, UserCredential | undefined, boolean, boolean];
 
