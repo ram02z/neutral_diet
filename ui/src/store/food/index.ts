@@ -30,5 +30,5 @@ export const FoodItemsState = atom({
 export const FoodHistoryState = atom<AggregateFoodItem[]>({
   key: 'FoodHistoryState',
   default: [],
-  // effects: [persistAtom],
-})
+  effects: [persistAtom],
+});

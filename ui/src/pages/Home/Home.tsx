@@ -1,3 +1,4 @@
+import { useRecoilValue } from 'recoil';
 
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -5,7 +6,6 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { FoodItemsState } from '@/store/food';
-import { useRecoilValue } from 'recoil';
 
 const columns: GridColDef[] = [
   { field: 'typologyName', headerName: 'Category', flex: 1 },
