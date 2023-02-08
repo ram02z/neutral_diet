@@ -22,6 +22,7 @@ import {
   LocalUserSettingsState,
   RemoteUserSettingsState,
 } from '@/store/user';
+import DietaryRequirementSelect from '@/components/DietaryRequirementSelect';
 
 function Account() {
   const user = useCurrentUser();
@@ -41,7 +42,6 @@ function Account() {
         .updateUserSettings({ userSettings: remoteUserSettings }, { headers: headers })
         .then(() => enqueueSnackbar('Updated account settings.', { variant: 'success' }))
         .catch((err) => {
-          // TODO: show snackbar error variant
           enqueueSnackbar('Could not save account settings.', { variant: 'error' });
           console.error(err);
         });
@@ -110,6 +110,9 @@ function Account() {
         >
           <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
             <RegionSelect />
+          </Grid>
+          <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
+            <DietaryRequirementSelect />
           </Grid>
           <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
             <CarbonFootprintSlider />
