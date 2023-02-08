@@ -11,6 +11,6 @@ const notifications: Notifications = {
   preventDuplicate: true,
 };
 
-const MIN_WIDTH = "250px";
+const MIN_WIDTH = '250px';
 
 export { notifications, MIN_WIDTH };

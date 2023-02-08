@@ -54,7 +54,6 @@ export const LocalUserSettingsState = atom<LocalUserSettings>({
         const response = await client.getUserSettings({}, { headers: headers });
         defaults.cfLimit = response.userSettings?.cfLimit ?? defaults.cfLimit;
         defaults.region = response.userSettings?.region?.name ?? defaults.region;
-        console.log(response.userSettings?.dietaryRequirement)
         defaults.dietaryRequirement =
           response.userSettings?.dietaryRequirement ?? defaults.dietaryRequirement;
       }

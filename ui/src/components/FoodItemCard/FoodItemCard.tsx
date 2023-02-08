@@ -6,8 +6,8 @@ import { Card, CardContent, IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
-import { FoodHistoryState } from '@/store/food';
 import { MIN_WIDTH } from '@/config';
+import { FoodHistoryState } from '@/store/food';
 
 type FoodItemCardProps = {
   foodItem: AggregateFoodItem;

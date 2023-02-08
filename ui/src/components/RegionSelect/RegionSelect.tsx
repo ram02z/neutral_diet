@@ -3,9 +3,9 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { Box } from '@mui/system';
 
+import { MIN_WIDTH } from '@/config';
 import { RegionsState } from '@/store/food';
 import { LocalUserSettingsState } from '@/store/user';
-import { MIN_WIDTH } from '@/config';
 
 function RegionSelect() {
   const localUserSettings = useRecoilValue(LocalUserSettingsState);

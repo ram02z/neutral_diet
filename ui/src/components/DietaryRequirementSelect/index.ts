@@ -1,3 +1,3 @@
-import DietaryRequirementSelect from "./DietaryRequirementSelect";
+import DietaryRequirementSelect from './DietaryRequirementSelect';
 
 export default DietaryRequirementSelect;

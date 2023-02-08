@@ -65,7 +65,7 @@ func (s *Store) GetUser(
 			Region: &foodv1.Region{
 				Name: user.Region.String,
 			},
-			CfLimit: user.CfLimit.InexactFloat64(),
+			CfLimit:            user.CfLimit.InexactFloat64(),
 			DietaryRequirement: userv1.UserSettings_DietaryRequirement(user.DietaryRequirement),
 		},
 	}

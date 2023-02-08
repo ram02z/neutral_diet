@@ -12,6 +12,7 @@ import { useSnackbar } from 'notistack';
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import DeleteAccount from '@/components/DeleteAccount';
+import DietaryRequirementSelect from '@/components/DietaryRequirementSelect';
 import Loading from '@/components/Loading';
 import RegionSelect from '@/components/RegionSelect';
 import { CarbonFootprintSlider } from '@/components/StyledSlider';
@@ -22,7 +23,6 @@ import {
   LocalUserSettingsState,
   RemoteUserSettingsState,
 } from '@/store/user';
-import DietaryRequirementSelect from '@/components/DietaryRequirementSelect';
 
 function Account() {
   const user = useCurrentUser();
