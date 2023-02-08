@@ -44,7 +44,7 @@ export const LocalUserSettingsState = atom<LocalUserSettings>({
         region: 'World',
         cfLimit: 0.0,
         dirty: false,
-        dietaryRequirement: new DietaryRequirement(UserSettings_DietaryRequirement.UNSPECIFIED),
+        dietaryRequirement: UserSettings_DietaryRequirement.UNSPECIFIED,
       };
 
       const idToken = get(CurrentUserTokenIDState);
@@ -54,11 +54,9 @@ export const LocalUserSettingsState = atom<LocalUserSettings>({
         const response = await client.getUserSettings({}, { headers: headers });
         defaults.cfLimit = response.userSettings?.cfLimit ?? defaults.cfLimit;
         defaults.region = response.userSettings?.region?.name ?? defaults.region;
-        if (response.userSettings?.dietaryRequirement) {
-          defaults.dietaryRequirement = new DietaryRequirement(
-            response.userSettings?.dietaryRequirement,
-          );
-        }
+        console.log(response.userSettings?.dietaryRequirement)
+        defaults.dietaryRequirement =
+          response.userSettings?.dietaryRequirement ?? defaults.dietaryRequirement;
       }
       return defaults;
     },
@@ -72,7 +70,7 @@ export const RemoteUserSettingsState = selector({
     return new UserSettings({
       region: { name: localUserSettings.region },
       cfLimit: localUserSettings.cfLimit,
-      dietaryRequirement: localUserSettings.dietaryRequirement.value
+      dietaryRequirement: localUserSettings.dietaryRequirement,
     });
   },
 });
@@ -83,7 +81,7 @@ export const DietaryRequirementsState = atom<DietaryRequirement[]>({
     key: 'DietaryRequirementsState/Default',
     get: () => {
       return Object.values(UserSettings_DietaryRequirement)
-        .filter(x => typeof x === "number")
+        .filter((x) => typeof x === 'number')
         .map((dr) => new DietaryRequirement(dr as UserSettings_DietaryRequirement));
     },
   }),

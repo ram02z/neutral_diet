@@ -5,7 +5,6 @@ import { Box } from '@mui/system';
 
 import { DietaryRequirementsState, LocalUserSettingsState } from '@/store/user';
 import { MIN_WIDTH } from '@/config';
-import DietaryRequirement from '@/core/dietary_requirements';
 
 function DietaryRequirementSelect() {
   const localUserSettings = useRecoilValue(LocalUserSettingsState);
@@ -16,7 +15,7 @@ function DietaryRequirementSelect() {
     setLocalUserSettings((old) => {
       return {
         ...old,
-        dietaryRequirement: new DietaryRequirement(parseInt(event.target.value)),
+        dietaryRequirement: parseInt(event.target.value),
         dirty: true,
       };
     });
@@ -30,7 +29,7 @@ function DietaryRequirementSelect() {
           labelId="dietary-requirement-select-label"
           id="dietary-requirement-select"
           label="dietary-requirement"
-          value={localUserSettings.dietaryRequirement.value.toString()}
+          value={localUserSettings.dietaryRequirement.toString()}
           onChange={handleChange}
         >
           {dietaryRequirements.map((dr, idx) => (
