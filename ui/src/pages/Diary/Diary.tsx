@@ -1,11 +1,5 @@
-import { FullSizeCenteredFlexBox } from '@/components/styled';
-
 function Diary() {
-  return (
-    <>
-      <FullSizeCenteredFlexBox></FullSizeCenteredFlexBox>
-    </>
-  );
+  return <></>;
 }
 
 export default Diary;

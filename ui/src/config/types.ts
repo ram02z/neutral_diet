@@ -1,9 +1,8 @@
-import { SnackbarProps } from 'notistack';
+import { SharedProps } from 'notistack';
 
 type Notifications = {
-  options: SnackbarProps;
+  options: SharedProps;
   maxSnack: number;
-  preventDuplicate: boolean;
 };
 
 export type { Notifications };

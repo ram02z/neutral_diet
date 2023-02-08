@@ -6,9 +6,9 @@ const notifications: Notifications = {
       vertical: 'bottom',
       horizontal: 'center',
     },
+    preventDuplicate: true,
   },
   maxSnack: 1,
-  preventDuplicate: true,
 };
 
 const MIN_WIDTH = '250px';
