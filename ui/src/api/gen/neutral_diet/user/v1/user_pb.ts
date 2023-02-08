@@ -66,31 +66,25 @@ export enum UserSettings_DietaryRequirement {
   UNSPECIFIED = 0,
 
   /**
-   * @generated from enum value: DIETARY_REQUIREMENT_NON_VEGETARIAN = 1;
+   * @generated from enum value: DIETARY_REQUIREMENT_PESCATARIAN = 1;
    */
-  NON_VEGETARIAN = 1,
+  PESCATARIAN = 1,
 
   /**
-   * @generated from enum value: DIETARY_REQUIREMENT_PESCATARIAN = 2;
+   * @generated from enum value: DIETARY_REQUIREMENT_VEGETARIAN = 2;
    */
-  PESCATARIAN = 2,
+  VEGETARIAN = 2,
 
   /**
-   * @generated from enum value: DIETARY_REQUIREMENT_VEGETARIAN = 3;
+   * @generated from enum value: DIETARY_REQUIREMENT_VEGAN = 3;
    */
-  VEGETARIAN = 3,
-
-  /**
-   * @generated from enum value: DIETARY_REQUIREMENT_VEGAN = 4;
-   */
-  VEGAN = 4,
+  VEGAN = 3,
 }
 // Retrieve enum metadata with: proto3.getEnumType(UserSettings_DietaryRequirement)
 proto3.util.setEnumType(UserSettings_DietaryRequirement, "neutral_diet.user.v1.UserSettings.DietaryRequirement", [
   { no: 0, name: "DIETARY_REQUIREMENT_UNSPECIFIED" },
-  { no: 1, name: "DIETARY_REQUIREMENT_NON_VEGETARIAN" },
-  { no: 2, name: "DIETARY_REQUIREMENT_PESCATARIAN" },
-  { no: 3, name: "DIETARY_REQUIREMENT_VEGETARIAN" },
-  { no: 4, name: "DIETARY_REQUIREMENT_VEGAN" },
+  { no: 1, name: "DIETARY_REQUIREMENT_PESCATARIAN" },
+  { no: 2, name: "DIETARY_REQUIREMENT_VEGETARIAN" },
+  { no: 3, name: "DIETARY_REQUIREMENT_VEGAN" },
 ]);
 

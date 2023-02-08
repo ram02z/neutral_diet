@@ -17,7 +17,6 @@ class DietaryRequirement {
         return 3.81;
       case UserSettings_DietaryRequirement.VEGAN:
         return 2.89;
-      case UserSettings_DietaryRequirement.NON_VEGETARIAN:
       default:
         return 5.76;
     }
@@ -31,8 +30,6 @@ class DietaryRequirement {
         return 'Vegetarian';
       case UserSettings_DietaryRequirement.VEGAN:
         return 'Vegan';
-      case UserSettings_DietaryRequirement.NON_VEGETARIAN:
-        return 'Non-vegetarian';
       default:
         return 'N/A';
     }

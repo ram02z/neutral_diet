@@ -10,10 +10,9 @@ message UserSettings {
   double cf_limit = 2 [(validate.rules).double = {gte: 0.0}];
   enum DietaryRequirement {
     DIETARY_REQUIREMENT_UNSPECIFIED = 0;
-    DIETARY_REQUIREMENT_NON_VEGETARIAN = 1;
-    DIETARY_REQUIREMENT_PESCATARIAN = 2;
-    DIETARY_REQUIREMENT_VEGETARIAN = 3;
-    DIETARY_REQUIREMENT_VEGAN = 4;
+    DIETARY_REQUIREMENT_PESCATARIAN = 1;
+    DIETARY_REQUIREMENT_VEGETARIAN = 2;
+    DIETARY_REQUIREMENT_VEGAN = 3;
   }
   DietaryRequirement dietary_requirement = 3 [(validate.rules).enum.defined_only = true];
 }
