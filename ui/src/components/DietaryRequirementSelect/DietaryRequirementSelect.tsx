@@ -4,20 +4,18 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@m
 import { Box } from '@mui/system';
 
 import { MIN_WIDTH } from '@/config';
-import { RegionsState } from '@/store/food';
-import { LocalUserSettingsState } from '@/store/user';
+import { DietaryRequirementsState, LocalUserSettingsState } from '@/store/user';
 
-function RegionSelect() {
+function DietaryRequirementSelect() {
   const localUserSettings = useRecoilValue(LocalUserSettingsState);
   const setLocalUserSettings = useSetRecoilState(LocalUserSettingsState);
-  // TODO: handle errors
-  const regions = useRecoilValue(RegionsState);
+  const dietaryRequirements = useRecoilValue(DietaryRequirementsState);
 
   const handleChange = (event: SelectChangeEvent) => {
     setLocalUserSettings((old) => {
       return {
         ...old,
-        region: event.target.value as string,
+        dietaryRequirement: parseInt(event.target.value),
         dirty: true,
       };
     });
@@ -26,17 +24,17 @@ function RegionSelect() {
   return (
     <Box sx={{ minWidth: MIN_WIDTH }}>
       <FormControl fullWidth>
-        <InputLabel id="region-select-label">Region</InputLabel>
+        <InputLabel id="dietary-requirement-select-label">Dietary Requirement</InputLabel>
         <Select
-          labelId="region-select-label"
-          id="region-select"
-          label="Region"
-          value={localUserSettings.region}
+          labelId="dietary-requirement-select-label"
+          id="dietary-requirement-select"
+          label="dietary-requirement"
+          value={localUserSettings.dietaryRequirement.toString()}
           onChange={handleChange}
         >
-          {regions.map((region, idx) => (
-            <MenuItem key={idx} value={region.name}>
-              {region.name}
+          {dietaryRequirements.map((dr, idx) => (
+            <MenuItem key={idx} value={dr.value}>
+              {dr.getSettingName()}
             </MenuItem>
           ))}
         </Select>
@@ -45,4 +43,4 @@ function RegionSelect() {
   );
 }
 
-export default RegionSelect;
+export default DietaryRequirementSelect;

@@ -1,6 +1,6 @@
 -- name: CreateUser :one
-INSERT INTO "user" (firebase_uid, region, cf_limit)
-    VALUES ($1, $2, $3)
+INSERT INTO "user" (firebase_uid, region, cf_limit, dietary_requirement)
+    VALUES ($1, $2, $3, $4)
 RETURNING
     id;
 
@@ -15,7 +15,8 @@ UPDATE
     "user"
 SET
     region = $2,
-    cf_limit = $3
+    cf_limit = $3,
+    dietary_requirement = $4
 WHERE
     firebase_uid = $1;
 

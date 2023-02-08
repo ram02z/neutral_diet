@@ -12,6 +12,7 @@ import { useSnackbar } from 'notistack';
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import DeleteAccount from '@/components/DeleteAccount';
+import DietaryRequirementSelect from '@/components/DietaryRequirementSelect';
 import Loading from '@/components/Loading';
 import RegionSelect from '@/components/RegionSelect';
 import { CarbonFootprintSlider } from '@/components/StyledSlider';
@@ -41,7 +42,6 @@ function Account() {
         .updateUserSettings({ userSettings: remoteUserSettings }, { headers: headers })
         .then(() => enqueueSnackbar('Updated account settings.', { variant: 'success' }))
         .catch((err) => {
-          // TODO: show snackbar error variant
           enqueueSnackbar('Could not save account settings.', { variant: 'error' });
           console.error(err);
         });
@@ -110,6 +110,9 @@ function Account() {
         >
           <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
             <RegionSelect />
+          </Grid>
+          <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
+            <DietaryRequirementSelect />
           </Grid>
           <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
             <CarbonFootprintSlider />

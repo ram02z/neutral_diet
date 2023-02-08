@@ -6,6 +6,7 @@ import { Card, CardContent, IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
+import { MIN_WIDTH } from '@/config';
 import { FoodHistoryState } from '@/store/food';
 
 type FoodItemCardProps = {
@@ -26,7 +27,7 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
   };
 
   return (
-    <Card sx={{ minWidth: 250 }}>
+    <Card sx={{ minWidth: MIN_WIDTH }}>
       <CardContent>
         <Grid container columns={5}>
           <Grid xs={4} sx={{ pt: 1, pl: 1 }}>

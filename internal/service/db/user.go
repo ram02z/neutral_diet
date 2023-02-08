@@ -18,12 +18,10 @@ func (s *Store) CreateUser(
 	queries := db.New(s.dbPool)
 
 	userID, err := queries.CreateUser(ctx, db.CreateUserParams{
-		FirebaseUid: r.FirebaseUid,
-		Region: sql.NullString{
-			String: DefaultRegionName,
-			Valid:  true,
-		},
-		CfLimit: decimal.NewFromFloat(0.0),
+		FirebaseUid:        r.FirebaseUid,
+		Region:             sql.NullString{String: DefaultRegionName, Valid: true},
+		CfLimit:            decimal.NewFromFloat(0.0),
+		DietaryRequirement: int32(userv1.UserSettings_DIETARY_REQUIREMENT_UNSPECIFIED.Number()),
 	})
 	if err != nil {
 		return nil, connect.NewError(connect.CodeAlreadyExists, err)
@@ -67,7 +65,8 @@ func (s *Store) GetUser(
 			Region: &foodv1.Region{
 				Name: user.Region.String,
 			},
-			CfLimit: user.CfLimit.InexactFloat64(),
+			CfLimit:            user.CfLimit.InexactFloat64(),
+			DietaryRequirement: userv1.UserSettings_DietaryRequirement(user.DietaryRequirement),
 		},
 	}
 
@@ -87,7 +86,8 @@ func (s *Store) UpdateUserSettings(
 			String: r.GetUserSettings().GetRegion().Name,
 			Valid:  true,
 		},
-		CfLimit: decimal.NewFromFloat(r.GetUserSettings().CfLimit),
+		CfLimit:            decimal.NewFromFloat(r.GetUserSettings().CfLimit),
+		DietaryRequirement: int32(r.GetUserSettings().GetDietaryRequirement().Number()),
 	})
 	if err != nil {
 		return nil, err

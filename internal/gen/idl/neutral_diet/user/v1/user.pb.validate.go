@@ -108,6 +108,17 @@ func (m *UserSettings) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if _, ok := UserSettings_DietaryRequirement_name[int32(m.GetDietaryRequirement())]; !ok {
+		err := UserSettingsValidationError{
+			field:  "DietaryRequirement",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if len(errors) > 0 {
 		return UserSettingsMultiError(errors)
 	}
