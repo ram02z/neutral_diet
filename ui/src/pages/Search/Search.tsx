@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import RenderIfVisible from 'react-render-if-visible';
 import { useRecoilValue } from 'recoil';
 
 import { Close, SearchRounded } from '@mui/icons-material';
@@ -99,7 +100,9 @@ function Search() {
           </Grid>
           {searchFoodHistory.map((foodItem, idx) => (
             <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
-              <FoodItemCard foodItem={foodItem} />
+              <RenderIfVisible>
+                <FoodItemCard foodItem={foodItem} />
+              </RenderIfVisible>
             </Grid>
           ))}
           {searchText.length > 0 && (
@@ -117,7 +120,9 @@ function Search() {
           </Grid>
           {searchFoodItems.map((foodItem, idx) => (
             <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
-              <FoodItemCard foodItem={foodItem} />
+              <RenderIfVisible>
+                <FoodItemCard foodItem={foodItem} />
+              </RenderIfVisible>
             </Grid>
           ))}
         </>
