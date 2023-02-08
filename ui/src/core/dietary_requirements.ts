@@ -17,10 +17,9 @@ class DietaryRequirement {
         return 3.81;
       case UserSettings_DietaryRequirement.VEGAN:
         return 2.89;
-      // TODO: calculate mean
       case UserSettings_DietaryRequirement.NON_VEGETARIAN:
       default:
-        return 5.8;
+        return 5.76;
     }
   }
 
