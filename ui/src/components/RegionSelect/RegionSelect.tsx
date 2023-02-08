@@ -5,6 +5,7 @@ import { Box } from '@mui/system';
 
 import { RegionsState } from '@/store/food';
 import { LocalUserSettingsState } from '@/store/user';
+import { MIN_WIDTH } from '@/config';
 
 function RegionSelect() {
   const localUserSettings = useRecoilValue(LocalUserSettingsState);
@@ -23,7 +24,7 @@ function RegionSelect() {
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: MIN_WIDTH }}>
       <FormControl fullWidth>
         <InputLabel id="region-select-label">Region</InputLabel>
         <Select

@@ -21,6 +21,11 @@ export class UserSettings extends Message<UserSettings> {
    */
   cfLimit = 0;
 
+  /**
+   * @generated from field: neutral_diet.user.v1.UserSettings.DietaryRequirement dietary_requirement = 3;
+   */
+  dietaryRequirement = UserSettings_DietaryRequirement.UNSPECIFIED;
+
   constructor(data?: PartialMessage<UserSettings>) {
     super();
     proto3.util.initPartial(data, this);
@@ -31,6 +36,7 @@ export class UserSettings extends Message<UserSettings> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "region", kind: "message", T: Region },
     { no: 2, name: "cf_limit", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 3, name: "dietary_requirement", kind: "enum", T: proto3.getEnumType(UserSettings_DietaryRequirement) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserSettings {
@@ -49,4 +55,42 @@ export class UserSettings extends Message<UserSettings> {
     return proto3.util.equals(UserSettings, a, b);
   }
 }
+
+/**
+ * @generated from enum neutral_diet.user.v1.UserSettings.DietaryRequirement
+ */
+export enum UserSettings_DietaryRequirement {
+  /**
+   * @generated from enum value: DIETARY_REQUIREMENT_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: DIETARY_REQUIREMENT_NON_VEGETARIAN = 1;
+   */
+  NON_VEGETARIAN = 1,
+
+  /**
+   * @generated from enum value: DIETARY_REQUIREMENT_PESCATARIAN = 2;
+   */
+  PESCATARIAN = 2,
+
+  /**
+   * @generated from enum value: DIETARY_REQUIREMENT_VEGETARIAN = 3;
+   */
+  VEGETARIAN = 3,
+
+  /**
+   * @generated from enum value: DIETARY_REQUIREMENT_VEGAN = 4;
+   */
+  VEGAN = 4,
+}
+// Retrieve enum metadata with: proto3.getEnumType(UserSettings_DietaryRequirement)
+proto3.util.setEnumType(UserSettings_DietaryRequirement, "neutral_diet.user.v1.UserSettings.DietaryRequirement", [
+  { no: 0, name: "DIETARY_REQUIREMENT_UNSPECIFIED" },
+  { no: 1, name: "DIETARY_REQUIREMENT_NON_VEGETARIAN" },
+  { no: 2, name: "DIETARY_REQUIREMENT_PESCATARIAN" },
+  { no: 3, name: "DIETARY_REQUIREMENT_VEGETARIAN" },
+  { no: 4, name: "DIETARY_REQUIREMENT_VEGAN" },
+]);
 

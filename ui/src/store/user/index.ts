@@ -2,9 +2,13 @@ import { atom, selector } from 'recoil';
 
 import { User } from 'firebase/auth';
 
-import { UserSettings } from '@/api/gen/neutral_diet/user/v1/user_pb';
+import {
+  UserSettings,
+  UserSettings_DietaryRequirement,
+} from '@/api/gen/neutral_diet/user/v1/user_pb';
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
+import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 
 import { LocalUserSettings } from './types';
@@ -60,4 +64,16 @@ export const RemoteUserSettingsState = selector({
       cfLimit: localUserSettings.cfLimit,
     });
   },
+});
+
+export const DietaryRequirementsState = atom<DietaryRequirement[]>({
+  key: 'DietaryRequirementsState',
+  default: selector({
+    key: 'DietaryRequirementsState/Default',
+    get: () => {
+      return Object.values(UserSettings_DietaryRequirement).map(
+        (dr) => new DietaryRequirement(dr as UserSettings_DietaryRequirement),
+      );
+    },
+  }),
 });

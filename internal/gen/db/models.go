@@ -109,10 +109,11 @@ type Typology struct {
 }
 
 type User struct {
-	ID          int32
-	FirebaseUid string
-	Region      sql.NullString
-	CfLimit     decimal.Decimal
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	ID                 int32
+	FirebaseUid        string
+	Region             sql.NullString
+	CfLimit            decimal.Decimal
+	CreatedAt          time.Time
+	UpdatedAt          time.Time
+	DietaryRequirement int32
 }
