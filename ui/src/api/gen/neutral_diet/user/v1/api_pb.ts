@@ -6,7 +6,7 @@
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
 import { FoodLogItem } from "./food_item_log_pb.js";
-import { Date } from "../../../google/type/date_pb.js";
+import { Date } from "./date_pb.js";
 import { UserSettings } from "./user_pb.js";
 
 /**
@@ -88,7 +88,7 @@ export class AddFoodItemResponse extends Message<AddFoodItemResponse> {
  */
 export class GetFoodItemLogRequest extends Message<GetFoodItemLogRequest> {
   /**
-   * @generated from field: google.type.Date date = 1;
+   * @generated from field: neutral_diet.user.v1.Date date = 1;
    */
   date?: Date;
 

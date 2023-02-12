@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { Date } from "../../../google/type/date_pb.js";
+import { Date } from "./date_pb.js";
 
 /**
  * @generated from message neutral_diet.user.v1.FoodLogItem
@@ -27,7 +27,7 @@ export class FoodLogItem extends Message<FoodLogItem> {
   carbonFootprint = 0;
 
   /**
-   * @generated from field: google.type.Date date = 4;
+   * @generated from field: neutral_diet.user.v1.Date date = 4;
    */
   date?: Date;
 

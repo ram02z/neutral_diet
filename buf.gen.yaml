@@ -5,7 +5,6 @@ managed:
     default: github.com/ram02z/neutral_diet/internal/gen/idl
     except:
       - buf.build/envoyproxy/protoc-gen-validate
-      - buf.build/googleapis/googleapis
 plugins:
   - plugin: buf.build/bufbuild/connect-go:v1.4.0
     out: internal/gen/idl

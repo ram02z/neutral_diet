@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package neutral_diet.user.v1;
+
+import "validate/validate.proto";
+
+message Date {
+  // Year of the date. Must be from 1 to 9999.
+  int32 year = 1 [(validate.rules).int32 = {
+    gte: 1,
+    lte: 9999
+  }];
+  // Month of a year. Must be 1 to 12.
+  int32 month = 2 [(validate.rules).int32 = {
+    gte: 1,
+    lte: 12
+  }];
+  // Day of a month. Must be from 1 to 31.
+  int32 day = 3 [(validate.rules).int32 = {
+    gte: 1,
+    lte: 31
+  }];
+}

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package neutral_diet.user.v1;
 
-import "google/type/date.proto";
+import "neutral_diet/user/v1/date.proto";
 import "neutral_diet/user/v1/food_item_log.proto";
 import "neutral_diet/user/v1/user.proto";
 import "validate/validate.proto";
@@ -16,7 +16,7 @@ message AddFoodItemResponse {
 }
 
 message GetFoodItemLogRequest {
-  google.type.Date date = 1 [(validate.rules).message.required = true];
+  Date date = 1 [(validate.rules).message.required = true];
 }
 
 message GetFoodItemLogResponse {
