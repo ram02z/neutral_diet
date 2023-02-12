@@ -19,7 +19,7 @@ There are two files included to track the environment variables:
 
 The application follows the [dotenv convention](https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use) for managing multiple environments.
 The order is summarised below:
-```
+```bash
 .env                # loaded in all cases
 .env.local          # loaded in all cases, ignored by git
 .env.[mode]         # only loaded in specified mode
