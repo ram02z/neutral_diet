@@ -2,7 +2,17 @@
 
 ## Getting started
 
-You need to first setup the environment. There are two files included to track the environment variables:
+### Prerequisites
+
+- Go
+- GNU Make
+- Docker Compose
+- [buf](https://github.com/bufbuild/buf)
+- [sqlc](https://github.com/kyleconroy/sqlc)
+
+### Environment
+
+There are two files included to track the environment variables:
 
 - [Backend .env.example](./.env.example)
 - [Frontend .env.example](./ui/.env.example)
@@ -28,7 +38,13 @@ make migrate up
 
 # Start application
 go run cmd/app/main.go
+# OR for live reloading
+air
 ```
+
+## Database
+
+To populate the database with food items, follow these [steps](./data/README.md). 
 
 ## License
 
