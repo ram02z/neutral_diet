@@ -8,7 +8,6 @@ import (
 	"github.com/ram02z/neutral_diet/internal/gen/db"
 	userv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1"
 	"github.com/shopspring/decimal"
-	"google.golang.org/genproto/googleapis/type/date"
 )
 
 func (s *Store) AddFoodItemToLog(
@@ -77,7 +76,7 @@ func mapToFoodLogItems(foodItemLogRows []db.FoodItemLog) ([]*userv1.FoodLogItem,
 			FoodItemId:      foodItemLogRows[i].ID,
 			Weight:          foodItemLogRows[i].Weight.InexactFloat64(),
 			CarbonFootprint: foodItemLogRows[i].CarbonFootprint.InexactFloat64(),
-			Date: &date.Date{
+			Date: &userv1.Date{
 				Year:  int32(foodItemLogRows[i].LogDate.Year()),
 				Month: int32(foodItemLogRows[i].LogDate.Month()),
 				Day:   int32(foodItemLogRows[i].LogDate.Day()),
