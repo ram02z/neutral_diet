@@ -8,7 +8,7 @@ gen-proto:
 	buf mod update internal/proto
 	buf lint
 	buf format -w
-	buf generate
+	buf generate --include-imports
 
 .PHONY: gen-models
 gen-models:

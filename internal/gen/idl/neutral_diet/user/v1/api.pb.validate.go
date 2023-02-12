@@ -281,6 +281,284 @@ var _ interface {
 	ErrorName() string
 } = AddFoodItemResponseValidationError{}
 
+// Validate checks the field values on GetFoodItemLogRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetFoodItemLogRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFoodItemLogRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetFoodItemLogRequestMultiError, or nil if none found.
+func (m *GetFoodItemLogRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFoodItemLogRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetDate() == nil {
+		err := GetFoodItemLogRequestValidationError{
+			field:  "Date",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetFoodItemLogRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetFoodItemLogRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetFoodItemLogRequestValidationError{
+				field:  "Date",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetFoodItemLogRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFoodItemLogRequestMultiError is an error wrapping multiple validation
+// errors returned by GetFoodItemLogRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetFoodItemLogRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFoodItemLogRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFoodItemLogRequestMultiError) AllErrors() []error { return m }
+
+// GetFoodItemLogRequestValidationError is the validation error returned by
+// GetFoodItemLogRequest.Validate if the designated constraints aren't met.
+type GetFoodItemLogRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFoodItemLogRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFoodItemLogRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFoodItemLogRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFoodItemLogRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFoodItemLogRequestValidationError) ErrorName() string {
+	return "GetFoodItemLogRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetFoodItemLogRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFoodItemLogRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFoodItemLogRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFoodItemLogRequestValidationError{}
+
+// Validate checks the field values on GetFoodItemLogResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetFoodItemLogResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFoodItemLogResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetFoodItemLogResponseMultiError, or nil if none found.
+func (m *GetFoodItemLogResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFoodItemLogResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetFoodItemLog() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetFoodItemLogResponseValidationError{
+						field:  fmt.Sprintf("FoodItemLog[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetFoodItemLogResponseValidationError{
+						field:  fmt.Sprintf("FoodItemLog[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetFoodItemLogResponseValidationError{
+					field:  fmt.Sprintf("FoodItemLog[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GetFoodItemLogResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFoodItemLogResponseMultiError is an error wrapping multiple validation
+// errors returned by GetFoodItemLogResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetFoodItemLogResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFoodItemLogResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFoodItemLogResponseMultiError) AllErrors() []error { return m }
+
+// GetFoodItemLogResponseValidationError is the validation error returned by
+// GetFoodItemLogResponse.Validate if the designated constraints aren't met.
+type GetFoodItemLogResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFoodItemLogResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFoodItemLogResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFoodItemLogResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFoodItemLogResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFoodItemLogResponseValidationError) ErrorName() string {
+	return "GetFoodItemLogResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetFoodItemLogResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFoodItemLogResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFoodItemLogResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFoodItemLogResponseValidationError{}
+
 // Validate checks the field values on CreateUserRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.

@@ -2,8 +2,11 @@ syntax = "proto3";
 
 package neutral_diet.user.v1;
 
+import "google/type/date.proto";
+
 message FoodLogItem {
   int32 food_item_id = 1;
   double weight = 2;
   double carbon_footprint = 3;
+  google.type.Date date = 4;
 }

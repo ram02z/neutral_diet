@@ -7,13 +7,14 @@ package db
 
 import (
 	"context"
+	"time"
 
 	"github.com/shopspring/decimal"
 )
 
 const addFoodItemToLog = `-- name: AddFoodItemToLog :one
-INSERT INTO "food_item_log" (food_item_id, weight, carbon_footprint, user_id)
-    VALUES ($1, $2, $3, $4)
+INSERT INTO "food_item_log" (food_item_id, weight, carbon_footprint, user_id, log_date)
+    VALUES ($1, $2, $3, $4, $5)
 RETURNING
     id
 `
@@ -23,6 +24,7 @@ type AddFoodItemToLogParams struct {
 	Weight          decimal.Decimal
 	CarbonFootprint decimal.Decimal
 	UserID          int32
+	LogDate         time.Time
 }
 
 func (q *Queries) AddFoodItemToLog(ctx context.Context, arg AddFoodItemToLogParams) (int32, error) {
@@ -31,10 +33,27 @@ func (q *Queries) AddFoodItemToLog(ctx context.Context, arg AddFoodItemToLogPara
 		arg.Weight,
 		arg.CarbonFootprint,
 		arg.UserID,
+		arg.LogDate,
 	)
 	var id int32
 	err := row.Scan(&id)
 	return id, err
+}
+
+const deleteFoodItemFromLog = `-- name: DeleteFoodItemFromLog :exec
+DELETE FROM "food_item_log"
+WHERE user_id = $1
+    AND id = $2
+`
+
+type DeleteFoodItemFromLogParams struct {
+	UserID int32
+	ID     int32
+}
+
+func (q *Queries) DeleteFoodItemFromLog(ctx context.Context, arg DeleteFoodItemFromLogParams) error {
+	_, err := q.db.Exec(ctx, deleteFoodItemFromLog, arg.UserID, arg.ID)
+	return err
 }
 
 const deleteUserLog = `-- name: DeleteUserLog :exec
@@ -45,4 +64,42 @@ WHERE user_id = $1
 func (q *Queries) DeleteUserLog(ctx context.Context, userID int32) error {
 	_, err := q.db.Exec(ctx, deleteUserLog, userID)
 	return err
+}
+
+const getFoodItemLogByDate = `-- name: GetFoodItemLogByDate :many
+SELECT
+    id, food_item_id, weight, carbon_footprint, created_at, updated_at, user_id, log_date
+FROM
+    "food_item_log"
+WHERE
+    log_date = $1
+`
+
+func (q *Queries) GetFoodItemLogByDate(ctx context.Context, logDate time.Time) ([]FoodItemLog, error) {
+	rows, err := q.db.Query(ctx, getFoodItemLogByDate, logDate)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []FoodItemLog
+	for rows.Next() {
+		var i FoodItemLog
+		if err := rows.Scan(
+			&i.ID,
+			&i.FoodItemID,
+			&i.Weight,
+			&i.CarbonFootprint,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+			&i.LogDate,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }

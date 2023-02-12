@@ -5,6 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
+import { Date } from "../../../google/type/date_pb.js";
 
 /**
  * @generated from message neutral_diet.user.v1.FoodLogItem
@@ -25,6 +26,11 @@ export class FoodLogItem extends Message<FoodLogItem> {
    */
   carbonFootprint = 0;
 
+  /**
+   * @generated from field: google.type.Date date = 4;
+   */
+  date?: Date;
+
   constructor(data?: PartialMessage<FoodLogItem>) {
     super();
     proto3.util.initPartial(data, this);
@@ -36,6 +42,7 @@ export class FoodLogItem extends Message<FoodLogItem> {
     { no: 1, name: "food_item_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 2, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 3, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 4, name: "date", kind: "message", T: Date },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItem {

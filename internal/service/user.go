@@ -122,3 +122,22 @@ func (c *ConnectWrapper) GetUserSettings(
 
 	return out, nil
 }
+
+func (c *ConnectWrapper) GetFoodItemLog(
+	ctx context.Context,
+	req *connect.Request[userv1.GetFoodItemLogRequest],
+) (*connect.Response[userv1.GetFoodItemLogResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.GetFoodItemLog(ctx, req.Msg, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}

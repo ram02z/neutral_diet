@@ -28,6 +28,7 @@ const (
 // UserServiceClient is a client for the neutral_diet.user.v1.UserService service.
 type UserServiceClient interface {
 	AddFoodItem(context.Context, *connect_go.Request[v1.AddFoodItemRequest]) (*connect_go.Response[v1.AddFoodItemResponse], error)
+	GetFoodItemLog(context.Context, *connect_go.Request[v1.GetFoodItemLogRequest]) (*connect_go.Response[v1.GetFoodItemLogResponse], error)
 	CreateUser(context.Context, *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.CreateUserResponse], error)
 	DeleteUser(context.Context, *connect_go.Request[v1.DeleteUserRequest]) (*connect_go.Response[v1.DeleteUserResponse], error)
 	GetUserSettings(context.Context, *connect_go.Request[v1.GetUserSettingsRequest]) (*connect_go.Response[v1.GetUserSettingsResponse], error)
@@ -47,6 +48,11 @@ func NewUserServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 		addFoodItem: connect_go.NewClient[v1.AddFoodItemRequest, v1.AddFoodItemResponse](
 			httpClient,
 			baseURL+"/neutral_diet.user.v1.UserService/AddFoodItem",
+			opts...,
+		),
+		getFoodItemLog: connect_go.NewClient[v1.GetFoodItemLogRequest, v1.GetFoodItemLogResponse](
+			httpClient,
+			baseURL+"/neutral_diet.user.v1.UserService/GetFoodItemLog",
 			opts...,
 		),
 		createUser: connect_go.NewClient[v1.CreateUserRequest, v1.CreateUserResponse](
@@ -75,6 +81,7 @@ func NewUserServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 // userServiceClient implements UserServiceClient.
 type userServiceClient struct {
 	addFoodItem        *connect_go.Client[v1.AddFoodItemRequest, v1.AddFoodItemResponse]
+	getFoodItemLog     *connect_go.Client[v1.GetFoodItemLogRequest, v1.GetFoodItemLogResponse]
 	createUser         *connect_go.Client[v1.CreateUserRequest, v1.CreateUserResponse]
 	deleteUser         *connect_go.Client[v1.DeleteUserRequest, v1.DeleteUserResponse]
 	getUserSettings    *connect_go.Client[v1.GetUserSettingsRequest, v1.GetUserSettingsResponse]
@@ -84,6 +91,11 @@ type userServiceClient struct {
 // AddFoodItem calls neutral_diet.user.v1.UserService.AddFoodItem.
 func (c *userServiceClient) AddFoodItem(ctx context.Context, req *connect_go.Request[v1.AddFoodItemRequest]) (*connect_go.Response[v1.AddFoodItemResponse], error) {
 	return c.addFoodItem.CallUnary(ctx, req)
+}
+
+// GetFoodItemLog calls neutral_diet.user.v1.UserService.GetFoodItemLog.
+func (c *userServiceClient) GetFoodItemLog(ctx context.Context, req *connect_go.Request[v1.GetFoodItemLogRequest]) (*connect_go.Response[v1.GetFoodItemLogResponse], error) {
+	return c.getFoodItemLog.CallUnary(ctx, req)
 }
 
 // CreateUser calls neutral_diet.user.v1.UserService.CreateUser.
@@ -109,6 +121,7 @@ func (c *userServiceClient) UpdateUserSettings(ctx context.Context, req *connect
 // UserServiceHandler is an implementation of the neutral_diet.user.v1.UserService service.
 type UserServiceHandler interface {
 	AddFoodItem(context.Context, *connect_go.Request[v1.AddFoodItemRequest]) (*connect_go.Response[v1.AddFoodItemResponse], error)
+	GetFoodItemLog(context.Context, *connect_go.Request[v1.GetFoodItemLogRequest]) (*connect_go.Response[v1.GetFoodItemLogResponse], error)
 	CreateUser(context.Context, *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.CreateUserResponse], error)
 	DeleteUser(context.Context, *connect_go.Request[v1.DeleteUserRequest]) (*connect_go.Response[v1.DeleteUserResponse], error)
 	GetUserSettings(context.Context, *connect_go.Request[v1.GetUserSettingsRequest]) (*connect_go.Response[v1.GetUserSettingsResponse], error)
@@ -125,6 +138,11 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect_go.HandlerOpt
 	mux.Handle("/neutral_diet.user.v1.UserService/AddFoodItem", connect_go.NewUnaryHandler(
 		"/neutral_diet.user.v1.UserService/AddFoodItem",
 		svc.AddFoodItem,
+		opts...,
+	))
+	mux.Handle("/neutral_diet.user.v1.UserService/GetFoodItemLog", connect_go.NewUnaryHandler(
+		"/neutral_diet.user.v1.UserService/GetFoodItemLog",
+		svc.GetFoodItemLog,
 		opts...,
 	))
 	mux.Handle("/neutral_diet.user.v1.UserService/CreateUser", connect_go.NewUnaryHandler(
@@ -155,6 +173,10 @@ type UnimplementedUserServiceHandler struct{}
 
 func (UnimplementedUserServiceHandler) AddFoodItem(context.Context, *connect_go.Request[v1.AddFoodItemRequest]) (*connect_go.Response[v1.AddFoodItemResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.AddFoodItem is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) GetFoodItemLog(context.Context, *connect_go.Request[v1.GetFoodItemLogRequest]) (*connect_go.Response[v1.GetFoodItemLogResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.GetFoodItemLog is not implemented"))
 }
 
 func (UnimplementedUserServiceHandler) CreateUser(context.Context, *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.CreateUserResponse], error) {

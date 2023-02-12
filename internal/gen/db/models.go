@@ -77,6 +77,7 @@ type FoodItemLog struct {
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
 	UserID          int32
+	LogDate         time.Time
 }
 
 type LifeCycle struct {

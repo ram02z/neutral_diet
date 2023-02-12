@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import { Button } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -8,11 +9,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import dayjs from 'dayjs';
 
+import { ID_TOKEN_HEADER } from '@/api/transport';
+import client from '@/api/user_service';
+import { CurrentUserTokenIDState } from '@/store/user';
 import { getDateString } from '@/utils/date';
 
 function Diary() {
   const [isForcePickerOpen, setIsOpen] = useState(false);
   const [date, setDate] = useState(dayjs());
+  const idToken = useRecoilValue(CurrentUserTokenIDState);
   const isToday = useMemo(() => date.isSame(dayjs(), 'date'), [date]);
 
   const yesterday = () => {
@@ -22,6 +27,21 @@ function Diary() {
   const tommorrow = () => {
     setDate(date.add(1, 'day'));
   };
+
+  useEffect(() => {
+    if (idToken) {
+      const headers = new Headers();
+      headers.set(ID_TOKEN_HEADER, idToken);
+      client
+        .getFoodItemLog(
+          {
+            date: { year: date.year(), month: date.month() + 1, day: date.date() },
+          },
+          { headers: headers },
+        )
+        .then((res) => console.log(res));
+    }
+  }, []);
 
   return (
     <Grid

@@ -2,16 +2,25 @@ syntax = "proto3";
 
 package neutral_diet.user.v1;
 
+import "google/type/date.proto";
 import "neutral_diet/user/v1/food_item_log.proto";
 import "neutral_diet/user/v1/user.proto";
 import "validate/validate.proto";
 
 message AddFoodItemRequest {
-  FoodLogItem food_log_item = 2 [(validate.rules).message.required = true];
+  FoodLogItem food_log_item = 1 [(validate.rules).message.required = true];
 }
 
 message AddFoodItemResponse {
   int32 id = 1;
+}
+
+message GetFoodItemLogRequest {
+  google.type.Date date = 1 [(validate.rules).message.required = true];
+}
+
+message GetFoodItemLogResponse {
+  repeated FoodLogItem food_item_log = 1;
 }
 
 message CreateUserRequest {
@@ -40,6 +49,7 @@ message GetUserSettingsResponse {
 
 service UserService {
   rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
+  rpc GetFoodItemLog(GetFoodItemLogRequest) returns (GetFoodItemLogResponse) {}
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
   rpc GetUserSettings(GetUserSettingsRequest) returns (GetUserSettingsResponse) {}
