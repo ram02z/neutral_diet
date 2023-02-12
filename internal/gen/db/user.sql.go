@@ -7,8 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
 
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/shopspring/decimal"
 )
 
@@ -21,7 +21,7 @@ RETURNING
 
 type CreateUserParams struct {
 	FirebaseUid        string
-	Region             sql.NullString
+	Region             pgtype.Text
 	CfLimit            decimal.Decimal
 	DietaryRequirement int32
 }
@@ -89,7 +89,7 @@ WHERE
 
 type UpdateUserSettingsParams struct {
 	FirebaseUid        string
-	Region             sql.NullString
+	Region             pgtype.Text
 	CfLimit            decimal.Decimal
 	DietaryRequirement int32
 }

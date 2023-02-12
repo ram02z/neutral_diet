@@ -2,9 +2,9 @@ package db
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
 	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 )
@@ -15,15 +15,12 @@ func (s *Store) CreateTypology(
 ) (*foodv1.CreateTypologyResponse, error) {
 	queries := db.New(s.dbPool)
 
-	subTypologyID := sql.NullInt32{}
-	if r.Typology.SubTypologyId != nil {
-		subTypologyID.Valid = true
-		subTypologyID.Int32 = *r.Typology.SubTypologyId
-	}
-
 	source := db.CreateTypologyParams{
 		Name:          r.Typology.GetName(),
-		SubTypologyID: subTypologyID,
+		SubTypologyID: pgtype.Int4{
+			Int32: r.Typology.GetSubTypologyId(),
+			Valid: true,
+		},
 	}
 
 	typologyID, err := queries.CreateTypology(ctx, source)

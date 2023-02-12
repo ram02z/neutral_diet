@@ -7,7 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createTypology = `-- name: CreateTypology :one
@@ -19,7 +20,7 @@ RETURNING
 
 type CreateTypologyParams struct {
 	Name          string
-	SubTypologyID sql.NullInt32
+	SubTypologyID pgtype.Int4
 }
 
 func (q *Queries) CreateTypology(ctx context.Context, arg CreateTypologyParams) (int32, error) {

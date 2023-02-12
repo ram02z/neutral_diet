@@ -12,8 +12,8 @@ gen-proto:
 
 .PHONY: gen-models
 gen-models:
-	sqlc compile
-	sqlc generate
+	sqlc compile --experimental
+	sqlc generate --experimental
 
 .PHONY: migrate-up
 migrate-up:

@@ -7,8 +7,8 @@ package db
 
 import (
 	"context"
-	"time"
 
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/shopspring/decimal"
 )
 
@@ -24,7 +24,7 @@ type AddFoodItemToLogParams struct {
 	Weight          decimal.Decimal
 	CarbonFootprint decimal.Decimal
 	UserID          int32
-	LogDate         time.Time
+	LogDate         pgtype.Date
 }
 
 func (q *Queries) AddFoodItemToLog(ctx context.Context, arg AddFoodItemToLogParams) (int32, error) {
@@ -77,7 +77,7 @@ WHERE
 
 type GetFoodItemLogByDateParams struct {
 	UserID  int32
-	LogDate time.Time
+	LogDate pgtype.Date
 }
 
 func (q *Queries) GetFoodItemLogByDate(ctx context.Context, arg GetFoodItemLogByDateParams) ([]FoodItemLog, error) {

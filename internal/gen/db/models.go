@@ -5,11 +5,10 @@
 package db
 
 import (
-	"database/sql"
 	"database/sql/driver"
 	"fmt"
-	"time"
 
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/shopspring/decimal"
 )
 
@@ -53,7 +52,7 @@ func (ns NullCfTypes) Value() (driver.Value, error) {
 	if !ns.Valid {
 		return nil, nil
 	}
-	return ns.CfTypes, nil
+	return string(ns.CfTypes), nil
 }
 
 type AggregateFoodItem struct {
@@ -74,10 +73,10 @@ type FoodItemLog struct {
 	FoodItemID      int32
 	Weight          decimal.Decimal
 	CarbonFootprint decimal.Decimal
-	CreatedAt       time.Time
-	UpdatedAt       time.Time
+	CreatedAt       pgtype.Timestamptz
+	UpdatedAt       pgtype.Timestamptz
 	UserID          int32
-	LogDate         time.Time
+	LogDate         pgtype.Date
 }
 
 type LifeCycle struct {
@@ -106,15 +105,15 @@ type SubTypology struct {
 type Typology struct {
 	ID            int32
 	Name          string
-	SubTypologyID sql.NullInt32
+	SubTypologyID pgtype.Int4
 }
 
 type User struct {
 	ID                 int32
 	FirebaseUid        string
-	Region             sql.NullString
+	Region             pgtype.Text
 	CfLimit            decimal.Decimal
-	CreatedAt          time.Time
-	UpdatedAt          time.Time
+	CreatedAt          pgtype.Timestamptz
+	UpdatedAt          pgtype.Timestamptz
 	DietaryRequirement int32
 }

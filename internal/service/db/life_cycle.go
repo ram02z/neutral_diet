@@ -18,7 +18,7 @@ func (s *Store) CreateLifeCycle(
 	lifeCycle := db.CreateLifeCycleParams{
 		CarbonFootprint: decimal.NewFromFloat(r.LifeCycle.CarbonFootprint),
 		FoodItemID:      r.LifeCycle.GetFoodItemId(),
-		SourceID:        r.LifeCycle.GetFoodItemId(),
+		SourceID:        r.LifeCycle.GetSourceId(),
 	}
 
 	lifeCycleID, err := queries.CreateLifeCycle(ctx, lifeCycle)

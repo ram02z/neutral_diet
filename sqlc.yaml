@@ -7,7 +7,7 @@ sql:
       go:
         package: "db"
         emit_prepared_queries: true
-        sql_package: "pgx/v4"
+        sql_package: "pgx/v5"
         out: "internal/gen/db"
         overrides:
           - db_type: "pg_catalog.numeric"

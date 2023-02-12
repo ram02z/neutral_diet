@@ -2,10 +2,10 @@ package db
 
 import (
 	"context"
-	"errors"
 	"time"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
 	userv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1"
 	"github.com/shopspring/decimal"
@@ -23,17 +23,12 @@ func (s *Store) AddFoodItemToLog(
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	date, err := mapToTime(r.FoodLogItem.GetDate())
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInvalidArgument, err)
-	}
-
 	foodItemLogID, err := queries.AddFoodItemToLog(ctx, db.AddFoodItemToLogParams{
 		FoodItemID:      r.FoodLogItem.FoodItemId,
 		Weight:          decimal.NewFromFloat(r.FoodLogItem.Weight),
 		CarbonFootprint: decimal.NewFromFloat(r.FoodLogItem.CarbonFootprint),
 		UserID:          user.ID,
-		LogDate:         *date,
+		LogDate:         mapToDate(r.FoodLogItem.GetDate()),
 	})
 	if err != nil {
 		return nil, err
@@ -54,14 +49,9 @@ func (s *Store) GetFoodItemLog(
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	date, err := mapToTime(r.GetDate())
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInvalidArgument, err)
-	}
-
 	foodItemLog, err := queries.GetFoodItemLogByDate(ctx, db.GetFoodItemLogByDateParams{
 		UserID:  user.ID,
-		LogDate: *date,
+		LogDate: mapToDate(r.GetDate()),
 	})
 	if err != nil {
 		return nil, err
@@ -77,12 +67,12 @@ func (s *Store) GetFoodItemLog(
 	}, nil
 }
 
-func mapToTime(date *userv1.Date) (*time.Time, error) {
-	if date == nil {
-		return nil, errors.New("date is nil")
+func mapToDate(date *userv1.Date) pgtype.Date {
+	if date == nil || date.GetYear() == 0 || date.GetMonth() == 0 || date.GetDay() == 0 {
+		return pgtype.Date{Valid: false}
 	}
 
-	d := time.Date(
+	time := time.Date(
 		int(date.GetYear()),
 		time.Month(int(date.GetMonth())),
 		int(date.GetDay()),
@@ -91,7 +81,7 @@ func mapToTime(date *userv1.Date) (*time.Time, error) {
 		0,
 		0,
 		time.UTC)
-	return &d, nil
+	return pgtype.Date{Time: time, Valid: true}
 }
 
 func mapToFoodLogItems(foodItemLogRows []db.FoodItemLog) ([]*userv1.FoodLogItem, error) {
@@ -102,9 +92,9 @@ func mapToFoodLogItems(foodItemLogRows []db.FoodItemLog) ([]*userv1.FoodLogItem,
 			Weight:          foodItemLogRows[i].Weight.InexactFloat64(),
 			CarbonFootprint: foodItemLogRows[i].CarbonFootprint.InexactFloat64(),
 			Date: &userv1.Date{
-				Year:  int32(foodItemLogRows[i].LogDate.Year()),
-				Month: int32(foodItemLogRows[i].LogDate.Month()),
-				Day:   int32(foodItemLogRows[i].LogDate.Day()),
+				Year:  int32(foodItemLogRows[i].LogDate.Time.Year()),
+				Month: int32(foodItemLogRows[i].LogDate.Time.Month()),
+				Day:   int32(foodItemLogRows[i].LogDate.Time.Day()),
 			},
 		}
 

@@ -7,8 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
 
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/shopspring/decimal"
 )
 
@@ -31,7 +31,7 @@ type ListAggregateFoodItemsRow struct {
 	ID                    int32
 	FoodName              string
 	TypologyName          string
-	SubTypologyName       sql.NullString
+	SubTypologyName       pgtype.Text
 	N                     int64
 	MedianCarbonFootprint decimal.Decimal
 }
