@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/bufbuild/connect-go"
@@ -22,11 +23,17 @@ func (s *Store) AddFoodItemToLog(
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
+	date, err := mapToTime(r.FoodLogItem.GetDate())
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
 	foodItemLogID, err := queries.AddFoodItemToLog(ctx, db.AddFoodItemToLogParams{
 		FoodItemID:      r.FoodLogItem.FoodItemId,
 		Weight:          decimal.NewFromFloat(r.FoodLogItem.Weight),
 		CarbonFootprint: decimal.NewFromFloat(r.FoodLogItem.CarbonFootprint),
 		UserID:          user.ID,
+		LogDate:         *date,
 	})
 	if err != nil {
 		return nil, err
@@ -42,19 +49,20 @@ func (s *Store) GetFoodItemLog(
 ) (*userv1.GetFoodItemLogResponse, error) {
 	queries := db.New(s.dbPool)
 
-	foodItemLog, err := queries.GetFoodItemLogByDate(
-		ctx,
-		time.Date(
-			int(r.GetDate().GetYear()),
-			time.Month(int(r.GetDate().GetMonth())),
-			int(r.GetDate().GetDay()),
-			0,
-			0,
-			0,
-			0,
-			time.UTC,
-		),
-	)
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	date, err := mapToTime(r.GetDate())
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	foodItemLog, err := queries.GetFoodItemLogByDate(ctx, db.GetFoodItemLogByDateParams{
+		UserID:  user.ID,
+		LogDate: *date,
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -67,6 +75,23 @@ func (s *Store) GetFoodItemLog(
 	return &userv1.GetFoodItemLogResponse{
 		FoodItemLog: foodLogItems,
 	}, nil
+}
+
+func mapToTime(date *userv1.Date) (*time.Time, error) {
+	if date == nil {
+		return nil, errors.New("date is nil")
+	}
+
+	d := time.Date(
+		int(date.GetYear()),
+		time.Month(int(date.GetMonth())),
+		int(date.GetDay()),
+		0,
+		0,
+		0,
+		0,
+		time.UTC)
+	return &d, nil
 }
 
 func mapToFoodLogItems(foodItemLogRows []db.FoodItemLog) ([]*userv1.FoodLogItem, error) {

@@ -10,7 +10,7 @@ SELECT
 FROM
     "food_item_log"
 WHERE
-    log_date = $1;
+    user_id = $1 AND log_date = $2;
 
 -- name: DeleteFoodItemFromLog :exec
 DELETE FROM "food_item_log"

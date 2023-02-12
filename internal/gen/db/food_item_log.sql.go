@@ -72,11 +72,16 @@ SELECT
 FROM
     "food_item_log"
 WHERE
-    log_date = $1
+    user_id = $1 AND log_date = $2
 `
 
-func (q *Queries) GetFoodItemLogByDate(ctx context.Context, logDate time.Time) ([]FoodItemLog, error) {
-	rows, err := q.db.Query(ctx, getFoodItemLogByDate, logDate)
+type GetFoodItemLogByDateParams struct {
+	UserID  int32
+	LogDate time.Time
+}
+
+func (q *Queries) GetFoodItemLogByDate(ctx context.Context, arg GetFoodItemLogByDateParams) ([]FoodItemLog, error) {
+	rows, err := q.db.Query(ctx, getFoodItemLogByDate, arg.UserID, arg.LogDate)
 	if err != nil {
 		return nil, err
 	}
