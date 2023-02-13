@@ -12,3 +12,9 @@ sql:
         overrides:
           - db_type: "pg_catalog.numeric"
             go_type: "github.com/shopspring/decimal.Decimal"
+            # TODO: use 'emit_pointers_for_null_types' when updated
+          - db_type: "pg_catalog.int4"
+            go_type:
+              type: "int32"
+              pointer: true
+            nullable: true

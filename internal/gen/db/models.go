@@ -105,7 +105,7 @@ type SubTypology struct {
 type Typology struct {
 	ID            int32
 	Name          string
-	SubTypologyID pgtype.Int4
+	SubTypologyID *int32
 }
 
 type User struct {
