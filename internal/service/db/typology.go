@@ -15,7 +15,7 @@ func (s *Store) CreateTypology(
 	queries := db.New(s.dbPool)
 
 	source := db.CreateTypologyParams{
-		Name:          r.Typology.GetName(),
+		Name:          r.Typology.Name,
 		SubTypologyID: r.Typology.SubTypologyId,
 	}
 
