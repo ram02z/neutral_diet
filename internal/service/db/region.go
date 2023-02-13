@@ -16,7 +16,7 @@ func (s *Store) CreateRegion(
 ) (*foodv1.CreateRegionResponse, error) {
 	queries := db.New(s.dbPool)
 
-	err := queries.CreateRegion(ctx, r.GetRegion().GetName())
+	err := queries.CreateRegion(ctx, r.GetRegion().Name)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeAlreadyExists, err)
 	}

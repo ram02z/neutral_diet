@@ -14,7 +14,7 @@ func (s *Store) CreateSubTypology(
 ) (*foodv1.CreateSubTypologyResponse, error) {
 	queries := db.New(s.dbPool)
 
-	subTypologyID, err := queries.CreateSubTypology(ctx, r.SubTypology.GetName())
+	subTypologyID, err := queries.CreateSubTypology(ctx, r.SubTypology.Name)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeAlreadyExists, err)
 	}

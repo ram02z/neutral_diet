@@ -20,8 +20,8 @@ func (s *Store) CreateFoodItem(
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 	foodItem := &db.CreateFoodItemParams{
-		Name:        r.FoodItem.GetName(),
-		TypologyID:  r.FoodItem.GetTypologyId(),
+		Name:        r.FoodItem.Name,
+		TypologyID:  r.FoodItem.TypologyId,
 		SuggestedCf: suggestedCf,
 	}
 
