@@ -100,6 +100,7 @@ function Search() {
           </Grid>
           {searchFoodHistory.map((foodItem, idx) => (
             <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
+              {/* TODO: update default height to a more accurate estimate */}
               <RenderIfVisible>
                 <FoodItemCard foodItem={foodItem} />
               </RenderIfVisible>
@@ -120,6 +121,7 @@ function Search() {
           </Grid>
           {searchFoodItems.map((foodItem, idx) => (
             <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
+              {/* TODO: update default height to a more accurate estimate */}
               <RenderIfVisible>
                 <FoodItemCard foodItem={foodItem} />
               </RenderIfVisible>
