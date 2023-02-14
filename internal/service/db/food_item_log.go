@@ -88,7 +88,7 @@ func mapToFoodLogItems(foodItemLogRows []db.FoodItemLog) ([]*userv1.FoodLogItem,
 	foodLogItems := make([]*userv1.FoodLogItem, len(foodItemLogRows))
 	for i := range foodItemLogRows {
 		foodLogItems[i] = &userv1.FoodLogItem{
-			FoodItemId:      foodItemLogRows[i].ID,
+			FoodItemId:      foodItemLogRows[i].FoodItemID,
 			Weight:          foodItemLogRows[i].Weight.InexactFloat64(),
 			CarbonFootprint: foodItemLogRows[i].CarbonFootprint.InexactFloat64(),
 			Date: &userv1.Date{
@@ -97,8 +97,6 @@ func mapToFoodLogItems(foodItemLogRows []db.FoodItemLog) ([]*userv1.FoodLogItem,
 				Day:   int32(foodItemLogRows[i].LogDate.Time.Day()),
 			},
 		}
-
-		return foodLogItems, nil
 	}
 
 	return foodLogItems, nil

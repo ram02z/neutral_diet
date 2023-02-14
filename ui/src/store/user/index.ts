@@ -1,5 +1,6 @@
 import { atom, selector } from 'recoil';
 
+import dayjs from 'dayjs';
 import { User } from 'firebase/auth';
 
 import {
@@ -84,4 +85,32 @@ export const DietaryRequirementsState = atom<DietaryRequirement[]>({
         .map((dr) => new DietaryRequirement(dr as UserSettings_DietaryRequirement));
     },
   }),
+});
+
+export const FoodItemLogDateState = atom<dayjs.Dayjs>({
+  key: 'FoodItemLogDateState',
+  default: dayjs(),
+})
+
+export const FoodItemLogQuery = selector({
+  key: 'FoodItemLogQuery',
+  get:
+    async ({ get }) => {
+      const idToken = get(CurrentUserTokenIDState);
+      const date = get(FoodItemLogDateState)
+      if (idToken) {
+        const headers = new Headers();
+        headers.set(ID_TOKEN_HEADER, idToken);
+        const response = await client.getFoodItemLog(
+          {
+            date: { year: date.year(), month: date.month() + 1, day: date.date() },
+          },
+          { headers: headers },
+        );
+        console.log(response)
+        return response.foodItemLog;
+      }
+
+      return [];
+    },
 });
