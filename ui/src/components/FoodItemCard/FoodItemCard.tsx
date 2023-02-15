@@ -127,19 +127,17 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
                 required: true,
               }}
               render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    value={value}
-                    onChange={onChange}
-                    inputRef={ref}
-                    label="Date"
-                    inputFormat="YYYY-MM-DD"
-                    maxDate={dayjs()}
-                    renderInput={(inputProps) => (
-                      <TextField {...inputProps} error={!!error} helperText={error?.message} />
-                    )}
-                  />
-                </LocalizationProvider>
+                <DatePicker
+                  value={value}
+                  onChange={onChange}
+                  inputRef={ref}
+                  label="Date"
+                  inputFormat="YYYY-MM-DD"
+                  maxDate={dayjs()}
+                  renderInput={(inputProps) => (
+                    <TextField {...inputProps} error={!!error} helperText={error?.message} />
+                  )}
+                />
               )}
             />
             <Controller
