@@ -107,7 +107,6 @@ export const FoodItemLogQuery = selector({
           },
           { headers: headers },
         );
-        console.log(response)
         return response.foodItemLog;
       }
 

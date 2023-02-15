@@ -4,9 +4,17 @@ package neutral_diet.user.v1;
 
 import "neutral_diet/user/v1/date.proto";
 
-message FoodLogItem {
+message FoodLogItemRequest {
   int32 food_item_id = 1;
   double weight = 2;
   double carbon_footprint = 3;
   Date date = 4;
+}
+
+message FoodLogItemResponse {
+  int32 food_item_id = 1;
+  string name = 2;
+  double weight = 3;
+  double carbon_footprint = 4;
+  Date date = 5;
 }

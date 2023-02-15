@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, DefaultValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { Add } from '@mui/icons-material';
@@ -21,6 +21,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import dayjs from 'dayjs';
+import { useSnackbar } from 'notistack';
 
 import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import { ID_TOKEN_HEADER } from '@/api/transport';
@@ -33,24 +34,21 @@ type FoodItemCardProps = {
   foodItem: AggregateFoodItem;
 };
 
-type AddFoodItemProps = {
+type FormValues = {
   date: dayjs.Dayjs;
-  weight: number;
+  weight: string;
 };
 
 function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [foodHistory, setFoodHistory] = useRecoilState(FoodHistoryState);
   const [inHistory, setInHistory] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [date, setDate] = useState<dayjs.Dayjs | null>(dayjs());
+  const { enqueueSnackbar } = useSnackbar();
   const idToken = useRecoilValue(CurrentUserTokenIDState);
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm();
+  const { handleSubmit, control } = useForm<FormValues>();
 
-  const onSubmit = (data: AddFoodItemProps) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const weight = parseFloat(data.weight);
     if (idToken) {
       const headers = new Headers();
       headers.set(ID_TOKEN_HEADER, idToken);
@@ -59,14 +57,23 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
           {
             foodLogItem: {
               foodItemId: foodItem.id,
-              weight: data.weight,
-              carbonFootprint: data.weight * foodItem.medianCarbonFootprint,
+              weight: weight,
+              carbonFootprint: weight * foodItem.medianCarbonFootprint,
               date: { year: data.date.year(), month: data.date.month() + 1, day: data.date.date() },
             },
           },
           { headers: headers },
         )
-        .catch((err) => console.error(err));
+        .then(() => {
+          if (!inHistory) {
+            setFoodHistory((oldFoodHistory) => [...oldFoodHistory, foodItem]);
+          }
+          enqueueSnackbar('Added food to diary', { variant: 'success' });
+        })
+        .catch((err) => {
+          enqueueSnackbar("Couldn't add food", { variant: 'error' });
+          console.error(err);
+        });
     }
     handleClose();
   };
@@ -79,18 +86,9 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
     setOpenDialog(false);
   };
 
-  const handleChangeDate = (newDate: dayjs.Dayjs | null) => {
-    setDate(newDate);
-  };
-
   useMemo(() => {
     setInHistory(foodHistory.some((value) => value.id === foodItem.id));
   }, [foodHistory, foodItem]);
-
-  // const addToHistory = () => {
-  //   if (inHistory) return;
-  //   setFoodHistory((oldFoodHistory) => [...oldFoodHistory, foodItem]);
-  // };
 
   return (
     <Card sx={{ minWidth: MIN_WIDTH }}>
@@ -121,36 +119,52 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle textAlign="center">Add food</DialogTitle>
           <Stack sx={{ px: 5 }} spacing={3}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                {...register('date', {
-                  required: true,
-                  value: date,
-                  setValueAs: () => date,
-                })}
-                label="Date"
-                inputFormat="YYYY-MM-DD"
-                value={date}
-                maxDate={dayjs()}
-                onChange={handleChangeDate}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-            <TextField
-              {...register('weight', {
+            <Controller
+              control={control}
+              name="date"
+              defaultValue={dayjs()}
+              rules={{
                 required: true,
-                min: 0.001,
-                setValueAs: (value) => parseFloat(value),
-              })}
-              inputProps={{ step: 0.01 }}
-              type="number"
-              label="Weight"
-              error={errors.weight ? true : false}
+              }}
+              render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    value={value}
+                    onChange={onChange}
+                    inputRef={ref}
+                    label="Date"
+                    inputFormat="YYYY-MM-DD"
+                    maxDate={dayjs()}
+                    renderInput={(inputProps) => (
+                      <TextField {...inputProps} error={!!error} helperText={error?.message} />
+                    )}
+                  />
+                </LocalizationProvider>
+              )}
+            />
+            <Controller
+              control={control}
+              name="weight"
+              defaultValue="1.0"
+              rules={{ required: true, min: 0.001 }}
+              render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <TextField
+                  error={!!error}
+                  helperText={error?.message}
+                  onChange={onChange}
+                  value={value}
+                  type="number"
+                  label="Weight"
+                  inputProps={{ step: 0.001 }}
+                />
+              )}
             />
           </Stack>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit">Add</Button>
+            <Button variant="contained" type="submit">
+              Add
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

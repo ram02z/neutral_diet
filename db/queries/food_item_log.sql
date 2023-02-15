@@ -6,11 +6,17 @@ RETURNING
 
 -- name: GetFoodItemLogByDate :many
 SELECT
-    *
+    l.food_item_id,
+    f.name,
+    l.weight,
+    l.carbon_footprint,
+    l.log_date
 FROM
-    "food_item_log"
+    food_item_log l
+    INNER JOIN food_item f ON l.food_item_id = f.id
 WHERE
-    user_id = $1 AND log_date = $2;
+    user_id = $1
+    AND log_date = $2;
 
 -- name: DeleteFoodItemFromLog :exec
 DELETE FROM "food_item_log"

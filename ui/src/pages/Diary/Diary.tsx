@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 
 import { FoodItemLogDateState, FoodItemLogQuery } from '@/store/user';
 import { getDateString } from '@/utils/date';
+import FoodItemLogCard from '@/components/FoodItemLogCard';
 
 function Diary() {
   const [isForcePickerOpen, setIsOpen] = useState(false);
@@ -75,6 +76,11 @@ function Diary() {
           </Button>
         </Grid>
       </Grid>
+          {foodItemLog.map((foodLogItem, idx) => (
+            <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
+                <FoodItemLogCard foodLogItem={foodLogItem} />
+            </Grid>
+          ))}
     </Grid>
   );
 }

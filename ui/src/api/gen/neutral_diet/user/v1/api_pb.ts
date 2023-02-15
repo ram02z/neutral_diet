@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { FoodLogItem } from "./food_item_log_pb.js";
+import { FoodLogItemRequest, FoodLogItemResponse } from "./food_item_log_pb.js";
 import { Date } from "./date_pb.js";
 import { UserSettings } from "./user_pb.js";
 
@@ -14,9 +14,9 @@ import { UserSettings } from "./user_pb.js";
  */
 export class AddFoodItemRequest extends Message<AddFoodItemRequest> {
   /**
-   * @generated from field: neutral_diet.user.v1.FoodLogItem food_log_item = 1;
+   * @generated from field: neutral_diet.user.v1.FoodLogItemRequest food_log_item = 1;
    */
-  foodLogItem?: FoodLogItem;
+  foodLogItem?: FoodLogItemRequest;
 
   constructor(data?: PartialMessage<AddFoodItemRequest>) {
     super();
@@ -26,7 +26,7 @@ export class AddFoodItemRequest extends Message<AddFoodItemRequest> {
   static readonly runtime = proto3;
   static readonly typeName = "neutral_diet.user.v1.AddFoodItemRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "food_log_item", kind: "message", T: FoodLogItem },
+    { no: 1, name: "food_log_item", kind: "message", T: FoodLogItemRequest },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AddFoodItemRequest {
@@ -125,9 +125,9 @@ export class GetFoodItemLogRequest extends Message<GetFoodItemLogRequest> {
  */
 export class GetFoodItemLogResponse extends Message<GetFoodItemLogResponse> {
   /**
-   * @generated from field: repeated neutral_diet.user.v1.FoodLogItem food_item_log = 1;
+   * @generated from field: repeated neutral_diet.user.v1.FoodLogItemResponse food_item_log = 1;
    */
-  foodItemLog: FoodLogItem[] = [];
+  foodItemLog: FoodLogItemResponse[] = [];
 
   constructor(data?: PartialMessage<GetFoodItemLogResponse>) {
     super();
@@ -137,7 +137,7 @@ export class GetFoodItemLogResponse extends Message<GetFoodItemLogResponse> {
   static readonly runtime = proto3;
   static readonly typeName = "neutral_diet.user.v1.GetFoodItemLogResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "food_item_log", kind: "message", T: FoodLogItem, repeated: true },
+    { no: 1, name: "food_item_log", kind: "message", T: FoodLogItemResponse, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemLogResponse {

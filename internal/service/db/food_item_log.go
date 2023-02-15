@@ -84,11 +84,14 @@ func mapToDate(date *userv1.Date) pgtype.Date {
 	return pgtype.Date{Time: time, Valid: true}
 }
 
-func mapToFoodLogItems(foodItemLogRows []db.FoodItemLog) ([]*userv1.FoodLogItem, error) {
-	foodLogItems := make([]*userv1.FoodLogItem, len(foodItemLogRows))
+func mapToFoodLogItems(
+	foodItemLogRows []db.GetFoodItemLogByDateRow,
+) ([]*userv1.FoodLogItemResponse, error) {
+	foodLogItems := make([]*userv1.FoodLogItemResponse, len(foodItemLogRows))
 	for i := range foodItemLogRows {
-		foodLogItems[i] = &userv1.FoodLogItem{
+		foodLogItems[i] = &userv1.FoodLogItemResponse{
 			FoodItemId:      foodItemLogRows[i].FoodItemID,
+			Name:            foodItemLogRows[i].Name,
 			Weight:          foodItemLogRows[i].Weight.InexactFloat64(),
 			CarbonFootprint: foodItemLogRows[i].CarbonFootprint.InexactFloat64(),
 			Date: &userv1.Date{

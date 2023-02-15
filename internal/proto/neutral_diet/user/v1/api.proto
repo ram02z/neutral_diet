@@ -8,7 +8,7 @@ import "neutral_diet/user/v1/user.proto";
 import "validate/validate.proto";
 
 message AddFoodItemRequest {
-  FoodLogItem food_log_item = 1 [(validate.rules).message.required = true];
+  FoodLogItemRequest food_log_item = 1 [(validate.rules).message.required = true];
 }
 
 message AddFoodItemResponse {
@@ -20,7 +20,7 @@ message GetFoodItemLogRequest {
 }
 
 message GetFoodItemLogResponse {
-  repeated FoodLogItem food_item_log = 1;
+  repeated FoodLogItemResponse food_item_log = 1;
 }
 
 message CreateUserRequest {
