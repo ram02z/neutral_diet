@@ -12,9 +12,10 @@ message FoodLogItemRequest {
 }
 
 message FoodLogItemResponse {
-  int32 food_item_id = 1;
-  string name = 2;
-  double weight = 3;
-  double carbon_footprint = 4;
-  Date date = 5;
+  int32 id = 1;
+  int32 food_item_id = 2;
+  string name = 3;
+  double weight = 4;
+  double carbon_footprint = 5;
+  Date date = 6;
 }

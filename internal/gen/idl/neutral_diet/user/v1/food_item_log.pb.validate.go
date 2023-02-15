@@ -194,6 +194,8 @@ func (m *FoodLogItemResponse) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Id
+
 	// no validation rules for FoodItemId
 
 	// no validation rules for Name

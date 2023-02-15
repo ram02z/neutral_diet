@@ -84,6 +84,74 @@ export class AddFoodItemResponse extends Message<AddFoodItemResponse> {
 }
 
 /**
+ * @generated from message neutral_diet.user.v1.DeleteFoodItemRequest
+ */
+export class DeleteFoodItemRequest extends Message<DeleteFoodItemRequest> {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id = 0;
+
+  constructor(data?: PartialMessage<DeleteFoodItemRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.DeleteFoodItemRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteFoodItemRequest {
+    return new DeleteFoodItemRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteFoodItemRequest {
+    return new DeleteFoodItemRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteFoodItemRequest {
+    return new DeleteFoodItemRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteFoodItemRequest | PlainMessage<DeleteFoodItemRequest> | undefined, b: DeleteFoodItemRequest | PlainMessage<DeleteFoodItemRequest> | undefined): boolean {
+    return proto3.util.equals(DeleteFoodItemRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.DeleteFoodItemResponse
+ */
+export class DeleteFoodItemResponse extends Message<DeleteFoodItemResponse> {
+  constructor(data?: PartialMessage<DeleteFoodItemResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.DeleteFoodItemResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteFoodItemResponse {
+    return new DeleteFoodItemResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteFoodItemResponse {
+    return new DeleteFoodItemResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteFoodItemResponse {
+    return new DeleteFoodItemResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteFoodItemResponse | PlainMessage<DeleteFoodItemResponse> | undefined, b: DeleteFoodItemResponse | PlainMessage<DeleteFoodItemResponse> | undefined): boolean {
+    return proto3.util.equals(DeleteFoodItemResponse, a, b);
+  }
+}
+
+/**
  * @generated from message neutral_diet.user.v1.GetFoodItemLogRequest
  */
 export class GetFoodItemLogRequest extends Message<GetFoodItemLogRequest> {

@@ -15,6 +15,12 @@ message AddFoodItemResponse {
   int32 id = 1;
 }
 
+message DeleteFoodItemRequest {
+  int32 id = 1 [(validate.rules).int32.gt = 0];
+}
+
+message DeleteFoodItemResponse {}
+
 message GetFoodItemLogRequest {
   Date date = 1 [(validate.rules).message.required = true];
 }
@@ -49,6 +55,7 @@ message GetUserSettingsResponse {
 
 service UserService {
   rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
+  rpc DeleteFoodItem(DeleteFoodItemRequest) returns (DeleteFoodItemResponse) {}
   rpc GetFoodItemLog(GetFoodItemLogRequest) returns (GetFoodItemLogResponse) {}
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}

@@ -6,6 +6,7 @@ RETURNING
 
 -- name: GetFoodItemLogByDate :many
 SELECT
+    l.id,
     l.food_item_id,
     f.name,
     l.weight,

@@ -68,6 +68,7 @@ func (q *Queries) DeleteUserLog(ctx context.Context, userID int32) error {
 
 const getFoodItemLogByDate = `-- name: GetFoodItemLogByDate :many
 SELECT
+    l.id,
     l.food_item_id,
     f.name,
     l.weight,
@@ -87,6 +88,7 @@ type GetFoodItemLogByDateParams struct {
 }
 
 type GetFoodItemLogByDateRow struct {
+	ID              int32
 	FoodItemID      int32
 	Name            string
 	Weight          decimal.Decimal
@@ -104,6 +106,7 @@ func (q *Queries) GetFoodItemLogByDate(ctx context.Context, arg GetFoodItemLogBy
 	for rows.Next() {
 		var i GetFoodItemLogByDateRow
 		if err := rows.Scan(
+			&i.ID,
 			&i.FoodItemID,
 			&i.Name,
 			&i.Weight,

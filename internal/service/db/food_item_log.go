@@ -37,6 +37,29 @@ func (s *Store) AddFoodItemToLog(
 	return &userv1.AddFoodItemResponse{Id: foodItemLogID}, nil
 }
 
+func (s *Store) DeleteFoodItemFromLog(
+	ctx context.Context,
+	r *userv1.DeleteFoodItemRequest,
+	firebaseUID string,
+) (*userv1.DeleteFoodItemResponse, error) {
+	queries := db.New(s.dbPool)
+
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	err = queries.DeleteFoodItemFromLog(ctx, db.DeleteFoodItemFromLogParams{
+		UserID: user.ID,
+		ID:     r.Id,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &userv1.DeleteFoodItemResponse{}, nil
+}
+
 func (s *Store) GetFoodItemLog(
 	ctx context.Context,
 	r *userv1.GetFoodItemLogRequest,
@@ -90,6 +113,7 @@ func mapToFoodLogItems(
 	foodLogItems := make([]*userv1.FoodLogItemResponse, len(foodItemLogRows))
 	for i := range foodItemLogRows {
 		foodLogItems[i] = &userv1.FoodLogItemResponse{
+			Id:              foodItemLogRows[i].ID,
 			FoodItemId:      foodItemLogRows[i].FoodItemID,
 			Name:            foodItemLogRows[i].Name,
 			Weight:          foodItemLogRows[i].Weight.InexactFloat64(),

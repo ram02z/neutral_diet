@@ -67,27 +67,32 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
  */
 export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
   /**
-   * @generated from field: int32 food_item_id = 1;
+   * @generated from field: int32 id = 1;
+   */
+  id = 0;
+
+  /**
+   * @generated from field: int32 food_item_id = 2;
    */
   foodItemId = 0;
 
   /**
-   * @generated from field: string name = 2;
+   * @generated from field: string name = 3;
    */
   name = "";
 
   /**
-   * @generated from field: double weight = 3;
+   * @generated from field: double weight = 4;
    */
   weight = 0;
 
   /**
-   * @generated from field: double carbon_footprint = 4;
+   * @generated from field: double carbon_footprint = 5;
    */
   carbonFootprint = 0;
 
   /**
-   * @generated from field: neutral_diet.user.v1.Date date = 5;
+   * @generated from field: neutral_diet.user.v1.Date date = 6;
    */
   date?: Date;
 
@@ -99,11 +104,12 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
   static readonly runtime = proto3;
   static readonly typeName = "neutral_diet.user.v1.FoodLogItemResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "food_item_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 4, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 5, name: "date", kind: "message", T: Date },
+    { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "food_item_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 3, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 5, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 6, name: "date", kind: "message", T: Date },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItemResponse {
