@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import RenderIfVisible from 'react-render-if-visible';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { Button } from '@mui/material';
@@ -75,7 +76,10 @@ function Diary() {
       </Grid>
       {foodItemLog.map((foodLogItem, idx) => (
         <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
-          <FoodItemLogCard foodLogItem={foodLogItem} />
+          {/* TODO: update default height to a more accurate estimate */}
+          <RenderIfVisible>
+            <FoodItemLogCard foodLogItem={foodLogItem} />
+          </RenderIfVisible>
         </Grid>
       ))}
     </Grid>
