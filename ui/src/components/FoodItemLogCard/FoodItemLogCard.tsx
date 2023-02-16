@@ -1,27 +1,30 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Delete } from '@mui/icons-material';
 import { Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { FoodLogItemResponse } from '@/api/gen/neutral_diet/user/v1/food_item_log_pb';
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import { MIN_WIDTH } from '@/config';
-import { CurrentUserTokenIDState } from '@/store/user';
+import { CurrentUserTokenIDState, LocalFoodItemLogState } from '@/store/user';
+import { LocalFoodLogItem } from '@/store/user/types';
 
 type FoodItemCardProps = {
-  foodLogItem: FoodLogItemResponse;
+  foodLogItem: LocalFoodLogItem;
 };
 
 function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const idToken = useRecoilValue(CurrentUserTokenIDState);
+  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState);
 
   const handleDelete = () => {
     if (idToken) {
       const headers = new Headers();
       headers.set(ID_TOKEN_HEADER, idToken);
-      client.deleteFoodItem({ id: foodLogItem.id }, { headers: headers });
+      client.deleteFoodItem({ id: foodLogItem.remoteId }, { headers: headers }).then(() => {
+        setFoodItemLog((old) => old.filter((item) => item.remoteId !== foodLogItem.remoteId));
+      });
     }
   };
 

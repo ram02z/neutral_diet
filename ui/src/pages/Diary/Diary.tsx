@@ -8,7 +8,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 import FoodItemLogCard from '@/components/FoodItemLogCard';
-import { FoodItemLogDateState, FoodItemLogQuery } from '@/store/user';
+import { FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { getDateString } from '@/utils/date';
 
 function Diary() {
@@ -16,7 +16,7 @@ function Diary() {
   const [date, setDate] = useRecoilState(FoodItemLogDateState);
   const isToday = useMemo(() => date.isSame(dayjs(), 'date'), [date]);
   // TODO: handle errors
-  const foodItemLog = useRecoilValue(FoodItemLogQuery);
+  const foodItemLog = useRecoilValue(LocalFoodItemLogState);
 
   const yesterday = () => {
     setDate(date.subtract(1, 'day'));
