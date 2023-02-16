@@ -16,7 +16,7 @@ function Diary() {
   const [date, setDate] = useRecoilState(FoodItemLogDateState);
   const isToday = useMemo(() => date.isSame(dayjs(), 'date'), [date]);
   // TODO: handle errors
-  const foodItemLog = useRecoilValue(LocalFoodItemLogState);
+  const foodItemLog = useRecoilValue(LocalFoodItemLogState(date));
 
   const yesterday = () => {
     setDate(date.subtract(1, 'day'));

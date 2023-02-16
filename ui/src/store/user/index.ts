@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom, atomFamily, selector, selectorFamily } from 'recoil';
 
 import dayjs from 'dayjs';
 import { User } from 'firebase/auth';
@@ -102,35 +102,36 @@ export const FoodItemLogDateState = atom<dayjs.Dayjs>({
   default: dayjs(),
 });
 
-export const LocalFoodItemLogState = atom<LocalFoodLogItem[]>({
+export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>({
   key: 'LocalFoodItemLogState',
-  default: selector({
+  default: selectorFamily({
     key: 'LocalFoodItemLogState/Default',
-    get: async ({ get }) => {
-      const idToken = get(CurrentUserTokenIDState);
-      const date = get(FoodItemLogDateState);
-      if (idToken) {
-        const headers = new Headers();
-        headers.set(ID_TOKEN_HEADER, idToken);
-        const response = await client.getFoodItemLog(
-          {
-            date: { year: date.year(), month: date.month() + 1, day: date.date() },
-          },
-          { headers: headers },
-        );
+    get:
+      (date) =>
+      async ({ get }) => {
+        const idToken = get(CurrentUserTokenIDState);
+        if (idToken) {
+          const headers = new Headers();
+          headers.set(ID_TOKEN_HEADER, idToken);
+          const response = await client.getFoodItemLog(
+            {
+              date: { year: date.year(), month: date.month() + 1, day: date.date() },
+            },
+            { headers: headers },
+          );
 
-        // TODO: error handling
-        return response.foodItemLog.map((foodLogItem) => {
-          return {
-            remoteId: foodLogItem.id,
-            name: foodLogItem.name,
-            weight: foodLogItem.weight,
-            carbonFootprint: foodLogItem.carbonFootprint,
-          };
-        });
-      }
+          // TODO: error handling
+          return response.foodItemLog.map((foodLogItem) => {
+            return {
+              remoteId: foodLogItem.id,
+              name: foodLogItem.name,
+              weight: foodLogItem.weight,
+              carbonFootprint: foodLogItem.carbonFootprint,
+            };
+          });
+        }
 
-      return [];
-    },
+        return [];
+      },
   }),
 });

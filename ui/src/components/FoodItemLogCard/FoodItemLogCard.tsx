@@ -7,7 +7,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import { MIN_WIDTH } from '@/config';
-import { CurrentUserTokenIDState, LocalFoodItemLogState } from '@/store/user';
+import { CurrentUserTokenIDState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
 
 type FoodItemCardProps = {
@@ -16,7 +16,8 @@ type FoodItemCardProps = {
 
 function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const idToken = useRecoilValue(CurrentUserTokenIDState);
-  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState);
+  const date = useRecoilValue(FoodItemLogDateState);
+  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(date));
 
   const handleDelete = () => {
     if (idToken) {

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Controller, DefaultValues, SubmitHandler, useForm } from 'react-hook-form';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Add } from '@mui/icons-material';
 import {
@@ -26,7 +26,7 @@ import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import { MIN_WIDTH } from '@/config';
 import { FoodHistoryState } from '@/store/food';
-import { CurrentUserTokenIDState } from '@/store/user';
+import { CurrentUserTokenIDState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 
 type FoodItemCardProps = {
   foodItem: AggregateFoodItem;
@@ -39,6 +39,9 @@ type FormValues = {
 
 function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [foodHistory, setFoodHistory] = useRecoilState(FoodHistoryState);
+  const [date, setDate] = useRecoilState(FoodItemLogDateState);
+
+  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(date));
   const [inHistory, setInHistory] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -46,7 +49,9 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const { handleSubmit, control } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
+    setDate(data.date);
     const weight = parseFloat(data.weight);
+    const carbonFootprint = weight * foodItem.medianCarbonFootprint;
     if (idToken) {
       const headers = new Headers();
       headers.set(ID_TOKEN_HEADER, idToken);
@@ -56,16 +61,27 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
             foodLogItem: {
               foodItemId: foodItem.id,
               weight: weight,
-              carbonFootprint: weight * foodItem.medianCarbonFootprint,
+              carbonFootprint: carbonFootprint,
               date: { year: data.date.year(), month: data.date.month() + 1, day: data.date.date() },
             },
           },
           { headers: headers },
         )
-        .then(() => {
+        .then((res) => {
           if (!inHistory) {
             setFoodHistory((oldFoodHistory) => [...oldFoodHistory, foodItem]);
           }
+          setFoodItemLog((old) => {
+            return [
+              ...old,
+              {
+                remoteId: res.id,
+                name: foodItem.foodName,
+                weight: weight,
+                carbonFootprint: carbonFootprint,
+              },
+            ];
+          });
           enqueueSnackbar('Added food to diary', { variant: 'success' });
         })
         .catch((err) => {
