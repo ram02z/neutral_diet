@@ -7,8 +7,7 @@ import "neutral_diet/user/v1/date.proto";
 message FoodLogItemRequest {
   int32 food_item_id = 1;
   double weight = 2;
-  double carbon_footprint = 3;
-  Date date = 4;
+  Date date = 3;
 }
 
 message FoodLogItemResponse {

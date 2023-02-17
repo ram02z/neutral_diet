@@ -66,6 +66,22 @@ func (q *Queries) DeleteUserLog(ctx context.Context, userID int32) error {
 	return err
 }
 
+const getFoodItemIdByLogId = `-- name: GetFoodItemIdByLogId :one
+SELECT
+    food_item_id
+FROM
+    "food_item_log"
+WHERE
+    id = $1
+`
+
+func (q *Queries) GetFoodItemIdByLogId(ctx context.Context, id int32) (int32, error) {
+	row := q.db.QueryRow(ctx, getFoodItemIdByLogId, id)
+	var food_item_id int32
+	err := row.Scan(&food_item_id)
+	return food_item_id, err
+}
+
 const getFoodItemLogByDate = `-- name: GetFoodItemLogByDate :many
 SELECT
     l.id,
@@ -121,4 +137,32 @@ func (q *Queries) GetFoodItemLogByDate(ctx context.Context, arg GetFoodItemLogBy
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateFoodItemFromLog = `-- name: UpdateFoodItemFromLog :exec
+UPDATE
+    "food_item_log"
+SET
+    weight = $3,
+    carbon_footprint = $4
+WHERE
+    user_id = $1
+    AND id = $2
+`
+
+type UpdateFoodItemFromLogParams struct {
+	UserID          int32
+	ID              int32
+	Weight          decimal.Decimal
+	CarbonFootprint decimal.Decimal
+}
+
+func (q *Queries) UpdateFoodItemFromLog(ctx context.Context, arg UpdateFoodItemFromLogParams) error {
+	_, err := q.db.Exec(ctx, updateFoodItemFromLog,
+		arg.UserID,
+		arg.ID,
+		arg.Weight,
+		arg.CarbonFootprint,
+	)
+	return err
 }

@@ -1,3 +1,11 @@
+-- name: GetAggregateFoodItemById :one
+SELECT
+    *
+FROM
+    aggregate_food_item
+WHERE
+    food_item_id = $1;
+
 -- name: ListAggregateFoodItems :many
 SELECT
     a.food_item_id AS id,

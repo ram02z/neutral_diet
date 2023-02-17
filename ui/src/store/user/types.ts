@@ -6,7 +6,7 @@ export type LocalUserSettings = {
 };
 
 export type LocalFoodLogItem = {
-  remoteId: number;
+  dbId: number;
   name: string;
   weight: number;
   carbonFootprint: number;

@@ -4,6 +4,24 @@ INSERT INTO "food_item_log" (food_item_id, weight, carbon_footprint, user_id, lo
 RETURNING
     id;
 
+-- name: UpdateFoodItemFromLog :exec
+UPDATE
+    "food_item_log"
+SET
+    weight = $3,
+    carbon_footprint = $4
+WHERE
+    user_id = $1
+    AND id = $2;
+
+-- name: GetFoodItemIdByLogId :one
+SELECT
+    food_item_id
+FROM
+    "food_item_log"
+WHERE
+    id = $1;
+
 -- name: GetFoodItemLogByDate :many
 SELECT
     l.id,

@@ -123,7 +123,7 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
           // TODO: error handling
           return response.foodItemLog.map((foodLogItem) => {
             return {
-              remoteId: foodLogItem.id,
+              dbId: foodLogItem.id,
               name: foodLogItem.name,
               weight: foodLogItem.weight,
               carbonFootprint: foodLogItem.carbonFootprint,

@@ -22,12 +22,7 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
   weight = 0;
 
   /**
-   * @generated from field: double carbon_footprint = 3;
-   */
-  carbonFootprint = 0;
-
-  /**
-   * @generated from field: neutral_diet.user.v1.Date date = 4;
+   * @generated from field: neutral_diet.user.v1.Date date = 3;
    */
   date?: Date;
 
@@ -41,8 +36,7 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "food_item_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 2, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 3, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 4, name: "date", kind: "message", T: Date },
+    { no: 3, name: "date", kind: "message", T: Date },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItemRequest {

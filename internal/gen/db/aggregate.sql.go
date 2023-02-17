@@ -12,6 +12,22 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+const getAggregateFoodItemById = `-- name: GetAggregateFoodItemById :one
+SELECT
+    food_item_id, n, median_carbon_footprint
+FROM
+    aggregate_food_item
+WHERE
+    food_item_id = $1
+`
+
+func (q *Queries) GetAggregateFoodItemById(ctx context.Context, foodItemID int32) (AggregateFoodItem, error) {
+	row := q.db.QueryRow(ctx, getAggregateFoodItemById, foodItemID)
+	var i AggregateFoodItem
+	err := row.Scan(&i.FoodItemID, &i.N, &i.MedianCarbonFootprint)
+	return i, err
+}
+
 const listAggregateFoodItems = `-- name: ListAggregateFoodItems :many
 SELECT
     a.food_item_id AS id,

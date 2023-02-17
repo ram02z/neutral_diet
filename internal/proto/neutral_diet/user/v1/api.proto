@@ -13,6 +13,16 @@ message AddFoodItemRequest {
 
 message AddFoodItemResponse {
   int32 id = 1;
+  double carbon_footprint = 2;
+}
+
+message UpdateFoodItemRequest {
+  int32 id = 1 [(validate.rules).int32.gt = 0];
+  double weight = 2;
+}
+
+message UpdateFoodItemResponse {
+  double carbon_footprint = 1;
 }
 
 message DeleteFoodItemRequest {
@@ -55,6 +65,7 @@ message GetUserSettingsResponse {
 
 service UserService {
   rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
+  rpc UpdateFoodItem(UpdateFoodItemRequest) returns (UpdateFoodItemResponse) {}
   rpc DeleteFoodItem(DeleteFoodItemRequest) returns (DeleteFoodItemResponse) {}
   rpc GetFoodItemLog(GetFoodItemLogRequest) returns (GetFoodItemLogResponse) {}
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}

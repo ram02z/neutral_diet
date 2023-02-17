@@ -55,6 +55,11 @@ export class AddFoodItemResponse extends Message<AddFoodItemResponse> {
    */
   id = 0;
 
+  /**
+   * @generated from field: double carbon_footprint = 2;
+   */
+  carbonFootprint = 0;
+
   constructor(data?: PartialMessage<AddFoodItemResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -64,6 +69,7 @@ export class AddFoodItemResponse extends Message<AddFoodItemResponse> {
   static readonly typeName = "neutral_diet.user.v1.AddFoodItemResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AddFoodItemResponse {
@@ -80,6 +86,86 @@ export class AddFoodItemResponse extends Message<AddFoodItemResponse> {
 
   static equals(a: AddFoodItemResponse | PlainMessage<AddFoodItemResponse> | undefined, b: AddFoodItemResponse | PlainMessage<AddFoodItemResponse> | undefined): boolean {
     return proto3.util.equals(AddFoodItemResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.UpdateFoodItemRequest
+ */
+export class UpdateFoodItemRequest extends Message<UpdateFoodItemRequest> {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id = 0;
+
+  /**
+   * @generated from field: double weight = 2;
+   */
+  weight = 0;
+
+  constructor(data?: PartialMessage<UpdateFoodItemRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.UpdateFoodItemRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateFoodItemRequest {
+    return new UpdateFoodItemRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateFoodItemRequest {
+    return new UpdateFoodItemRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateFoodItemRequest {
+    return new UpdateFoodItemRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UpdateFoodItemRequest | PlainMessage<UpdateFoodItemRequest> | undefined, b: UpdateFoodItemRequest | PlainMessage<UpdateFoodItemRequest> | undefined): boolean {
+    return proto3.util.equals(UpdateFoodItemRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.UpdateFoodItemResponse
+ */
+export class UpdateFoodItemResponse extends Message<UpdateFoodItemResponse> {
+  /**
+   * @generated from field: double carbon_footprint = 1;
+   */
+  carbonFootprint = 0;
+
+  constructor(data?: PartialMessage<UpdateFoodItemResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.UpdateFoodItemResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateFoodItemResponse {
+    return new UpdateFoodItemResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateFoodItemResponse {
+    return new UpdateFoodItemResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateFoodItemResponse {
+    return new UpdateFoodItemResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UpdateFoodItemResponse | PlainMessage<UpdateFoodItemResponse> | undefined, b: UpdateFoodItemResponse | PlainMessage<UpdateFoodItemResponse> | undefined): boolean {
+    return proto3.util.equals(UpdateFoodItemResponse, a, b);
   }
 }
 

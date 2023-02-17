@@ -23,10 +23,20 @@ func (s *Store) AddFoodItemToLog(
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
+	aggFoodItem, err := queries.GetAggregateFoodItemById(ctx, r.FoodLogItem.FoodItemId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	// NOTE: only works because weight is in kilograms for now
+	carbonFootprint := aggFoodItem.MedianCarbonFootprint.Mul(
+		decimal.NewFromFloat(r.FoodLogItem.Weight),
+	)
+
 	foodItemLogID, err := queries.AddFoodItemToLog(ctx, db.AddFoodItemToLogParams{
 		FoodItemID:      r.FoodLogItem.FoodItemId,
 		Weight:          decimal.NewFromFloat(r.FoodLogItem.Weight),
-		CarbonFootprint: decimal.NewFromFloat(r.FoodLogItem.CarbonFootprint),
+		CarbonFootprint: carbonFootprint,
 		UserID:          user.ID,
 		LogDate:         mapToDate(r.FoodLogItem.GetDate()),
 	})
@@ -34,7 +44,51 @@ func (s *Store) AddFoodItemToLog(
 		return nil, err
 	}
 
-	return &userv1.AddFoodItemResponse{Id: foodItemLogID}, nil
+	return &userv1.AddFoodItemResponse{
+		Id:              foodItemLogID,
+		CarbonFootprint: carbonFootprint.InexactFloat64(),
+	}, nil
+}
+
+func (s *Store) UpdateFoodItemFromLog(
+	ctx context.Context,
+	r *userv1.UpdateFoodItemRequest,
+	firebaseUID string,
+) (*userv1.UpdateFoodItemResponse, error) {
+	queries := db.New(s.dbPool)
+
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	foodItemID, err := queries.GetFoodItemIdByLogId(ctx, r.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	aggFoodItem, err := queries.GetAggregateFoodItemById(ctx, foodItemID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	// NOTE: only works because weight is in kilograms for now
+	carbonFootprint := aggFoodItem.MedianCarbonFootprint.Mul(
+		decimal.NewFromFloat(r.Weight),
+	)
+
+	err = queries.UpdateFoodItemFromLog(ctx, db.UpdateFoodItemFromLogParams{
+		UserID:          user.ID,
+		ID:              r.Id,
+		Weight:          decimal.NewFromFloat(r.Weight),
+		CarbonFootprint: carbonFootprint,
+	})
+
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	return &userv1.UpdateFoodItemResponse{CarbonFootprint: carbonFootprint.InexactFloat64()}, err
 }
 
 func (s *Store) DeleteFoodItemFromLog(
@@ -53,6 +107,7 @@ func (s *Store) DeleteFoodItemFromLog(
 		UserID: user.ID,
 		ID:     r.Id,
 	})
+
 	if err != nil {
 		return nil, err
 	}

@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { AddFoodItemRequest, AddFoodItemResponse, CreateUserRequest, CreateUserResponse, DeleteFoodItemRequest, DeleteFoodItemResponse, DeleteUserRequest, DeleteUserResponse, GetFoodItemLogRequest, GetFoodItemLogResponse, GetUserSettingsRequest, GetUserSettingsResponse, UpdateUserSettingsRequest, UpdateUserSettingsResponse } from "./api_pb.js";
+import { AddFoodItemRequest, AddFoodItemResponse, CreateUserRequest, CreateUserResponse, DeleteFoodItemRequest, DeleteFoodItemResponse, DeleteUserRequest, DeleteUserResponse, GetFoodItemLogRequest, GetFoodItemLogResponse, GetUserSettingsRequest, GetUserSettingsResponse, UpdateFoodItemRequest, UpdateFoodItemResponse, UpdateUserSettingsRequest, UpdateUserSettingsResponse } from "./api_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -19,6 +19,15 @@ export const UserService = {
       name: "AddFoodItem",
       I: AddFoodItemRequest,
       O: AddFoodItemResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.UpdateFoodItem
+     */
+    updateFoodItem: {
+      name: "UpdateFoodItem",
+      I: UpdateFoodItemRequest,
+      O: UpdateFoodItemResponse,
       kind: MethodKind.Unary,
     },
     /**

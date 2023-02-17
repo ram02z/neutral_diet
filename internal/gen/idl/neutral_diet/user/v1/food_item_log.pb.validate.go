@@ -61,8 +61,6 @@ func (m *FoodLogItemRequest) validate(all bool) error {
 
 	// no validation rules for Weight
 
-	// no validation rules for CarbonFootprint
-
 	if all {
 		switch v := interface{}(m.GetDate()).(type) {
 		case interface{ ValidateAll() error }:
