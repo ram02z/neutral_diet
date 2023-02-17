@@ -39,12 +39,12 @@ export const CurrentUserTokenIDState = selector({
 export const CurrentUserHeadersState = selector({
   key: 'CurrentUserHeadersState',
   get: async ({ get }) => {
+    const headers = new Headers();
     const idToken = get(CurrentUserTokenIDState);
     if (idToken) {
-      const headers = new Headers();
       headers.set(ID_TOKEN_HEADER, idToken);
-      return headers;
     }
+    return headers;
   },
 });
 
@@ -61,12 +61,14 @@ export const LocalUserSettingsState = atom<LocalUserSettings>({
       };
 
       const userHeaders = get(CurrentUserHeadersState);
-      if (userHeaders) {
+      try {
         const response = await client.getUserSettings({}, { headers: userHeaders });
         defaults.cfLimit = response.userSettings?.cfLimit ?? defaults.cfLimit;
         defaults.region = response.userSettings?.region?.name ?? defaults.region;
         defaults.dietaryRequirement =
           response.userSettings?.dietaryRequirement ?? defaults.dietaryRequirement;
+      } catch (err) {
+        console.error(err);
       }
       return defaults;
     },
@@ -109,18 +111,15 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
     get:
       (date) =>
       async ({ get }) => {
-        const idToken = get(CurrentUserTokenIDState);
-        if (idToken) {
-          const headers = new Headers();
-          headers.set(ID_TOKEN_HEADER, idToken);
+        const userHeaders = get(CurrentUserHeadersState);
+        try {
           const response = await client.getFoodItemLog(
             {
               date: { year: date.year(), month: date.month() + 1, day: date.date() },
             },
-            { headers: headers },
+            { headers: userHeaders },
           );
 
-          // TODO: error handling
           return response.foodItemLog.map((foodLogItem) => {
             return {
               dbId: foodLogItem.id,
@@ -129,9 +128,10 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
               carbonFootprint: foodLogItem.carbonFootprint,
             };
           });
+        } catch (err) {
+          console.error(err);
+          return [];
         }
-
-        return [];
       },
   }),
 });

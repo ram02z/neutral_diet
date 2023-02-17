@@ -38,36 +38,34 @@ function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const weight = parseFloat(data.weight);
-    if (userHeaders) {
-      client
-        .updateFoodItem(
-          {
-            id: foodLogItem.dbId,
-            weight: weight,
-          },
-          { headers: userHeaders },
-        )
-        .then((res) => {
-          setFoodItemLog((old) => {
-            return old.map((item) => {
-              if (item.dbId == foodLogItem.dbId) {
-                return {
-                  dbId: foodLogItem.dbId,
-                  name: foodLogItem.name,
-                  weight: weight,
-                  carbonFootprint: res.carbonFootprint,
-                };
-              }
-              return { ...item };
-            });
+    client
+      .updateFoodItem(
+        {
+          id: foodLogItem.dbId,
+          weight: weight,
+        },
+        { headers: userHeaders },
+      )
+      .then((res) => {
+        setFoodItemLog((old) => {
+          return old.map((item) => {
+            if (item.dbId == foodLogItem.dbId) {
+              return {
+                dbId: foodLogItem.dbId,
+                name: foodLogItem.name,
+                weight: weight,
+                carbonFootprint: res.carbonFootprint,
+              };
+            }
+            return { ...item };
           });
-          enqueueSnackbar('Updated food entry', { variant: 'success' });
-        })
-        .catch((err) => {
-          enqueueSnackbar("Couldn't update food entry", { variant: 'error' });
-          console.error(err);
         });
-    }
+        enqueueSnackbar('Updated food entry', { variant: 'success' });
+      })
+      .catch((err) => {
+        enqueueSnackbar("Couldn't update food entry", { variant: 'error' });
+        console.error(err);
+      });
     handleClose();
   };
 
