@@ -1,3 +1,3 @@
-import FoodItemLogCard from "./FoodItemLogCard";
+import FoodItemLogCard from './FoodItemLogCard';
 
 export default FoodItemLogCard;

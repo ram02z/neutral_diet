@@ -1,3 +1,3 @@
-import EditFoodItemDialog from "./EditFoodItemDialog";
+import EditFoodItemDialog from './EditFoodItemDialog';
 
 export default EditFoodItemDialog;
