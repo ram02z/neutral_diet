@@ -7,8 +7,14 @@ sql:
       go:
         package: "db"
         emit_prepared_queries: true
-        sql_package: "pgx/v4"
+        sql_package: "pgx/v5"
         out: "internal/gen/db"
         overrides:
           - db_type: "pg_catalog.numeric"
             go_type: "github.com/shopspring/decimal.Decimal"
+            # TODO: use 'emit_pointers_for_null_types' when updated
+          - db_type: "pg_catalog.int4"
+            go_type:
+              type: "int32"
+              pointer: true
+            nullable: true

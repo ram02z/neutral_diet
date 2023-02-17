@@ -9,7 +9,6 @@ import { Box } from '@mui/system';
 
 import { useSnackbar } from 'notistack';
 
-import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import DeleteAccount from '@/components/DeleteAccount';
 import DietaryRequirementSelect from '@/components/DietaryRequirementSelect';
@@ -19,33 +18,31 @@ import { CarbonFootprintSlider } from '@/components/StyledSlider';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useSignOut } from '@/hooks/useSignOut';
 import {
-  CurrentUserTokenIDState,
+  CurrentUserHeadersState,
   LocalUserSettingsState,
   RemoteUserSettingsState,
 } from '@/store/user';
 
 function Account() {
   const user = useCurrentUser();
-  const idToken = useRecoilValue(CurrentUserTokenIDState);
+  const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const remoteUserSettings = useRecoilValue(RemoteUserSettingsState);
   const [localUserSettings, setLocalUserSettings] = useRecoilState(LocalUserSettingsState);
   const signOut = useSignOut();
   const { enqueueSnackbar } = useSnackbar();
   const saveSettings = () => {
-    setLocalUserSettings((old) => {
-      return { ...old, dirty: false };
-    });
-    if (idToken) {
-      const headers = new Headers();
-      headers.set(ID_TOKEN_HEADER, idToken);
-      client
-        .updateUserSettings({ userSettings: remoteUserSettings }, { headers: headers })
-        .then(() => enqueueSnackbar('Updated account settings.', { variant: 'success' }))
-        .catch((err) => {
-          enqueueSnackbar('Could not save account settings.', { variant: 'error' });
-          console.error(err);
-        });
-    }
+    client
+      .updateUserSettings({ userSettings: remoteUserSettings }, { headers: userHeaders })
+      .then(() =>
+        setLocalUserSettings((old) => {
+          return { ...old, dirty: false };
+        }),
+      )
+      .then(() => enqueueSnackbar('Updated account settings.', { variant: 'success' }))
+      .catch((err) => {
+        enqueueSnackbar('Could not save account settings.', { variant: 'error' });
+        console.error(err);
+      });
   };
 
   useEffect(() => {

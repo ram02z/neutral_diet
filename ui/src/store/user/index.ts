@@ -1,5 +1,6 @@
-import { atom, selector } from 'recoil';
+import { atom, atomFamily, selector, selectorFamily } from 'recoil';
 
+import dayjs from 'dayjs';
 import { User } from 'firebase/auth';
 
 import {
@@ -11,7 +12,7 @@ import client from '@/api/user_service';
 import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 
-import { LocalUserSettings } from './types';
+import { LocalFoodLogItem, LocalUserSettings } from './types';
 
 export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
@@ -35,6 +36,18 @@ export const CurrentUserTokenIDState = selector({
   },
 });
 
+export const CurrentUserHeadersState = selector({
+  key: 'CurrentUserHeadersState',
+  get: async ({ get }) => {
+    const headers = new Headers();
+    const idToken = get(CurrentUserTokenIDState);
+    if (idToken) {
+      headers.set(ID_TOKEN_HEADER, idToken);
+    }
+    return headers;
+  },
+});
+
 export const LocalUserSettingsState = atom<LocalUserSettings>({
   key: 'LocalUserSettingsState',
   default: selector({
@@ -47,15 +60,15 @@ export const LocalUserSettingsState = atom<LocalUserSettings>({
         dietaryRequirement: UserSettings_DietaryRequirement.UNSPECIFIED,
       };
 
-      const idToken = get(CurrentUserTokenIDState);
-      if (idToken) {
-        const headers = new Headers();
-        headers.set(ID_TOKEN_HEADER, idToken);
-        const response = await client.getUserSettings({}, { headers: headers });
+      const userHeaders = get(CurrentUserHeadersState);
+      try {
+        const response = await client.getUserSettings({}, { headers: userHeaders });
         defaults.cfLimit = response.userSettings?.cfLimit ?? defaults.cfLimit;
         defaults.region = response.userSettings?.region?.name ?? defaults.region;
         defaults.dietaryRequirement =
           response.userSettings?.dietaryRequirement ?? defaults.dietaryRequirement;
+      } catch (err) {
+        console.error(err);
       }
       return defaults;
     },
@@ -83,5 +96,42 @@ export const DietaryRequirementsState = atom<DietaryRequirement[]>({
         .filter((x) => typeof x === 'number')
         .map((dr) => new DietaryRequirement(dr as UserSettings_DietaryRequirement));
     },
+  }),
+});
+
+export const FoodItemLogDateState = atom<dayjs.Dayjs>({
+  key: 'FoodItemLogDateState',
+  default: dayjs(),
+});
+
+export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>({
+  key: 'LocalFoodItemLogState',
+  default: selectorFamily({
+    key: 'LocalFoodItemLogState/Default',
+    get:
+      (date) =>
+      async ({ get }) => {
+        const userHeaders = get(CurrentUserHeadersState);
+        try {
+          const response = await client.getFoodItemLog(
+            {
+              date: { year: date.year(), month: date.month() + 1, day: date.date() },
+            },
+            { headers: userHeaders },
+          );
+
+          return response.foodItemLog.map((foodLogItem) => {
+            return {
+              dbId: foodLogItem.id,
+              name: foodLogItem.name,
+              weight: foodLogItem.weight,
+              carbonFootprint: foodLogItem.carbonFootprint,
+            };
+          });
+        } catch (err) {
+          console.error(err);
+          return [];
+        }
+      },
   }),
 });

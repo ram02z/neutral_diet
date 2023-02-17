@@ -2,9 +2,9 @@ package db
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
 	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 	userv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1"
@@ -18,8 +18,11 @@ func (s *Store) CreateUser(
 	queries := db.New(s.dbPool)
 
 	userID, err := queries.CreateUser(ctx, db.CreateUserParams{
-		FirebaseUid:        r.FirebaseUid,
-		Region:             sql.NullString{String: DefaultRegionName, Valid: true},
+		FirebaseUid: r.FirebaseUid,
+		Region: pgtype.Text{
+			String: DefaultRegionName,
+			Valid:  false,
+		},
 		CfLimit:            decimal.NewFromFloat(0.0),
 		DietaryRequirement: int32(userv1.UserSettings_DIETARY_REQUIREMENT_UNSPECIFIED.Number()),
 	})
@@ -82,7 +85,7 @@ func (s *Store) UpdateUserSettings(
 
 	err := queries.UpdateUserSettings(ctx, db.UpdateUserSettingsParams{
 		FirebaseUid: firebaseUID,
-		Region: sql.NullString{
+		Region: pgtype.Text{
 			String: r.GetUserSettings().GetRegion().Name,
 			Valid:  true,
 		},

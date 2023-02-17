@@ -75,6 +75,54 @@ func (c *ConnectWrapper) AddFoodItem(
 	return out, nil
 }
 
+func (c *ConnectWrapper) UpdateFoodItem(
+	ctx context.Context,
+	req *connect.Request[userv1.UpdateFoodItemRequest],
+) (*connect.Response[userv1.UpdateFoodItemResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	err = validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.UpdateFoodItemFromLog(ctx, req.Msg, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) DeleteFoodItem(
+	ctx context.Context,
+	req *connect.Request[userv1.DeleteFoodItemRequest],
+) (*connect.Response[userv1.DeleteFoodItemResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	err = validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.DeleteFoodItemFromLog(ctx, req.Msg, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
 func (c *ConnectWrapper) UpdateUserSettings(
 	ctx context.Context,
 	req *connect.Request[userv1.UpdateUserSettingsRequest],
@@ -119,6 +167,25 @@ func (c *ConnectWrapper) GetUserSettings(
 	if err != nil {
 		return nil, err
 	}
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) GetFoodItemLog(
+	ctx context.Context,
+	req *connect.Request[userv1.GetFoodItemLogRequest],
+) (*connect.Response[userv1.GetFoodItemLogResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.GetFoodItemLog(ctx, req.Msg, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
 
 	return out, nil
 }

@@ -201,6 +201,8 @@ func (m *AddFoodItemResponse) validate(all bool) error {
 
 	// no validation rules for Id
 
+	// no validation rules for CarbonFootprint
+
 	if len(errors) > 0 {
 		return AddFoodItemResponseMultiError(errors)
 	}
@@ -280,6 +282,718 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = AddFoodItemResponseValidationError{}
+
+// Validate checks the field values on UpdateFoodItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateFoodItemRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateFoodItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateFoodItemRequestMultiError, or nil if none found.
+func (m *UpdateFoodItemRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateFoodItemRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetId() <= 0 {
+		err := UpdateFoodItemRequestValidationError{
+			field:  "Id",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for Weight
+
+	if len(errors) > 0 {
+		return UpdateFoodItemRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateFoodItemRequestMultiError is an error wrapping multiple validation
+// errors returned by UpdateFoodItemRequest.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateFoodItemRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateFoodItemRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateFoodItemRequestMultiError) AllErrors() []error { return m }
+
+// UpdateFoodItemRequestValidationError is the validation error returned by
+// UpdateFoodItemRequest.Validate if the designated constraints aren't met.
+type UpdateFoodItemRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateFoodItemRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateFoodItemRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateFoodItemRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateFoodItemRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateFoodItemRequestValidationError) ErrorName() string {
+	return "UpdateFoodItemRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateFoodItemRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateFoodItemRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateFoodItemRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateFoodItemRequestValidationError{}
+
+// Validate checks the field values on UpdateFoodItemResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateFoodItemResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateFoodItemResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateFoodItemResponseMultiError, or nil if none found.
+func (m *UpdateFoodItemResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateFoodItemResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for CarbonFootprint
+
+	if len(errors) > 0 {
+		return UpdateFoodItemResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateFoodItemResponseMultiError is an error wrapping multiple validation
+// errors returned by UpdateFoodItemResponse.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateFoodItemResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateFoodItemResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateFoodItemResponseMultiError) AllErrors() []error { return m }
+
+// UpdateFoodItemResponseValidationError is the validation error returned by
+// UpdateFoodItemResponse.Validate if the designated constraints aren't met.
+type UpdateFoodItemResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateFoodItemResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateFoodItemResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateFoodItemResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateFoodItemResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateFoodItemResponseValidationError) ErrorName() string {
+	return "UpdateFoodItemResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateFoodItemResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateFoodItemResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateFoodItemResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateFoodItemResponseValidationError{}
+
+// Validate checks the field values on DeleteFoodItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeleteFoodItemRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteFoodItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeleteFoodItemRequestMultiError, or nil if none found.
+func (m *DeleteFoodItemRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteFoodItemRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetId() <= 0 {
+		err := DeleteFoodItemRequestValidationError{
+			field:  "Id",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return DeleteFoodItemRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteFoodItemRequestMultiError is an error wrapping multiple validation
+// errors returned by DeleteFoodItemRequest.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteFoodItemRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteFoodItemRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteFoodItemRequestMultiError) AllErrors() []error { return m }
+
+// DeleteFoodItemRequestValidationError is the validation error returned by
+// DeleteFoodItemRequest.Validate if the designated constraints aren't met.
+type DeleteFoodItemRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteFoodItemRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteFoodItemRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteFoodItemRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteFoodItemRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteFoodItemRequestValidationError) ErrorName() string {
+	return "DeleteFoodItemRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteFoodItemRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteFoodItemRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteFoodItemRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteFoodItemRequestValidationError{}
+
+// Validate checks the field values on DeleteFoodItemResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeleteFoodItemResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteFoodItemResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeleteFoodItemResponseMultiError, or nil if none found.
+func (m *DeleteFoodItemResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteFoodItemResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return DeleteFoodItemResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteFoodItemResponseMultiError is an error wrapping multiple validation
+// errors returned by DeleteFoodItemResponse.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteFoodItemResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteFoodItemResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteFoodItemResponseMultiError) AllErrors() []error { return m }
+
+// DeleteFoodItemResponseValidationError is the validation error returned by
+// DeleteFoodItemResponse.Validate if the designated constraints aren't met.
+type DeleteFoodItemResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteFoodItemResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteFoodItemResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteFoodItemResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteFoodItemResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteFoodItemResponseValidationError) ErrorName() string {
+	return "DeleteFoodItemResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteFoodItemResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteFoodItemResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteFoodItemResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteFoodItemResponseValidationError{}
+
+// Validate checks the field values on GetFoodItemLogRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetFoodItemLogRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFoodItemLogRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetFoodItemLogRequestMultiError, or nil if none found.
+func (m *GetFoodItemLogRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFoodItemLogRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetDate() == nil {
+		err := GetFoodItemLogRequestValidationError{
+			field:  "Date",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetFoodItemLogRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetFoodItemLogRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetFoodItemLogRequestValidationError{
+				field:  "Date",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetFoodItemLogRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFoodItemLogRequestMultiError is an error wrapping multiple validation
+// errors returned by GetFoodItemLogRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetFoodItemLogRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFoodItemLogRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFoodItemLogRequestMultiError) AllErrors() []error { return m }
+
+// GetFoodItemLogRequestValidationError is the validation error returned by
+// GetFoodItemLogRequest.Validate if the designated constraints aren't met.
+type GetFoodItemLogRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFoodItemLogRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFoodItemLogRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFoodItemLogRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFoodItemLogRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFoodItemLogRequestValidationError) ErrorName() string {
+	return "GetFoodItemLogRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetFoodItemLogRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFoodItemLogRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFoodItemLogRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFoodItemLogRequestValidationError{}
+
+// Validate checks the field values on GetFoodItemLogResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetFoodItemLogResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFoodItemLogResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetFoodItemLogResponseMultiError, or nil if none found.
+func (m *GetFoodItemLogResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFoodItemLogResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetFoodItemLog() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetFoodItemLogResponseValidationError{
+						field:  fmt.Sprintf("FoodItemLog[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetFoodItemLogResponseValidationError{
+						field:  fmt.Sprintf("FoodItemLog[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetFoodItemLogResponseValidationError{
+					field:  fmt.Sprintf("FoodItemLog[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GetFoodItemLogResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFoodItemLogResponseMultiError is an error wrapping multiple validation
+// errors returned by GetFoodItemLogResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetFoodItemLogResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFoodItemLogResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFoodItemLogResponseMultiError) AllErrors() []error { return m }
+
+// GetFoodItemLogResponseValidationError is the validation error returned by
+// GetFoodItemLogResponse.Validate if the designated constraints aren't met.
+type GetFoodItemLogResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFoodItemLogResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFoodItemLogResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFoodItemLogResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFoodItemLogResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFoodItemLogResponseValidationError) ErrorName() string {
+	return "GetFoodItemLogResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetFoodItemLogResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFoodItemLogResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFoodItemLogResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFoodItemLogResponseValidationError{}
 
 // Validate checks the field values on CreateUserRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the

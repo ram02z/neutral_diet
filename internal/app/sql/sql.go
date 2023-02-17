@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/sethvargo/go-envconfig"
 )
 
@@ -35,9 +35,11 @@ func NewDatabase() (*pgxpool.Pool, error) {
 		cfg.DBConfig.Port,
 		cfg.DBConfig.Name,
 	)
-	conn, err := pgxpool.Connect(context.Background(), dsn)
+	config, err := pgxpool.ParseConfig(dsn)
 	if err != nil {
 		return nil, err
 	}
-	return conn, err
+	pool, err := pgxpool.NewWithConfig(context.Background(), config)
+
+	return pool, err
 }
