@@ -4,6 +4,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Delete } from '@mui/icons-material';
 import {
+  Alert,
   Card,
   CardActionArea,
   CardActions,
@@ -13,14 +14,14 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
+import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
 
-import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import EditFoodItemDialog from '@/components/EditFoodItemDialog';
 import { FormValues } from '@/components/FoodItemCard/types';
 import { MIN_WIDTH } from '@/config';
-import { CurrentUserTokenIDState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
+import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
 
 type FoodItemCardProps = {
@@ -28,24 +29,23 @@ type FoodItemCardProps = {
 };
 
 function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
+  const confirm = useConfirm();
   const [openDialog, setOpenDialog] = useState(false);
-  const idToken = useRecoilValue(CurrentUserTokenIDState);
+  const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const date = useRecoilValue(FoodItemLogDateState);
   const { enqueueSnackbar } = useSnackbar();
   const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(date));
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const weight = parseFloat(data.weight);
-    if (idToken) {
-      const headers = new Headers();
-      headers.set(ID_TOKEN_HEADER, idToken);
+    if (userHeaders) {
       client
         .updateFoodItem(
           {
             id: foodLogItem.dbId,
             weight: weight,
           },
-          { headers: headers },
+          { headers: userHeaders },
         )
         .then((res) => {
           setFoodItemLog((old) => {
@@ -71,14 +71,31 @@ function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
     handleClose();
   };
 
-  const handleDelete = () => {
-    if (idToken) {
-      const headers = new Headers();
-      headers.set(ID_TOKEN_HEADER, idToken);
-      client.deleteFoodItem({ id: foodLogItem.dbId }, { headers: headers }).then(() => {
-        setFoodItemLog((old) => old.filter((item) => item.dbId !== foodLogItem.dbId));
-      });
-    }
+  const handleDelete = async () => {
+    confirm({
+      title: 'Delete food item',
+      content: (
+        <div>
+          <Alert severity="error">
+            After you have deleted a food item from your log, it will be permanently deleted.
+          </Alert>
+        </div>
+      ),
+      cancellationButtonProps: { color: 'info' },
+      confirmationText: 'Delete',
+      confirmationButtonProps: { color: 'error', variant: 'contained' },
+    }).then(() => {
+      client
+        .deleteFoodItem({ id: foodLogItem.dbId }, { headers: userHeaders })
+        .then(() => {
+          setFoodItemLog((old) => old.filter((item) => item.dbId !== foodLogItem.dbId));
+          enqueueSnackbar('Deleted food entry.', { variant: 'success' });
+        })
+        .catch((err) => {
+          enqueueSnackbar('Could not delete food entry.', { variant: 'error' });
+          console.error(err);
+        });
+    });
   };
 
   const handleClickOpen = () => {
