@@ -19,6 +19,7 @@ message AddFoodItemResponse {
 message UpdateFoodItemRequest {
   int32 id = 1 [(validate.rules).int32.gt = 0];
   double weight = 2;
+  WeightUnit weight_unit = 3;
 }
 
 message UpdateFoodItemResponse {

@@ -1,13 +1,22 @@
 import { BaseSyntheticEvent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { Button, Dialog, DialogActions, DialogTitle, TextField } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
 import { Stack } from '@mui/system';
 import { DatePicker } from '@mui/x-date-pickers';
 
 import dayjs from 'dayjs';
 
 import { FormValues } from '@/components/FoodItemCard/types';
+import { DEFAULT_WEIGHT_UNIT, WeightUnitNameMap } from '@/core/weight';
 
 type AddFoodItemDialogProps = {
   onSubmit: (data: FormValues, event?: BaseSyntheticEvent<object, void, void | undefined>) => void;
@@ -58,6 +67,25 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
                 label="Weight"
                 inputProps={{ step: 0.001 }}
               />
+            )}
+          />
+          <Controller
+            control={control}
+            name="weightUnit"
+            defaultValue={DEFAULT_WEIGHT_UNIT}
+            rules={{ required: true }}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <Select
+                error={!!error}
+                onChange={onChange}
+                value={value}
+              >
+                {[...WeightUnitNameMap.values()].map((value, key) => (
+                  <MenuItem key={key} value={value}>
+                    {value}
+                  </MenuItem>
+                ))}
+              </Select>
             )}
           />
         </Stack>

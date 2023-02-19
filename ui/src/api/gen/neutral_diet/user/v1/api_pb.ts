@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { FoodLogItemRequest, FoodLogItemResponse } from "./food_item_log_pb.js";
+import { FoodLogItemRequest, FoodLogItemResponse, WeightUnit } from "./food_item_log_pb.js";
 import { Date } from "./date_pb.js";
 import { UserSettings } from "./user_pb.js";
 
@@ -103,6 +103,11 @@ export class UpdateFoodItemRequest extends Message<UpdateFoodItemRequest> {
    */
   weight = 0;
 
+  /**
+   * @generated from field: neutral_diet.user.v1.WeightUnit weight_unit = 3;
+   */
+  weightUnit = WeightUnit.UNSPECIFIED;
+
   constructor(data?: PartialMessage<UpdateFoodItemRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -113,6 +118,7 @@ export class UpdateFoodItemRequest extends Message<UpdateFoodItemRequest> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 2, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 3, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateFoodItemRequest {

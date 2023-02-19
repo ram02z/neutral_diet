@@ -12,6 +12,7 @@ import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import client from '@/api/user_service';
 import AddFoodItemDialog from '@/components/AddFoodItemDialog';
 import { MIN_WIDTH } from '@/config';
+import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
 import { FoodHistoryState } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 
@@ -33,12 +34,14 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setDate(data.date);
     const weight = parseFloat(data.weight);
+    const weightUnit = ReverseWeightUnitNameMap.get(data.weightUnit);
     client
       .addFoodItem(
         {
           foodLogItem: {
             foodItemId: foodItem.id,
             weight: weight,
+            weightUnit: weightUnit,
             date: { year: data.date.year(), month: data.date.month() + 1, day: data.date.date() },
           },
         },
@@ -54,7 +57,7 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
             {
               dbId: res.id,
               name: foodItem.foodName,
-              weight: weight,
+              weight: new Weight(weight, weightUnit),
               carbonFootprint: res.carbonFootprint,
             },
           ];

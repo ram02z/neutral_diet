@@ -13,6 +13,7 @@ import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 
 import { LocalFoodLogItem, LocalUserSettings } from './types';
+import { Weight } from '@/core/weight';
 
 export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
@@ -124,7 +125,7 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
             return {
               dbId: foodLogItem.id,
               name: foodLogItem.name,
-              weight: foodLogItem.weight,
+              weight: new Weight(foodLogItem.weight, foodLogItem.weightUnit),
               carbonFootprint: foodLogItem.carbonFootprint,
             };
           });

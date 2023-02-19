@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS "life_cycle";
 
 DROP TABLE IF EXISTS "food_item";
 
-DROP TYPE IF EXISTS cf_type;
+DROP TYPE IF EXISTS cf_types;
 
 DROP TABLE IF EXISTS "typology";
 

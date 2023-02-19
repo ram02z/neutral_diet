@@ -4,10 +4,19 @@ package neutral_diet.user.v1;
 
 import "neutral_diet/user/v1/date.proto";
 
+enum WeightUnit {
+  WEIGHT_UNIT_UNSPECIFIED = 0;
+  WEIGHT_UNIT_KILOGRAM = 1;
+  WEIGHT_UNIT_GRAM = 2;
+  WEIGHT_UNIT_OUNCE = 3;
+  WEIGHT_UNIT_POUND = 4;
+}
+
 message FoodLogItemRequest {
   int32 food_item_id = 1;
   double weight = 2;
   Date date = 3;
+  WeightUnit weight_unit = 4;
 }
 
 message FoodLogItemResponse {
@@ -17,4 +26,5 @@ message FoodLogItemResponse {
   double weight = 4;
   double carbon_footprint = 5;
   Date date = 6;
+  WeightUnit weight_unit = 7;
 }

@@ -8,6 +8,44 @@ import { Message, proto3 } from "@bufbuild/protobuf";
 import { Date } from "./date_pb.js";
 
 /**
+ * @generated from enum neutral_diet.user.v1.WeightUnit
+ */
+export enum WeightUnit {
+  /**
+   * @generated from enum value: WEIGHT_UNIT_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: WEIGHT_UNIT_KILOGRAM = 1;
+   */
+  KILOGRAM = 1,
+
+  /**
+   * @generated from enum value: WEIGHT_UNIT_GRAM = 2;
+   */
+  GRAM = 2,
+
+  /**
+   * @generated from enum value: WEIGHT_UNIT_OUNCE = 3;
+   */
+  OUNCE = 3,
+
+  /**
+   * @generated from enum value: WEIGHT_UNIT_POUND = 4;
+   */
+  POUND = 4,
+}
+// Retrieve enum metadata with: proto3.getEnumType(WeightUnit)
+proto3.util.setEnumType(WeightUnit, "neutral_diet.user.v1.WeightUnit", [
+  { no: 0, name: "WEIGHT_UNIT_UNSPECIFIED" },
+  { no: 1, name: "WEIGHT_UNIT_KILOGRAM" },
+  { no: 2, name: "WEIGHT_UNIT_GRAM" },
+  { no: 3, name: "WEIGHT_UNIT_OUNCE" },
+  { no: 4, name: "WEIGHT_UNIT_POUND" },
+]);
+
+/**
  * @generated from message neutral_diet.user.v1.FoodLogItemRequest
  */
 export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
@@ -26,6 +64,11 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
    */
   date?: Date;
 
+  /**
+   * @generated from field: neutral_diet.user.v1.WeightUnit weight_unit = 4;
+   */
+  weightUnit = WeightUnit.UNSPECIFIED;
+
   constructor(data?: PartialMessage<FoodLogItemRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -37,6 +80,7 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
     { no: 1, name: "food_item_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 2, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 3, name: "date", kind: "message", T: Date },
+    { no: 4, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItemRequest {
@@ -90,6 +134,11 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
    */
   date?: Date;
 
+  /**
+   * @generated from field: neutral_diet.user.v1.WeightUnit weight_unit = 7;
+   */
+  weightUnit = WeightUnit.UNSPECIFIED;
+
   constructor(data?: PartialMessage<FoodLogItemResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -104,6 +153,7 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
     { no: 4, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 5, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 6, name: "date", kind: "message", T: Date },
+    { no: 7, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItemResponse {
