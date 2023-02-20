@@ -49,7 +49,9 @@ function EditFoodItemDialog({
             defaultValue={currentWeight.getWeightUnitName()}
             rules={{ required: true }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <Select
+              <TextField
+                select
+                label="Unit"
                 error={!!error}
                 onChange={onChange}
                 value={value}
@@ -59,7 +61,7 @@ function EditFoodItemDialog({
                     {value}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
             )}
           />
         </Stack>

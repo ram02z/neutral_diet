@@ -7,7 +7,6 @@ import {
   DialogActions,
   DialogTitle,
   MenuItem,
-  Select,
   TextField,
 } from '@mui/material';
 import { Stack } from '@mui/system';
@@ -16,7 +15,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
 import { FormValues } from '@/components/FoodItemCard/types';
-import { DEFAULT_WEIGHT_UNIT, WeightUnitNameMap } from '@/core/weight';
+import { WeightUnitNameMap } from '@/core/weight';
 
 type AddFoodItemDialogProps = {
   onSubmit: (data: FormValues, event?: BaseSyntheticEvent<object, void, void | undefined>) => void;
@@ -72,10 +71,11 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
           <Controller
             control={control}
             name="weightUnit"
-            defaultValue={DEFAULT_WEIGHT_UNIT}
             rules={{ required: true }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <Select
+              <TextField
+                select
+                label="Unit"
                 error={!!error}
                 onChange={onChange}
                 value={value}
@@ -85,7 +85,7 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
                     {value}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
             )}
           />
         </Stack>
