@@ -1,3 +1,5 @@
+import { Weight } from '@/core/weight';
+
 export type LocalUserSettings = {
   region: string;
   cfLimit: number;
@@ -8,6 +10,6 @@ export type LocalUserSettings = {
 export type LocalFoodLogItem = {
   dbId: number;
   name: string;
-  weight: number;
+  weight: Weight;
   carbonFootprint: number;
 };

@@ -11,6 +11,7 @@ import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
+import { Weight } from '@/core/weight';
 
 import { LocalFoodLogItem, LocalUserSettings } from './types';
 
@@ -124,7 +125,7 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
             return {
               dbId: foodLogItem.id,
               name: foodLogItem.name,
-              weight: foodLogItem.weight,
+              weight: new Weight(foodLogItem.weight, foodLogItem.weightUnit),
               carbonFootprint: foodLogItem.carbonFootprint,
             };
           });

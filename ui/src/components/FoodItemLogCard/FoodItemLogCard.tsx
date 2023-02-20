@@ -21,6 +21,7 @@ import client from '@/api/user_service';
 import EditFoodItemDialog from '@/components/EditFoodItemDialog';
 import { FormValues } from '@/components/FoodItemCard/types';
 import { MIN_WIDTH } from '@/config';
+import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
 
@@ -38,11 +39,13 @@ function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const weight = parseFloat(data.weight);
+    const weightUnit = ReverseWeightUnitNameMap.get(data.weightUnit);
     client
       .updateFoodItem(
         {
           id: foodLogItem.dbId,
           weight: weight,
+          weightUnit: weightUnit,
         },
         { headers: userHeaders },
       )
@@ -53,7 +56,7 @@ function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
               return {
                 dbId: foodLogItem.dbId,
                 name: foodLogItem.name,
-                weight: weight,
+                weight: new Weight(weight, weightUnit),
                 carbonFootprint: res.carbonFootprint,
               };
             }
@@ -129,7 +132,7 @@ function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
         onSubmit={onSubmit}
         openDialog={openDialog}
         handleClose={handleClose}
-        currentWeight={foodLogItem.weight.toString()}
+        currentWeight={foodLogItem.weight}
       />
     </Card>
   );
