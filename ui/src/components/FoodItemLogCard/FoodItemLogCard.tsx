@@ -17,7 +17,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
 
-import { WeightUnit } from '@/api/gen/neutral_diet/user/v1/food_item_log_pb';
 import client from '@/api/user_service';
 import EditFoodItemDialog from '@/components/EditFoodItemDialog';
 import { FormValues } from '@/components/FoodItemCard/types';

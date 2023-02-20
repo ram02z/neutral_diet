@@ -1,4 +1,4 @@
-import { Weight } from "@/core/weight";
+import { Weight } from '@/core/weight';
 
 export type LocalUserSettings = {
   region: string;

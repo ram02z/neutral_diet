@@ -1,14 +1,7 @@
 import { BaseSyntheticEvent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  MenuItem,
-  TextField,
-} from '@mui/material';
+import { Button, Dialog, DialogActions, DialogTitle, MenuItem, TextField } from '@mui/material';
 import { Stack } from '@mui/system';
 import { DatePicker } from '@mui/x-date-pickers';
 
@@ -73,13 +66,7 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
             name="weightUnit"
             rules={{ required: true }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                select
-                label="Unit"
-                error={!!error}
-                onChange={onChange}
-                value={value}
-              >
+              <TextField select label="Unit" error={!!error} onChange={onChange} value={value}>
                 {[...WeightUnitNameMap.values()].map((value, key) => (
                   <MenuItem key={key} value={value}>
                     {value}
