@@ -25,11 +25,13 @@ import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
 
+export const ESTIMATED_CARD_HEIGHT = 160;
+
 type FoodItemCardProps = {
   foodLogItem: LocalFoodLogItem;
 };
 
-function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
+export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const confirm = useConfirm();
   const [openDialog, setOpenDialog] = useState(false);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
@@ -117,7 +119,19 @@ function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 {foodLogItem.name.toLowerCase()}
               </Typography>
               <Typography variant="subtitle1" color="text.secondary" component="div">
-                {foodLogItem.carbonFootprint}
+                {foodLogItem.weight.getFormattedName()}
+              </Typography>
+            </Grid>
+            <Grid
+              xs
+              display="flex"
+              justifyContent="flex-end"
+              alignItems="center"
+              textAlign="center"
+              sx={{ pt: 1, pl: 1 }}
+            >
+              <Typography variant="h6" color="text.secondary">
+                {parseFloat(foodLogItem.carbonFootprint.toFixed(3))}
               </Typography>
             </Grid>
           </Grid>
@@ -137,5 +151,3 @@ function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
     </Card>
   );
 }
-
-export default FoodItemLogCard;

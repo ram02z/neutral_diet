@@ -16,6 +16,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import FoodItemCard from '@/components/FoodItemCard';
 import { FoodHistoryState, FoodItemsState } from '@/store/food';
+import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemCard/FoodItemCard';
 
 function Search() {
   const foodItems = useRecoilValue(FoodItemsState);
@@ -100,8 +101,7 @@ function Search() {
           </Grid>
           {searchFoodHistory.map((foodItem, idx) => (
             <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
-              {/* TODO: update default height to a more accurate estimate */}
-              <RenderIfVisible>
+              <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
                 <FoodItemCard foodItem={foodItem} />
               </RenderIfVisible>
             </Grid>
@@ -121,8 +121,7 @@ function Search() {
           </Grid>
           {searchFoodItems.map((foodItem, idx) => (
             <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
-              {/* TODO: update default height to a more accurate estimate */}
-              <RenderIfVisible>
+              <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
                 <FoodItemCard foodItem={foodItem} />
               </RenderIfVisible>
             </Grid>

@@ -18,11 +18,13 @@ import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } 
 
 import { FormValues } from './types';
 
+export const ESTIMATED_CARD_HEIGHT = 110;
+
 type FoodItemCardProps = {
   foodItem: AggregateFoodItem;
 };
 
-function FoodItemCard({ foodItem }: FoodItemCardProps) {
+export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [foodHistory, setFoodHistory] = useRecoilState(FoodHistoryState);
   const [date, setDate] = useRecoilState(FoodItemLogDateState);
   const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(date));
@@ -92,7 +94,7 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
               {foodItem.foodName.toLowerCase()}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary" component="div">
-              {foodItem.medianCarbonFootprint}
+              <b>{parseFloat(foodItem.medianCarbonFootprint.toFixed(3))}</b>kg
             </Typography>
           </Grid>
           <Grid
