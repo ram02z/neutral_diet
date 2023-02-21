@@ -93,8 +93,11 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
             <Typography sx={{ textTransform: 'capitalize' }} variant="h5" component="div">
               {foodItem.foodName.toLowerCase()}
             </Typography>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
-              <b>{parseFloat(foodItem.medianCarbonFootprint.toFixed(3))}</b>kg
+            <Typography variant="subtitle1" color="text.secondary">
+              <b>{parseFloat(foodItem.medianCarbonFootprint.toFixed(3))}</b>
+              <Typography variant="caption">
+                CO<sub>2</sub>/kg
+              </Typography>
             </Typography>
           </Grid>
           <Grid
