@@ -11,7 +11,8 @@ import {
 import { Stack } from '@mui/system';
 
 import { MIN_WIDTH } from '@/config';
-import { FoodItemInfo } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
+
+import { FoodItemInfo } from './types';
 
 type FoodItemInfoDialogProps = {
   openDialog: boolean;

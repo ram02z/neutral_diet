@@ -6,6 +6,7 @@
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
 import { Date } from "./date_pb.js";
+import { FoodItemInfo } from "../../food/v1/food_item_pb.js";
 
 /**
  * @generated from enum neutral_diet.user.v1.WeightUnit
@@ -139,6 +140,11 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
    */
   weightUnit = WeightUnit.UNSPECIFIED;
 
+  /**
+   * @generated from field: neutral_diet.food.v1.FoodItemInfo food_item_info = 8;
+   */
+  foodItemInfo?: FoodItemInfo;
+
   constructor(data?: PartialMessage<FoodLogItemResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -154,6 +160,7 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
     { no: 5, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 6, name: "date", kind: "message", T: Date },
     { no: 7, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
+    { no: 8, name: "food_item_info", kind: "message", T: FoodItemInfo },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItemResponse {

@@ -127,6 +127,7 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
               name: foodLogItem.name,
               weight: new Weight(foodLogItem.weight, foodLogItem.weightUnit),
               carbonFootprint: foodLogItem.carbonFootprint,
+              info: foodLogItem.foodItemInfo,
             };
           });
         } catch (err) {

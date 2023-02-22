@@ -20,6 +20,7 @@ import { useSnackbar } from 'notistack';
 import client from '@/api/user_service';
 import EditFoodItemDialog from '@/components/EditFoodItemDialog';
 import { FormValues } from '@/components/FoodItemCard/types';
+import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
 import { MIN_WIDTH } from '@/config';
 import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
@@ -33,7 +34,8 @@ type FoodItemCardProps = {
 
 export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const confirm = useConfirm();
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const date = useRecoilValue(FoodItemLogDateState);
   const { enqueueSnackbar } = useSnackbar();
@@ -60,6 +62,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 name: foodLogItem.name,
                 weight: new Weight(weight, weightUnit),
                 carbonFootprint: res.carbonFootprint,
+                info: item.info,
               };
             }
             return { ...item };
@@ -71,7 +74,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
         enqueueSnackbar("Couldn't update food entry", { variant: 'error' });
         console.error(err);
       });
-    handleClose();
+    handleCloseDeleteDialog();
   };
 
   const handleDelete = async () => {
@@ -101,17 +104,25 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
     });
   };
 
-  const handleClickOpen = () => {
-    setOpenDialog(true);
+  const handleOpenDeleteDialog = () => {
+    setOpenDeleteDialog(true);
   };
 
-  const handleClose = () => {
-    setOpenDialog(false);
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false);
+  };
+
+  const handleOpenInfoDialog = () => {
+    setOpenInfoDialog(true);
+  };
+
+  const handleCloseInfoDialog = () => {
+    setOpenInfoDialog(false);
   };
 
   return (
     <Card sx={{ minWidth: MIN_WIDTH }}>
-      <CardActionArea onClick={handleClickOpen}>
+      <CardActionArea onClick={handleOpenDeleteDialog}>
         <CardContent>
           <Grid container columns={5}>
             <Grid xs={4} sx={{ pt: 1, pl: 1 }}>
@@ -141,8 +152,12 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>
-        <IconButton>
-          <Info/>
+        <IconButton
+          onClick={handleOpenInfoDialog}
+          aria-label="info"
+          disabled={!foodLogItem.info}
+        >
+          <Info />
         </IconButton>
         <IconButton onClick={handleDelete}>
           <Delete />
@@ -150,9 +165,14 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
       </CardActions>
       <EditFoodItemDialog
         onSubmit={onSubmit}
-        openDialog={openDialog}
-        handleClose={handleClose}
+        openDialog={openDeleteDialog}
+        handleClose={handleCloseDeleteDialog}
         currentWeight={foodLogItem.weight}
+      />
+      <FoodItemInfoDialog
+        openDialog={openInfoDialog}
+        handleClose={handleCloseInfoDialog}
+        foodItemInfo={foodLogItem.info}
       />
     </Card>
   );

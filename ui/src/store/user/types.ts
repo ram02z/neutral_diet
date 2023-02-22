@@ -1,3 +1,4 @@
+import { FoodItemInfo } from '@/components/FoodItemInfoDialog/types';
 import { Weight } from '@/core/weight';
 
 export type LocalUserSettings = {
@@ -12,4 +13,5 @@ export type LocalFoodLogItem = {
   name: string;
   weight: Weight;
   carbonFootprint: number;
+  info?: FoodItemInfo;
 };

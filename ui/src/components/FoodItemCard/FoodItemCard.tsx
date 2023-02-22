@@ -63,6 +63,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
               name: foodItem.foodName,
               weight: new Weight(weight, weightUnit),
               carbonFootprint: res.carbonFootprint,
+              log: foodItem.foodItemInfo,
             },
           ];
         });
@@ -124,7 +125,11 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton onClick={handleOpenInfoDialog} aria-label="info" disabled={foodItem.foodItemInfo === undefined}>
+        <IconButton
+          onClick={handleOpenInfoDialog}
+          aria-label="info"
+          disabled={!foodItem.foodItemInfo}
+        >
           <Info />
         </IconButton>
       </CardActions>
