@@ -9,9 +9,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 import FoodItemLogCard from '@/components/FoodItemLogCard';
+import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemLogCard/FoodItemLogCard';
 import { FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { getDateString } from '@/utils/date';
-import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemLogCard/FoodItemLogCard';
 
 function Diary() {
   const [isForcePickerOpen, setIsOpen] = useState(false);

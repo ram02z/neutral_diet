@@ -134,7 +134,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 {parseFloat(foodLogItem.carbonFootprint.toFixed(3))}
               </Typography>
               <Typography variant="overline">
-              CO<sub>2</sub>/kg
+                CO<sub>2</sub>/kg
               </Typography>
             </Grid>
           </Grid>

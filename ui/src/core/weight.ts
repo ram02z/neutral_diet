@@ -14,7 +14,7 @@ export const ShortWeightUnitNameMap = new Map<number, string>([
   [WeightUnit.GRAM, 'g'],
   [WeightUnit.OUNCE, 'oz'],
   [WeightUnit.POUND, 'lb'],
-])
+]);
 
 export const ReverseWeightUnitNameMap = new Map([...WeightUnitNameMap].map(([k, v]) => [v, k]));
 
@@ -28,7 +28,7 @@ export class Weight {
   }
 
   getFormattedName(): string {
-    return `${this.value}${this.getShortWeightUnitName()}`
+    return `${this.value}${this.getShortWeightUnitName()}`;
   }
 
   getWeightUnitName(): string {
@@ -36,6 +36,6 @@ export class Weight {
   }
 
   getShortWeightUnitName(): string {
-    return ShortWeightUnitNameMap.get(this.weightUnit) ?? "";
+    return ShortWeightUnitNameMap.get(this.weightUnit) ?? '';
   }
 }
