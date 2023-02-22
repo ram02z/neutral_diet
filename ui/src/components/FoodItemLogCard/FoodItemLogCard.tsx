@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Delete } from '@mui/icons-material';
+import { Delete, Info } from '@mui/icons-material';
 import {
   Alert,
   Card,
@@ -141,6 +141,9 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>
+        <IconButton>
+          <Info/>
+        </IconButton>
         <IconButton onClick={handleDelete}>
           <Delete />
         </IconButton>
