@@ -11,13 +11,12 @@ import {
 import { Stack } from '@mui/system';
 
 import { MIN_WIDTH } from '@/config';
-
-import { FoodItemInfo } from './types';
+import { FoodItemInfo } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 
 type FoodItemInfoDialogProps = {
   openDialog: boolean;
   handleClose: () => void;
-  foodItemInfo: FoodItemInfo;
+  foodItemInfo?: FoodItemInfo;
 };
 
 function FoodItemInfoDialog({ openDialog, handleClose, foodItemInfo }: FoodItemInfoDialogProps) {
@@ -30,22 +29,22 @@ function FoodItemInfoDialog({ openDialog, handleClose, foodItemInfo }: FoodItemI
             <Chip label="Typology" />
           </Divider>
           <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
-            {foodItemInfo.typologyName.toLowerCase()}
+            {foodItemInfo?.typologyName.toLowerCase()}
           </Typography>
-          {foodItemInfo.subTypologyName && (
+          {foodItemInfo?.subTypologyName && (
             <>
               <Divider>
                 <Chip label="Sub-Typology" />
               </Divider>
               <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
-                {foodItemInfo.subTypologyName.toLowerCase()}
+                {foodItemInfo?.subTypologyName.toLowerCase()}
               </Typography>
             </>
           )}
           <Divider>
             <Chip label="Number of sources" />
           </Divider>
-          <Typography variant="subtitle1">{foodItemInfo.nSources}</Typography>
+          <Typography variant="subtitle1">{foodItemInfo?.noSources.toString()}</Typography>
         </Stack>
       </DialogContent>
       <DialogActions>

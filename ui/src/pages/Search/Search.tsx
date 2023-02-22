@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import RenderIfVisible from 'react-render-if-visible';
 import { useRecoilValue } from 'recoil';
 
@@ -17,6 +17,7 @@ import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import FoodItemCard from '@/components/FoodItemCard';
 import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemCard/FoodItemCard';
 import { FoodHistoryState, FoodItemsState } from '@/store/food';
+import ClearHistoryButton from '@/components/ClearHistoryButton';
 
 function Search() {
   const foodItems = useRecoilValue(FoodItemsState);
@@ -25,6 +26,10 @@ function Search() {
   const [searchFoodHistory, setSearchFoodHistory] = useState<AggregateFoodItem[]>(foodHistory);
   const [searchText, setSearchText] = useState('');
   const [showHistory, setShowHistory] = useState(true);
+
+  useEffect(() => {
+    setSearchFoodHistory(foodHistory)
+  }, [foodHistory])
 
   const handleSearch = (foodItemArray: AggregateFoodItem[]) => {
     return foodItemArray.filter((foodItem) => {
@@ -113,6 +118,10 @@ function Search() {
               </Button>
             </Grid>
           )}
+          {searchText.length == 0 && foodHistory.length > 0 && (
+          <Grid>
+            <ClearHistoryButton/>
+          </Grid>)}
         </>
       ) : (
         <>

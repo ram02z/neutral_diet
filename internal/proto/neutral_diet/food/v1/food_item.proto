@@ -17,11 +17,15 @@ message FoodItem {
   CfType cf_type = 4 [(validate.rules).enum.defined_only = true];
 }
 
+message FoodItemInfo {
+  string typology_name = 1;
+  string sub_typology_name = 2;
+  int64 no_sources = 3;
+}
+
 message AggregateFoodItem {
   int32 id = 1;
   string food_name = 2;
-  string typology_name = 3;
-  string sub_typology_name = 4;
-  int64 n = 5;
-  double median_carbon_footprint = 6;
+  double median_carbon_footprint = 3;
+  FoodItemInfo food_item_info = 4;
 }

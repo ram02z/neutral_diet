@@ -151,6 +151,111 @@ var _ interface {
 	ErrorName() string
 } = FoodItemValidationError{}
 
+// Validate checks the field values on FoodItemInfo with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *FoodItemInfo) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on FoodItemInfo with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in FoodItemInfoMultiError, or
+// nil if none found.
+func (m *FoodItemInfo) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *FoodItemInfo) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TypologyName
+
+	// no validation rules for SubTypologyName
+
+	// no validation rules for NoSources
+
+	if len(errors) > 0 {
+		return FoodItemInfoMultiError(errors)
+	}
+
+	return nil
+}
+
+// FoodItemInfoMultiError is an error wrapping multiple validation errors
+// returned by FoodItemInfo.ValidateAll() if the designated constraints aren't met.
+type FoodItemInfoMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m FoodItemInfoMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m FoodItemInfoMultiError) AllErrors() []error { return m }
+
+// FoodItemInfoValidationError is the validation error returned by
+// FoodItemInfo.Validate if the designated constraints aren't met.
+type FoodItemInfoValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FoodItemInfoValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FoodItemInfoValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FoodItemInfoValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FoodItemInfoValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FoodItemInfoValidationError) ErrorName() string { return "FoodItemInfoValidationError" }
+
+// Error satisfies the builtin error interface
+func (e FoodItemInfoValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFoodItemInfo.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FoodItemInfoValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FoodItemInfoValidationError{}
+
 // Validate checks the field values on AggregateFoodItem with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
@@ -177,13 +282,36 @@ func (m *AggregateFoodItem) validate(all bool) error {
 
 	// no validation rules for FoodName
 
-	// no validation rules for TypologyName
-
-	// no validation rules for SubTypologyName
-
-	// no validation rules for N
-
 	// no validation rules for MedianCarbonFootprint
+
+	if all {
+		switch v := interface{}(m.GetFoodItemInfo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AggregateFoodItemValidationError{
+					field:  "FoodItemInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AggregateFoodItemValidationError{
+					field:  "FoodItemInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetFoodItemInfo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AggregateFoodItemValidationError{
+				field:  "FoodItemInfo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return AggregateFoodItemMultiError(errors)

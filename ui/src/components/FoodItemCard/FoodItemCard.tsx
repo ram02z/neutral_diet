@@ -12,7 +12,6 @@ import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import client from '@/api/user_service';
 import AddFoodItemDialog from '@/components/AddFoodItemDialog';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
-import { FoodItemInfo } from '@/components/FoodItemInfoDialog/types';
 import { MIN_WIDTH } from '@/config';
 import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
 import { FoodHistoryState } from '@/store/food';
@@ -35,11 +34,6 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
-  const foodItemInfo: FoodItemInfo = {
-    typologyName: foodItem.typologyName,
-    subTypologyName: foodItem.subTypologyName,
-    nSources: foodItem.n.toString(),
-  };
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setDate(data.date);
@@ -130,7 +124,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton onClick={handleOpenInfoDialog} aria-label="info">
+        <IconButton onClick={handleOpenInfoDialog} aria-label="info" disabled={foodItem.foodItemInfo === undefined}>
           <Info />
         </IconButton>
       </CardActions>
@@ -142,7 +136,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
       <FoodItemInfoDialog
         openDialog={openInfoDialog}
         handleClose={handleCloseInfoDialog}
-        foodItemInfo={foodItemInfo}
+        foodItemInfo={foodItem.foodItemInfo}
       />
     </Card>
   );
