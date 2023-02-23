@@ -114,11 +114,6 @@ func mapToFoodItems(foodItemRows []db.ListAggregateFoodItemsRow) ([]*foodv1.Aggr
 			Id:                    foodItemRows[i].ID,
 			FoodName:              foodItemRows[i].FoodName,
 			MedianCarbonFootprint: foodItemRows[i].MedianCarbonFootprint.InexactFloat64(),
-			FoodItemInfo: &foodv1.FoodItemInfo{
-				TypologyName:    foodItemRows[i].TypologyName,
-				SubTypologyName: foodItemRows[i].SubTypologyName.String,
-				NoSources:       foodItemRows[i].N,
-			},
 		}
 	}
 

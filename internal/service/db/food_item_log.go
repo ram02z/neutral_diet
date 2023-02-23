@@ -8,7 +8,6 @@ import (
 	"github.com/bufbuild/connect-go"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
-	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 	userv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1"
 	"github.com/shopspring/decimal"
 )
@@ -253,11 +252,6 @@ func mapToFoodLogItems(
 				Year:  int32(foodItemLogRows[i].LogDate.Time.Year()),
 				Month: int32(foodItemLogRows[i].LogDate.Time.Month()),
 				Day:   int32(foodItemLogRows[i].LogDate.Time.Day()),
-			},
-			FoodItemInfo: &foodv1.FoodItemInfo{
-				TypologyName:    foodItemLogRows[i].TypologyName,
-				SubTypologyName: foodItemLogRows[i].SubTypologyName.String,
-				NoSources:       foodItemLogRows[i].N,
 			},
 		}
 	}
