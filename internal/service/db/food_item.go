@@ -33,19 +33,6 @@ func (s *Store) CreateFoodItem(
 	return &foodv1.CreateFoodItemResponse{Id: foodItemID}, nil
 }
 
-func mapToDBCfTypes(cfType foodv1.FoodItem_CfType) (db.CfTypes, error) {
-	switch cfType {
-	case foodv1.FoodItem_CF_TYPE_ITEM:
-		return db.CfTypesItem, nil
-	case foodv1.FoodItem_CF_TYPE_SUB_TYPOLOGY:
-		return db.CfTypesSubTypology, nil
-	case foodv1.FoodItem_CF_TYPE_TYPOLOGY:
-		return db.CfTypesTypology, nil
-	}
-
-	return "", errors.New("could not map CfType")
-}
-
 func (s *Store) ListAggregateFoodItems(
 	ctx context.Context,
 	r *foodv1.ListAggregateFoodItemsRequest,
@@ -62,6 +49,62 @@ func (s *Store) ListAggregateFoodItems(
 	}
 
 	return &foodv1.ListAggregateFoodItemsResponse{FoodItems: foodItems}, nil
+}
+
+func (s *Store) GetFoodItemInfo(
+	ctx context.Context,
+	r *foodv1.GetFoodItemInfoRequest,
+) (*foodv1.GetFoodItemInfoResponse, error) {
+	queries := db.New(s.dbPool)
+	foodItemInfo, err := queries.GetFoodItemInfo(ctx, r.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	sourceRows, err := queries.ListSourcesByFoodItem(ctx, r.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	sources, err := mapToSources(sourceRows)
+	if err != nil {
+		return nil, err
+	}
+
+	return &foodv1.GetFoodItemInfoResponse{
+		FoodItemInfo: &foodv1.FoodItemInfo{
+			TypologyName:    foodItemInfo.TypologyName,
+			SubTypologyName: foodItemInfo.SubTypologyName.String,
+			NoSources:       foodItemInfo.N,
+			Sources:         sources,
+		},
+	}, nil
+}
+
+func mapToSources(sourceRows []db.ListSourcesByFoodItemRow) ([]*foodv1.Source, error) {
+	sources := make([]*foodv1.Source, len(sourceRows))
+	for i := range sourceRows {
+		sources[i] = &foodv1.Source{
+			Reference:  sourceRows[i].Reference,
+			Year:       sourceRows[i].Year,
+			RegionName: sourceRows[i].RegionName,
+		}
+	}
+
+	return sources, nil
+}
+
+func mapToDBCfTypes(cfType foodv1.FoodItem_CfType) (db.CfTypes, error) {
+	switch cfType {
+	case foodv1.FoodItem_CF_TYPE_ITEM:
+		return db.CfTypesItem, nil
+	case foodv1.FoodItem_CF_TYPE_SUB_TYPOLOGY:
+		return db.CfTypesSubTypology, nil
+	case foodv1.FoodItem_CF_TYPE_TYPOLOGY:
+		return db.CfTypesTypology, nil
+	}
+
+	return "", errors.New("could not map CfType")
 }
 
 func mapToFoodItems(foodItemRows []db.ListAggregateFoodItemsRow) ([]*foodv1.AggregateFoodItem, error) {

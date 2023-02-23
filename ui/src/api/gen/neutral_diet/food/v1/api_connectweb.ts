@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CreateFoodItemRequest, CreateFoodItemResponse, CreateLifeCycleRequest, CreateLifeCycleResponse, CreateRegionRequest, CreateRegionResponse, CreateSourceRequest, CreateSourceResponse, CreateSubTypologyRequest, CreateSubTypologyResponse, CreateTypologyRequest, CreateTypologyResponse, ListAggregateFoodItemsRequest, ListAggregateFoodItemsResponse, ListRegionsRequest, ListRegionsResponse } from "./api_pb.js";
+import { CreateFoodItemRequest, CreateFoodItemResponse, CreateLifeCycleRequest, CreateLifeCycleResponse, CreateRegionRequest, CreateRegionResponse, CreateSourceRequest, CreateSourceResponse, CreateSubTypologyRequest, CreateSubTypologyResponse, CreateTypologyRequest, CreateTypologyResponse, GetFoodItemInfoRequest, GetFoodItemInfoResponse, ListAggregateFoodItemsRequest, ListAggregateFoodItemsResponse, ListRegionsRequest, ListRegionsResponse } from "./api_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -82,6 +82,15 @@ export const FoodService = {
       name: "ListAggregateFoodItems",
       I: ListAggregateFoodItemsRequest,
       O: ListAggregateFoodItemsResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.food.v1.FoodService.GetFoodItemInfo
+     */
+    getFoodItemInfo: {
+      name: "GetFoodItemInfo",
+      I: GetFoodItemInfoRequest,
+      O: GetFoodItemInfoResponse,
       kind: MethodKind.Unary,
     },
   }

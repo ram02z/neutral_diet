@@ -25,6 +25,7 @@ import { MIN_WIDTH } from '@/config';
 import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
+import { FoodItemInfoQuery } from '@/store/food';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 
@@ -40,6 +41,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const date = useRecoilValue(FoodItemLogDateState);
   const { enqueueSnackbar } = useSnackbar();
   const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(date));
+  const foodItemInfo = useRecoilValue(FoodItemInfoQuery(foodLogItem.foodItemId))
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const weight = parseFloat(data.weight);
@@ -59,10 +61,10 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
             if (item.dbId == foodLogItem.dbId) {
               return {
                 dbId: foodLogItem.dbId,
+                foodItemId: foodLogItem.foodItemId,
                 name: foodLogItem.name,
                 weight: new Weight(weight, weightUnit),
                 carbonFootprint: res.carbonFootprint,
-                info: item.info,
               };
             }
             return { ...item };
@@ -155,7 +157,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
         <IconButton
           onClick={handleOpenInfoDialog}
           aria-label="info"
-          disabled={!foodLogItem.info}
+          disabled={!foodItemInfo}
         >
           <Info />
         </IconButton>
@@ -172,7 +174,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
       <FoodItemInfoDialog
         openDialog={openInfoDialog}
         handleClose={handleCloseInfoDialog}
-        foodItemInfo={foodLogItem.info}
+        foodItemInfo={foodItemInfo}
       />
     </Card>
   );

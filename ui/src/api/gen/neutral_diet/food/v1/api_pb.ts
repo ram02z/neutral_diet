@@ -6,7 +6,7 @@
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
 import { LifeCycle } from "./life_cycle_pb.js";
-import { AggregateFoodItem, FoodItem } from "./food_item_pb.js";
+import { AggregateFoodItem, FoodItem, FoodItemInfo } from "./food_item_pb.js";
 import { Typology } from "./typology_pb.js";
 import { SubTypology } from "./sub_typology_pb.js";
 import { Source } from "./source_pb.js";
@@ -585,6 +585,80 @@ export class ListRegionsResponse extends Message<ListRegionsResponse> {
 
   static equals(a: ListRegionsResponse | PlainMessage<ListRegionsResponse> | undefined, b: ListRegionsResponse | PlainMessage<ListRegionsResponse> | undefined): boolean {
     return proto3.util.equals(ListRegionsResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.food.v1.GetFoodItemInfoRequest
+ */
+export class GetFoodItemInfoRequest extends Message<GetFoodItemInfoRequest> {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id = 0;
+
+  constructor(data?: PartialMessage<GetFoodItemInfoRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.food.v1.GetFoodItemInfoRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemInfoRequest {
+    return new GetFoodItemInfoRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFoodItemInfoRequest {
+    return new GetFoodItemInfoRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFoodItemInfoRequest {
+    return new GetFoodItemInfoRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFoodItemInfoRequest | PlainMessage<GetFoodItemInfoRequest> | undefined, b: GetFoodItemInfoRequest | PlainMessage<GetFoodItemInfoRequest> | undefined): boolean {
+    return proto3.util.equals(GetFoodItemInfoRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.food.v1.GetFoodItemInfoResponse
+ */
+export class GetFoodItemInfoResponse extends Message<GetFoodItemInfoResponse> {
+  /**
+   * @generated from field: neutral_diet.food.v1.FoodItemInfo food_item_info = 1;
+   */
+  foodItemInfo?: FoodItemInfo;
+
+  constructor(data?: PartialMessage<GetFoodItemInfoResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.food.v1.GetFoodItemInfoResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "food_item_info", kind: "message", T: FoodItemInfo },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemInfoResponse {
+    return new GetFoodItemInfoResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFoodItemInfoResponse {
+    return new GetFoodItemInfoResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFoodItemInfoResponse {
+    return new GetFoodItemInfoResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFoodItemInfoResponse | PlainMessage<GetFoodItemInfoResponse> | undefined, b: GetFoodItemInfoResponse | PlainMessage<GetFoodItemInfoResponse> | undefined): boolean {
+    return proto3.util.equals(GetFoodItemInfoResponse, a, b);
   }
 }
 

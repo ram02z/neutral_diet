@@ -28,3 +28,43 @@ func (q *Queries) CreateSource(ctx context.Context, arg CreateSourceParams) (int
 	err := row.Scan(&id)
 	return id, err
 }
+
+const listSourcesByFoodItem = `-- name: ListSourcesByFoodItem :many
+SELECT
+    s.reference,
+    s.year,
+    s.region_name
+FROM
+    life_cycle l
+    INNER JOIN source s ON l.source_id = s.id
+WHERE
+    l.food_item_id = $1
+GROUP BY
+    s.id
+`
+
+type ListSourcesByFoodItemRow struct {
+	Reference  string
+	Year       int32
+	RegionName string
+}
+
+func (q *Queries) ListSourcesByFoodItem(ctx context.Context, foodItemID int32) ([]ListSourcesByFoodItemRow, error) {
+	rows, err := q.db.Query(ctx, listSourcesByFoodItem, foodItemID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListSourcesByFoodItemRow
+	for rows.Next() {
+		var i ListSourcesByFoodItemRow
+		if err := rows.Scan(&i.Reference, &i.Year, &i.RegionName); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

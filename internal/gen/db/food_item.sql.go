@@ -7,6 +7,8 @@ package db
 
 import (
 	"context"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createFoodItem = `-- name: CreateFoodItem :one
@@ -27,4 +29,34 @@ func (q *Queries) CreateFoodItem(ctx context.Context, arg CreateFoodItemParams) 
 	var id int32
 	err := row.Scan(&id)
 	return id, err
+}
+
+const getFoodItemInfo = `-- name: GetFoodItemInfo :one
+SELECT
+    t.name AS typology_name,
+    st.name AS sub_typology_name,
+    COUNT(l.food_item_id) AS n
+FROM
+    life_cycle l
+    INNER JOIN food_item f ON l.food_item_id = f.id
+    INNER JOIN typology t ON f.typology_id = t.id
+    LEFT JOIN sub_typology st ON t.sub_typology_id = st.id
+WHERE
+    l.food_item_id = $1
+GROUP BY
+    t.name,
+    st.name
+`
+
+type GetFoodItemInfoRow struct {
+	TypologyName    string
+	SubTypologyName pgtype.Text
+	N               int64
+}
+
+func (q *Queries) GetFoodItemInfo(ctx context.Context, foodItemID int32) (GetFoodItemInfoRow, error) {
+	row := q.db.QueryRow(ctx, getFoodItemInfo, foodItemID)
+	var i GetFoodItemInfoRow
+	err := row.Scan(&i.TypologyName, &i.SubTypologyName, &i.N)
+	return i, err
 }

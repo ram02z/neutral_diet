@@ -1986,3 +1986,247 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ListRegionsResponseValidationError{}
+
+// Validate checks the field values on GetFoodItemInfoRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetFoodItemInfoRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFoodItemInfoRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetFoodItemInfoRequestMultiError, or nil if none found.
+func (m *GetFoodItemInfoRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFoodItemInfoRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetId() <= 0 {
+		err := GetFoodItemInfoRequestValidationError{
+			field:  "Id",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return GetFoodItemInfoRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFoodItemInfoRequestMultiError is an error wrapping multiple validation
+// errors returned by GetFoodItemInfoRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetFoodItemInfoRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFoodItemInfoRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFoodItemInfoRequestMultiError) AllErrors() []error { return m }
+
+// GetFoodItemInfoRequestValidationError is the validation error returned by
+// GetFoodItemInfoRequest.Validate if the designated constraints aren't met.
+type GetFoodItemInfoRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFoodItemInfoRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFoodItemInfoRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFoodItemInfoRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFoodItemInfoRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFoodItemInfoRequestValidationError) ErrorName() string {
+	return "GetFoodItemInfoRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetFoodItemInfoRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFoodItemInfoRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFoodItemInfoRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFoodItemInfoRequestValidationError{}
+
+// Validate checks the field values on GetFoodItemInfoResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetFoodItemInfoResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFoodItemInfoResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetFoodItemInfoResponseMultiError, or nil if none found.
+func (m *GetFoodItemInfoResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFoodItemInfoResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetFoodItemInfo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetFoodItemInfoResponseValidationError{
+					field:  "FoodItemInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetFoodItemInfoResponseValidationError{
+					field:  "FoodItemInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetFoodItemInfo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetFoodItemInfoResponseValidationError{
+				field:  "FoodItemInfo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetFoodItemInfoResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFoodItemInfoResponseMultiError is an error wrapping multiple validation
+// errors returned by GetFoodItemInfoResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetFoodItemInfoResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFoodItemInfoResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFoodItemInfoResponseMultiError) AllErrors() []error { return m }
+
+// GetFoodItemInfoResponseValidationError is the validation error returned by
+// GetFoodItemInfoResponse.Validate if the designated constraints aren't met.
+type GetFoodItemInfoResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFoodItemInfoResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFoodItemInfoResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFoodItemInfoResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFoodItemInfoResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFoodItemInfoResponseValidationError) ErrorName() string {
+	return "GetFoodItemInfoResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetFoodItemInfoResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFoodItemInfoResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFoodItemInfoResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFoodItemInfoResponseValidationError{}

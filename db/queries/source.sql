@@ -3,3 +3,16 @@ INSERT INTO source (reference, year, region_name)
     VALUES ($1, $2, $3)
 RETURNING
     id;
+
+-- name: ListSourcesByFoodItem :many
+SELECT
+    s.reference,
+    s.year,
+    s.region_name
+FROM
+    life_cycle l
+    INNER JOIN source s ON l.source_id = s.id
+WHERE
+    l.food_item_id = $1
+GROUP BY
+    s.id;

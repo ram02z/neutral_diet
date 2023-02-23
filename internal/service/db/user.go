@@ -21,7 +21,7 @@ func (s *Store) CreateUser(
 		FirebaseUid: r.FirebaseUid,
 		Region: pgtype.Text{
 			String: DefaultRegionName,
-			Valid:  false,
+			Valid:  true,
 		},
 		CfLimit:            decimal.NewFromFloat(0.0),
 		DietaryRequirement: int32(userv1.UserSettings_DIETARY_REQUIREMENT_UNSPECIFIED.Number()),

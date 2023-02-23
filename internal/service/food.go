@@ -148,3 +148,17 @@ func (c *ConnectWrapper) ListAggregateFoodItems(
 
 	return out, nil
 }
+
+func (c *ConnectWrapper) GetFoodItemInfo(
+	ctx context.Context,
+	req *connect.Request[foodv1.GetFoodItemInfoRequest],
+) (*connect.Response[foodv1.GetFoodItemInfoResponse], error) {
+	res, err := c.s.GetFoodItemInfo(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}

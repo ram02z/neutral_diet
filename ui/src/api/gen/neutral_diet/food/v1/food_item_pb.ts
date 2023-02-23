@@ -5,6 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3, protoInt64 } from "@bufbuild/protobuf";
+import { Source } from "./source_pb.js";
 
 /**
  * @generated from message neutral_diet.food.v1.FoodItem
@@ -112,6 +113,11 @@ export class FoodItemInfo extends Message<FoodItemInfo> {
    */
   noSources = protoInt64.zero;
 
+  /**
+   * @generated from field: repeated neutral_diet.food.v1.Source sources = 4;
+   */
+  sources: Source[] = [];
+
   constructor(data?: PartialMessage<FoodItemInfo>) {
     super();
     proto3.util.initPartial(data, this);
@@ -123,6 +129,7 @@ export class FoodItemInfo extends Message<FoodItemInfo> {
     { no: 1, name: "typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "sub_typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "no_sources", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
+    { no: 4, name: "sources", kind: "message", T: Source, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodItemInfo {
