@@ -109,9 +109,9 @@ export class FoodItemInfo extends Message<FoodItemInfo> {
   subTypologyName = "";
 
   /**
-   * @generated from field: int64 no_sources = 3;
+   * @generated from field: int64 non_unique_sources = 3;
    */
-  noSources = protoInt64.zero;
+  nonUniqueSources = protoInt64.zero;
 
   /**
    * @generated from field: repeated neutral_diet.food.v1.Source sources = 4;
@@ -128,7 +128,7 @@ export class FoodItemInfo extends Message<FoodItemInfo> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "sub_typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "no_sources", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
+    { no: 3, name: "non_unique_sources", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
     { no: 4, name: "sources", kind: "message", T: Source, repeated: true },
   ]);
 

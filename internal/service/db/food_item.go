@@ -75,7 +75,7 @@ func (s *Store) GetFoodItemInfo(
 		FoodItemInfo: &foodv1.FoodItemInfo{
 			TypologyName:    foodItemInfo.TypologyName,
 			SubTypologyName: foodItemInfo.SubTypologyName.String,
-			NoSources:       foodItemInfo.N,
+			NonUniqueSources:       foodItemInfo.N,
 			Sources:         sources,
 		},
 	}, nil

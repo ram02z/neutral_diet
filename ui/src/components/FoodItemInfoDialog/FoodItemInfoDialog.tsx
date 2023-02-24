@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { Stack } from '@mui/system';
 
+import SourceTable from '@/components/SourceTable';
 import { MIN_WIDTH } from '@/config';
 
 import { FoodItemInfo } from './types';
@@ -43,9 +44,13 @@ function FoodItemInfoDialog({ openDialog, handleClose, foodItemInfo }: FoodItemI
             </>
           )}
           <Divider>
-            <Chip label="Number of sources" />
+            <Chip label="Number of non-unique sources" />
           </Divider>
-          <Typography variant="subtitle1">{foodItemInfo?.noSources.toString()}</Typography>
+          <Typography variant="subtitle1">{foodItemInfo?.nonUniqueSources.toString()}</Typography>
+          <Divider>
+            <Chip label="Unique sources" />
+          </Divider>
+          <SourceTable sources={foodItemInfo?.sources ?? []} />
         </Stack>
       </DialogContent>
       <DialogActions>

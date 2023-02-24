@@ -21,7 +21,7 @@ message FoodItem {
 message FoodItemInfo {
   string typology_name = 1;
   string sub_typology_name = 2;
-  int64 no_sources = 3;
+  int64 non_unique_sources = 3;
   repeated Source sources = 4;
 }
 

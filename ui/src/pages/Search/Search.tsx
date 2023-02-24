@@ -14,10 +14,10 @@ import {
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
+import ClearHistoryButton from '@/components/ClearHistoryButton';
 import FoodItemCard from '@/components/FoodItemCard';
 import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemCard/FoodItemCard';
 import { FoodHistoryState, FoodItemsState } from '@/store/food';
-import ClearHistoryButton from '@/components/ClearHistoryButton';
 
 function Search() {
   const foodItems = useRecoilValue(FoodItemsState);
@@ -28,8 +28,8 @@ function Search() {
   const [showHistory, setShowHistory] = useState(true);
 
   useEffect(() => {
-    setSearchFoodHistory(foodHistory)
-  }, [foodHistory])
+    setSearchFoodHistory(foodHistory);
+  }, [foodHistory]);
 
   const handleSearch = (foodItemArray: AggregateFoodItem[]) => {
     return foodItemArray.filter((foodItem) => {
@@ -119,9 +119,10 @@ function Search() {
             </Grid>
           )}
           {searchText.length == 0 && foodHistory.length > 0 && (
-          <Grid>
-            <ClearHistoryButton/>
-          </Grid>)}
+            <Grid>
+              <ClearHistoryButton />
+            </Grid>
+          )}
         </>
       ) : (
         <>

@@ -177,7 +177,7 @@ func (m *FoodItemInfo) validate(all bool) error {
 
 	// no validation rules for SubTypologyName
 
-	// no validation rules for NoSources
+	// no validation rules for NonUniqueSources
 
 	for idx, item := range m.GetSources() {
 		_, _ = idx, item

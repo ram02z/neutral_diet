@@ -1,3 +1,3 @@
-import FoodItemInfoDialog from "./FoodItemInfoDialog";
+import FoodItemInfoDialog from './FoodItemInfoDialog';
 
 export default FoodItemInfoDialog;

@@ -1,3 +1,3 @@
-import ClearHistoryButton from "./ClearHistoryButton";
+import ClearHistoryButton from './ClearHistoryButton';
 
 export default ClearHistoryButton;

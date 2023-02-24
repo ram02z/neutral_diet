@@ -34,7 +34,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
-  const foodItemInfo = useRecoilValue(FoodItemInfoQuery(foodItem.id))
+  const foodItemInfo = useRecoilValue(FoodItemInfoQuery(foodItem.id));
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setDate(data.date);
@@ -126,11 +126,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton
-          onClick={handleOpenInfoDialog}
-          aria-label="info"
-          disabled={!foodItemInfo}
-        >
+        <IconButton onClick={handleOpenInfoDialog} aria-label="info" disabled={!foodItemInfo}>
           <Info />
         </IconButton>
       </CardActions>
