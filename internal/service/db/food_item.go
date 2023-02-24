@@ -73,10 +73,10 @@ func (s *Store) GetFoodItemInfo(
 
 	return &foodv1.GetFoodItemInfoResponse{
 		FoodItemInfo: &foodv1.FoodItemInfo{
-			TypologyName:    foodItemInfo.TypologyName,
-			SubTypologyName: foodItemInfo.SubTypologyName.String,
-			NonUniqueSources:       foodItemInfo.N,
-			Sources:         sources,
+			TypologyName:     foodItemInfo.TypologyName,
+			SubTypologyName:  foodItemInfo.SubTypologyName.String,
+			NonUniqueSources: foodItemInfo.N,
+			Sources:          sources,
 		},
 	}, nil
 }
