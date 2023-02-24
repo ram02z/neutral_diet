@@ -61,10 +61,10 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
             ...old,
             {
               dbId: res.id,
+              foodItemId: foodItem.id,
               name: foodItem.foodName,
               weight: new Weight(weight, weightUnit),
               carbonFootprint: res.carbonFootprint,
-              log: foodItem.foodItemInfo,
             },
           ];
         });
