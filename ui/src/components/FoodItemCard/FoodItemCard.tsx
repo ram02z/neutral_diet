@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Add } from '@mui/icons-material';
-import { Card, CardContent, IconButton, Typography } from '@mui/material';
+import { Add, Info } from '@mui/icons-material';
+import { Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { useSnackbar } from 'notistack';
@@ -11,25 +11,30 @@ import { useSnackbar } from 'notistack';
 import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import client from '@/api/user_service';
 import AddFoodItemDialog from '@/components/AddFoodItemDialog';
+import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
 import { MIN_WIDTH } from '@/config';
 import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
-import { FoodHistoryState } from '@/store/food';
+import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 
 import { FormValues } from './types';
+
+export const ESTIMATED_CARD_HEIGHT = 160;
 
 type FoodItemCardProps = {
   foodItem: AggregateFoodItem;
 };
 
-function FoodItemCard({ foodItem }: FoodItemCardProps) {
+export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [foodHistory, setFoodHistory] = useRecoilState(FoodHistoryState);
   const [date, setDate] = useRecoilState(FoodItemLogDateState);
   const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(date));
   const [inHistory, setInHistory] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openAddDialog, setOpenAddDialog] = useState(false);
+  const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
+  const foodItemInfo = useRecoilValue(FoodItemInfoQuery(foodItem.id));
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setDate(data.date);
@@ -59,6 +64,7 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
               name: foodItem.foodName,
               weight: new Weight(weight, weightUnit),
               carbonFootprint: res.carbonFootprint,
+              log: foodItem.foodItemInfo,
             },
           ];
         });
@@ -68,15 +74,23 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
         enqueueSnackbar("Couldn't add food", { variant: 'error' });
         console.error(err);
       });
-    handleClose();
+    handleCloseAddDialog();
   };
 
-  const handleClickOpen = () => {
-    setOpenDialog(true);
+  const handleOpenAddDialog = () => {
+    setOpenAddDialog(true);
   };
 
-  const handleClose = () => {
-    setOpenDialog(false);
+  const handleCloseAddDialog = () => {
+    setOpenAddDialog(false);
+  };
+
+  const handleOpenInfoDialog = () => {
+    setOpenInfoDialog(true);
+  };
+
+  const handleCloseInfoDialog = () => {
+    setOpenInfoDialog(false);
   };
 
   useMemo(() => {
@@ -91,8 +105,11 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
             <Typography sx={{ textTransform: 'capitalize' }} variant="h5" component="div">
               {foodItem.foodName.toLowerCase()}
             </Typography>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
-              {foodItem.medianCarbonFootprint}
+            <Typography variant="subtitle1" color="text.secondary">
+              <b>{parseFloat(foodItem.medianCarbonFootprint.toFixed(3))}</b>
+              <Typography variant="caption">
+                CO<sub>2</sub>/kg
+              </Typography>
             </Typography>
           </Grid>
           <Grid
@@ -102,13 +119,27 @@ function FoodItemCard({ foodItem }: FoodItemCardProps) {
             alignItems="center"
             sx={{ pt: 1, pl: 1 }}
           >
-            <IconButton onClick={handleClickOpen} aria-label="add" sx={{ float: 'right' }}>
+            <IconButton onClick={handleOpenAddDialog} aria-label="add" sx={{ float: 'right' }}>
               <Add />
             </IconButton>
           </Grid>
         </Grid>
       </CardContent>
-      <AddFoodItemDialog onSubmit={onSubmit} openDialog={openDialog} handleClose={handleClose} />
+      <CardActions disableSpacing>
+        <IconButton onClick={handleOpenInfoDialog} aria-label="info" disabled={!foodItemInfo}>
+          <Info />
+        </IconButton>
+      </CardActions>
+      <AddFoodItemDialog
+        onSubmit={onSubmit}
+        openDialog={openAddDialog}
+        handleClose={handleCloseAddDialog}
+      />
+      <FoodItemInfoDialog
+        openDialog={openInfoDialog}
+        handleClose={handleCloseInfoDialog}
+        foodItemInfo={foodItemInfo}
+      />
     </Card>
   );
 }

@@ -69,6 +69,14 @@ message ListRegionsResponse {
   repeated Region regions = 1;
 }
 
+message GetFoodItemInfoRequest {
+  int32 id = 1 [(validate.rules).int32.gt = 0];
+}
+
+message GetFoodItemInfoResponse {
+  FoodItemInfo food_item_info = 1;
+}
+
 service FoodService {
   rpc CreateLifeCycle(CreateLifeCycleRequest) returns (CreateLifeCycleResponse) {}
   rpc CreateFoodItem(CreateFoodItemRequest) returns (CreateFoodItemResponse) {}
@@ -78,4 +86,5 @@ service FoodService {
   rpc CreateRegion(CreateRegionRequest) returns (CreateRegionResponse) {}
   rpc ListRegions(ListRegionsRequest) returns (ListRegionsResponse) {}
   rpc ListAggregateFoodItems(ListAggregateFoodItemsRequest) returns (ListAggregateFoodItemsResponse) {}
+  rpc GetFoodItemInfo(GetFoodItemInfoRequest) returns (GetFoodItemInfoResponse) {}
 }

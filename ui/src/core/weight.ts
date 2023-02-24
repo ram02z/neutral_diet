@@ -9,6 +9,13 @@ export const WeightUnitNameMap = new Map<number, string>([
   [WeightUnit.POUND, 'pound'],
 ]);
 
+export const ShortWeightUnitNameMap = new Map<number, string>([
+  [WeightUnit.KILOGRAM, 'kg'],
+  [WeightUnit.GRAM, 'g'],
+  [WeightUnit.OUNCE, 'oz'],
+  [WeightUnit.POUND, 'lb'],
+]);
+
 export const ReverseWeightUnitNameMap = new Map([...WeightUnitNameMap].map(([k, v]) => [v, k]));
 
 export class Weight {
@@ -20,7 +27,15 @@ export class Weight {
     this.weightUnit = weightUnit ?? WeightUnit.KILOGRAM;
   }
 
+  getFormattedName(): string {
+    return `${this.value}${this.getShortWeightUnitName()}`;
+  }
+
   getWeightUnitName(): string {
     return WeightUnitNameMap.get(this.weightUnit) ?? DEFAULT_WEIGHT_UNIT;
+  }
+
+  getShortWeightUnitName(): string {
+    return ShortWeightUnitNameMap.get(this.weightUnit) ?? '';
   }
 }

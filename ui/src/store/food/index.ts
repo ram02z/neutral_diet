@@ -1,7 +1,7 @@
-import { atom, selector } from 'recoil';
+import { atom, selector, selectorFamily } from 'recoil';
 
 import client from '@/api/food_service';
-import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
+import { AggregateFoodItem, FoodItemInfo } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import { persistAtom } from '@/store';
 
 export const RegionsState = atom({
@@ -24,6 +24,17 @@ export const FoodItemsState = atom({
       return response.foodItems;
     },
   }),
+});
+
+export const FoodItemInfoQuery = selectorFamily<FoodItemInfo | undefined, number>({
+  key: 'FoodItemInfoQuery',
+  get: (foodItemId) => async () => {
+    const response = await client.getFoodItemInfo({ id: foodItemId });
+    return response.foodItemInfo;
+  },
+  cachePolicy_UNSTABLE: {
+    eviction: 'keep-all',
+  },
 });
 
 // TODO: should food history be managed by user?

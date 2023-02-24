@@ -9,6 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 import FoodItemLogCard from '@/components/FoodItemLogCard';
+import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemLogCard/FoodItemLogCard';
 import { FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { getDateString } from '@/utils/date';
 
@@ -76,8 +77,7 @@ function Diary() {
       </Grid>
       {foodItemLog.map((foodLogItem, idx) => (
         <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
-          {/* TODO: update default height to a more accurate estimate */}
-          <RenderIfVisible>
+          <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
             <FoodItemLogCard foodLogItem={foodLogItem} />
           </RenderIfVisible>
         </Grid>

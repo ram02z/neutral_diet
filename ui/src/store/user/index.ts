@@ -124,6 +124,7 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
           return response.foodItemLog.map((foodLogItem) => {
             return {
               dbId: foodLogItem.id,
+              foodItemId: foodLogItem.foodItemId,
               name: foodLogItem.name,
               weight: new Weight(foodLogItem.weight, foodLogItem.weightUnit),
               carbonFootprint: foodLogItem.carbonFootprint,

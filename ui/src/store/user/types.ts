@@ -9,6 +9,7 @@ export type LocalUserSettings = {
 
 export type LocalFoodLogItem = {
   dbId: number;
+  foodItemId: number;
   name: string;
   weight: Weight;
   carbonFootprint: number;

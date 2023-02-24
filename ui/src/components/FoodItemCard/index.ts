@@ -1,3 +1,3 @@
-import FoodItemCard from './FoodItemCard';
+import { FoodItemCard } from './FoodItemCard';
 
 export default FoodItemCard;

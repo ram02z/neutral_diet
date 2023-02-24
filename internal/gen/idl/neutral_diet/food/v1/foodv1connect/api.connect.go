@@ -35,6 +35,7 @@ type FoodServiceClient interface {
 	CreateRegion(context.Context, *connect_go.Request[v1.CreateRegionRequest]) (*connect_go.Response[v1.CreateRegionResponse], error)
 	ListRegions(context.Context, *connect_go.Request[v1.ListRegionsRequest]) (*connect_go.Response[v1.ListRegionsResponse], error)
 	ListAggregateFoodItems(context.Context, *connect_go.Request[v1.ListAggregateFoodItemsRequest]) (*connect_go.Response[v1.ListAggregateFoodItemsResponse], error)
+	GetFoodItemInfo(context.Context, *connect_go.Request[v1.GetFoodItemInfoRequest]) (*connect_go.Response[v1.GetFoodItemInfoResponse], error)
 }
 
 // NewFoodServiceClient constructs a client for the neutral_diet.food.v1.FoodService service. By
@@ -87,6 +88,11 @@ func NewFoodServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+"/neutral_diet.food.v1.FoodService/ListAggregateFoodItems",
 			opts...,
 		),
+		getFoodItemInfo: connect_go.NewClient[v1.GetFoodItemInfoRequest, v1.GetFoodItemInfoResponse](
+			httpClient,
+			baseURL+"/neutral_diet.food.v1.FoodService/GetFoodItemInfo",
+			opts...,
+		),
 	}
 }
 
@@ -100,6 +106,7 @@ type foodServiceClient struct {
 	createRegion           *connect_go.Client[v1.CreateRegionRequest, v1.CreateRegionResponse]
 	listRegions            *connect_go.Client[v1.ListRegionsRequest, v1.ListRegionsResponse]
 	listAggregateFoodItems *connect_go.Client[v1.ListAggregateFoodItemsRequest, v1.ListAggregateFoodItemsResponse]
+	getFoodItemInfo        *connect_go.Client[v1.GetFoodItemInfoRequest, v1.GetFoodItemInfoResponse]
 }
 
 // CreateLifeCycle calls neutral_diet.food.v1.FoodService.CreateLifeCycle.
@@ -142,6 +149,11 @@ func (c *foodServiceClient) ListAggregateFoodItems(ctx context.Context, req *con
 	return c.listAggregateFoodItems.CallUnary(ctx, req)
 }
 
+// GetFoodItemInfo calls neutral_diet.food.v1.FoodService.GetFoodItemInfo.
+func (c *foodServiceClient) GetFoodItemInfo(ctx context.Context, req *connect_go.Request[v1.GetFoodItemInfoRequest]) (*connect_go.Response[v1.GetFoodItemInfoResponse], error) {
+	return c.getFoodItemInfo.CallUnary(ctx, req)
+}
+
 // FoodServiceHandler is an implementation of the neutral_diet.food.v1.FoodService service.
 type FoodServiceHandler interface {
 	CreateLifeCycle(context.Context, *connect_go.Request[v1.CreateLifeCycleRequest]) (*connect_go.Response[v1.CreateLifeCycleResponse], error)
@@ -152,6 +164,7 @@ type FoodServiceHandler interface {
 	CreateRegion(context.Context, *connect_go.Request[v1.CreateRegionRequest]) (*connect_go.Response[v1.CreateRegionResponse], error)
 	ListRegions(context.Context, *connect_go.Request[v1.ListRegionsRequest]) (*connect_go.Response[v1.ListRegionsResponse], error)
 	ListAggregateFoodItems(context.Context, *connect_go.Request[v1.ListAggregateFoodItemsRequest]) (*connect_go.Response[v1.ListAggregateFoodItemsResponse], error)
+	GetFoodItemInfo(context.Context, *connect_go.Request[v1.GetFoodItemInfoRequest]) (*connect_go.Response[v1.GetFoodItemInfoResponse], error)
 }
 
 // NewFoodServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -201,6 +214,11 @@ func NewFoodServiceHandler(svc FoodServiceHandler, opts ...connect_go.HandlerOpt
 		svc.ListAggregateFoodItems,
 		opts...,
 	))
+	mux.Handle("/neutral_diet.food.v1.FoodService/GetFoodItemInfo", connect_go.NewUnaryHandler(
+		"/neutral_diet.food.v1.FoodService/GetFoodItemInfo",
+		svc.GetFoodItemInfo,
+		opts...,
+	))
 	return "/neutral_diet.food.v1.FoodService/", mux
 }
 
@@ -237,4 +255,8 @@ func (UnimplementedFoodServiceHandler) ListRegions(context.Context, *connect_go.
 
 func (UnimplementedFoodServiceHandler) ListAggregateFoodItems(context.Context, *connect_go.Request[v1.ListAggregateFoodItemsRequest]) (*connect_go.Response[v1.ListAggregateFoodItemsResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.food.v1.FoodService.ListAggregateFoodItems is not implemented"))
+}
+
+func (UnimplementedFoodServiceHandler) GetFoodItemInfo(context.Context, *connect_go.Request[v1.GetFoodItemInfoRequest]) (*connect_go.Response[v1.GetFoodItemInfoResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.food.v1.FoodService.GetFoodItemInfo is not implemented"))
 }

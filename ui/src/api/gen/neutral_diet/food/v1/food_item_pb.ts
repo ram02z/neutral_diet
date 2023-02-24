@@ -5,6 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3, protoInt64 } from "@bufbuild/protobuf";
+import { Source } from "./source_pb.js";
 
 /**
  * @generated from message neutral_diet.food.v1.FoodItem
@@ -94,6 +95,61 @@ proto3.util.setEnumType(FoodItem_CfType, "neutral_diet.food.v1.FoodItem.CfType",
 ]);
 
 /**
+ * @generated from message neutral_diet.food.v1.FoodItemInfo
+ */
+export class FoodItemInfo extends Message<FoodItemInfo> {
+  /**
+   * @generated from field: string typology_name = 1;
+   */
+  typologyName = "";
+
+  /**
+   * @generated from field: string sub_typology_name = 2;
+   */
+  subTypologyName = "";
+
+  /**
+   * @generated from field: int64 non_unique_sources = 3;
+   */
+  nonUniqueSources = protoInt64.zero;
+
+  /**
+   * @generated from field: repeated neutral_diet.food.v1.Source sources = 4;
+   */
+  sources: Source[] = [];
+
+  constructor(data?: PartialMessage<FoodItemInfo>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.food.v1.FoodItemInfo";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "sub_typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "non_unique_sources", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
+    { no: 4, name: "sources", kind: "message", T: Source, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodItemInfo {
+    return new FoodItemInfo().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): FoodItemInfo {
+    return new FoodItemInfo().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): FoodItemInfo {
+    return new FoodItemInfo().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: FoodItemInfo | PlainMessage<FoodItemInfo> | undefined, b: FoodItemInfo | PlainMessage<FoodItemInfo> | undefined): boolean {
+    return proto3.util.equals(FoodItemInfo, a, b);
+  }
+}
+
+/**
  * @generated from message neutral_diet.food.v1.AggregateFoodItem
  */
 export class AggregateFoodItem extends Message<AggregateFoodItem> {
@@ -108,22 +164,7 @@ export class AggregateFoodItem extends Message<AggregateFoodItem> {
   foodName = "";
 
   /**
-   * @generated from field: string typology_name = 3;
-   */
-  typologyName = "";
-
-  /**
-   * @generated from field: string sub_typology_name = 4;
-   */
-  subTypologyName = "";
-
-  /**
-   * @generated from field: int64 n = 5;
-   */
-  n = protoInt64.zero;
-
-  /**
-   * @generated from field: double median_carbon_footprint = 6;
+   * @generated from field: double median_carbon_footprint = 3;
    */
   medianCarbonFootprint = 0;
 
@@ -137,10 +178,7 @@ export class AggregateFoodItem extends Message<AggregateFoodItem> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 2, name: "food_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "sub_typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "n", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
-    { no: 6, name: "median_carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 3, name: "median_carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AggregateFoodItem {
