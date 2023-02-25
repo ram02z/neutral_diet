@@ -18,8 +18,8 @@ function Header({ title }: HeaderProps) {
   const [, navigationActions] = useNavigation();
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1, pb: 5 }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
           <ThemeToggler />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, ml: 2 }}>
