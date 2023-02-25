@@ -139,12 +139,14 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
   }),
 });
 
-export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, dayjs.Dayjs>({
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// FIXME: figure out why TS complains about LocalFoodLogItem as a param
+export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, LocalFoodLogItem[]>({
   key: 'LocalFoodItemLogStats',
   get:
-    (date) =>
+    (foodItemLog) =>
     async ({ get }) => {
-      const foodItemLog = get(LocalFoodItemLogState(date));
       const userSettings = get(LocalUserSettingsState);
       const stats = {
         totalCarbonFootprint: 0.0,

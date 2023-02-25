@@ -26,7 +26,7 @@ function Diary() {
   // TODO: handle errors
   const foodItemLog = useRecoilValue(LocalFoodItemLogState(date));
   const userSettings = useRecoilValue(LocalUserSettingsState);
-  const stats = useRecoilValue(LocalFoodItemLogStats(date));
+  const stats = useRecoilValue(LocalFoodItemLogStats(foodItemLog));
 
   const yesterday = () => {
     setDate(date.subtract(1, 'day'));
