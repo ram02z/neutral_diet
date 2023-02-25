@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import RenderIfVisible from 'react-render-if-visible';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
@@ -10,7 +10,13 @@ import dayjs from 'dayjs';
 
 import FoodItemLogCard from '@/components/FoodItemLogCard';
 import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemLogCard/FoodItemLogCard';
-import { FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
+import LinearProgressWithLabel from '@/components/LinearProgressWithLabel';
+import {
+  FoodItemLogDateState,
+  LocalFoodItemLogState,
+  LocalFoodItemLogStats,
+  LocalUserSettingsState,
+} from '@/store/user';
 import { getDateString } from '@/utils/date';
 
 function Diary() {
@@ -19,6 +25,8 @@ function Diary() {
   const isToday = useMemo(() => date.isSame(dayjs(), 'date'), [date]);
   // TODO: handle errors
   const foodItemLog = useRecoilValue(LocalFoodItemLogState(date));
+  const userSettings = useRecoilValue(LocalUserSettingsState);
+  const stats = useRecoilValue(LocalFoodItemLogStats(date));
 
   const yesterday = () => {
     setDate(date.subtract(1, 'day'));
@@ -74,6 +82,51 @@ function Diary() {
             Next
           </Button>
         </Grid>
+      </Grid>
+      <Grid textAlign="center" xs={8} sm={7} md={6} lg={5} xl={4}>
+        <Grid
+          sx={{ p: 0 }}
+          container
+          justifyContent="center"
+          columns={5}
+          spacing={2}
+          direction="row"
+        >
+          <Grid>
+            <Typography variant="h5" color="text.primary">
+              <b>{userSettings.cfLimit.toFixed(3)}</b>
+            </Typography>
+            <Typography color="text.secondary">Goal</Typography>
+          </Grid>
+          <Grid>
+            <Typography variant="h5" color="text.secondary">
+              -
+            </Typography>
+          </Grid>
+          <Grid>
+            <Typography variant="h5" color="text.primary">
+              <b>{stats.totalCarbonFootprint.toFixed(3)}</b>
+            </Typography>
+            <Typography color="text.secondary">Food</Typography>
+          </Grid>
+          <Grid>
+            <Typography variant="h5" color="text.secondary">
+              =
+            </Typography>
+          </Grid>
+          <Grid>
+            <Typography variant="h5" color="text.primary">
+              <strong>{stats.carbonFootprintRemaining.toFixed(3)}</strong>
+          <Typography variant="caption">
+            CO<sub>2</sub>/kg
+          </Typography>
+            </Typography>
+            <Typography color="text.secondary">Remaining</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
+        <LinearProgressWithLabel value={stats.carbonFootprintGoalPercent} />
       </Grid>
       {foodItemLog.map((foodLogItem, idx) => (
         <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>

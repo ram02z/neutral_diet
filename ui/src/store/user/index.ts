@@ -9,11 +9,12 @@ import {
 } from '@/api/gen/neutral_diet/user/v1/user_pb';
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
+import { MAX_CF_LIMIT } from '@/config';
 import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 import { Weight } from '@/core/weight';
 
-import { LocalFoodLogItem, LocalUserSettings } from './types';
+import { FoodLogStats, LocalFoodLogItem, LocalUserSettings } from './types';
 
 export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
@@ -136,4 +137,26 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
         }
       },
   }),
+});
+
+export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, dayjs.Dayjs>({
+  key: 'LocalFoodItemLogStats',
+  get:
+    (date) =>
+    async ({ get }) => {
+      const foodItemLog = get(LocalFoodItemLogState(date));
+      const userSettings = get(LocalUserSettingsState);
+      const stats = {
+        totalCarbonFootprint: 0.0,
+        carbonFootprintGoalPercent: 0,
+        carbonFootprintRemaining: userSettings.cfLimit,
+      };
+      foodItemLog.forEach((item) => {
+        stats.totalCarbonFootprint += item.carbonFootprint;
+      });
+      stats.carbonFootprintGoalPercent =
+        userSettings.cfLimit != 0 ? (stats.totalCarbonFootprint / userSettings.cfLimit) * 100 : 0;
+      stats.carbonFootprintRemaining -= stats.totalCarbonFootprint;
+      return stats;
+    },
 });
