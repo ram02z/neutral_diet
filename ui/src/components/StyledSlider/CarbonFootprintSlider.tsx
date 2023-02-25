@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
+import { MAX_CF_LIMIT } from '@/config';
 import { LocalUserSettingsState } from '@/store/user';
 
 import StyledSlider from './StyledSlider';
@@ -12,7 +13,7 @@ function CarbonFootprintSlider() {
 
   const marks = [
     { value: 0.0, label: '0.0kg' },
-    { value: 10.0, label: '10.0kg' },
+    { value: MAX_CF_LIMIT, label: `${MAX_CF_LIMIT.toFixed(1)}kg` },
   ];
 
   const valueText = (value: number) => `${value}kg`;

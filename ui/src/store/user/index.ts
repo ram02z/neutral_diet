@@ -13,7 +13,7 @@ import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 import { Weight } from '@/core/weight';
 
-import { LocalFoodLogItem, LocalUserSettings } from './types';
+import { FoodLogStats, LocalFoodLogItem, LocalUserSettings } from './types';
 
 export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
@@ -136,4 +136,28 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
         }
       },
   }),
+});
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// FIXME: figure out why TS complains about LocalFoodLogItem as a param
+export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, LocalFoodLogItem[]>({
+  key: 'LocalFoodItemLogStats',
+  get:
+    (foodItemLog) =>
+    async ({ get }) => {
+      const userSettings = get(LocalUserSettingsState);
+      const stats = {
+        totalCarbonFootprint: 0.0,
+        carbonFootprintGoalPercent: 0,
+        carbonFootprintRemaining: userSettings.cfLimit,
+      };
+      foodItemLog.forEach((item) => {
+        stats.totalCarbonFootprint += item.carbonFootprint;
+      });
+      stats.carbonFootprintGoalPercent =
+        userSettings.cfLimit != 0 ? (stats.totalCarbonFootprint / userSettings.cfLimit) * 100 : 0;
+      stats.carbonFootprintRemaining -= stats.totalCarbonFootprint;
+      return stats;
+    },
 });
