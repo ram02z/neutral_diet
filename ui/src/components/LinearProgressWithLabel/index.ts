@@ -1,3 +1,3 @@
-import LinearProgressWithLabel from "./LinearProgressWithLabel";
+import LinearProgressWithLabel from './LinearProgressWithLabel';
 
 export default LinearProgressWithLabel;

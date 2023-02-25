@@ -117,9 +117,9 @@ function Diary() {
           <Grid>
             <Typography variant="h5" color="text.primary">
               <strong>{stats.carbonFootprintRemaining.toFixed(3)}</strong>
-          <Typography variant="caption">
-            CO<sub>2</sub>/kg
-          </Typography>
+              <Typography variant="caption">
+                CO<sub>2</sub>/kg
+              </Typography>
             </Typography>
             <Typography color="text.secondary">Remaining</Typography>
           </Grid>

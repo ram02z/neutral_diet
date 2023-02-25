@@ -9,7 +9,6 @@ import {
 } from '@/api/gen/neutral_diet/user/v1/user_pb';
 import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
-import { MAX_CF_LIMIT } from '@/config';
 import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 import { Weight } from '@/core/weight';

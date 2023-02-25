@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
+import { MAX_CF_LIMIT } from '@/config';
 import { LocalUserSettingsState } from '@/store/user';
 
 import StyledSlider from './StyledSlider';
-import { MAX_CF_LIMIT } from '@/config';
 
 function CarbonFootprintSlider() {
   const localUserSettings = useRecoilValue(LocalUserSettingsState);
