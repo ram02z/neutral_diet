@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import DefaultIcon from '@mui/icons-material/Deblur';
 import {
@@ -17,27 +19,28 @@ import Paper from '@mui/material/Paper';
 
 import isMobile from 'is-mobile';
 
-import { useNavigation } from '@/hooks/useNavigation';
 import routes from '@/routes';
 
+const navigationDrawerWidth = 240;
+
 function Navigation() {
-  const [navigationValue, navigationActions] = useNavigation();
+  const location = useLocation();
   const mobile = isMobile();
 
   return (
-    <Box>
-      {mobile ? (
+    <>
+      {!mobile ? (
         <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-          <BottomNavigation value={navigationValue} onChange={navigationActions.change}>
+          <BottomNavigation value={location.pathname}>
             {Object.values(routes)
               .filter((route) => route.title)
               .filter((route) => route.navigation)
-              .map(({ path, title, icon: Icon }) => (
+              .map(({ path, icon: Icon }) => (
                 <BottomNavigationAction
                   key={path}
                   component={Link}
                   to={path as string}
-                  value={title}
+                  value={path}
                   icon={Icon ? <Icon /> : <DefaultIcon />}
                 />
               ))}
@@ -46,8 +49,14 @@ function Navigation() {
       ) : (
         <Drawer
           variant="permanent"
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              width: navigationDrawerWidth,
+            },
+          }}
           sx={{
-            width: 240,
+            width: navigationDrawerWidth,
           }}
         >
           <Toolbar />
@@ -58,7 +67,11 @@ function Navigation() {
                 .filter((route) => route.navigation)
                 .map(({ path, title, icon: Icon }) => (
                   <ListItem disablePadding key={path}>
-                    <ListItemButton component={Link} to={path as string}>
+                    <ListItemButton
+                      selected={path == location.pathname}
+                      component={Link}
+                      to={path as string}
+                    >
                       <ListItemIcon>{Icon ? <Icon /> : <DefaultIcon />}</ListItemIcon>
                       <ListItemText primary={title} />
                     </ListItemButton>
@@ -68,7 +81,7 @@ function Navigation() {
           </Box>
         </Drawer>
       )}
-    </Box>
+    </>
   );
 }
 

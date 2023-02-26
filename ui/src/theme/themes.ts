@@ -131,6 +131,13 @@ const themes: Record<Themes, ThemeOptions> = {
           },
         },
       },
+      MuiBottomNavigation: {
+        styleOverrides: {
+          root: {
+            backgroundColor: '#1d1b1e',
+          },
+        },
+      },
     },
   }),
 };
