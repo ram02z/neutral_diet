@@ -2,10 +2,11 @@ import { Route, Routes } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 
-import routes from '..';
-import { getPageHeight } from './utils';
 import { NAVIGATION_DRAWER_WIDTH } from '@/config';
 import useLayout from '@/hooks/useLayout';
+
+import routes from '..';
+import { getPageHeight } from './utils';
 
 function Pages() {
   const { desktopLayout } = useLayout();
