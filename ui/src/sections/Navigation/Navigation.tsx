@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
@@ -11,25 +10,25 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
-import isMobile from 'is-mobile';
-
 import routes from '@/routes';
-
-const navigationDrawerWidth = 240;
+import { NAVIGATION_DRAWER_WIDTH } from '@/config';
 
 function Navigation() {
   const location = useLocation();
-  const mobile = isMobile();
+  const theme = useTheme();
+  const isMediumDevice = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <>
-      {!mobile ? (
+      {isMediumDevice ? (
         <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
           <BottomNavigation value={location.pathname}>
             {Object.values(routes)
@@ -52,11 +51,11 @@ function Navigation() {
           PaperProps={{
             elevation: 0,
             sx: {
-              width: navigationDrawerWidth,
+              width: NAVIGATION_DRAWER_WIDTH,
             },
           }}
           sx={{
-            width: navigationDrawerWidth,
+            width: NAVIGATION_DRAWER_WIDTH,
           }}
         >
           <Toolbar />

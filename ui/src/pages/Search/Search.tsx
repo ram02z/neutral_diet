@@ -73,7 +73,7 @@ function Search() {
       pb="8vh"
       disableEqualOverflow
     >
-      <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
+      <Grid xs={8}>
         <FormControl fullWidth variant="outlined">
           <OutlinedInput
             placeholder="Search for food"
@@ -105,14 +105,14 @@ function Search() {
             <Typography variant="h4">History</Typography>
           </Grid>
           {searchFoodHistory.map((foodItem, idx) => (
-            <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
+            <Grid key={idx} xs={8}>
               <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
                 <FoodItemCard foodItem={foodItem} />
               </RenderIfVisible>
             </Grid>
           ))}
           {searchText.length > 0 && (
-            <Grid textAlign="center" xs={8} sm={7} md={6} lg={5} xl={4}>
+            <Grid textAlign="center" xs={8}>
               <Button onClick={handleSubmit} variant="outlined" startIcon={<SearchRounded />}>
                 {`Search all foods for "${searchText}"`}
               </Button>
@@ -130,7 +130,7 @@ function Search() {
             <Typography variant="h4">Search Results</Typography>
           </Grid>
           {searchFoodItems.map((foodItem, idx) => (
-            <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
+            <Grid key={idx} xs={8}>
               <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
                 <FoodItemCard foodItem={foodItem} />
               </RenderIfVisible>

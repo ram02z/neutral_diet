@@ -8,15 +8,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
 import ThemeToggler from '@/components/ThemeToggler';
-import { useNavigation } from '@/hooks/useNavigation';
 import routes from '@/routes';
 import { Pages } from '@/routes/types';
 
 import type { HeaderProps } from './types';
 
 function Header({ title }: HeaderProps) {
-  const [, navigationActions] = useNavigation();
-
   return (
     <Box sx={{ flexGrow: 1, pb: 5 }}>
       <AppBar position="fixed" elevation={0} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -31,7 +28,6 @@ function Header({ title }: HeaderProps) {
             color="inherit"
             component={Link}
             to={routes[Pages.Account].path as string}
-            onClick={navigationActions.reset}
           >
             <AccountCircle />
           </IconButton>

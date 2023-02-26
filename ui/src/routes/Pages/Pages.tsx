@@ -21,10 +21,16 @@ import Box from '@mui/material/Box';
 
 import routes from '..';
 import { getPageHeight } from './utils';
+import { useMediaQuery, useTheme } from '@mui/material';
+import { NAVIGATION_DRAWER_WIDTH } from '@/config';
 
 function Pages() {
+  const theme = useTheme();
+  const isMediumDevice = useMediaQuery(theme.breakpoints.down('md'));
+  const marginLeft = isMediumDevice ? 0 : NAVIGATION_DRAWER_WIDTH;
+
   return (
-    <Box sx={{ height: (theme) => getPageHeight(theme), p: 3 }}>
+    <Box sx={{ height: (theme) => getPageHeight(theme), p: 3, ml: marginLeft }}>
       <Routes>
         {Object.values(routes).map(({ path, component: Component }) => {
           return <Route key={path} path={path} element={<Component />} />;

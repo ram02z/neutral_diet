@@ -105,26 +105,26 @@ function Account() {
           alignItems="center"
           disableEqualOverflow
         >
-          <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
+          <Grid xs={8}>
             <RegionSelect />
           </Grid>
-          <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
+          <Grid xs={8}>
             <DietaryRequirementSelect />
           </Grid>
-          <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
+          <Grid xs={8}>
             <CarbonFootprintSlider />
           </Grid>
-          <Grid textAlign="center" xs={8} sm={7} md={6} lg={5} xl={4}>
+          <Grid textAlign="center" xs={8}>
             <Button variant="contained" disabled={!localUserSettings.dirty} onClick={saveSettings}>
               Save
             </Button>
           </Grid>
-          <Grid textAlign="center" xs={8} sm={7} md={6} lg={5} xl={4}>
+          <Grid textAlign="center" xs={8}>
             <Button variant="contained" onClick={signOut}>
               Log out
             </Button>
           </Grid>
-          <Grid textAlign="center" xs={8} sm={7} md={6} lg={5} xl={4}>
+          <Grid textAlign="center" xs={8}>
             <DeleteAccount user={user} />
           </Grid>
         </Grid>

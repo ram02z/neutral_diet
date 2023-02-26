@@ -14,3 +14,5 @@ export const notifications: Notifications = {
 export const MIN_WIDTH = '250px';
 
 export const MAX_CF_LIMIT = 10.0;
+
+export const NAVIGATION_DRAWER_WIDTH = '240px';
