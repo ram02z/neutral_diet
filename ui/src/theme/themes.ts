@@ -1,26 +1,23 @@
-// MIT License
-// Copyright (c) 2022 Suren Atoyan
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
 import { ThemeOptions } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';
 
 import { Themes } from './types';
 
 const sharedTheme = {
+  palette: {
+    grey: {
+      ['50']: '#fffbff',
+      ['100']: '#f6eefa',
+      ['200']: '#e7e0eb',
+      ['300']: '#cbc4cf',
+      ['400']: '#afa9b4',
+      ['500']: '#948f99',
+      ['600']: '#7a757f',
+      ['700']: '#49454a',
+      ['800']: '#322f37',
+      ['900']: '#1d1a22',
+    },
+  },
   components: {
     MuiButtonBase: {
       defaultProps: {
@@ -49,12 +46,91 @@ const themes: Record<Themes, ThemeOptions> = {
   light: deepmerge(sharedTheme, {
     palette: {
       mode: 'light',
+      primary: {
+        main: '#6f43c2',
+        light: '#bb9aff',
+        dark: '#5626a8',
+      },
+      error: {
+        main: '#ba1a1a',
+        light: '#ff897d',
+        dark: '#93000a',
+      },
+      info: {
+        main: '#7e525e',
+        light: '#d39daa',
+        dark: '#31101b',
+      },
+      success: {
+        main: '#17a34c',
+      },
+      secondary: {
+        main: '#635b70',
+        light: '#b1a7bf',
+        dark: '#1f182b',
+      },
+      background: {
+        default: '#fffbff',
+        paper: '#f6eefa',
+      },
+    },
+    components: {
+      MuiDrawer: {
+        styleOverrides: {
+          paper: {
+            background: '#fffbff',
+          },
+        },
+      },
     },
   }),
 
   dark: deepmerge(sharedTheme, {
     palette: {
       mode: 'dark',
+      primary: {
+        main: '#d3bbff',
+        light: '#5626a7',
+        dark: '#bb9aff',
+      },
+      error: {
+        main: '#ffb4ab',
+        light: '#690005',
+        dark: '#ff897d',
+      },
+      info: {
+        main: '#f0b7c5',
+        light: '#643b4b',
+        dark: '#ffd9e1',
+      },
+      success: {
+        main: '#17a34c',
+      },
+      secondary: {
+        main: '#cdc2db',
+        light: '#4b4458',
+        dark: '#e9def8',
+      },
+      background: {
+        default: '#1d1b1e',
+        paper: '#1d1a22',
+      },
+    },
+    components: {
+      MuiDrawer: {
+        styleOverrides: {
+          paper: {
+            background: '#1d1b1e',
+          },
+        },
+      },
+      MuiAppBar: {
+        styleOverrides: {
+          colorPrimary: {
+            backgroundColor: '#262329',
+          },
+        },
+      },
     },
   }),
 };
