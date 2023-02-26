@@ -10,42 +10,23 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
-  useMediaQuery,
-  useTheme,
 } from '@mui/material';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
-import routes from '@/routes';
 import { NAVIGATION_DRAWER_WIDTH } from '@/config';
+import useLayout from '@/hooks/useLayout';
+import routes from '@/routes';
 
 function Navigation() {
   const location = useLocation();
-  const theme = useTheme();
-  const isMediumDevice = useMediaQuery(theme.breakpoints.down('md'));
+  const { desktopLayout } = useLayout();
 
   return (
     <>
-      {isMediumDevice ? (
-        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-          <BottomNavigation value={location.pathname}>
-            {Object.values(routes)
-              .filter((route) => route.title)
-              .filter((route) => route.navigation)
-              .map(({ path, icon: Icon }) => (
-                <BottomNavigationAction
-                  key={path}
-                  component={Link}
-                  to={path as string}
-                  value={path}
-                  icon={Icon ? <Icon /> : <DefaultIcon />}
-                />
-              ))}
-          </BottomNavigation>
-        </Paper>
-      ) : (
+      {desktopLayout ? (
         <Drawer
           variant="permanent"
           PaperProps={{
@@ -79,6 +60,23 @@ function Navigation() {
             </List>
           </Box>
         </Drawer>
+      ) : (
+        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+          <BottomNavigation value={location.pathname}>
+            {Object.values(routes)
+              .filter((route) => route.title)
+              .filter((route) => route.navigation)
+              .map(({ path, icon: Icon }) => (
+                <BottomNavigationAction
+                  key={path}
+                  component={Link}
+                  to={path as string}
+                  value={path}
+                  icon={Icon ? <Icon /> : <DefaultIcon />}
+                />
+              ))}
+          </BottomNavigation>
+        </Paper>
       )}
     </>
   );

@@ -83,7 +83,7 @@ function Diary() {
           </Button>
         </Grid>
       </Grid>
-      <Grid textAlign="center" xs={8}>
+      <Grid textAlign="center" xs={8} lg={7} xl={6}>
         <Grid
           sx={{ p: 0 }}
           container
@@ -125,11 +125,11 @@ function Diary() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid xs={8}>
+      <Grid xs={8} lg={7} xl={6}>
         <LinearProgressWithLabel value={stats.carbonFootprintGoalPercent} />
       </Grid>
       {foodItemLog.map((foodLogItem, idx) => (
-        <Grid key={idx} xs={8}>
+        <Grid key={idx} xs={8} lg={7} xl={6}>
           <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
             <FoodItemLogCard foodLogItem={foodLogItem} />
           </RenderIfVisible>
