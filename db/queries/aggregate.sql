@@ -1,10 +1,19 @@
--- name: GetAggregateFoodItemById :one
+-- name: GetAggregateFoodItem :one
 SELECT
     *
 FROM
     aggregate_food_item
 WHERE
     food_item_id = $1;
+
+-- name: GetRegionalAggregateFoodItem :one
+SELECT
+    *
+FROM
+    regional_aggregate_food_item
+WHERE
+    food_item_id = $1
+    AND region_name = $2;
 
 -- name: ListAggregateFoodItems :many
 SELECT
@@ -19,20 +28,6 @@ FROM
     INNER JOIN food_item f ON a.food_item_id = f.id
     INNER JOIN typology t ON f.typology_id = t.id
     LEFT JOIN sub_typology s ON t.sub_typology_id = s.id;
-
--- name: ListAggregateFoodItemsByRegion :many
-SELECT
-    f.id AS food_item_id,
-    COUNT(*) AS n,
-    ROUND(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint), 3)::decimal AS median_carbon_footprint
-FROM
-    life_cycle l
-    INNER JOIN food_item f ON l.food_item_id = f.id
-    INNER JOIN source s ON l.source_id = s.id
-WHERE
-    s.region_name = $1
-GROUP BY
-    f.id;
 
 -- name: ListAggregateTypologiesByRegion :many
 SELECT

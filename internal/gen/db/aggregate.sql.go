@@ -12,7 +12,7 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-const getAggregateFoodItemById = `-- name: GetAggregateFoodItemById :one
+const getAggregateFoodItem = `-- name: GetAggregateFoodItem :one
 SELECT
     food_item_id, n, median_carbon_footprint
 FROM
@@ -21,10 +21,37 @@ WHERE
     food_item_id = $1
 `
 
-func (q *Queries) GetAggregateFoodItemById(ctx context.Context, foodItemID int32) (AggregateFoodItem, error) {
-	row := q.db.QueryRow(ctx, getAggregateFoodItemById, foodItemID)
+func (q *Queries) GetAggregateFoodItem(ctx context.Context, foodItemID int32) (AggregateFoodItem, error) {
+	row := q.db.QueryRow(ctx, getAggregateFoodItem, foodItemID)
 	var i AggregateFoodItem
 	err := row.Scan(&i.FoodItemID, &i.N, &i.MedianCarbonFootprint)
+	return i, err
+}
+
+const getRegionalAggregateFoodItem = `-- name: GetRegionalAggregateFoodItem :one
+SELECT
+    food_item_id, region_name, n, median_carbon_footprint
+FROM
+    regional_aggregate_food_item
+WHERE
+    food_item_id = $1
+    AND region_name = $2
+`
+
+type GetRegionalAggregateFoodItemParams struct {
+	FoodItemID int32
+	RegionName string
+}
+
+func (q *Queries) GetRegionalAggregateFoodItem(ctx context.Context, arg GetRegionalAggregateFoodItemParams) (RegionalAggregateFoodItem, error) {
+	row := q.db.QueryRow(ctx, getRegionalAggregateFoodItem, arg.FoodItemID, arg.RegionName)
+	var i RegionalAggregateFoodItem
+	err := row.Scan(
+		&i.FoodItemID,
+		&i.RegionName,
+		&i.N,
+		&i.MedianCarbonFootprint,
+	)
 	return i, err
 }
 
@@ -69,47 +96,6 @@ func (q *Queries) ListAggregateFoodItems(ctx context.Context) ([]ListAggregateFo
 			&i.N,
 			&i.MedianCarbonFootprint,
 		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const listAggregateFoodItemsByRegion = `-- name: ListAggregateFoodItemsByRegion :many
-SELECT
-    f.id AS food_item_id,
-    COUNT(*) AS n,
-    ROUND(PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY l.carbon_footprint), 3)::decimal AS median_carbon_footprint
-FROM
-    life_cycle l
-    INNER JOIN food_item f ON l.food_item_id = f.id
-    INNER JOIN source s ON l.source_id = s.id
-WHERE
-    s.region_name = $1
-GROUP BY
-    f.id
-`
-
-type ListAggregateFoodItemsByRegionRow struct {
-	FoodItemID            int32
-	N                     int64
-	MedianCarbonFootprint decimal.Decimal
-}
-
-func (q *Queries) ListAggregateFoodItemsByRegion(ctx context.Context, regionName string) ([]ListAggregateFoodItemsByRegionRow, error) {
-	rows, err := q.db.Query(ctx, listAggregateFoodItemsByRegion, regionName)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []ListAggregateFoodItemsByRegionRow
-	for rows.Next() {
-		var i ListAggregateFoodItemsByRegionRow
-		if err := rows.Scan(&i.FoodItemID, &i.N, &i.MedianCarbonFootprint); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

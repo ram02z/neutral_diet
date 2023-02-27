@@ -134,6 +134,13 @@ type Region struct {
 	Name string
 }
 
+type RegionalAggregateFoodItem struct {
+	FoodItemID            int32
+	RegionName            string
+	N                     int64
+	MedianCarbonFootprint decimal.Decimal
+}
+
 type Source struct {
 	ID         int32
 	Reference  string

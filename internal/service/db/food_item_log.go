@@ -24,7 +24,7 @@ func (s *Store) AddFoodItemToLog(
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	aggFoodItem, err := queries.GetAggregateFoodItemById(ctx, r.FoodLogItem.FoodItemId)
+	aggFoodItem, err := queries.GetAggregateFoodItem(ctx, r.FoodLogItem.FoodItemId)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
@@ -75,7 +75,7 @@ func (s *Store) UpdateFoodItemFromLog(
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	aggFoodItem, err := queries.GetAggregateFoodItemById(ctx, foodItemID)
+	aggFoodItem, err := queries.GetAggregateFoodItem(ctx, foodItemID)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
