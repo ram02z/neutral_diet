@@ -29,6 +29,22 @@ FROM
     INNER JOIN typology t ON f.typology_id = t.id
     LEFT JOIN sub_typology s ON t.sub_typology_id = s.id;
 
+-- name: ListAggregateFoodItemsByRegion :many
+SELECT
+    a.food_item_id AS id,
+    f.name AS food_name,
+    t.name AS typology_name,
+    s.name AS sub_typology_name,
+    a.n,
+    ROUND(a.median_carbon_footprint, 3)::decimal AS median_carbon_footprint
+FROM
+    regional_aggregate_food_item a
+    INNER JOIN food_item f ON a.food_item_id = f.id
+    INNER JOIN typology t ON f.typology_id = t.id
+    LEFT JOIN sub_typology s ON t.sub_typology_id = s.id
+WHERE
+    a.region_name = $1;
+
 -- name: ListAggregateTypologiesByRegion :many
 SELECT
     t.id AS typology_id,

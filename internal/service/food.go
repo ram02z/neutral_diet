@@ -139,6 +139,11 @@ func (c *ConnectWrapper) ListAggregateFoodItems(
 	ctx context.Context,
 	req *connect.Request[foodv1.ListAggregateFoodItemsRequest],
 ) (*connect.Response[foodv1.ListAggregateFoodItemsResponse], error) {
+	err := validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
 	res, err := c.s.ListAggregateFoodItems(ctx, req.Msg)
 	if err != nil {
 		return nil, err

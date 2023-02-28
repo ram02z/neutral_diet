@@ -3,6 +3,7 @@ import { atom, selector, selectorFamily } from 'recoil';
 import client from '@/api/food_service';
 import { AggregateFoodItem, FoodItemInfo } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import { persistAtom } from '@/store';
+import { LocalUserSettingsState } from '@/store/user';
 
 export const RegionsState = atom({
   key: 'RegionsState',
@@ -19,8 +20,9 @@ export const FoodItemsState = atom({
   key: 'FoodItemsState',
   default: selector({
     key: 'FoodItems',
-    get: async () => {
-      const response = await client.listAggregateFoodItems({});
+    get: async ({ get }) => {
+      const userSettings = get(LocalUserSettingsState);
+      const response = await client.listAggregateFoodItems({ regionName: userSettings.region });
       return response.foodItems;
     },
   }),

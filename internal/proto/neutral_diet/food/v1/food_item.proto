@@ -29,4 +29,5 @@ message AggregateFoodItem {
   int32 id = 1;
   string food_name = 2;
   double median_carbon_footprint = 3;
+  string region_name = 4;
 }

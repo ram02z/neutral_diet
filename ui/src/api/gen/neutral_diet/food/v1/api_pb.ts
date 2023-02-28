@@ -451,11 +451,14 @@ export class CreateRegionResponse extends Message<CreateRegionResponse> {
 }
 
 /**
- * TODO: allow filtering by region 
- *
  * @generated from message neutral_diet.food.v1.ListAggregateFoodItemsRequest
  */
 export class ListAggregateFoodItemsRequest extends Message<ListAggregateFoodItemsRequest> {
+  /**
+   * @generated from field: string region_name = 1;
+   */
+  regionName = "";
+
   constructor(data?: PartialMessage<ListAggregateFoodItemsRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -464,6 +467,7 @@ export class ListAggregateFoodItemsRequest extends Message<ListAggregateFoodItem
   static readonly runtime = proto3;
   static readonly typeName = "neutral_diet.food.v1.ListAggregateFoodItemsRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "region_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListAggregateFoodItemsRequest {

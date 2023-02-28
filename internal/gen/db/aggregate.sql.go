@@ -106,6 +106,59 @@ func (q *Queries) ListAggregateFoodItems(ctx context.Context) ([]ListAggregateFo
 	return items, nil
 }
 
+const listAggregateFoodItemsByRegion = `-- name: ListAggregateFoodItemsByRegion :many
+SELECT
+    a.food_item_id AS id,
+    f.name AS food_name,
+    t.name AS typology_name,
+    s.name AS sub_typology_name,
+    a.n,
+    ROUND(a.median_carbon_footprint, 3)::decimal AS median_carbon_footprint
+FROM
+    regional_aggregate_food_item a
+    INNER JOIN food_item f ON a.food_item_id = f.id
+    INNER JOIN typology t ON f.typology_id = t.id
+    LEFT JOIN sub_typology s ON t.sub_typology_id = s.id
+WHERE
+    a.region_name = $1
+`
+
+type ListAggregateFoodItemsByRegionRow struct {
+	ID                    int32
+	FoodName              string
+	TypologyName          string
+	SubTypologyName       pgtype.Text
+	N                     int64
+	MedianCarbonFootprint decimal.Decimal
+}
+
+func (q *Queries) ListAggregateFoodItemsByRegion(ctx context.Context, regionName string) ([]ListAggregateFoodItemsByRegionRow, error) {
+	rows, err := q.db.Query(ctx, listAggregateFoodItemsByRegion, regionName)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListAggregateFoodItemsByRegionRow
+	for rows.Next() {
+		var i ListAggregateFoodItemsByRegionRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.FoodName,
+			&i.TypologyName,
+			&i.SubTypologyName,
+			&i.N,
+			&i.MedianCarbonFootprint,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listAggregateSubTypologiesByRegion = `-- name: ListAggregateSubTypologiesByRegion :many
 SELECT
     st.id AS sub_typology_id,

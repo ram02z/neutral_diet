@@ -56,8 +56,9 @@ message CreateRegionRequest {
 
 message CreateRegionResponse {}
 
-/* TODO: allow filtering by region */
-message ListAggregateFoodItemsRequest {}
+message ListAggregateFoodItemsRequest {
+  string region_name = 1 [(validate.rules).string.min_len = 1];
+}
 
 message ListAggregateFoodItemsResponse {
   repeated AggregateFoodItem food_items = 1;
