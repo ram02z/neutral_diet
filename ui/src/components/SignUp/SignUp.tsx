@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { LoadingButton } from '@mui/lab';
-import { Alert, Collapse, TextField } from '@mui/material';
+import { Alert, Collapse, Stack, TextField } from '@mui/material';
 
 import PasswordTextField from '@/components/PasswordTextField';
 import { auth } from '@/core/firebase';
@@ -22,6 +22,7 @@ function SignUp() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <Stack direction="column" spacing={2}>
       <Collapse in={error && open}>
         <Alert
           icon={false}
@@ -82,6 +83,7 @@ function SignUp() {
       <LoadingButton loading={loading} variant="contained" type="submit" fullWidth>
         Continue
       </LoadingButton>
+      </Stack>
     </form>
   );
 }
