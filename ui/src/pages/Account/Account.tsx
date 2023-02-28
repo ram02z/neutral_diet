@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Button, Chip, Divider, Typography } from '@mui/material';
+import { Button, Chip, Divider, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Box } from '@mui/system';
 
 import { useSnackbar } from 'notistack';
 
@@ -62,22 +61,18 @@ function Account() {
     );
   } else if (user === null) {
     return (
-      <Grid container columns={16} justifyContent="center" alignItems="center" height="100%">
-        <Grid xs={2} display="flex" justifyContent="center" alignItems="center">
-          <Button component={Link} to="/login" variant="contained">
-            Log in
-          </Button>
-        </Grid>
-        <Grid xs={2} display="flex" justifyContent="center" alignItems="center">
-          <Button component={Link} to="/signup" variant="contained">
-            Sign up
-          </Button>
-        </Grid>
-      </Grid>
+      <Stack direction="row" justifyContent="center" alignItems="center" height="100%" spacing={2}>
+        <Button component={Link} to="/login" variant="contained">
+          Log in
+        </Button>
+        <Button component={Link} to="/signup" variant="contained">
+          Sign up
+        </Button>
+      </Stack>
     );
   } else {
     return (
-      <Box>
+      <Grid>
         <Grid
           container
           columns={10}
@@ -128,7 +123,7 @@ function Account() {
             <DeleteAccount user={user} />
           </Grid>
         </Grid>
-      </Box>
+      </Grid>
     );
   }
 }
