@@ -1,3 +1,3 @@
-import GoogleAuthButton from "./GoogleAuthButton";
+import GoogleAuthButton from './GoogleAuthButton';
 
 export default GoogleAuthButton;

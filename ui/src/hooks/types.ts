@@ -13,6 +13,6 @@ export type DefaultSignUpHook = AuthActionHook<
 export type SignInWithPopupHook = AuthActionHook<
   (
     scopes?: string[],
-    customOAuthParameters?: CustomParameters
+    customOAuthParameters?: CustomParameters,
   ) => Promise<UserCredential | undefined>
 >;

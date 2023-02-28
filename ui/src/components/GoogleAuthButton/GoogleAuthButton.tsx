@@ -12,10 +12,10 @@ function GoogleAuthButton() {
   const [signIn, , loading, error] = useSignInWithGoogle(auth);
   const [open, setOpen] = useState(false);
 
-  const onClickHandler =  () => {
+  const onClickHandler = () => {
     signIn();
     setOpen(true);
-  }
+  };
 
   return (
     <Stack direction="column" spacing={1}>
