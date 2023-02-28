@@ -6,9 +6,10 @@ import { FilledInput, FormControl, IconButton, InputAdornment, InputLabel } from
 type PasswordTextFieldProps = {
   password: string;
   onChangeHandler: (newPassword: string) => void;
+  error: boolean;
 };
 
-function PasswordTextField({ password, onChangeHandler }: PasswordTextFieldProps) {
+function PasswordTextField({ password, onChangeHandler, error }: PasswordTextFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -25,6 +26,7 @@ function PasswordTextField({ password, onChangeHandler }: PasswordTextFieldProps
           type={showPassword ? 'text' : 'password'}
           value={password}
           onChange={(e) => onChangeHandler(e.target.value as string)}
+          error={error}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
