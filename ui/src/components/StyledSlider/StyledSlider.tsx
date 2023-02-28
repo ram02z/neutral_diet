@@ -37,6 +37,7 @@ function StyledSlider({
   handleChange,
   handleChangeCommitted,
 }: StyledSliderProps) {
+  const min = Math.min(...marks.map((m) => m.value));
   const max = Math.max(...marks.map((m) => m.value));
   return (
     <Box>
@@ -51,6 +52,7 @@ function StyledSlider({
         value={value}
         step={step}
         marks={marks}
+        min={min}
         max={max}
       />
     </Box>

@@ -3,7 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { Box } from '@mui/system';
 
-import { MIN_WIDTH } from '@/config';
+import { MIN_CARD_WIDTH } from '@/config';
 import { DietaryRequirementsState, LocalUserSettingsState } from '@/store/user';
 
 function DietaryRequirementSelect() {
@@ -22,7 +22,7 @@ function DietaryRequirementSelect() {
   };
 
   return (
-    <Box sx={{ minWidth: MIN_WIDTH }}>
+    <Box sx={{ minWidth: MIN_CARD_WIDTH }}>
       <FormControl fullWidth>
         <InputLabel id="dietary-requirement-select-label">Dietary Requirement</InputLabel>
         <Select

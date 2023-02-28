@@ -11,7 +11,7 @@ import {
 import { Stack } from '@mui/system';
 
 import SourceTable from '@/components/SourceTable';
-import { MIN_WIDTH } from '@/config';
+import { MIN_CARD_WIDTH } from '@/config';
 
 import { FoodItemInfo } from './types';
 
@@ -26,7 +26,7 @@ function FoodItemInfoDialog({ openDialog, handleClose, foodItemInfo }: FoodItemI
     <Dialog fullWidth open={openDialog} onClose={handleClose}>
       <DialogTitle textAlign="center">Food information</DialogTitle>
       <DialogContent>
-        <Stack minWidth={MIN_WIDTH} textAlign="center" spacing={3}>
+        <Stack minWidth={MIN_CARD_WIDTH} textAlign="center" spacing={3}>
           <Divider>
             <Chip label="Typology" />
           </Divider>

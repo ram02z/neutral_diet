@@ -21,7 +21,7 @@ import client from '@/api/user_service';
 import EditFoodItemDialog from '@/components/EditFoodItemDialog';
 import { FormValues } from '@/components/FoodItemCard/types';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
-import { MIN_WIDTH } from '@/config';
+import { MIN_CARD_WIDTH } from '@/config';
 import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
 import { FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
@@ -123,7 +123,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   };
 
   return (
-    <Card sx={{ minWidth: MIN_WIDTH }}>
+    <Card sx={{ minWidth: MIN_CARD_WIDTH }}>
       <CardActionArea onClick={handleOpenDeleteDialog}>
         <CardContent>
           <Grid container columns={5}>

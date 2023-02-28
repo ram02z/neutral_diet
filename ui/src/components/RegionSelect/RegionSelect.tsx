@@ -3,7 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { Box } from '@mui/system';
 
-import { MIN_WIDTH } from '@/config';
+import { MIN_CARD_WIDTH } from '@/config';
 import { RegionsState } from '@/store/food';
 import { LocalUserSettingsState } from '@/store/user';
 
@@ -24,7 +24,7 @@ function RegionSelect() {
   };
 
   return (
-    <Box sx={{ minWidth: MIN_WIDTH }}>
+    <Box sx={{ minWidth: MIN_CARD_WIDTH }}>
       <FormControl fullWidth>
         <InputLabel id="region-select-label">Region</InputLabel>
         <Select

@@ -23,7 +23,7 @@ func (s *Store) CreateUser(
 			String: DefaultRegionName,
 			Valid:  true,
 		},
-		CfLimit:            decimal.NewFromFloat(0.0),
+		CfLimit:            decimal.NewFromFloat(0.1),
 		DietaryRequirement: int32(userv1.UserSettings_DIETARY_REQUIREMENT_UNSPECIFIED.Number()),
 	})
 	if err != nil {
