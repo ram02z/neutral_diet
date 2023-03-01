@@ -2,8 +2,10 @@ syntax = "proto3";
 
 package neutral_diet.food.v1;
 
+import "neutral_diet/food/v1/region.proto";
+
 message Source {
   string reference = 1;
   int32 year = 2;
-  string region_name = 3;
+  Region region = 3;
 }

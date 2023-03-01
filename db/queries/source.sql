@@ -1,5 +1,5 @@
 -- name: CreateSource :one
-INSERT INTO source (reference, year, region_name)
+INSERT INTO source (reference, year, region)
     VALUES ($1, $2, $3)
 RETURNING
     id;
@@ -8,7 +8,7 @@ RETURNING
 SELECT
     s.reference,
     s.year,
-    s.region_name
+    s.region
 FROM
     life_cycle l
     INNER JOIN source s ON l.source_id = s.id

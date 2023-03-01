@@ -318,7 +318,7 @@ func (m *AggregateFoodItem) validate(all bool) error {
 
 	// no validation rules for MedianCarbonFootprint
 
-	// no validation rules for RegionName
+	// no validation rules for Region
 
 	if len(errors) > 0 {
 		return AggregateFoodItemMultiError(errors)

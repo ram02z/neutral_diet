@@ -6,6 +6,7 @@
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3, protoInt64 } from "@bufbuild/protobuf";
 import { Source } from "./source_pb.js";
+import { Region } from "./region_pb.js";
 
 /**
  * @generated from message neutral_diet.food.v1.FoodItem
@@ -169,9 +170,9 @@ export class AggregateFoodItem extends Message<AggregateFoodItem> {
   medianCarbonFootprint = 0;
 
   /**
-   * @generated from field: string region_name = 4;
+   * @generated from field: neutral_diet.food.v1.Region region = 4;
    */
-  regionName = "";
+  region = Region.UNSPECIFIED;
 
   constructor(data?: PartialMessage<AggregateFoodItem>) {
     super();
@@ -184,7 +185,7 @@ export class AggregateFoodItem extends Message<AggregateFoodItem> {
     { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 2, name: "food_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "median_carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 4, name: "region_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AggregateFoodItem {

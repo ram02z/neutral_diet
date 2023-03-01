@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package neutral_diet.food.v1;
 
+import "neutral_diet/food/v1/region.proto";
 import "neutral_diet/food/v1/source.proto";
 import "validate/validate.proto";
 
@@ -29,5 +30,5 @@ message AggregateFoodItem {
   int32 id = 1;
   string food_name = 2;
   double median_carbon_footprint = 3;
-  string region_name = 4;
+  Region region = 4;
 }

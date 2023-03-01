@@ -17,7 +17,7 @@ function RegionSelect() {
     setLocalUserSettings((old) => {
       return {
         ...old,
-        region: event.target.value as string,
+        region: parseInt(event.target.value),
         dirty: true,
       };
     });
@@ -31,12 +31,12 @@ function RegionSelect() {
           labelId="region-select-label"
           id="region-select"
           label="Region"
-          value={localUserSettings.region}
+          value={localUserSettings.region.toString()}
           onChange={handleChange}
         >
           {regions.map((region, idx) => (
-            <MenuItem key={idx} value={region.name}>
-              {region.name}
+            <MenuItem key={idx} value={region.value}>
+              {region.getSettingName()}
             </MenuItem>
           ))}
         </Select>

@@ -1,7 +1,7 @@
 import { Weight } from '@/core/weight';
 
 export type LocalUserSettings = {
-  region: string;
+  region: number;
   cfLimit: number;
   dietaryRequirement: number;
   dirty: boolean;

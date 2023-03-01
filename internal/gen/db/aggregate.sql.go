@@ -30,25 +30,25 @@ func (q *Queries) GetAggregateFoodItem(ctx context.Context, foodItemID int32) (A
 
 const getRegionalAggregateFoodItem = `-- name: GetRegionalAggregateFoodItem :one
 SELECT
-    food_item_id, region_name, n, median_carbon_footprint
+    food_item_id, region, n, median_carbon_footprint
 FROM
     regional_aggregate_food_item
 WHERE
     food_item_id = $1
-    AND region_name = $2
+    AND region = $2
 `
 
 type GetRegionalAggregateFoodItemParams struct {
 	FoodItemID int32
-	RegionName string
+	Region     int32
 }
 
 func (q *Queries) GetRegionalAggregateFoodItem(ctx context.Context, arg GetRegionalAggregateFoodItemParams) (RegionalAggregateFoodItem, error) {
-	row := q.db.QueryRow(ctx, getRegionalAggregateFoodItem, arg.FoodItemID, arg.RegionName)
+	row := q.db.QueryRow(ctx, getRegionalAggregateFoodItem, arg.FoodItemID, arg.Region)
 	var i RegionalAggregateFoodItem
 	err := row.Scan(
 		&i.FoodItemID,
-		&i.RegionName,
+		&i.Region,
 		&i.N,
 		&i.MedianCarbonFootprint,
 	)
@@ -120,7 +120,7 @@ FROM
     INNER JOIN typology t ON f.typology_id = t.id
     LEFT JOIN sub_typology s ON t.sub_typology_id = s.id
 WHERE
-    a.region_name = $1
+    a.region = $1
 `
 
 type ListAggregateFoodItemsByRegionRow struct {
@@ -132,8 +132,8 @@ type ListAggregateFoodItemsByRegionRow struct {
 	MedianCarbonFootprint decimal.Decimal
 }
 
-func (q *Queries) ListAggregateFoodItemsByRegion(ctx context.Context, regionName string) ([]ListAggregateFoodItemsByRegionRow, error) {
-	rows, err := q.db.Query(ctx, listAggregateFoodItemsByRegion, regionName)
+func (q *Queries) ListAggregateFoodItemsByRegion(ctx context.Context, region int32) ([]ListAggregateFoodItemsByRegionRow, error) {
+	rows, err := q.db.Query(ctx, listAggregateFoodItemsByRegion, region)
 	if err != nil {
 		return nil, err
 	}
@@ -171,7 +171,7 @@ FROM
     INNER JOIN typology t ON f.typology_id = t.id
     INNER JOIN sub_typology st ON t.sub_typology_id = st.id
 WHERE
-    s.region_name = $1
+    s.region = $1
 GROUP BY
     st.id
 `
@@ -182,8 +182,8 @@ type ListAggregateSubTypologiesByRegionRow struct {
 	MedianCarbonFootprint decimal.Decimal
 }
 
-func (q *Queries) ListAggregateSubTypologiesByRegion(ctx context.Context, regionName string) ([]ListAggregateSubTypologiesByRegionRow, error) {
-	rows, err := q.db.Query(ctx, listAggregateSubTypologiesByRegion, regionName)
+func (q *Queries) ListAggregateSubTypologiesByRegion(ctx context.Context, region int32) ([]ListAggregateSubTypologiesByRegionRow, error) {
+	rows, err := q.db.Query(ctx, listAggregateSubTypologiesByRegion, region)
 	if err != nil {
 		return nil, err
 	}
@@ -213,7 +213,7 @@ FROM
     INNER JOIN source s ON l.source_id = s.id
     INNER JOIN typology t ON f.typology_id = t.id
 WHERE
-    s.region_name = $1
+    s.region = $1
 GROUP BY
     t.id
 `
@@ -224,8 +224,8 @@ type ListAggregateTypologiesByRegionRow struct {
 	MedianCarbonFootprint decimal.Decimal
 }
 
-func (q *Queries) ListAggregateTypologiesByRegion(ctx context.Context, regionName string) ([]ListAggregateTypologiesByRegionRow, error) {
-	rows, err := q.db.Query(ctx, listAggregateTypologiesByRegion, regionName)
+func (q *Queries) ListAggregateTypologiesByRegion(ctx context.Context, region int32) ([]ListAggregateTypologiesByRegionRow, error) {
+	rows, err := q.db.Query(ctx, listAggregateTypologiesByRegion, region)
 	if err != nil {
 		return nil, err
 	}

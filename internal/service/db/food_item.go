@@ -85,9 +85,9 @@ func mapToSources(sourceRows []db.ListSourcesByFoodItemRow) ([]*foodv1.Source, e
 	sources := make([]*foodv1.Source, len(sourceRows))
 	for i := range sourceRows {
 		sources[i] = &foodv1.Source{
-			Reference:  sourceRows[i].Reference,
-			Year:       sourceRows[i].Year,
-			RegionName: sourceRows[i].RegionName,
+			Reference: sourceRows[i].Reference,
+			Year:      sourceRows[i].Year,
+			Region:    foodv1.Region(sourceRows[i].Region),
 		}
 	}
 
@@ -114,7 +114,8 @@ func mapToFoodItems(foodItemRows []db.ListAggregateFoodItemsRow) ([]*foodv1.Aggr
 			Id:                    foodItemRows[i].ID,
 			FoodName:              foodItemRows[i].FoodName,
 			MedianCarbonFootprint: foodItemRows[i].MedianCarbonFootprint.InexactFloat64(),
-			RegionName:            DefaultRegionName,
+			// TODO: change to reflect region
+			Region:                foodv1.Region(0),
 		}
 	}
 
