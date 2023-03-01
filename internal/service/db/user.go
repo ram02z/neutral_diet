@@ -19,7 +19,7 @@ func (s *Store) CreateUser(
 	userID, err := queries.CreateUser(ctx, db.CreateUserParams{
 		FirebaseUid:        r.FirebaseUid,
 		Region:             int32(foodv1.Region_REGION_UNSPECIFIED.Number()),
-		CfLimit:            decimal.NewFromFloat(0.0),
+		CfLimit:            decimal.NewFromFloat(0.1),
 		DietaryRequirement: int32(userv1.UserSettings_DIETARY_REQUIREMENT_UNSPECIFIED.Number()),
 	})
 	if err != nil {

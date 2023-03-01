@@ -2,7 +2,7 @@ import { Paper, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/ma
 import TableContainer from '@mui/material/TableContainer';
 
 import { Source } from '@/components/FoodItemInfoDialog/types';
-import { MIN_WIDTH } from '@/config';
+import { MIN_CARD_WIDTH } from '@/config';
 
 type SourceTableProps = {
   sources: Source[];
@@ -11,7 +11,7 @@ type SourceTableProps = {
 function SourceTable({ sources }: SourceTableProps) {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: MIN_WIDTH }} aria-label="simple table">
+      <Table sx={{ minWidth: MIN_CARD_WIDTH }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Reference</TableCell>

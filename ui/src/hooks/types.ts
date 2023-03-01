@@ -1,4 +1,4 @@
-import { UserCredential } from 'firebase/auth';
+import { CustomParameters, UserCredential } from 'firebase/auth';
 
 export type AuthActionHook<M> = [M, UserCredential | undefined, boolean, boolean];
 
@@ -8,4 +8,11 @@ export type DefaultSignInHook = AuthActionHook<
 
 export type DefaultSignUpHook = AuthActionHook<
   (displayName: string, email: string, password: string) => Promise<UserCredential | undefined>
+>;
+
+export type SignInWithPopupHook = AuthActionHook<
+  (
+    scopes?: string[],
+    customOAuthParameters?: CustomParameters,
+  ) => Promise<UserCredential | undefined>
 >;

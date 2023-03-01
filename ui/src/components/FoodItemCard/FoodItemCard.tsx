@@ -12,7 +12,7 @@ import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import client from '@/api/user_service';
 import AddFoodItemDialog from '@/components/AddFoodItemDialog';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
-import { MIN_WIDTH } from '@/config';
+import { MIN_CARD_WIDTH } from '@/config';
 import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
 import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
@@ -98,7 +98,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   }, [foodHistory, foodItem]);
 
   return (
-    <Card sx={{ minWidth: MIN_WIDTH }}>
+    <Card sx={{ minWidth: MIN_CARD_WIDTH }}>
       <CardContent>
         <Grid container columns={5}>
           <Grid xs={4} sx={{ pt: 1, pl: 1 }}>
