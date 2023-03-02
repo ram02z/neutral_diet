@@ -9,6 +9,12 @@ import (
 	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 )
 
+type FoodItemInfo struct {
+	TypologyName    string
+	SubTypologyName string
+	N               int64
+}
+
 func (s *Store) CreateFoodItem(
 	ctx context.Context,
 	r *foodv1.CreateFoodItemRequest,
@@ -72,12 +78,6 @@ func (s *Store) ListAggregateFoodItems(
 		}
 	}
 	return &foodv1.ListAggregateFoodItemsResponse{FoodItems: foodItems}, nil
-}
-
-type FoodItemInfo struct {
-	TypologyName    string
-	SubTypologyName string
-	N               int64
 }
 
 func (s *Store) GetFoodItemInfo(
