@@ -234,10 +234,9 @@ func calculateCarbonFootprintByWeight(
 	weight decimal.Decimal,
 	weightUnit userv1.WeightUnit,
 ) decimal.Decimal {
+	// Default is kilogram
 	multiplier := decimal.NewFromFloat(1)
 	switch weightUnit {
-	case userv1.WeightUnit_WEIGHT_UNIT_KILOGRAM:
-		multiplier = decimal.NewFromFloat(1)
 	case userv1.WeightUnit_WEIGHT_UNIT_GRAM:
 		multiplier = decimal.NewFromFloat(0.001)
 	case userv1.WeightUnit_WEIGHT_UNIT_OUNCE:

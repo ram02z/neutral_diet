@@ -16,17 +16,18 @@ import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
-import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
 import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 
 import { FormValues } from './types';
+import { WeightUnit } from '@/core/weight';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 
 type FoodItemCardProps = {
   foodItem: AggregateFoodItem;
 };
+    const weightUnit = new WeightUnit(data.weightUnit)
 
 export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [foodHistory, setFoodHistory] = useRecoilState(FoodHistoryState);
@@ -45,14 +46,14 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setDate(data.date);
     const weight = parseFloat(data.weight);
-    const weightUnit = ReverseWeightUnitNameMap.get(data.weightUnit);
+    const weightUnit = new WeightUnit(data.weightUnit)
     client
       .addFoodItem(
         {
           foodLogItem: {
             foodItemId: foodItem.id,
             weight: weight,
-            weightUnit: weightUnit,
+            weightUnit: data.weightUnit,
             date: { year: data.date.year(), month: data.date.month() + 1, day: data.date.date() },
             region: foodItem.region,
           },
@@ -70,7 +71,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
               dbId: res.id,
               foodItemId: foodItem.id,
               name: foodItem.foodName,
-              weight: new Weight(weight, weightUnit),
+              weight: { value: weight, unit: weightUnit },
               carbonFootprint: res.carbonFootprint,
               region: foodItem.region,
             },
