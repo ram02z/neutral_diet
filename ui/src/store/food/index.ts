@@ -36,10 +36,10 @@ export const FoodItemInfoQuery = selectorFamily<FoodItemInfo | undefined, FoodIt
   key: 'FoodItemInfoQuery',
   get:
     ({ foodItemId, region }) =>
-      async () => {
-        const response = await client.getFoodItemInfo({ id: foodItemId, region: region });
-        return response.foodItemInfo;
-      },
+    async () => {
+      const response = await client.getFoodItemInfo({ id: foodItemId, region: region });
+      return response.foodItemInfo;
+    },
   cachePolicy_UNSTABLE: {
     eviction: 'keep-all',
   },

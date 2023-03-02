@@ -1,3 +1,3 @@
-import RegionChip from "./RegionChip";
+import RegionChip from './RegionChip';
 
 export default RegionChip;

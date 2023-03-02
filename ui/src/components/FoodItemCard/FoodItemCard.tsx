@@ -5,6 +5,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Add, Info } from '@mui/icons-material';
 import { Box, Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Stack } from '@mui/system';
 
 import { useSnackbar } from 'notistack';
 
@@ -12,6 +13,7 @@ import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import client from '@/api/user_service';
 import AddFoodItemDialog from '@/components/AddFoodItemDialog';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
+import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
 import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
@@ -19,8 +21,6 @@ import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 
 import { FormValues } from './types';
-import RegionChip from '@/components/RegionChip';
-import { Stack } from '@mui/system';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 
@@ -110,15 +110,15 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
       <CardContent>
         <Grid container columns={5}>
           <Stack spacing={1} sx={{ pt: 1, pl: 1 }}>
-          <Typography sx={{ textTransform: 'capitalize' }} variant="h5" component="div">
-            {foodItem.foodName.toLowerCase()}
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
-            <b>{parseFloat(foodItem.medianCarbonFootprint.toFixed(3))}</b>
-            <Typography variant="caption">
-              CO<sub>2</sub>/kg
+            <Typography sx={{ textTransform: 'capitalize' }} variant="h5" component="div">
+              {foodItem.foodName.toLowerCase()}
             </Typography>
-          </Typography>
+            <Typography variant="subtitle1" color="text.secondary">
+              <b>{parseFloat(foodItem.medianCarbonFootprint.toFixed(3))}</b>
+              <Typography variant="caption">
+                CO<sub>2</sub>/kg
+              </Typography>
+            </Typography>
           </Stack>
           <Grid
             xs
@@ -138,7 +138,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
           <Info />
         </IconButton>
         <Box sx={{ marginLeft: 'auto' }}>
-        <RegionChip region={region}/>
+          <RegionChip region={region} />
         </Box>
       </CardActions>
       <AddFoodItemDialog
