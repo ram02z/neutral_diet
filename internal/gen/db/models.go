@@ -55,50 +55,6 @@ func (ns NullCfTypes) Value() (driver.Value, error) {
 	return string(ns.CfTypes), nil
 }
 
-type WeightUnit string
-
-const (
-	WeightUnitKilogram WeightUnit = "kilogram"
-	WeightUnitGram     WeightUnit = "gram"
-	WeightUnitOunce    WeightUnit = "ounce"
-	WeightUnitPound    WeightUnit = "pound"
-)
-
-func (e *WeightUnit) Scan(src interface{}) error {
-	switch s := src.(type) {
-	case []byte:
-		*e = WeightUnit(s)
-	case string:
-		*e = WeightUnit(s)
-	default:
-		return fmt.Errorf("unsupported scan type for WeightUnit: %T", src)
-	}
-	return nil
-}
-
-type NullWeightUnit struct {
-	WeightUnit WeightUnit
-	Valid      bool // Valid is true if WeightUnit is not NULL
-}
-
-// Scan implements the Scanner interface.
-func (ns *NullWeightUnit) Scan(value interface{}) error {
-	if value == nil {
-		ns.WeightUnit, ns.Valid = "", false
-		return nil
-	}
-	ns.Valid = true
-	return ns.WeightUnit.Scan(value)
-}
-
-// Value implements the driver Valuer interface.
-func (ns NullWeightUnit) Value() (driver.Value, error) {
-	if !ns.Valid {
-		return nil, nil
-	}
-	return string(ns.WeightUnit), nil
-}
-
 type AggregateFoodItem struct {
 	FoodItemID            int32
 	N                     int64
@@ -120,7 +76,7 @@ type FoodItemLog struct {
 	UpdatedAt  pgtype.Timestamptz
 	UserID     int32
 	LogDate    pgtype.Date
-	WeightUnit WeightUnit
+	WeightUnit int32
 	Region     int32
 }
 
