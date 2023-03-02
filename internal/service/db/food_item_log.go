@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"errors"
 	"time"
 
 	"github.com/bufbuild/connect-go"
@@ -55,15 +54,11 @@ func (s *Store) AddFoodItemToLog(
 		weight,
 		r.FoodLogItem.WeightUnit,
 	)
-	weightUnit, err := mapToDBWeightUnit(r.FoodLogItem.WeightUnit)
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInvalidArgument, err)
-	}
 
 	foodItemLogID, err := queries.AddFoodItemToLog(ctx, db.AddFoodItemToLogParams{
 		FoodItemID: r.FoodLogItem.FoodItemId,
 		Weight:     decimal.NewFromFloat(r.FoodLogItem.Weight),
-		WeightUnit: weightUnit,
+		WeightUnit: int32(r.FoodLogItem.WeightUnit),
 		UserID:     user.ID,
 		LogDate:    mapToDate(r.FoodLogItem.GetDate()),
 		Region:     int32(r.FoodLogItem.Region),
@@ -126,16 +121,11 @@ func (s *Store) UpdateFoodItemFromLog(
 		r.WeightUnit,
 	)
 
-	weightUnit, err := mapToDBWeightUnit(r.WeightUnit)
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInvalidArgument, err)
-	}
-
 	err = queries.UpdateFoodItemFromLog(ctx, db.UpdateFoodItemFromLogParams{
 		UserID:     user.ID,
 		ID:         r.Id,
 		Weight:     weight,
-		WeightUnit: weightUnit,
+		WeightUnit: int32(r.WeightUnit),
 	})
 
 	if err != nil {
@@ -212,7 +202,7 @@ func (s *Store) GetFoodItemLog(
 			medianCarbonFootprint = regionalAggregateFoodItem.MedianCarbonFootprint
 		}
 
-		weightUnit := mapFromDBWeightUnit(foodItemLog[i].WeightUnit)
+		weightUnit := userv1.WeightUnit(foodItemLog[i].WeightUnit)
 		carbonFootprint := calculateCarbonFootprintByWeight(
 			medianCarbonFootprint,
 			foodItemLog[i].Weight,
@@ -244,10 +234,9 @@ func calculateCarbonFootprintByWeight(
 	weight decimal.Decimal,
 	weightUnit userv1.WeightUnit,
 ) decimal.Decimal {
+	// Default is kilogram
 	multiplier := decimal.NewFromFloat(1)
 	switch weightUnit {
-	case userv1.WeightUnit_WEIGHT_UNIT_KILOGRAM:
-		multiplier = decimal.NewFromFloat(1)
 	case userv1.WeightUnit_WEIGHT_UNIT_GRAM:
 		multiplier = decimal.NewFromFloat(0.001)
 	case userv1.WeightUnit_WEIGHT_UNIT_OUNCE:
@@ -272,38 +261,9 @@ func mapToDate(date *userv1.Date) pgtype.Date {
 		int(date.GetDay()),
 		0,
 		0,
+
 		0,
 		0,
 		time.UTC)
 	return pgtype.Date{Time: time, Valid: true}
-}
-
-func mapToDBWeightUnit(weightUnit userv1.WeightUnit) (db.WeightUnit, error) {
-	switch weightUnit {
-	case userv1.WeightUnit_WEIGHT_UNIT_KILOGRAM:
-		return db.WeightUnitKilogram, nil
-	case userv1.WeightUnit_WEIGHT_UNIT_GRAM:
-		return db.WeightUnitGram, nil
-	case userv1.WeightUnit_WEIGHT_UNIT_OUNCE:
-		return db.WeightUnitOunce, nil
-	case userv1.WeightUnit_WEIGHT_UNIT_POUND:
-		return db.WeightUnitPound, nil
-	}
-
-	return "", errors.New("couldn't map WeightUnit")
-}
-
-func mapFromDBWeightUnit(dbWeighUnit db.WeightUnit) userv1.WeightUnit {
-	switch dbWeighUnit {
-	case db.WeightUnitKilogram:
-		return userv1.WeightUnit_WEIGHT_UNIT_KILOGRAM
-	case db.WeightUnitGram:
-		return userv1.WeightUnit_WEIGHT_UNIT_GRAM
-	case db.WeightUnitOunce:
-		return userv1.WeightUnit_WEIGHT_UNIT_OUNCE
-	case db.WeightUnitPound:
-		return userv1.WeightUnit_WEIGHT_UNIT_POUND
-	default:
-		return userv1.WeightUnit_WEIGHT_UNIT_KILOGRAM
-	}
 }

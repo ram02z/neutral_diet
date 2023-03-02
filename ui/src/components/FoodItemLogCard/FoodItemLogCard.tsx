@@ -25,7 +25,7 @@ import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
-import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
+import { WeightUnit } from '@/core/weight';
 import { FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
@@ -51,13 +51,13 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const weight = parseFloat(data.weight);
-    const weightUnit = ReverseWeightUnitNameMap.get(data.weightUnit);
+    const weightUnit = new WeightUnit(data.weightUnit);
     client
       .updateFoodItem(
         {
           id: foodLogItem.dbId,
           weight: weight,
-          weightUnit: weightUnit,
+          weightUnit: data.weightUnit,
           region: foodLogItem.region,
         },
         { headers: userHeaders },
@@ -70,7 +70,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 dbId: foodLogItem.dbId,
                 foodItemId: foodLogItem.foodItemId,
                 name: foodLogItem.name,
-                weight: new Weight(weight, weightUnit),
+                weight: { value: weight, unit: weightUnit },
                 carbonFootprint: res.carbonFootprint,
                 region: foodLogItem.region,
               };
@@ -140,7 +140,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 {foodLogItem.name.toLowerCase()}
               </Typography>
               <Typography variant="subtitle1" color="text.secondary" component="div">
-                {foodLogItem.weight.getFormattedName()}
+                {`${foodLogItem.weight.value}${foodLogItem.weight.unit.getShortName()}`}
               </Typography>
             </Grid>
             <Grid

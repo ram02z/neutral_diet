@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { User } from 'firebase/auth';
 
 import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
+import { WeightUnit as WeightUnitProto } from '@/api/gen/neutral_diet/user/v1/food_item_log_pb';
 import {
   UserSettings,
   UserSettings_DietaryRequirement,
@@ -13,7 +14,7 @@ import client from '@/api/user_service';
 import { MIN_CF_LIMIT } from '@/config';
 import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
-import { Weight } from '@/core/weight';
+import { WeightUnit } from '@/core/weight';
 
 import { FoodLogStats, LocalFoodLogItem, LocalUserSettings } from './types';
 
@@ -102,6 +103,18 @@ export const DietaryRequirementsState = atom<DietaryRequirement[]>({
   }),
 });
 
+export const WeightUnitsState = atom({
+  key: 'WeightUnitsState',
+  default: selector({
+    key: 'WeightUnitsState/Default',
+    get: () => {
+      return Object.values(WeightUnitProto)
+        .filter((x) => typeof x === 'number')
+        .map((w) => new WeightUnit(w as WeightUnitProto));
+    },
+  }),
+});
+
 export const FoodItemLogDateState = atom<dayjs.Dayjs>({
   key: 'FoodItemLogDateState',
   default: dayjs(),
@@ -128,7 +141,10 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
               dbId: foodLogItem.id,
               foodItemId: foodLogItem.foodItemId,
               name: foodLogItem.name,
-              weight: new Weight(foodLogItem.weight, foodLogItem.weightUnit),
+              weight: {
+                value: foodLogItem.weight,
+                unit: new WeightUnit(foodLogItem.weightUnit),
+              },
               carbonFootprint: foodLogItem.carbonFootprint,
               region: foodLogItem.region,
             };

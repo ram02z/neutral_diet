@@ -24,7 +24,7 @@ type AddFoodItemToLogParams struct {
 	Weight     decimal.Decimal
 	UserID     int32
 	LogDate    pgtype.Date
-	WeightUnit WeightUnit
+	WeightUnit int32
 	Region     int32
 }
 
@@ -112,7 +112,7 @@ type GetFoodItemLogByDateRow struct {
 	FoodItemID int32
 	Region     int32
 	Weight     decimal.Decimal
-	WeightUnit WeightUnit
+	WeightUnit int32
 	LogDate    pgtype.Date
 }
 
@@ -159,7 +159,7 @@ type UpdateFoodItemFromLogParams struct {
 	UserID     int32
 	ID         int32
 	Weight     decimal.Decimal
-	WeightUnit WeightUnit
+	WeightUnit int32
 }
 
 func (q *Queries) UpdateFoodItemFromLog(ctx context.Context, arg UpdateFoodItemFromLogParams) error {

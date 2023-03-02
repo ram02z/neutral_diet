@@ -13,37 +13,33 @@ import { Region } from "../../food/v1/region_pb.js";
  */
 export enum WeightUnit {
   /**
+   * Kilogram
+   *
    * @generated from enum value: WEIGHT_UNIT_UNSPECIFIED = 0;
    */
   UNSPECIFIED = 0,
 
   /**
-   * @generated from enum value: WEIGHT_UNIT_KILOGRAM = 1;
+   * @generated from enum value: WEIGHT_UNIT_GRAM = 1;
    */
-  KILOGRAM = 1,
+  GRAM = 1,
 
   /**
-   * @generated from enum value: WEIGHT_UNIT_GRAM = 2;
+   * @generated from enum value: WEIGHT_UNIT_OUNCE = 2;
    */
-  GRAM = 2,
+  OUNCE = 2,
 
   /**
-   * @generated from enum value: WEIGHT_UNIT_OUNCE = 3;
+   * @generated from enum value: WEIGHT_UNIT_POUND = 3;
    */
-  OUNCE = 3,
-
-  /**
-   * @generated from enum value: WEIGHT_UNIT_POUND = 4;
-   */
-  POUND = 4,
+  POUND = 3,
 }
 // Retrieve enum metadata with: proto3.getEnumType(WeightUnit)
 proto3.util.setEnumType(WeightUnit, "neutral_diet.user.v1.WeightUnit", [
   { no: 0, name: "WEIGHT_UNIT_UNSPECIFIED" },
-  { no: 1, name: "WEIGHT_UNIT_KILOGRAM" },
-  { no: 2, name: "WEIGHT_UNIT_GRAM" },
-  { no: 3, name: "WEIGHT_UNIT_OUNCE" },
-  { no: 4, name: "WEIGHT_UNIT_POUND" },
+  { no: 1, name: "WEIGHT_UNIT_GRAM" },
+  { no: 2, name: "WEIGHT_UNIT_OUNCE" },
+  { no: 3, name: "WEIGHT_UNIT_POUND" },
 ]);
 
 /**

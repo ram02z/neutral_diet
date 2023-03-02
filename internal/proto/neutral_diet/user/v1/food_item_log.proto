@@ -6,11 +6,11 @@ import "neutral_diet/food/v1/region.proto";
 import "neutral_diet/user/v1/date.proto";
 
 enum WeightUnit {
+  // Kilogram
   WEIGHT_UNIT_UNSPECIFIED = 0;
-  WEIGHT_UNIT_KILOGRAM = 1;
-  WEIGHT_UNIT_GRAM = 2;
-  WEIGHT_UNIT_OUNCE = 3;
-  WEIGHT_UNIT_POUND = 4;
+  WEIGHT_UNIT_GRAM = 1;
+  WEIGHT_UNIT_OUNCE = 2;
+  WEIGHT_UNIT_POUND = 3;
 }
 
 message FoodLogItemRequest {

@@ -1,11 +1,13 @@
 import { BaseSyntheticEvent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useRecoilValue } from 'recoil';
 
 import { Button, Dialog, DialogActions, DialogTitle, MenuItem, TextField } from '@mui/material';
 import { Stack } from '@mui/system';
 
 import { FormValues } from '@/components/FoodItemCard/types';
-import { Weight, WeightUnitNameMap } from '@/core/weight';
+import { Weight } from '@/core/weight';
+import { WeightUnitsState } from '@/store/user';
 
 type EditFoodItemDialogProps = {
   onSubmit: (data: FormValues, event?: BaseSyntheticEvent<object, void, void | undefined>) => void;
@@ -21,6 +23,7 @@ function EditFoodItemDialog({
   onSubmit,
 }: EditFoodItemDialogProps) {
   const { handleSubmit, control } = useForm<FormValues>();
+  const weightUnits = useRecoilValue(WeightUnitsState);
   return (
     <Dialog open={openDialog} onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -46,13 +49,13 @@ function EditFoodItemDialog({
           <Controller
             control={control}
             name="weightUnit"
-            defaultValue={currentWeight.getWeightUnitName()}
+            defaultValue={currentWeight.unit.value}
             rules={{ required: true }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField select label="Unit" error={!!error} onChange={onChange} value={value}>
-                {[...WeightUnitNameMap.values()].map((value, key) => (
-                  <MenuItem key={key} value={value}>
-                    {value}
+                {weightUnits.map((weight, key) => (
+                  <MenuItem key={key} value={weight.value}>
+                    {weight.getName()}
                   </MenuItem>
                 ))}
               </TextField>
