@@ -1,12 +1,8 @@
-CREATE TABLE IF NOT EXISTS "region" (
-    "name" text PRIMARY KEY
-);
-
 CREATE TABLE IF NOT EXISTS "source" (
     "id" serial PRIMARY KEY,
     "reference" text UNIQUE NOT NULL,
     "year" int NOT NULL,
-    "region_name" text NOT NULL REFERENCES "region" ("name") ON DELETE CASCADE
+    "region" int NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "sub_typology" (

@@ -383,79 +383,14 @@ export class CreateSourceResponse extends Message<CreateSourceResponse> {
 }
 
 /**
- * @generated from message neutral_diet.food.v1.CreateRegionRequest
- */
-export class CreateRegionRequest extends Message<CreateRegionRequest> {
-  /**
-   * @generated from field: neutral_diet.food.v1.Region region = 1;
-   */
-  region?: Region;
-
-  constructor(data?: PartialMessage<CreateRegionRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime = proto3;
-  static readonly typeName = "neutral_diet.food.v1.CreateRegionRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "region", kind: "message", T: Region },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CreateRegionRequest {
-    return new CreateRegionRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CreateRegionRequest {
-    return new CreateRegionRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CreateRegionRequest {
-    return new CreateRegionRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: CreateRegionRequest | PlainMessage<CreateRegionRequest> | undefined, b: CreateRegionRequest | PlainMessage<CreateRegionRequest> | undefined): boolean {
-    return proto3.util.equals(CreateRegionRequest, a, b);
-  }
-}
-
-/**
- * @generated from message neutral_diet.food.v1.CreateRegionResponse
- */
-export class CreateRegionResponse extends Message<CreateRegionResponse> {
-  constructor(data?: PartialMessage<CreateRegionResponse>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime = proto3;
-  static readonly typeName = "neutral_diet.food.v1.CreateRegionResponse";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CreateRegionResponse {
-    return new CreateRegionResponse().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CreateRegionResponse {
-    return new CreateRegionResponse().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CreateRegionResponse {
-    return new CreateRegionResponse().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: CreateRegionResponse | PlainMessage<CreateRegionResponse> | undefined, b: CreateRegionResponse | PlainMessage<CreateRegionResponse> | undefined): boolean {
-    return proto3.util.equals(CreateRegionResponse, a, b);
-  }
-}
-
-/**
- * TODO: allow filtering by region 
- *
  * @generated from message neutral_diet.food.v1.ListAggregateFoodItemsRequest
  */
 export class ListAggregateFoodItemsRequest extends Message<ListAggregateFoodItemsRequest> {
+  /**
+   * @generated from field: neutral_diet.food.v1.Region region = 1;
+   */
+  region = Region.UNSPECIFIED;
+
   constructor(data?: PartialMessage<ListAggregateFoodItemsRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -464,6 +399,7 @@ export class ListAggregateFoodItemsRequest extends Message<ListAggregateFoodItem
   static readonly runtime = proto3;
   static readonly typeName = "neutral_diet.food.v1.ListAggregateFoodItemsRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListAggregateFoodItemsRequest {
@@ -521,74 +457,6 @@ export class ListAggregateFoodItemsResponse extends Message<ListAggregateFoodIte
 }
 
 /**
- * @generated from message neutral_diet.food.v1.ListRegionsRequest
- */
-export class ListRegionsRequest extends Message<ListRegionsRequest> {
-  constructor(data?: PartialMessage<ListRegionsRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime = proto3;
-  static readonly typeName = "neutral_diet.food.v1.ListRegionsRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListRegionsRequest {
-    return new ListRegionsRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListRegionsRequest {
-    return new ListRegionsRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListRegionsRequest {
-    return new ListRegionsRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ListRegionsRequest | PlainMessage<ListRegionsRequest> | undefined, b: ListRegionsRequest | PlainMessage<ListRegionsRequest> | undefined): boolean {
-    return proto3.util.equals(ListRegionsRequest, a, b);
-  }
-}
-
-/**
- * @generated from message neutral_diet.food.v1.ListRegionsResponse
- */
-export class ListRegionsResponse extends Message<ListRegionsResponse> {
-  /**
-   * @generated from field: repeated neutral_diet.food.v1.Region regions = 1;
-   */
-  regions: Region[] = [];
-
-  constructor(data?: PartialMessage<ListRegionsResponse>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime = proto3;
-  static readonly typeName = "neutral_diet.food.v1.ListRegionsResponse";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "regions", kind: "message", T: Region, repeated: true },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListRegionsResponse {
-    return new ListRegionsResponse().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListRegionsResponse {
-    return new ListRegionsResponse().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListRegionsResponse {
-    return new ListRegionsResponse().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ListRegionsResponse | PlainMessage<ListRegionsResponse> | undefined, b: ListRegionsResponse | PlainMessage<ListRegionsResponse> | undefined): boolean {
-    return proto3.util.equals(ListRegionsResponse, a, b);
-  }
-}
-
-/**
  * @generated from message neutral_diet.food.v1.GetFoodItemInfoRequest
  */
 export class GetFoodItemInfoRequest extends Message<GetFoodItemInfoRequest> {
@@ -596,6 +464,11 @@ export class GetFoodItemInfoRequest extends Message<GetFoodItemInfoRequest> {
    * @generated from field: int32 id = 1;
    */
   id = 0;
+
+  /**
+   * @generated from field: neutral_diet.food.v1.Region region = 2;
+   */
+  region = Region.UNSPECIFIED;
 
   constructor(data?: PartialMessage<GetFoodItemInfoRequest>) {
     super();
@@ -606,6 +479,7 @@ export class GetFoodItemInfoRequest extends Message<GetFoodItemInfoRequest> {
   static readonly typeName = "neutral_diet.food.v1.GetFoodItemInfoRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemInfoRequest {

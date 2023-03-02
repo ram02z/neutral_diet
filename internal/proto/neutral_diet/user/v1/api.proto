@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package neutral_diet.user.v1;
 
+import "neutral_diet/food/v1/region.proto";
 import "neutral_diet/user/v1/date.proto";
 import "neutral_diet/user/v1/food_item_log.proto";
 import "neutral_diet/user/v1/user.proto";
@@ -20,6 +21,7 @@ message UpdateFoodItemRequest {
   int32 id = 1 [(validate.rules).int32.gt = 0];
   double weight = 2;
   WeightUnit weight_unit = 3;
+  food.v1.Region region = 4;
 }
 
 message UpdateFoodItemResponse {

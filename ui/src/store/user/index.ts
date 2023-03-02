@@ -3,6 +3,7 @@ import { atom, atomFamily, selector, selectorFamily } from 'recoil';
 import dayjs from 'dayjs';
 import { User } from 'firebase/auth';
 
+import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
 import {
   UserSettings,
   UserSettings_DietaryRequirement,
@@ -56,7 +57,7 @@ export const LocalUserSettingsState = atom<LocalUserSettings>({
     key: 'LocalUserSettingsState/Default',
     get: async ({ get }) => {
       const defaults: LocalUserSettings = {
-        region: 'World',
+        region: Region.UNSPECIFIED,
         cfLimit: MIN_CF_LIMIT,
         dirty: false,
         dietaryRequirement: UserSettings_DietaryRequirement.UNSPECIFIED,
@@ -66,7 +67,7 @@ export const LocalUserSettingsState = atom<LocalUserSettings>({
       try {
         const response = await client.getUserSettings({}, { headers: userHeaders });
         defaults.cfLimit = response.userSettings?.cfLimit ?? defaults.cfLimit;
-        defaults.region = response.userSettings?.region?.name ?? defaults.region;
+        defaults.region = response.userSettings?.region ?? defaults.region;
         defaults.dietaryRequirement =
           response.userSettings?.dietaryRequirement ?? defaults.dietaryRequirement;
       } catch (err) {
@@ -82,7 +83,7 @@ export const RemoteUserSettingsState = selector({
   get: ({ get }) => {
     const localUserSettings = get(LocalUserSettingsState);
     return new UserSettings({
-      region: { name: localUserSettings.region },
+      region: localUserSettings.region,
       cfLimit: localUserSettings.cfLimit,
       dietaryRequirement: localUserSettings.dietaryRequirement,
     });
@@ -129,6 +130,7 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
               name: foodLogItem.name,
               weight: new Weight(foodLogItem.weight, foodLogItem.weightUnit),
               carbonFootprint: foodLogItem.carbonFootprint,
+              region: foodLogItem.region,
             };
           });
         } catch (err) {

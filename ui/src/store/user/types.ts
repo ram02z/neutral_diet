@@ -1,7 +1,7 @@
 import { Weight } from '@/core/weight';
 
 export type LocalUserSettings = {
-  region: string;
+  region: number;
   cfLimit: number;
   dietaryRequirement: number;
   dirty: boolean;
@@ -13,6 +13,7 @@ export type LocalFoodLogItem = {
   name: string;
   weight: Weight;
   carbonFootprint: number;
+  region: number;
 };
 
 export type FoodLogStats = {

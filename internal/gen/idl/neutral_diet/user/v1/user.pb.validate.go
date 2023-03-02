@@ -17,6 +17,8 @@ import (
 	"unicode/utf8"
 
 	"google.golang.org/protobuf/types/known/anypb"
+
+	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 )
 
 // ensure the imports are used
@@ -33,6 +35,8 @@ var (
 	_ = (*mail.Address)(nil)
 	_ = anypb.Any{}
 	_ = sort.Sort
+
+	_ = foodv1.Region(0)
 )
 
 // Validate checks the field values on UserSettings with the rules defined in
@@ -57,44 +61,15 @@ func (m *UserSettings) validate(all bool) error {
 
 	var errors []error
 
-	if m.GetRegion() == nil {
+	if _, ok := foodv1.Region_name[int32(m.GetRegion())]; !ok {
 		err := UserSettingsValidationError{
 			field:  "Region",
-			reason: "value is required",
+			reason: "value must be one of the defined enum values",
 		}
 		if !all {
 			return err
 		}
 		errors = append(errors, err)
-	}
-
-	if all {
-		switch v := interface{}(m.GetRegion()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UserSettingsValidationError{
-					field:  "Region",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UserSettingsValidationError{
-					field:  "Region",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetRegion()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UserSettingsValidationError{
-				field:  "Region",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
 	}
 
 	if m.GetCfLimit() < 0 {

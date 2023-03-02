@@ -6,7 +6,7 @@ import "neutral_diet/food/v1/region.proto";
 import "validate/validate.proto";
 
 message UserSettings {
-  food.v1.Region region = 1 [(validate.rules).message.required = true];
+  food.v1.Region region = 1 [(validate.rules).enum.defined_only = true];
   double cf_limit = 2 [(validate.rules).double = {gte: 0.0}];
   enum DietaryRequirement {
     DIETARY_REQUIREMENT_UNSPECIFIED = 0;

@@ -60,3 +60,40 @@ func (q *Queries) GetFoodItemInfo(ctx context.Context, foodItemID int32) (GetFoo
 	err := row.Scan(&i.TypologyName, &i.SubTypologyName, &i.N)
 	return i, err
 }
+
+const getFoodItemInfoByRegion = `-- name: GetFoodItemInfoByRegion :one
+SELECT
+    t.name AS typology_name,
+    st.name AS sub_typology_name,
+    COUNT(l.food_item_id) AS n
+FROM
+    life_cycle l
+    INNER JOIN source s ON l.source_id = s.id
+    INNER JOIN food_item f ON l.food_item_id = f.id
+    INNER JOIN typology t ON f.typology_id = t.id
+    LEFT JOIN sub_typology st ON t.sub_typology_id = st.id
+WHERE
+    l.food_item_id = $1
+    AND s.region = $2
+GROUP BY
+    t.name,
+    st.name
+`
+
+type GetFoodItemInfoByRegionParams struct {
+	FoodItemID int32
+	Region     int32
+}
+
+type GetFoodItemInfoByRegionRow struct {
+	TypologyName    string
+	SubTypologyName pgtype.Text
+	N               int64
+}
+
+func (q *Queries) GetFoodItemInfoByRegion(ctx context.Context, arg GetFoodItemInfoByRegionParams) (GetFoodItemInfoByRegionRow, error) {
+	row := q.db.QueryRow(ctx, getFoodItemInfoByRegion, arg.FoodItemID, arg.Region)
+	var i GetFoodItemInfoByRegionRow
+	err := row.Scan(&i.TypologyName, &i.SubTypologyName, &i.N)
+	return i, err
+}

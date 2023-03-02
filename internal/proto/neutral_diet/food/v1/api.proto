@@ -50,27 +50,17 @@ message CreateSourceResponse {
   int32 id = 1;
 }
 
-message CreateRegionRequest {
-  Region region = 1 [(validate.rules).message.required = true];
+message ListAggregateFoodItemsRequest {
+  Region region = 1 [(validate.rules).enum.defined_only = true];
 }
-
-message CreateRegionResponse {}
-
-/* TODO: allow filtering by region */
-message ListAggregateFoodItemsRequest {}
 
 message ListAggregateFoodItemsResponse {
   repeated AggregateFoodItem food_items = 1;
 }
 
-message ListRegionsRequest {}
-
-message ListRegionsResponse {
-  repeated Region regions = 1;
-}
-
 message GetFoodItemInfoRequest {
   int32 id = 1 [(validate.rules).int32.gt = 0];
+  Region region = 2 [(validate.rules).enum.defined_only = true];
 }
 
 message GetFoodItemInfoResponse {
@@ -83,8 +73,6 @@ service FoodService {
   rpc CreateTypology(CreateTypologyRequest) returns (CreateTypologyResponse) {}
   rpc CreateSubTypology(CreateSubTypologyRequest) returns (CreateSubTypologyResponse) {}
   rpc CreateSource(CreateSourceRequest) returns (CreateSourceResponse) {}
-  rpc CreateRegion(CreateRegionRequest) returns (CreateRegionResponse) {}
-  rpc ListRegions(ListRegionsRequest) returns (ListRegionsResponse) {}
   rpc ListAggregateFoodItems(ListAggregateFoodItemsRequest) returns (ListAggregateFoodItemsResponse) {}
   rpc GetFoodItemInfo(GetFoodItemInfoRequest) returns (GetFoodItemInfoResponse) {}
 }

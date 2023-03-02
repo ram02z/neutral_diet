@@ -3,6 +3,7 @@ import TableContainer from '@mui/material/TableContainer';
 
 import { Source } from '@/components/FoodItemInfoDialog/types';
 import { MIN_CARD_WIDTH } from '@/config';
+import UserRegion from '@/core/regions';
 
 type SourceTableProps = {
   sources: Source[];
@@ -28,7 +29,7 @@ function SourceTable({ sources }: SourceTableProps) {
               <TableCell component="th" scope="row">
                 {source.reference}
               </TableCell>
-              <TableCell align="right">{source.regionName}</TableCell>
+              <TableCell align="right">{new UserRegion(source.region).getSettingName()}</TableCell>
               <TableCell align="right">{source.year}</TableCell>
             </TableRow>
           ))}

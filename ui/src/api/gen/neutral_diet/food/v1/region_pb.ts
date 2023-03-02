@@ -3,43 +3,61 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3 } from "@bufbuild/protobuf";
+import { proto3 } from "@bufbuild/protobuf";
 
 /**
- * @generated from message neutral_diet.food.v1.Region
+ * @generated from enum neutral_diet.food.v1.Region
  */
-export class Region extends Message<Region> {
+export enum Region {
   /**
-   * @generated from field: string name = 1;
+   * @generated from enum value: REGION_UNSPECIFIED = 0;
    */
-  name = "";
+  UNSPECIFIED = 0,
 
-  constructor(data?: PartialMessage<Region>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
+  /**
+   * @generated from enum value: REGION_AFRICA = 1;
+   */
+  AFRICA = 1,
 
-  static readonly runtime = proto3;
-  static readonly typeName = "neutral_diet.food.v1.Region";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-  ]);
+  /**
+   * @generated from enum value: REGION_AMERICA = 2;
+   */
+  AMERICA = 2,
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Region {
-    return new Region().fromBinary(bytes, options);
-  }
+  /**
+   * @generated from enum value: REGION_ASIA = 3;
+   */
+  ASIA = 3,
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Region {
-    return new Region().fromJson(jsonValue, options);
-  }
+  /**
+   * @generated from enum value: REGION_EUROPE = 4;
+   */
+  EUROPE = 4,
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Region {
-    return new Region().fromJsonString(jsonString, options);
-  }
+  /**
+   * @generated from enum value: REGION_MEDITERRANEAN = 5;
+   */
+  MEDITERRANEAN = 5,
 
-  static equals(a: Region | PlainMessage<Region> | undefined, b: Region | PlainMessage<Region> | undefined): boolean {
-    return proto3.util.equals(Region, a, b);
-  }
+  /**
+   * @generated from enum value: REGION_OCEANIA = 6;
+   */
+  OCEANIA = 6,
+
+  /**
+   * @generated from enum value: REGION_WORLD = 7;
+   */
+  WORLD = 7,
 }
+// Retrieve enum metadata with: proto3.getEnumType(Region)
+proto3.util.setEnumType(Region, "neutral_diet.food.v1.Region", [
+  { no: 0, name: "REGION_UNSPECIFIED" },
+  { no: 1, name: "REGION_AFRICA" },
+  { no: 2, name: "REGION_AMERICA" },
+  { no: 3, name: "REGION_ASIA" },
+  { no: 4, name: "REGION_EUROPE" },
+  { no: 5, name: "REGION_MEDITERRANEAN" },
+  { no: 6, name: "REGION_OCEANIA" },
+  { no: 7, name: "REGION_WORLD" },
+]);
 

@@ -8,6 +8,7 @@ import (
 	"github.com/bufbuild/connect-go"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
+	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 	userv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1"
 	"github.com/shopspring/decimal"
 )
@@ -24,15 +25,33 @@ func (s *Store) AddFoodItemToLog(
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	aggFoodItem, err := queries.GetAggregateFoodItemById(ctx, r.FoodLogItem.FoodItemId)
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	var medianCarbonFootprint decimal.Decimal
+	if r.FoodLogItem.Region == foodv1.Region_REGION_UNSPECIFIED {
+		aggFoodItem, err := queries.GetAggregateFoodItem(ctx, r.FoodLogItem.FoodItemId)
+		if err != nil {
+			return nil, connect.NewError(connect.CodeInvalidArgument, err)
+		}
+
+		medianCarbonFootprint = aggFoodItem.MedianCarbonFootprint
+	} else {
+		regionalAggFoodItem, err := queries.GetRegionalAggregateFoodItem(
+			ctx,
+			db.GetRegionalAggregateFoodItemParams{
+				FoodItemID: r.FoodLogItem.FoodItemId,
+				Region:     int32(r.FoodLogItem.Region),
+			},
+		)
+		if err != nil {
+			return nil, connect.NewError(connect.CodeInvalidArgument, err)
+		}
+
+		medianCarbonFootprint = regionalAggFoodItem.MedianCarbonFootprint
 	}
 
 	weight := decimal.NewFromFloat(r.FoodLogItem.Weight)
 
 	carbonFootprint := calculateCarbonFootprintByWeight(
-		aggFoodItem.MedianCarbonFootprint,
+		medianCarbonFootprint,
 		weight,
 		r.FoodLogItem.WeightUnit,
 	)
@@ -47,6 +66,7 @@ func (s *Store) AddFoodItemToLog(
 		WeightUnit: weightUnit,
 		UserID:     user.ID,
 		LogDate:    mapToDate(r.FoodLogItem.GetDate()),
+		Region:     int32(r.FoodLogItem.Region),
 	})
 	if err != nil {
 		return nil, err
@@ -75,15 +95,33 @@ func (s *Store) UpdateFoodItemFromLog(
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	aggFoodItem, err := queries.GetAggregateFoodItemById(ctx, foodItemID)
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	var medianCarbonFootprint decimal.Decimal
+	if r.Region == foodv1.Region_REGION_UNSPECIFIED {
+		aggFoodItem, err := queries.GetAggregateFoodItem(ctx, foodItemID)
+		if err != nil {
+			return nil, connect.NewError(connect.CodeInvalidArgument, err)
+		}
+
+		medianCarbonFootprint = aggFoodItem.MedianCarbonFootprint
+	} else {
+		regionalAggFoodItem, err := queries.GetRegionalAggregateFoodItem(
+			ctx,
+			db.GetRegionalAggregateFoodItemParams{
+				FoodItemID: foodItemID,
+				Region:     int32(r.Region),
+			},
+		)
+		if err != nil {
+			return nil, connect.NewError(connect.CodeInvalidArgument, err)
+		}
+
+		medianCarbonFootprint = regionalAggFoodItem.MedianCarbonFootprint
 	}
 
 	weight := decimal.NewFromFloat(r.Weight)
 
 	carbonFootprint := calculateCarbonFootprintByWeight(
-		aggFoodItem.MedianCarbonFootprint,
+		medianCarbonFootprint,
 		weight,
 		r.WeightUnit,
 	)
@@ -151,9 +189,49 @@ func (s *Store) GetFoodItemLog(
 		return nil, err
 	}
 
-	foodLogItems, err := mapToFoodLogItems(foodItemLog)
-	if err != nil {
-		return nil, err
+	foodLogItems := make([]*userv1.FoodLogItemResponse, len(foodItemLog))
+	for i := range foodItemLog {
+		var medianCarbonFootprint decimal.Decimal
+		if foodItemLog[i].Region == int32(foodv1.Region_REGION_UNSPECIFIED) {
+			aggregateFoodItem, err := queries.GetAggregateFoodItem(ctx, foodItemLog[i].FoodItemID)
+			if err != nil {
+				return nil, err
+			}
+			medianCarbonFootprint = aggregateFoodItem.MedianCarbonFootprint
+		} else {
+			regionalAggregateFoodItem, err := queries.GetRegionalAggregateFoodItem(
+				ctx,
+				db.GetRegionalAggregateFoodItemParams{
+					FoodItemID: foodItemLog[i].FoodItemID,
+					Region:     foodItemLog[i].Region,
+				},
+			)
+			if err != nil {
+				return nil, err
+			}
+			medianCarbonFootprint = regionalAggregateFoodItem.MedianCarbonFootprint
+		}
+
+		weightUnit := mapFromDBWeightUnit(foodItemLog[i].WeightUnit)
+		carbonFootprint := calculateCarbonFootprintByWeight(
+			medianCarbonFootprint,
+			foodItemLog[i].Weight,
+			weightUnit,
+		)
+		foodLogItems[i] = &userv1.FoodLogItemResponse{
+			Id:              foodItemLog[i].ID,
+			FoodItemId:      foodItemLog[i].FoodItemID,
+			Name:            foodItemLog[i].Name,
+			Weight:          foodItemLog[i].Weight.InexactFloat64(),
+			WeightUnit:      weightUnit,
+			CarbonFootprint: carbonFootprint.InexactFloat64(),
+			Date: &userv1.Date{
+				Year:  int32(foodItemLog[i].LogDate.Time.Year()),
+				Month: int32(foodItemLog[i].LogDate.Time.Month()),
+				Day:   int32(foodItemLog[i].LogDate.Time.Day()),
+			},
+			Region: foodv1.Region(foodItemLog[i].Region),
+		}
 	}
 
 	return &userv1.GetFoodItemLogResponse{
@@ -228,33 +306,4 @@ func mapFromDBWeightUnit(dbWeighUnit db.WeightUnit) userv1.WeightUnit {
 	default:
 		return userv1.WeightUnit_WEIGHT_UNIT_KILOGRAM
 	}
-}
-
-func mapToFoodLogItems(
-	foodItemLogRows []db.GetFoodItemLogByDateRow,
-) ([]*userv1.FoodLogItemResponse, error) {
-	foodLogItems := make([]*userv1.FoodLogItemResponse, len(foodItemLogRows))
-	for i := range foodItemLogRows {
-		weightUnit := mapFromDBWeightUnit(foodItemLogRows[i].WeightUnit)
-		carbonFootprint := calculateCarbonFootprintByWeight(
-			foodItemLogRows[i].MedianCarbonFootprint,
-			foodItemLogRows[i].Weight,
-			weightUnit,
-		)
-		foodLogItems[i] = &userv1.FoodLogItemResponse{
-			Id:              foodItemLogRows[i].ID,
-			FoodItemId:      foodItemLogRows[i].FoodItemID,
-			Name:            foodItemLogRows[i].Name,
-			Weight:          foodItemLogRows[i].Weight.InexactFloat64(),
-			WeightUnit:      weightUnit,
-			CarbonFootprint: carbonFootprint.InexactFloat64(),
-			Date: &userv1.Date{
-				Year:  int32(foodItemLogRows[i].LogDate.Time.Year()),
-				Month: int32(foodItemLogRows[i].LogDate.Time.Month()),
-				Day:   int32(foodItemLogRows[i].LogDate.Time.Day()),
-			},
-		}
-	}
-
-	return foodLogItems, nil
 }

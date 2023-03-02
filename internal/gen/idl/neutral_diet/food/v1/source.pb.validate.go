@@ -60,7 +60,7 @@ func (m *Source) validate(all bool) error {
 
 	// no validation rules for Year
 
-	// no validation rules for RegionName
+	// no validation rules for Region
 
 	if len(errors) > 0 {
 		return SourceMultiError(errors)

@@ -9,36 +9,24 @@ import (
 	"context"
 )
 
-const createRegion = `-- name: CreateRegion :exec
-INSERT INTO region (name)
-    VALUES ($1)
-`
-
-func (q *Queries) CreateRegion(ctx context.Context, name string) error {
-	_, err := q.db.Exec(ctx, createRegion, name)
-	return err
-}
-
 const listRegions = `-- name: ListRegions :many
 SELECT
-    name
-FROM
-    region
+    ENUM_RANGE(NULL::region)
 `
 
-func (q *Queries) ListRegions(ctx context.Context) ([]string, error) {
+func (q *Queries) ListRegions(ctx context.Context) ([]interface{}, error) {
 	rows, err := q.db.Query(ctx, listRegions)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []string
+	var items []interface{}
 	for rows.Next() {
-		var name string
-		if err := rows.Scan(&name); err != nil {
+		var enum_range interface{}
+		if err := rows.Scan(&enum_range); err != nil {
 			return nil, err
 		}
-		items = append(items, name)
+		items = append(items, enum_range)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err

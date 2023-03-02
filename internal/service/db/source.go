@@ -15,9 +15,9 @@ func (s *Store) CreateSource(
 	queries := db.New(s.dbPool)
 
 	source := db.CreateSourceParams{
-		Reference:  r.Source.Reference,
-		Year:       r.Source.Year,
-		RegionName: r.Source.RegionName,
+		Reference: r.Source.Reference,
+		Year:      r.Source.Year,
+		Region:    int32(r.Source.Region.Number()),
 	}
 
 	sourceID, err := queries.CreateSource(ctx, source)

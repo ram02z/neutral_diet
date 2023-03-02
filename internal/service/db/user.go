@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/bufbuild/connect-go"
-	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
 	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 	userv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1"
@@ -18,11 +17,8 @@ func (s *Store) CreateUser(
 	queries := db.New(s.dbPool)
 
 	userID, err := queries.CreateUser(ctx, db.CreateUserParams{
-		FirebaseUid: r.FirebaseUid,
-		Region: pgtype.Text{
-			String: DefaultRegionName,
-			Valid:  true,
-		},
+		FirebaseUid:        r.FirebaseUid,
+		Region:             int32(foodv1.Region_REGION_UNSPECIFIED.Number()),
 		CfLimit:            decimal.NewFromFloat(0.1),
 		DietaryRequirement: int32(userv1.UserSettings_DIETARY_REQUIREMENT_UNSPECIFIED.Number()),
 	})
@@ -65,9 +61,7 @@ func (s *Store) GetUser(
 
 	userResponse := userv1.GetUserSettingsResponse{
 		UserSettings: &userv1.UserSettings{
-			Region: &foodv1.Region{
-				Name: user.Region.String,
-			},
+			Region:             foodv1.Region(user.Region),
 			CfLimit:            user.CfLimit.InexactFloat64(),
 			DietaryRequirement: userv1.UserSettings_DietaryRequirement(user.DietaryRequirement),
 		},
@@ -84,11 +78,8 @@ func (s *Store) UpdateUserSettings(
 	queries := db.New(s.dbPool)
 
 	err := queries.UpdateUserSettings(ctx, db.UpdateUserSettingsParams{
-		FirebaseUid: firebaseUID,
-		Region: pgtype.Text{
-			String: r.GetUserSettings().GetRegion().Name,
-			Valid:  true,
-		},
+		FirebaseUid:        firebaseUID,
+		Region:             int32(r.GetUserSettings().GetRegion().Number()),
 		CfLimit:            decimal.NewFromFloat(r.GetUserSettings().CfLimit),
 		DietaryRequirement: int32(r.GetUserSettings().GetDietaryRequirement().Number()),
 	})

@@ -2,13 +2,18 @@ import collections
 import requests
 import pandas as pd
 
-REGIONS = ["Africa", "America", "Asia", "Europe", "Mediterranean", "Oceania", "World"]
+REGIONS = {
+    "Africa": 1,
+    "America": 2,
+    "Asia": 3,
+    "Europe": 4,
+    "Mediterranean": 5,
+    "Oceania": 6,
+    "World": 7,
+}
 SERVICE = "http://localhost:8080/api/neutral_diet.food.v1.FoodService"
 
 CF_TYPE_MAP = {"TYPOLOGY": 1, "SUBTYPOLOGY": 2, "ITEM": 3}
-
-for region in REGIONS:
-    requests.post(f"{SERVICE}/CreateRegion", json={"region": {"name": region}})
 
 sub_typology_index: dict[str, int] = {}
 typology_index: dict[str, int] = {}
@@ -43,7 +48,7 @@ for index, row in df.iterrows():
                 "source": {
                     "reference": row["Full Reference"],
                     "year": int(row["Publication year"]),
-                    "region_name": row["Region"],
+                    "region": REGIONS[row["Region"]],
                 }
             },
         )

@@ -9,5 +9,3 @@ DROP TABLE IF EXISTS "typology";
 DROP TABLE IF EXISTS "sub_typology";
 
 DROP TABLE IF EXISTS "source";
-
-DROP TABLE IF EXISTS "region";

@@ -3,8 +3,9 @@ import { SubmitHandler } from 'react-hook-form';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Add, Info } from '@mui/icons-material';
-import { Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
+import { Box, Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Stack } from '@mui/system';
 
 import { useSnackbar } from 'notistack';
 
@@ -12,7 +13,9 @@ import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import client from '@/api/user_service';
 import AddFoodItemDialog from '@/components/AddFoodItemDialog';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
+import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
+import UserRegion from '@/core/regions';
 import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
 import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
@@ -34,7 +37,10 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
-  const foodItemInfo = useRecoilValue(FoodItemInfoQuery(foodItem.id));
+  const foodItemInfo = useRecoilValue(
+    FoodItemInfoQuery({ foodItemId: foodItem.id, region: foodItem.region }),
+  );
+  const region = new UserRegion(foodItem.region);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setDate(data.date);
@@ -48,6 +54,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
             weight: weight,
             weightUnit: weightUnit,
             date: { year: data.date.year(), month: data.date.month() + 1, day: data.date.date() },
+            region: foodItem.region,
           },
         },
         { headers: userHeaders },
@@ -65,6 +72,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
               name: foodItem.foodName,
               weight: new Weight(weight, weightUnit),
               carbonFootprint: res.carbonFootprint,
+              region: foodItem.region,
             },
           ];
         });
@@ -101,7 +109,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
     <Card sx={{ minWidth: MIN_CARD_WIDTH }}>
       <CardContent>
         <Grid container columns={5}>
-          <Grid xs={4} sx={{ pt: 1, pl: 1 }}>
+          <Stack spacing={1} sx={{ pt: 1, pl: 1 }}>
             <Typography sx={{ textTransform: 'capitalize' }} variant="h5" component="div">
               {foodItem.foodName.toLowerCase()}
             </Typography>
@@ -111,7 +119,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
                 CO<sub>2</sub>/kg
               </Typography>
             </Typography>
-          </Grid>
+          </Stack>
           <Grid
             xs
             display="flex"
@@ -129,6 +137,9 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
         <IconButton onClick={handleOpenInfoDialog} aria-label="info" disabled={!foodItemInfo}>
           <Info />
         </IconButton>
+        <Box sx={{ marginLeft: 'auto' }}>
+          <RegionChip region={region} />
+        </Box>
       </CardActions>
       <AddFoodItemDialog
         onSubmit={onSubmit}

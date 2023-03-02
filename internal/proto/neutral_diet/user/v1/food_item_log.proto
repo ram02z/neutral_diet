@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package neutral_diet.user.v1;
 
+import "neutral_diet/food/v1/region.proto";
 import "neutral_diet/user/v1/date.proto";
 
 enum WeightUnit {
@@ -17,6 +18,7 @@ message FoodLogItemRequest {
   double weight = 2;
   Date date = 3;
   WeightUnit weight_unit = 4;
+  food.v1.Region region = 5;
 }
 
 message FoodLogItemResponse {
@@ -27,4 +29,5 @@ message FoodLogItemResponse {
   double carbon_footprint = 5;
   Date date = 6;
   WeightUnit weight_unit = 7;
+  food.v1.Region region = 8;
 }

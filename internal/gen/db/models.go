@@ -121,6 +121,7 @@ type FoodItemLog struct {
 	UserID     int32
 	LogDate    pgtype.Date
 	WeightUnit WeightUnit
+	Region     int32
 }
 
 type LifeCycle struct {
@@ -130,15 +131,18 @@ type LifeCycle struct {
 	SourceID        int32
 }
 
-type Region struct {
-	Name string
+type RegionalAggregateFoodItem struct {
+	FoodItemID            int32
+	Region                int32
+	N                     int64
+	MedianCarbonFootprint decimal.Decimal
 }
 
 type Source struct {
-	ID         int32
-	Reference  string
-	Year       int32
-	RegionName string
+	ID        int32
+	Reference string
+	Year      int32
+	Region    int32
 }
 
 type SubTypology struct {
@@ -155,7 +159,7 @@ type Typology struct {
 type User struct {
 	ID                 int32
 	FirebaseUid        string
-	Region             pgtype.Text
+	Region             int32
 	CfLimit            decimal.Decimal
 	CreatedAt          pgtype.Timestamptz
 	UpdatedAt          pgtype.Timestamptz
