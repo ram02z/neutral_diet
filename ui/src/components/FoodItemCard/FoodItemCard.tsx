@@ -16,18 +16,17 @@ import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
+import { WeightUnit } from '@/core/weight';
 import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 
 import { FormValues } from './types';
-import { WeightUnit } from '@/core/weight';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 
 type FoodItemCardProps = {
   foodItem: AggregateFoodItem;
 };
-    const weightUnit = new WeightUnit(data.weightUnit)
 
 export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [foodHistory, setFoodHistory] = useRecoilState(FoodHistoryState);
@@ -46,7 +45,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setDate(data.date);
     const weight = parseFloat(data.weight);
-    const weightUnit = new WeightUnit(data.weightUnit)
+    const weightUnit = new WeightUnit(data.weightUnit);
     client
       .addFoodItem(
         {

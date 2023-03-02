@@ -1,12 +1,12 @@
 import { BaseSyntheticEvent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useRecoilValue } from 'recoil';
 
 import { Button, Dialog, DialogActions, DialogTitle, MenuItem, TextField } from '@mui/material';
 import { Stack } from '@mui/system';
 
 import { FormValues } from '@/components/FoodItemCard/types';
 import { Weight } from '@/core/weight';
-import { useRecoilValue } from 'recoil';
 import { WeightUnitsState } from '@/store/user';
 
 type EditFoodItemDialogProps = {

@@ -25,10 +25,10 @@ import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
+import { WeightUnit } from '@/core/weight';
 import { FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
-import { WeightUnit } from '@/core/weight';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 
@@ -51,7 +51,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const weight = parseFloat(data.weight);
-    const weightUnit = new WeightUnit(data.weightUnit)
+    const weightUnit = new WeightUnit(data.weightUnit);
     client
       .updateFoodItem(
         {
