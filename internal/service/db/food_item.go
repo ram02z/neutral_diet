@@ -38,17 +38,46 @@ func (s *Store) ListAggregateFoodItems(
 	r *foodv1.ListAggregateFoodItemsRequest,
 ) (*foodv1.ListAggregateFoodItemsResponse, error) {
 	queries := db.New(s.dbPool)
-	foodItemRows, err := queries.ListAggregateFoodItems(ctx)
-	if err != nil {
-		return nil, err
-	}
 
-	foodItems, err := mapToFoodItems(foodItemRows)
-	if err != nil {
-		return nil, err
-	}
+	var foodItems []*foodv1.AggregateFoodItem
+	if r.Region == foodv1.Region_REGION_UNSPECIFIED {
+		foodItemRows, err := queries.ListAggregateFoodItems(ctx)
+		if err != nil {
+			return nil, err
+		}
 
+		foodItems = make([]*foodv1.AggregateFoodItem, len(foodItemRows))
+		for i := range foodItemRows {
+			foodItems[i] = &foodv1.AggregateFoodItem{
+				Id:                    foodItemRows[i].ID,
+				FoodName:              foodItemRows[i].FoodName,
+				MedianCarbonFootprint: foodItemRows[i].MedianCarbonFootprint.InexactFloat64(),
+				Region:                foodv1.Region_REGION_UNSPECIFIED,
+			}
+		}
+	} else {
+		foodItemRows, err := queries.ListAggregateFoodItemsByRegion(ctx, int32(r.Region))
+		if err != nil {
+			return nil, err
+		}
+
+		foodItems = make([]*foodv1.AggregateFoodItem, len(foodItemRows))
+		for i := range foodItemRows {
+			foodItems[i] = &foodv1.AggregateFoodItem{
+				Id:                    foodItemRows[i].ID,
+				FoodName:              foodItemRows[i].FoodName,
+				MedianCarbonFootprint: foodItemRows[i].MedianCarbonFootprint.InexactFloat64(),
+				Region:                r.Region,
+			}
+		}
+	}
 	return &foodv1.ListAggregateFoodItemsResponse{FoodItems: foodItems}, nil
+}
+
+type FoodItemInfo struct {
+	TypologyName    string
+	SubTypologyName string
+	N               int64
 }
 
 func (s *Store) GetFoodItemInfo(
@@ -56,42 +85,77 @@ func (s *Store) GetFoodItemInfo(
 	r *foodv1.GetFoodItemInfoRequest,
 ) (*foodv1.GetFoodItemInfoResponse, error) {
 	queries := db.New(s.dbPool)
-	foodItemInfo, err := queries.GetFoodItemInfo(ctx, r.Id)
-	if err != nil {
-		return nil, err
-	}
+	var foodItemInfo FoodItemInfo
+	var sources []*foodv1.Source
+	if r.Region == foodv1.Region_REGION_UNSPECIFIED {
+		foodItemInfoRow, err := queries.GetFoodItemInfo(ctx, r.Id)
+		if err != nil {
+			return nil, err
+		}
 
-	sourceRows, err := queries.ListSourcesByFoodItem(ctx, r.Id)
-	if err != nil {
-		return nil, err
-	}
+		foodItemInfo = FoodItemInfo{
+			TypologyName:    foodItemInfoRow.TypologyName,
+			SubTypologyName: foodItemInfoRow.SubTypologyName.String,
+			N:               foodItemInfoRow.N,
+		}
 
-	sources, err := mapToSources(sourceRows)
-	if err != nil {
-		return nil, err
-	}
+		sourceRows, err := queries.ListSourcesByFoodItem(ctx, r.Id)
+		if err != nil {
+			return nil, err
+		}
 
+		sources = make([]*foodv1.Source, len(sourceRows))
+		for i := range sourceRows {
+			sources[i] = &foodv1.Source{
+				Reference: sourceRows[i].Reference,
+				Year:      sourceRows[i].Year,
+				Region:    foodv1.Region(sourceRows[i].Region),
+			}
+		}
+	} else {
+		foodItemInfoRow, err := queries.GetFoodItemInfoByRegion(ctx, db.GetFoodItemInfoByRegionParams{
+			FoodItemID: r.Id,
+			Region:     int32(r.Region),
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		foodItemInfo = FoodItemInfo{
+			TypologyName:    foodItemInfoRow.TypologyName,
+			SubTypologyName: foodItemInfoRow.SubTypologyName.String,
+			N:               foodItemInfoRow.N,
+		}
+
+		sourceRows, err := queries.ListSourcesByFoodItemAndRegion(
+			ctx,
+			db.ListSourcesByFoodItemAndRegionParams{
+				FoodItemID: r.Id,
+				Region:     int32(r.Region),
+			},
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		sources = make([]*foodv1.Source, len(sourceRows))
+		for i := range sourceRows {
+			sources[i] = &foodv1.Source{
+				Reference: sourceRows[i].Reference,
+				Year:      sourceRows[i].Year,
+				Region:    r.Region,
+			}
+		}
+
+	}
 	return &foodv1.GetFoodItemInfoResponse{
 		FoodItemInfo: &foodv1.FoodItemInfo{
 			TypologyName:     foodItemInfo.TypologyName,
-			SubTypologyName:  foodItemInfo.SubTypologyName.String,
+			SubTypologyName:  foodItemInfo.SubTypologyName,
 			NonUniqueSources: foodItemInfo.N,
 			Sources:          sources,
 		},
 	}, nil
-}
-
-func mapToSources(sourceRows []db.ListSourcesByFoodItemRow) ([]*foodv1.Source, error) {
-	sources := make([]*foodv1.Source, len(sourceRows))
-	for i := range sourceRows {
-		sources[i] = &foodv1.Source{
-			Reference: sourceRows[i].Reference,
-			Year:      sourceRows[i].Year,
-			Region:    foodv1.Region(sourceRows[i].Region),
-		}
-	}
-
-	return sources, nil
 }
 
 func mapToDBCfTypes(cfType foodv1.FoodItem_CfType) (db.CfTypes, error) {
@@ -105,19 +169,4 @@ func mapToDBCfTypes(cfType foodv1.FoodItem_CfType) (db.CfTypes, error) {
 	}
 
 	return "", errors.New("could not map CfType")
-}
-
-func mapToFoodItems(foodItemRows []db.ListAggregateFoodItemsRow) ([]*foodv1.AggregateFoodItem, error) {
-	foodItems := make([]*foodv1.AggregateFoodItem, len(foodItemRows))
-	for i := range foodItemRows {
-		foodItems[i] = &foodv1.AggregateFoodItem{
-			Id:                    foodItemRows[i].ID,
-			FoodName:              foodItemRows[i].FoodName,
-			MedianCarbonFootprint: foodItemRows[i].MedianCarbonFootprint.InexactFloat64(),
-			// TODO: change to reflect region
-			Region:                foodv1.Region(0),
-		}
-	}
-
-	return foodItems, nil
 }

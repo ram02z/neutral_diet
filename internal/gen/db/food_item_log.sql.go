@@ -13,8 +13,8 @@ import (
 )
 
 const addFoodItemToLog = `-- name: AddFoodItemToLog :one
-INSERT INTO "food_item_log" (food_item_id, weight, user_id, log_date, weight_unit)
-    VALUES ($1, $2, $3, $4, $5)
+INSERT INTO "food_item_log" (food_item_id, weight, user_id, log_date, weight_unit, region)
+    VALUES ($1, $2, $3, $4, $5, $6)
 RETURNING
     id
 `
@@ -25,6 +25,7 @@ type AddFoodItemToLogParams struct {
 	UserID     int32
 	LogDate    pgtype.Date
 	WeightUnit WeightUnit
+	Region     int32
 }
 
 func (q *Queries) AddFoodItemToLog(ctx context.Context, arg AddFoodItemToLogParams) (int32, error) {
@@ -34,6 +35,7 @@ func (q *Queries) AddFoodItemToLog(ctx context.Context, arg AddFoodItemToLogPara
 		arg.UserID,
 		arg.LogDate,
 		arg.WeightUnit,
+		arg.Region,
 	)
 	var id int32
 	err := row.Scan(&id)
@@ -85,16 +87,15 @@ func (q *Queries) GetFoodItemIdByLogId(ctx context.Context, id int32) (int32, er
 const getFoodItemLogByDate = `-- name: GetFoodItemLogByDate :many
 SELECT
     l.id,
-    l.food_item_id,
     f.name,
+    l.food_item_id,
+    l.region,
     l.weight,
     l.weight_unit,
-    a.median_carbon_footprint,
     l.log_date
 FROM
     food_item_log l
     INNER JOIN food_item f ON l.food_item_id = f.id
-    INNER JOIN aggregate_food_item a ON l.food_item_id = a.food_item_id
 WHERE
     user_id = $1
     AND log_date = $2
@@ -106,13 +107,13 @@ type GetFoodItemLogByDateParams struct {
 }
 
 type GetFoodItemLogByDateRow struct {
-	ID                    int32
-	FoodItemID            int32
-	Name                  string
-	Weight                decimal.Decimal
-	WeightUnit            WeightUnit
-	MedianCarbonFootprint decimal.Decimal
-	LogDate               pgtype.Date
+	ID         int32
+	Name       string
+	FoodItemID int32
+	Region     int32
+	Weight     decimal.Decimal
+	WeightUnit WeightUnit
+	LogDate    pgtype.Date
 }
 
 func (q *Queries) GetFoodItemLogByDate(ctx context.Context, arg GetFoodItemLogByDateParams) ([]GetFoodItemLogByDateRow, error) {
@@ -126,11 +127,11 @@ func (q *Queries) GetFoodItemLogByDate(ctx context.Context, arg GetFoodItemLogBy
 		var i GetFoodItemLogByDateRow
 		if err := rows.Scan(
 			&i.ID,
-			&i.FoodItemID,
 			&i.Name,
+			&i.FoodItemID,
+			&i.Region,
 			&i.Weight,
 			&i.WeightUnit,
-			&i.MedianCarbonFootprint,
 			&i.LogDate,
 		); err != nil {
 			return nil, err

@@ -13,6 +13,7 @@ export type LocalFoodLogItem = {
   name: string;
   weight: Weight;
   carbonFootprint: number;
+  region: number;
 };
 
 export type FoodLogStats = {

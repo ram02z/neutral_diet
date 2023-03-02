@@ -3,6 +3,7 @@ import { atom, atomFamily, selector, selectorFamily } from 'recoil';
 import dayjs from 'dayjs';
 import { User } from 'firebase/auth';
 
+import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
 import {
   UserSettings,
   UserSettings_DietaryRequirement,
@@ -15,7 +16,6 @@ import { auth } from '@/core/firebase';
 import { Weight } from '@/core/weight';
 
 import { FoodLogStats, LocalFoodLogItem, LocalUserSettings } from './types';
-import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
 
 export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
@@ -130,6 +130,7 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
               name: foodLogItem.name,
               weight: new Weight(foodLogItem.weight, foodLogItem.weightUnit),
               carbonFootprint: foodLogItem.carbonFootprint,
+              region: foodLogItem.region,
             };
           });
         } catch (err) {

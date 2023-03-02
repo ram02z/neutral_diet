@@ -121,6 +121,7 @@ type FoodItemLog struct {
 	UserID     int32
 	LogDate    pgtype.Date
 	WeightUnit WeightUnit
+	Region     int32
 }
 
 type LifeCycle struct {

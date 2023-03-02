@@ -13,6 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Box } from '@mui/system';
 
 import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
@@ -21,7 +22,9 @@ import client from '@/api/user_service';
 import EditFoodItemDialog from '@/components/EditFoodItemDialog';
 import { FormValues } from '@/components/FoodItemCard/types';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
+import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
+import UserRegion from '@/core/regions';
 import { ReverseWeightUnitNameMap, Weight } from '@/core/weight';
 import { FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
@@ -41,7 +44,10 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const date = useRecoilValue(FoodItemLogDateState);
   const { enqueueSnackbar } = useSnackbar();
   const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(date));
-  const foodItemInfo = useRecoilValue(FoodItemInfoQuery(foodLogItem.foodItemId));
+  const foodItemInfo = useRecoilValue(
+    FoodItemInfoQuery({ foodItemId: foodLogItem.foodItemId, region: foodLogItem.region }),
+  );
+  const region = new UserRegion(foodLogItem.region);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const weight = parseFloat(data.weight);
@@ -52,6 +58,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
           id: foodLogItem.dbId,
           weight: weight,
           weightUnit: weightUnit,
+          region: foodLogItem.region,
         },
         { headers: userHeaders },
       )
@@ -65,6 +72,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 name: foodLogItem.name,
                 weight: new Weight(weight, weightUnit),
                 carbonFootprint: res.carbonFootprint,
+                region: foodLogItem.region,
               };
             }
             return { ...item };
@@ -160,6 +168,9 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
         <IconButton onClick={handleDelete}>
           <Delete />
         </IconButton>
+        <Box sx={{ marginLeft: 'auto' }}>
+          <RegionChip region={region} />
+        </Box>
       </CardActions>
       <EditFoodItemDialog
         onSubmit={onSubmit}

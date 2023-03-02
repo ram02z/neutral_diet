@@ -60,6 +60,7 @@ message ListAggregateFoodItemsResponse {
 
 message GetFoodItemInfoRequest {
   int32 id = 1 [(validate.rules).int32.gt = 0];
+  Region region = 2 [(validate.rules).enum.defined_only = true];
 }
 
 message GetFoodItemInfoResponse {

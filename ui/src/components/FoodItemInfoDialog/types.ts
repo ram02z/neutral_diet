@@ -1,7 +1,7 @@
 export type Source = {
   reference: string;
   year: number;
-  regionName: string;
+  region: number;
 };
 
 export type FoodItemInfo = {

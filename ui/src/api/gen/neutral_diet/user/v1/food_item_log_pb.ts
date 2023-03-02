@@ -6,6 +6,7 @@
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
 import { Date } from "./date_pb.js";
+import { Region } from "../../food/v1/region_pb.js";
 
 /**
  * @generated from enum neutral_diet.user.v1.WeightUnit
@@ -69,6 +70,11 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
    */
   weightUnit = WeightUnit.UNSPECIFIED;
 
+  /**
+   * @generated from field: neutral_diet.food.v1.Region region = 5;
+   */
+  region = Region.UNSPECIFIED;
+
   constructor(data?: PartialMessage<FoodLogItemRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -81,6 +87,7 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
     { no: 2, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 3, name: "date", kind: "message", T: Date },
     { no: 4, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
+    { no: 5, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItemRequest {
@@ -139,6 +146,11 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
    */
   weightUnit = WeightUnit.UNSPECIFIED;
 
+  /**
+   * @generated from field: neutral_diet.food.v1.Region region = 8;
+   */
+  region = Region.UNSPECIFIED;
+
   constructor(data?: PartialMessage<FoodLogItemResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -154,6 +166,7 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
     { no: 5, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 6, name: "date", kind: "message", T: Date },
     { no: 7, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
+    { no: 8, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItemResponse {

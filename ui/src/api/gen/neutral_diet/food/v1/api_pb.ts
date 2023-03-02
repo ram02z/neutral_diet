@@ -465,6 +465,11 @@ export class GetFoodItemInfoRequest extends Message<GetFoodItemInfoRequest> {
    */
   id = 0;
 
+  /**
+   * @generated from field: neutral_diet.food.v1.Region region = 2;
+   */
+  region = Region.UNSPECIFIED;
+
   constructor(data?: PartialMessage<GetFoodItemInfoRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -474,6 +479,7 @@ export class GetFoodItemInfoRequest extends Message<GetFoodItemInfoRequest> {
   static readonly typeName = "neutral_diet.food.v1.GetFoodItemInfoRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemInfoRequest {

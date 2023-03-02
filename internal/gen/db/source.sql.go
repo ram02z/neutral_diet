@@ -68,3 +68,49 @@ func (q *Queries) ListSourcesByFoodItem(ctx context.Context, foodItemID int32) (
 	}
 	return items, nil
 }
+
+const listSourcesByFoodItemAndRegion = `-- name: ListSourcesByFoodItemAndRegion :many
+SELECT
+    s.reference,
+    s.year,
+    s.region
+FROM
+    life_cycle l
+    INNER JOIN source s ON l.source_id = s.id
+WHERE
+    l.food_item_id = $1
+    AND s.region = $2
+GROUP BY
+    s.id
+`
+
+type ListSourcesByFoodItemAndRegionParams struct {
+	FoodItemID int32
+	Region     int32
+}
+
+type ListSourcesByFoodItemAndRegionRow struct {
+	Reference string
+	Year      int32
+	Region    int32
+}
+
+func (q *Queries) ListSourcesByFoodItemAndRegion(ctx context.Context, arg ListSourcesByFoodItemAndRegionParams) ([]ListSourcesByFoodItemAndRegionRow, error) {
+	rows, err := q.db.Query(ctx, listSourcesByFoodItemAndRegion, arg.FoodItemID, arg.Region)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListSourcesByFoodItemAndRegionRow
+	for rows.Next() {
+		var i ListSourcesByFoodItemAndRegionRow
+		if err := rows.Scan(&i.Reference, &i.Year, &i.Region); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

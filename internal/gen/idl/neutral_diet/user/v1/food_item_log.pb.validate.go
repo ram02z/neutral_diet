@@ -17,6 +17,8 @@ import (
 	"unicode/utf8"
 
 	"google.golang.org/protobuf/types/known/anypb"
+
+	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 )
 
 // ensure the imports are used
@@ -33,6 +35,8 @@ var (
 	_ = (*mail.Address)(nil)
 	_ = anypb.Any{}
 	_ = sort.Sort
+
+	_ = foodv1.Region(0)
 )
 
 // Validate checks the field values on FoodLogItemRequest with the rules
@@ -91,6 +95,8 @@ func (m *FoodLogItemRequest) validate(all bool) error {
 	}
 
 	// no validation rules for WeightUnit
+
+	// no validation rules for Region
 
 	if len(errors) > 0 {
 		return FoodLogItemRequestMultiError(errors)
@@ -234,6 +240,8 @@ func (m *FoodLogItemResponse) validate(all bool) error {
 	}
 
 	// no validation rules for WeightUnit
+
+	// no validation rules for Region
 
 	if len(errors) > 0 {
 		return FoodLogItemResponseMultiError(errors)

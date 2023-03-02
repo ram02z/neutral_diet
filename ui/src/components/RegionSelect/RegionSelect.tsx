@@ -10,7 +10,6 @@ import { LocalUserSettingsState } from '@/store/user';
 function RegionSelect() {
   const localUserSettings = useRecoilValue(LocalUserSettingsState);
   const setLocalUserSettings = useSetRecoilState(LocalUserSettingsState);
-  // TODO: handle errors
   const regions = useRecoilValue(RegionsState);
 
   const handleChange = (event: SelectChangeEvent) => {

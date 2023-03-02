@@ -1549,6 +1549,17 @@ func (m *GetFoodItemInfoRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if _, ok := Region_name[int32(m.GetRegion())]; !ok {
+		err := GetFoodItemInfoRequestValidationError{
+			field:  "Region",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if len(errors) > 0 {
 		return GetFoodItemInfoRequestMultiError(errors)
 	}

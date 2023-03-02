@@ -590,7 +590,8 @@ type GetFoodItemInfoRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id     int32  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Region Region `protobuf:"varint,2,opt,name=region,proto3,enum=neutral_diet.food.v1.Region" json:"region,omitempty"`
 }
 
 func (x *GetFoodItemInfoRequest) Reset() {
@@ -630,6 +631,13 @@ func (x *GetFoodItemInfoRequest) GetId() int32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetFoodItemInfoRequest) GetRegion() Region {
+	if x != nil {
+		return x.Region
+	}
+	return Region_REGION_UNSPECIFIED
 }
 
 type GetFoodItemInfoResponse struct {
@@ -757,10 +765,14 @@ var file_neutral_diet_food_v1_api_proto_rawDesc = []byte{
 	0x0b, 0x32, 0x27, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74,
 	0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x67, 0x67, 0x72, 0x65, 0x67, 0x61,
 	0x74, 0x65, 0x46, 0x6f, 0x6f, 0x64, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x09, 0x66, 0x6f, 0x6f, 0x64,
-	0x49, 0x74, 0x65, 0x6d, 0x73, 0x22, 0x31, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x46, 0x6f, 0x6f, 0x64,
+	0x49, 0x74, 0x65, 0x6d, 0x73, 0x22, 0x71, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x46, 0x6f, 0x6f, 0x64,
 	0x49, 0x74, 0x65, 0x6d, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
 	0x17, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x42, 0x07, 0xfa, 0x42, 0x04,
-	0x1a, 0x02, 0x20, 0x00, 0x52, 0x02, 0x69, 0x64, 0x22, 0x63, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x46,
+	0x1a, 0x02, 0x20, 0x00, 0x52, 0x02, 0x69, 0x64, 0x12, 0x3e, 0x0a, 0x06, 0x72, 0x65, 0x67, 0x69,
+	0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1c, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72,
+	0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e,
+	0x52, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x42, 0x08, 0xfa, 0x42, 0x05, 0x82, 0x01, 0x02, 0x10, 0x01,
+	0x52, 0x06, 0x72, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x22, 0x63, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x46,
 	0x6f, 0x6f, 0x64, 0x49, 0x74, 0x65, 0x6d, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f,
 	0x6e, 0x73, 0x65, 0x12, 0x48, 0x0a, 0x0e, 0x66, 0x6f, 0x6f, 0x64, 0x5f, 0x69, 0x74, 0x65, 0x6d,
 	0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x6e, 0x65,
@@ -881,26 +893,27 @@ var file_neutral_diet_food_v1_api_proto_depIdxs = []int32{
 	18, // 4: neutral_diet.food.v1.CreateSourceRequest.source:type_name -> neutral_diet.food.v1.Source
 	19, // 5: neutral_diet.food.v1.ListAggregateFoodItemsRequest.region:type_name -> neutral_diet.food.v1.Region
 	20, // 6: neutral_diet.food.v1.ListAggregateFoodItemsResponse.food_items:type_name -> neutral_diet.food.v1.AggregateFoodItem
-	21, // 7: neutral_diet.food.v1.GetFoodItemInfoResponse.food_item_info:type_name -> neutral_diet.food.v1.FoodItemInfo
-	0,  // 8: neutral_diet.food.v1.FoodService.CreateLifeCycle:input_type -> neutral_diet.food.v1.CreateLifeCycleRequest
-	2,  // 9: neutral_diet.food.v1.FoodService.CreateFoodItem:input_type -> neutral_diet.food.v1.CreateFoodItemRequest
-	4,  // 10: neutral_diet.food.v1.FoodService.CreateTypology:input_type -> neutral_diet.food.v1.CreateTypologyRequest
-	6,  // 11: neutral_diet.food.v1.FoodService.CreateSubTypology:input_type -> neutral_diet.food.v1.CreateSubTypologyRequest
-	8,  // 12: neutral_diet.food.v1.FoodService.CreateSource:input_type -> neutral_diet.food.v1.CreateSourceRequest
-	10, // 13: neutral_diet.food.v1.FoodService.ListAggregateFoodItems:input_type -> neutral_diet.food.v1.ListAggregateFoodItemsRequest
-	12, // 14: neutral_diet.food.v1.FoodService.GetFoodItemInfo:input_type -> neutral_diet.food.v1.GetFoodItemInfoRequest
-	1,  // 15: neutral_diet.food.v1.FoodService.CreateLifeCycle:output_type -> neutral_diet.food.v1.CreateLifeCycleResponse
-	3,  // 16: neutral_diet.food.v1.FoodService.CreateFoodItem:output_type -> neutral_diet.food.v1.CreateFoodItemResponse
-	5,  // 17: neutral_diet.food.v1.FoodService.CreateTypology:output_type -> neutral_diet.food.v1.CreateTypologyResponse
-	7,  // 18: neutral_diet.food.v1.FoodService.CreateSubTypology:output_type -> neutral_diet.food.v1.CreateSubTypologyResponse
-	9,  // 19: neutral_diet.food.v1.FoodService.CreateSource:output_type -> neutral_diet.food.v1.CreateSourceResponse
-	11, // 20: neutral_diet.food.v1.FoodService.ListAggregateFoodItems:output_type -> neutral_diet.food.v1.ListAggregateFoodItemsResponse
-	13, // 21: neutral_diet.food.v1.FoodService.GetFoodItemInfo:output_type -> neutral_diet.food.v1.GetFoodItemInfoResponse
-	15, // [15:22] is the sub-list for method output_type
-	8,  // [8:15] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	19, // 7: neutral_diet.food.v1.GetFoodItemInfoRequest.region:type_name -> neutral_diet.food.v1.Region
+	21, // 8: neutral_diet.food.v1.GetFoodItemInfoResponse.food_item_info:type_name -> neutral_diet.food.v1.FoodItemInfo
+	0,  // 9: neutral_diet.food.v1.FoodService.CreateLifeCycle:input_type -> neutral_diet.food.v1.CreateLifeCycleRequest
+	2,  // 10: neutral_diet.food.v1.FoodService.CreateFoodItem:input_type -> neutral_diet.food.v1.CreateFoodItemRequest
+	4,  // 11: neutral_diet.food.v1.FoodService.CreateTypology:input_type -> neutral_diet.food.v1.CreateTypologyRequest
+	6,  // 12: neutral_diet.food.v1.FoodService.CreateSubTypology:input_type -> neutral_diet.food.v1.CreateSubTypologyRequest
+	8,  // 13: neutral_diet.food.v1.FoodService.CreateSource:input_type -> neutral_diet.food.v1.CreateSourceRequest
+	10, // 14: neutral_diet.food.v1.FoodService.ListAggregateFoodItems:input_type -> neutral_diet.food.v1.ListAggregateFoodItemsRequest
+	12, // 15: neutral_diet.food.v1.FoodService.GetFoodItemInfo:input_type -> neutral_diet.food.v1.GetFoodItemInfoRequest
+	1,  // 16: neutral_diet.food.v1.FoodService.CreateLifeCycle:output_type -> neutral_diet.food.v1.CreateLifeCycleResponse
+	3,  // 17: neutral_diet.food.v1.FoodService.CreateFoodItem:output_type -> neutral_diet.food.v1.CreateFoodItemResponse
+	5,  // 18: neutral_diet.food.v1.FoodService.CreateTypology:output_type -> neutral_diet.food.v1.CreateTypologyResponse
+	7,  // 19: neutral_diet.food.v1.FoodService.CreateSubTypology:output_type -> neutral_diet.food.v1.CreateSubTypologyResponse
+	9,  // 20: neutral_diet.food.v1.FoodService.CreateSource:output_type -> neutral_diet.food.v1.CreateSourceResponse
+	11, // 21: neutral_diet.food.v1.FoodService.ListAggregateFoodItems:output_type -> neutral_diet.food.v1.ListAggregateFoodItemsResponse
+	13, // 22: neutral_diet.food.v1.FoodService.GetFoodItemInfo:output_type -> neutral_diet.food.v1.GetFoodItemInfoResponse
+	16, // [16:23] is the sub-list for method output_type
+	9,  // [9:16] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_neutral_diet_food_v1_api_proto_init() }

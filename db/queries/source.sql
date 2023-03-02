@@ -16,3 +16,17 @@ WHERE
     l.food_item_id = $1
 GROUP BY
     s.id;
+
+-- name: ListSourcesByFoodItemAndRegion :many
+SELECT
+    s.reference,
+    s.year,
+    s.region
+FROM
+    life_cycle l
+    INNER JOIN source s ON l.source_id = s.id
+WHERE
+    l.food_item_id = $1
+    AND s.region = $2
+GROUP BY
+    s.id;
