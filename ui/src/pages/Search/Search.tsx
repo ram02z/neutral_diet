@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import RenderIfVisible from 'react-render-if-visible';
 import { useRecoilValue } from 'recoil';
 
-import { Close, SearchRounded } from '@mui/icons-material';
+import { Close, SearchRounded, Tune } from '@mui/icons-material';
 import {
   Button,
   FormControl,
@@ -128,6 +128,17 @@ function Search() {
         <>
           <Grid>
             <Typography variant="h4">Search Results</Typography>
+          </Grid>
+          <Grid>
+            <Button variant="contained" startIcon={<Tune />}>
+              Sort and filter
+            </Button>
+          </Grid>
+          <Grid xs={8} lg={7} xl={6}>
+            <Typography
+              variant="subtitle1"
+              color="text.secondary"
+            >{`${searchFoodItems.length} results`}</Typography>
           </Grid>
           {searchFoodItems.map((foodItem, idx) => (
             <Grid key={idx} xs={8} lg={7} xl={6}>
