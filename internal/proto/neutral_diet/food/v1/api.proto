@@ -34,12 +34,24 @@ message CreateTypologyResponse {
   int32 id = 1;
 }
 
+message ListTypologyNamesRequest {}
+
+message ListTypologyNamesResponse {
+  repeated string names = 1;
+}
+
 message CreateSubTypologyRequest {
   SubTypology sub_typology = 1 [(validate.rules).message.required = true];
 }
 
 message CreateSubTypologyResponse {
   int32 id = 1;
+}
+
+message ListSubTypologyNamesRequest {}
+
+message ListSubTypologyNamesResponse {
+  repeated string names = 1;
 }
 
 message CreateSourceRequest {
@@ -71,6 +83,8 @@ service FoodService {
   rpc CreateLifeCycle(CreateLifeCycleRequest) returns (CreateLifeCycleResponse) {}
   rpc CreateFoodItem(CreateFoodItemRequest) returns (CreateFoodItemResponse) {}
   rpc CreateTypology(CreateTypologyRequest) returns (CreateTypologyResponse) {}
+  rpc ListTypologyNames(ListTypologyNamesRequest) returns (ListTypologyNamesResponse) {}
+  rpc ListSubTypologyNames(ListSubTypologyNamesRequest) returns (ListSubTypologyNamesResponse) {}
   rpc CreateSubTypology(CreateSubTypologyRequest) returns (CreateSubTypologyResponse) {}
   rpc CreateSource(CreateSourceRequest) returns (CreateSourceResponse) {}
   rpc ListAggregateFoodItems(ListAggregateFoodItemsRequest) returns (ListAggregateFoodItemsResponse) {}

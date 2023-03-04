@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CreateFoodItemRequest, CreateFoodItemResponse, CreateLifeCycleRequest, CreateLifeCycleResponse, CreateSourceRequest, CreateSourceResponse, CreateSubTypologyRequest, CreateSubTypologyResponse, CreateTypologyRequest, CreateTypologyResponse, GetFoodItemInfoRequest, GetFoodItemInfoResponse, ListAggregateFoodItemsRequest, ListAggregateFoodItemsResponse } from "./api_pb.js";
+import { CreateFoodItemRequest, CreateFoodItemResponse, CreateLifeCycleRequest, CreateLifeCycleResponse, CreateSourceRequest, CreateSourceResponse, CreateSubTypologyRequest, CreateSubTypologyResponse, CreateTypologyRequest, CreateTypologyResponse, GetFoodItemInfoRequest, GetFoodItemInfoResponse, ListAggregateFoodItemsRequest, ListAggregateFoodItemsResponse, ListSubTypologyNamesRequest, ListSubTypologyNamesResponse, ListTypologyNamesRequest, ListTypologyNamesResponse } from "./api_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -37,6 +37,24 @@ export const FoodService = {
       name: "CreateTypology",
       I: CreateTypologyRequest,
       O: CreateTypologyResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.food.v1.FoodService.ListTypologyNames
+     */
+    listTypologyNames: {
+      name: "ListTypologyNames",
+      I: ListTypologyNamesRequest,
+      O: ListTypologyNamesResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.food.v1.FoodService.ListSubTypologyNames
+     */
+    listSubTypologyNames: {
+      name: "ListSubTypologyNames",
+      I: ListSubTypologyNamesRequest,
+      O: ListSubTypologyNamesResponse,
       kind: MethodKind.Unary,
     },
     /**

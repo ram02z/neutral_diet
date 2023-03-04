@@ -26,3 +26,21 @@ func (s *Store) CreateTypology(
 
 	return &foodv1.CreateTypologyResponse{Id: typologyID}, nil
 }
+
+func (s *Store) ListTypologyNames(
+	ctx context.Context,
+) (*foodv1.ListTypologyNamesResponse, error) {
+	queries := db.New(s.dbPool)
+
+	typologies, err := queries.ListTypologies(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	typologyNames := make([]string, len(typologies))
+	for i, t := range typologies {
+		typologyNames[i] = t.Name
+	}
+
+	return &foodv1.ListTypologyNamesResponse{Names: typologyNames}, nil
+}

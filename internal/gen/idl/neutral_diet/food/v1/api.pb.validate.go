@@ -773,6 +773,210 @@ var _ interface {
 	ErrorName() string
 } = CreateTypologyResponseValidationError{}
 
+// Validate checks the field values on ListTypologyNamesRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListTypologyNamesRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListTypologyNamesRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListTypologyNamesRequestMultiError, or nil if none found.
+func (m *ListTypologyNamesRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListTypologyNamesRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return ListTypologyNamesRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListTypologyNamesRequestMultiError is an error wrapping multiple validation
+// errors returned by ListTypologyNamesRequest.ValidateAll() if the designated
+// constraints aren't met.
+type ListTypologyNamesRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListTypologyNamesRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListTypologyNamesRequestMultiError) AllErrors() []error { return m }
+
+// ListTypologyNamesRequestValidationError is the validation error returned by
+// ListTypologyNamesRequest.Validate if the designated constraints aren't met.
+type ListTypologyNamesRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListTypologyNamesRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListTypologyNamesRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListTypologyNamesRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListTypologyNamesRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListTypologyNamesRequestValidationError) ErrorName() string {
+	return "ListTypologyNamesRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListTypologyNamesRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListTypologyNamesRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListTypologyNamesRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListTypologyNamesRequestValidationError{}
+
+// Validate checks the field values on ListTypologyNamesResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListTypologyNamesResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListTypologyNamesResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListTypologyNamesResponseMultiError, or nil if none found.
+func (m *ListTypologyNamesResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListTypologyNamesResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return ListTypologyNamesResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListTypologyNamesResponseMultiError is an error wrapping multiple validation
+// errors returned by ListTypologyNamesResponse.ValidateAll() if the
+// designated constraints aren't met.
+type ListTypologyNamesResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListTypologyNamesResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListTypologyNamesResponseMultiError) AllErrors() []error { return m }
+
+// ListTypologyNamesResponseValidationError is the validation error returned by
+// ListTypologyNamesResponse.Validate if the designated constraints aren't met.
+type ListTypologyNamesResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListTypologyNamesResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListTypologyNamesResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListTypologyNamesResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListTypologyNamesResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListTypologyNamesResponseValidationError) ErrorName() string {
+	return "ListTypologyNamesResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListTypologyNamesResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListTypologyNamesResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListTypologyNamesResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListTypologyNamesResponseValidationError{}
+
 // Validate checks the field values on CreateSubTypologyRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -1018,6 +1222,212 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CreateSubTypologyResponseValidationError{}
+
+// Validate checks the field values on ListSubTypologyNamesRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListSubTypologyNamesRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListSubTypologyNamesRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListSubTypologyNamesRequestMultiError, or nil if none found.
+func (m *ListSubTypologyNamesRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListSubTypologyNamesRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return ListSubTypologyNamesRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListSubTypologyNamesRequestMultiError is an error wrapping multiple
+// validation errors returned by ListSubTypologyNamesRequest.ValidateAll() if
+// the designated constraints aren't met.
+type ListSubTypologyNamesRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListSubTypologyNamesRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListSubTypologyNamesRequestMultiError) AllErrors() []error { return m }
+
+// ListSubTypologyNamesRequestValidationError is the validation error returned
+// by ListSubTypologyNamesRequest.Validate if the designated constraints
+// aren't met.
+type ListSubTypologyNamesRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListSubTypologyNamesRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListSubTypologyNamesRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListSubTypologyNamesRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListSubTypologyNamesRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListSubTypologyNamesRequestValidationError) ErrorName() string {
+	return "ListSubTypologyNamesRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListSubTypologyNamesRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListSubTypologyNamesRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListSubTypologyNamesRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListSubTypologyNamesRequestValidationError{}
+
+// Validate checks the field values on ListSubTypologyNamesResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListSubTypologyNamesResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListSubTypologyNamesResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListSubTypologyNamesResponseMultiError, or nil if none found.
+func (m *ListSubTypologyNamesResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListSubTypologyNamesResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return ListSubTypologyNamesResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListSubTypologyNamesResponseMultiError is an error wrapping multiple
+// validation errors returned by ListSubTypologyNamesResponse.ValidateAll() if
+// the designated constraints aren't met.
+type ListSubTypologyNamesResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListSubTypologyNamesResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListSubTypologyNamesResponseMultiError) AllErrors() []error { return m }
+
+// ListSubTypologyNamesResponseValidationError is the validation error returned
+// by ListSubTypologyNamesResponse.Validate if the designated constraints
+// aren't met.
+type ListSubTypologyNamesResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListSubTypologyNamesResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListSubTypologyNamesResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListSubTypologyNamesResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListSubTypologyNamesResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListSubTypologyNamesResponseValidationError) ErrorName() string {
+	return "ListSubTypologyNamesResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListSubTypologyNamesResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListSubTypologyNamesResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListSubTypologyNamesResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListSubTypologyNamesResponseValidationError{}
 
 // Validate checks the field values on CreateSourceRequest with the rules
 // defined in the proto definition for this message. If any rules are

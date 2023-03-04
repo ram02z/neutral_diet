@@ -91,28 +91,22 @@ export const RemoteUserSettingsState = selector({
   },
 });
 
-export const DietaryRequirementsState = atom<DietaryRequirement[]>({
+export const DietaryRequirementsState = selector({
   key: 'DietaryRequirementsState',
-  default: selector({
-    key: 'DietaryRequirementsState/Default',
-    get: () => {
-      return Object.values(UserSettings_DietaryRequirement)
-        .filter((x) => typeof x === 'number')
-        .map((dr) => new DietaryRequirement(dr as UserSettings_DietaryRequirement));
-    },
-  }),
+  get: () => {
+    return Object.values(UserSettings_DietaryRequirement)
+      .filter((x) => typeof x === 'number')
+      .map((dr) => new DietaryRequirement(dr as UserSettings_DietaryRequirement));
+  },
 });
 
-export const WeightUnitsState = atom({
+export const WeightUnitsState = selector({
   key: 'WeightUnitsState',
-  default: selector({
-    key: 'WeightUnitsState/Default',
-    get: () => {
-      return Object.values(WeightUnitProto)
-        .filter((x) => typeof x === 'number')
-        .map((w) => new WeightUnit(w as WeightUnitProto));
-    },
-  }),
+  get: () => {
+    return Object.values(WeightUnitProto)
+      .filter((x) => typeof x === 'number')
+      .map((w) => new WeightUnit(w as WeightUnitProto));
+  },
 });
 
 export const FoodItemLogDateState = atom<dayjs.Dayjs>({
