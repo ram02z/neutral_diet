@@ -64,72 +64,74 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
             <Link sx={{ marginLeft: 'auto' }} href="javascript:;" onClick={resetForm}>
               Clear All
             </Link>
-            <FormControl sx={{ m: 1, minWidth: MIN_CARD_WIDTH }}>
-              <InputLabel id="typology-select-label">Typology</InputLabel>
-              <Controller
-                control={control}
-                name="typologyNames"
-                defaultValue={currentSearchFilters.typologies}
-                render={({ field: { ref, onChange, value } }) => (
-                  <Select
-                    multiple
-                    fullWidth
-                    labelId="typology-select-label"
-                    inputRef={ref}
-                    value={value}
-                    onChange={onChange}
-                    input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                    renderValue={(selected) => (
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                        {selected.map((value) => (
-                          <Chip key={value} label={value} />
-                        ))}
-                      </Box>
-                    )}
-                    MenuProps={MenuProps}
-                  >
-                    {typologyNames.map((name, idx) => (
-                      <MenuItem key={idx} value={name}>
-                        {name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                )}
-              />
-            </FormControl>
-            <FormControl sx={{ m: 1, minWidth: MIN_CARD_WIDTH }}>
-              <InputLabel id="sub-typology-select-label">Sub-Typology</InputLabel>
-              <Controller
-                control={control}
-                name="subTypologyNames"
-                defaultValue={currentSearchFilters.subTypologies}
-                render={({ field: { ref, onChange, value } }) => (
-                  <Select
-                    multiple
-                    fullWidth
-                    labelId="sub-typology-select-label"
-                    inputRef={ref}
-                    value={value}
-                    onChange={onChange}
-                    input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                    renderValue={(selected) => (
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                        {selected.map((value) => (
-                          <Chip key={value} label={value} />
-                        ))}
-                      </Box>
-                    )}
-                    MenuProps={MenuProps}
-                  >
-                    {subTypologyNames.map((name, idx) => (
-                      <MenuItem key={idx} value={name}>
-                        {name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                )}
-              />
-            </FormControl>
+            <Stack direction={{ xs: 'column', sm: 'row' }}>
+              <FormControl sx={{ m: 1, minWidth: MIN_CARD_WIDTH }}>
+                <InputLabel id="typology-select-label">Typology</InputLabel>
+                <Controller
+                  control={control}
+                  name="typologyNames"
+                  defaultValue={currentSearchFilters.typologies}
+                  render={({ field: { ref, onChange, value } }) => (
+                    <Select
+                      multiple
+                      fullWidth
+                      labelId="typology-select-label"
+                      inputRef={ref}
+                      value={value}
+                      onChange={onChange}
+                      input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                      renderValue={(selected) => (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                          {selected.map((value) => (
+                            <Chip key={value} label={value} />
+                          ))}
+                        </Box>
+                      )}
+                      MenuProps={MenuProps}
+                    >
+                      {typologyNames.map((name, idx) => (
+                        <MenuItem key={idx} value={name}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+              <FormControl sx={{ m: 1, minWidth: MIN_CARD_WIDTH }}>
+                <InputLabel id="sub-typology-select-label">Sub-Typology</InputLabel>
+                <Controller
+                  control={control}
+                  name="subTypologyNames"
+                  defaultValue={currentSearchFilters.subTypologies}
+                  render={({ field: { ref, onChange, value } }) => (
+                    <Select
+                      multiple
+                      fullWidth
+                      labelId="sub-typology-select-label"
+                      inputRef={ref}
+                      value={value}
+                      onChange={onChange}
+                      input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                      renderValue={(selected) => (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                          {selected.map((value) => (
+                            <Chip key={value} label={value} />
+                          ))}
+                        </Box>
+                      )}
+                      MenuProps={MenuProps}
+                    >
+                      {subTypologyNames.map((name, idx) => (
+                        <MenuItem key={idx} value={name}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Stack>
             <Button variant="contained" color="secondary" type="submit">
               Apply
             </Button>
