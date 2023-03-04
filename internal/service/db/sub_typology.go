@@ -21,3 +21,16 @@ func (s *Store) CreateSubTypology(
 
 	return &foodv1.CreateSubTypologyResponse{Id: subTypologyID}, nil
 }
+
+func (s *Store) ListSubTypologyNames(
+	ctx context.Context,
+) (*foodv1.ListSubTypologyNamesResponse, error) {
+	queries := db.New(s.dbPool)
+
+	subTypologyNames, err := queries.ListSubTypologyNames(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &foodv1.ListSubTypologyNamesResponse{Names: subTypologyNames}, nil
+}

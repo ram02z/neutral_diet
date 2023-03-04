@@ -83,6 +83,20 @@ func (c *ConnectWrapper) CreateTypology(
 	return out, nil
 }
 
+func (c *ConnectWrapper) ListTypologyNames(
+	ctx context.Context,
+	req *connect.Request[foodv1.ListTypologyNamesRequest],
+) (*connect.Response[foodv1.ListTypologyNamesResponse], error) {
+	res, err := c.s.ListTypologyNames(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
 func (c *ConnectWrapper) CreateSubTypology(
 	ctx context.Context,
 	req *connect.Request[foodv1.CreateSubTypologyRequest],
@@ -93,6 +107,20 @@ func (c *ConnectWrapper) CreateSubTypology(
 	}
 
 	res, err := c.s.CreateSubTypology(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) ListSubTypologyNames(
+	ctx context.Context,
+	req *connect.Request[foodv1.ListSubTypologyNamesRequest],
+) (*connect.Response[foodv1.ListSubTypologyNamesResponse], error) {
+	res, err := c.s.ListSubTypologyNames(ctx)
 	if err != nil {
 		return nil, err
 	}

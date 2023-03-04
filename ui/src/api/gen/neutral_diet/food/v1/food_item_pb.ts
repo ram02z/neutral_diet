@@ -174,6 +174,16 @@ export class AggregateFoodItem extends Message<AggregateFoodItem> {
    */
   region = Region.UNSPECIFIED;
 
+  /**
+   * @generated from field: string typology_name = 5;
+   */
+  typologyName = "";
+
+  /**
+   * @generated from field: string sub_typology_name = 6;
+   */
+  subTypologyName = "";
+
   constructor(data?: PartialMessage<AggregateFoodItem>) {
     super();
     proto3.util.initPartial(data, this);
@@ -186,6 +196,8 @@ export class AggregateFoodItem extends Message<AggregateFoodItem> {
     { no: 2, name: "food_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "median_carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 4, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
+    { no: 5, name: "typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "sub_typology_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AggregateFoodItem {

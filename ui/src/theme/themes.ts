@@ -19,6 +19,17 @@ const sharedTheme = {
     },
   },
   components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          height: 40,
+          borderRadius: 20,
+          paddingLeft: 24,
+          paddingRight: 24,
+          textTransform: 'unset',
+        },
+      },
+    },
     MuiButtonBase: {
       defaultProps: {
         disableRipple: true,

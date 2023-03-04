@@ -31,4 +31,6 @@ message AggregateFoodItem {
   string food_name = 2;
   double median_carbon_footprint = 3;
   Region region = 4;
+  string typology_name = 5;
+  string sub_typology_name = 6;
 }

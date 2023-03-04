@@ -8,28 +8,22 @@ import { LocalUserSettingsState } from '@/store/user';
 
 import { FoodItemInfoQueryParams } from './types';
 
-export const RegionsState = atom({
+export const RegionsState = selector({
   key: 'RegionsState',
-  default: selector({
-    key: 'RegionsState/Default',
-    get: () => {
-      return Object.values(Region)
-        .filter((x) => typeof x === 'number')
-        .map((r) => new UserRegion(r as Region));
-    },
-  }),
+  get: () => {
+    return Object.values(Region)
+      .filter((x) => typeof x === 'number')
+      .map((r) => new UserRegion(r as Region));
+  },
 });
 
-export const FoodItemsState = atom({
-  key: 'FoodItemsState',
-  default: selector({
-    key: 'FoodItems',
-    get: async ({ get }) => {
-      const userSettings = get(LocalUserSettingsState);
-      const response = await client.listAggregateFoodItems({ region: userSettings.region });
-      return response.foodItems;
-    },
-  }),
+export const FoodItemsState = selector({
+  key: 'FoodItems',
+  get: async ({ get }) => {
+    const userSettings = get(LocalUserSettingsState);
+    const response = await client.listAggregateFoodItems({ region: userSettings.region });
+    return response.foodItems;
+  },
 });
 
 export const FoodItemInfoQuery = selectorFamily<FoodItemInfo | undefined, FoodItemInfoQueryParams>({
@@ -42,6 +36,22 @@ export const FoodItemInfoQuery = selectorFamily<FoodItemInfo | undefined, FoodIt
     },
   cachePolicy_UNSTABLE: {
     eviction: 'keep-all',
+  },
+});
+
+export const TypologiesState = selector({
+  key: 'TypologiesState',
+  get: async () => {
+    const response = await client.listTypologyNames({});
+    return response.names;
+  },
+});
+
+export const SubTypologiesState = selector({
+  key: 'SubTypologiesState',
+  get: async () => {
+    const response = await client.listSubTypologyNames({});
+    return response.names;
   },
 });
 

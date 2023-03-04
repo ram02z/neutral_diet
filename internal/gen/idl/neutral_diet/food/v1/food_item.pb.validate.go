@@ -320,6 +320,10 @@ func (m *AggregateFoodItem) validate(all bool) error {
 
 	// no validation rules for Region
 
+	// no validation rules for TypologyName
+
+	// no validation rules for SubTypologyName
+
 	if len(errors) > 0 {
 		return AggregateFoodItemMultiError(errors)
 	}
