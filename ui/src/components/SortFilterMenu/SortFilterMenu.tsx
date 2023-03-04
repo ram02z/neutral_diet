@@ -21,6 +21,7 @@ import { SubTypologiesState, TypologiesState } from '@/store/food';
 import { SearchFilters } from '@/store/search/types';
 
 import { FormValues } from './types';
+import { MIN_CARD_WIDTH } from '@/config';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -63,7 +64,7 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
             <Link sx={{ marginLeft: 'auto' }} href="javascript:;" onClick={resetForm}>
               Clear All
             </Link>
-            <FormControl sx={{ m: 1, width: 300 }}>
+            <FormControl sx={{ m: 1, minWidth: MIN_CARD_WIDTH }}>
               <InputLabel id="typology-select-label">Typology</InputLabel>
               <Controller
                 control={control}
@@ -96,7 +97,7 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
                 )}
               />
             </FormControl>
-            <FormControl sx={{ m: 1, width: 300 }}>
+            <FormControl sx={{ m: 1, minWidth: MIN_CARD_WIDTH }}>
               <InputLabel id="sub-typology-select-label">Sub-Typology</InputLabel>
               <Controller
                 control={control}
