@@ -92,14 +92,14 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
       title: 'Delete food item',
       content: (
         <div>
-          <Alert severity="error">
+          <Alert variant="filled" severity="error">
             After you have deleted a food item from your log, it will be permanently deleted.
           </Alert>
         </div>
       ),
-      cancellationButtonProps: { color: 'info' },
+      cancellationButtonProps: { color: 'secondary' },
       confirmationText: 'Delete',
-      confirmationButtonProps: { color: 'error', variant: 'contained' },
+      confirmationButtonProps: { color: 'error' },
     }).then(() => {
       client
         .deleteFoodItem({ id: foodLogItem.dbId }, { headers: userHeaders })

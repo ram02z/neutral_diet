@@ -16,12 +16,14 @@ function ClearHistoryButton() {
       title: 'Clear history',
       content: (
         <div>
-          <Alert severity="error">Are you sure you want to clear your history?</Alert>
+          <Alert variant="filled" severity="error">
+            Are you sure you want to clear your history?
+          </Alert>
         </div>
       ),
-      cancellationButtonProps: { color: 'info' },
+      cancellationButtonProps: { color: 'secondary' },
       confirmationText: 'Clear',
-      confirmationButtonProps: { color: 'error', variant: 'contained' },
+      confirmationButtonProps: { color: 'error' },
     }).then(() => {
       setFoodHistory([]);
     });

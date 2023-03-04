@@ -78,11 +78,11 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
             )}
           />
         </Stack>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button variant="contained" type="submit">
-            Add
+        <DialogActions sx={{ mt: '24px' }}>
+          <Button color="secondary" onClick={handleClose}>
+            Cancel
           </Button>
+          <Button type="submit">Add</Button>
         </DialogActions>
       </form>
     </Dialog>

@@ -2,7 +2,7 @@ import { SubmitHandler } from 'react-hook-form';
 import RenderIfVisible from 'react-render-if-visible';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { Close, SearchRounded, Tune } from '@mui/icons-material';
+import { Close, SearchRounded } from '@mui/icons-material';
 import {
   Button,
   FormControl,

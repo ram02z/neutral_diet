@@ -19,6 +19,21 @@ const sharedTheme = {
     },
   },
   components: {
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          padding: 10,
+          borderRadius: 24,
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -78,7 +93,7 @@ const themes: Record<Themes, ThemeOptions> = {
       secondary: {
         main: '#635b70',
         light: '#b1a7bf',
-        dark: '#1f182b',
+        dark: '#4b4358',
       },
       background: {
         default: '#fffbff',

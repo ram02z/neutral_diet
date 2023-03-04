@@ -25,7 +25,7 @@ function DeleteAccount({ user }: DeleteAccountProps) {
       title: 'Delete account',
       content: (
         <div>
-          <Alert severity="error">
+          <Alert variant="filled" severity="error">
             After you have deleted an account, it will be permanently deleted. Accounts cannot be
             recovered.
           </Alert>
@@ -36,9 +36,9 @@ function DeleteAccount({ user }: DeleteAccountProps) {
           {user.email}
         </div>
       ),
-      cancellationButtonProps: { color: 'info' },
+      cancellationButtonProps: { color: 'secondary' },
       confirmationText: 'Delete',
-      confirmationButtonProps: { color: 'error', variant: 'contained' },
+      confirmationButtonProps: { color: 'error' },
     }).then(() => {
       client
         .deleteUser({}, { headers: userHeaders })

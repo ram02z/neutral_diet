@@ -62,11 +62,11 @@ function EditFoodItemDialog({
             )}
           />
         </Stack>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button variant="contained" type="submit">
-            Update
+        <DialogActions sx={{ mt: '24px' }}>
+          <Button color="secondary" onClick={handleClose}>
+            Cancel
           </Button>
+          <Button type="submit">Update</Button>
         </DialogActions>
       </form>
     </Dialog>
