@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Avatar, Button, Chip, Divider, Stack, Typography } from '@mui/material';
+import { Avatar, Button, Chip, Divider, Stack } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { useSnackbar } from 'notistack';
