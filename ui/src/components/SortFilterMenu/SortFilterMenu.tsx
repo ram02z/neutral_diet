@@ -1,9 +1,10 @@
-import { BaseSyntheticEvent, useState } from 'react';
+import { BaseSyntheticEvent, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 
 import { Tune } from '@mui/icons-material';
 import {
+  Badge,
   Button,
   Chip,
   Collapse,
@@ -44,6 +45,9 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
   const [expanded, setExpanded] = useState(false);
   const typologyNames = useRecoilValue(TypologiesState);
   const subTypologyNames = useRecoilValue(SubTypologiesState);
+  const noSearchFilters = useMemo(() => {
+    return currentSearchFilters.typologies.length + currentSearchFilters.subTypologies.length;
+  }, [currentSearchFilters]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -56,9 +60,11 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack direction="column" alignItems="center" spacing={2}>
-        <Button variant="contained" startIcon={<Tune />} onClick={handleExpandClick}>
-          Sort and filter
-        </Button>
+        <Badge color="info" overlap="circular" badgeContent={noSearchFilters}>
+          <Button variant="contained" startIcon={<Tune />} onClick={handleExpandClick}>
+            Sort and filter
+          </Button>
+        </Badge>
         <Collapse in={expanded} timeout={0} unmountOnExit>
           <Stack direction="column" alignItems="center" spacing={2} sx={{ py: 2 }}>
             <Link sx={{ marginLeft: 'auto' }} href="javascript:;" onClick={resetForm}>
