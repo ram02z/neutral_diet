@@ -4,5 +4,5 @@ INSERT INTO typology (name, sub_typology_id)
 RETURNING
     id;
 
--- name: ListTypologies :many
-SELECT * FROM typology;
+-- name: ListTypologyNames :many
+SELECT DISTINCT(name) FROM typology ORDER BY name ASC;

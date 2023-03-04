@@ -53,12 +53,14 @@ func (s *Store) ListAggregateFoodItems(
 		}
 
 		foodItems = make([]*foodv1.AggregateFoodItem, len(foodItemRows))
-		for i := range foodItemRows {
+		for i, f := range foodItemRows {
 			foodItems[i] = &foodv1.AggregateFoodItem{
-				Id:                    foodItemRows[i].ID,
-				FoodName:              foodItemRows[i].FoodName,
-				MedianCarbonFootprint: foodItemRows[i].MedianCarbonFootprint.InexactFloat64(),
+				Id:                    f.ID,
+				FoodName:              f.FoodName,
+				MedianCarbonFootprint: f.MedianCarbonFootprint.InexactFloat64(),
 				Region:                foodv1.Region_REGION_UNSPECIFIED,
+				TypologyName:          f.TypologyName,
+				SubTypologyName:       f.SubTypologyName.String,
 			}
 		}
 	} else {
@@ -68,12 +70,14 @@ func (s *Store) ListAggregateFoodItems(
 		}
 
 		foodItems = make([]*foodv1.AggregateFoodItem, len(foodItemRows))
-		for i := range foodItemRows {
+		for i, f := range foodItemRows {
 			foodItems[i] = &foodv1.AggregateFoodItem{
-				Id:                    foodItemRows[i].ID,
-				FoodName:              foodItemRows[i].FoodName,
-				MedianCarbonFootprint: foodItemRows[i].MedianCarbonFootprint.InexactFloat64(),
+				Id:                    f.ID,
+				FoodName:              f.FoodName,
+				MedianCarbonFootprint: f.MedianCarbonFootprint.InexactFloat64(),
 				Region:                r.Region,
+				TypologyName:          f.TypologyName,
+				SubTypologyName:       f.SubTypologyName.String,
 			}
 		}
 	}

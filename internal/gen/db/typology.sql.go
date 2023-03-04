@@ -28,23 +28,23 @@ func (q *Queries) CreateTypology(ctx context.Context, arg CreateTypologyParams) 
 	return id, err
 }
 
-const listTypologies = `-- name: ListTypologies :many
-SELECT id, name, sub_typology_id FROM typology
+const listTypologyNames = `-- name: ListTypologyNames :many
+SELECT DISTINCT(name) FROM typology ORDER BY name ASC
 `
 
-func (q *Queries) ListTypologies(ctx context.Context) ([]Typology, error) {
-	rows, err := q.db.Query(ctx, listTypologies)
+func (q *Queries) ListTypologyNames(ctx context.Context) ([]string, error) {
+	rows, err := q.db.Query(ctx, listTypologyNames)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Typology
+	var items []string
 	for rows.Next() {
-		var i Typology
-		if err := rows.Scan(&i.ID, &i.Name, &i.SubTypologyID); err != nil {
+		var name string
+		if err := rows.Scan(&name); err != nil {
 			return nil, err
 		}
-		items = append(items, i)
+		items = append(items, name)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err

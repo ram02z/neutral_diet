@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import RenderIfVisible from 'react-render-if-visible';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { Close, SearchRounded, Tune } from '@mui/icons-material';
 import {
@@ -13,53 +13,40 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import ClearHistoryButton from '@/components/ClearHistoryButton';
 import FoodItemCard from '@/components/FoodItemCard';
 import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemCard/FoodItemCard';
-import { FoodHistoryState, FoodItemsState } from '@/store/food';
+import SortFilterMenu from '@/components/SortFilterMenu';
+import { FormValues } from '@/components/SortFilterMenu/types';
+import {
+  FilteredSearchFoodItemsState,
+  SearchTextState,
+  SearchTypeState,
+  SelectedSearchFiltersState,
+} from '@/store/search';
+import { SearchType } from '@/store/search/types';
 
 function Search() {
-  const foodItems = useRecoilValue(FoodItemsState);
-  const foodHistory = useRecoilValue(FoodHistoryState);
-  const [searchFoodItems, setSearchFoodItems] = useState<AggregateFoodItem[]>([]);
-  const [searchFoodHistory, setSearchFoodHistory] = useState<AggregateFoodItem[]>(foodHistory);
-  const [searchText, setSearchText] = useState('');
-  const [showHistory, setShowHistory] = useState(true);
-
-  useEffect(() => {
-    setSearchFoodHistory(foodHistory);
-  }, [foodHistory]);
-
-  const handleSearch = (foodItemArray: AggregateFoodItem[]) => {
-    return foodItemArray.filter((foodItem) => {
-      return foodItem.foodName.toLowerCase().includes(searchText.toLowerCase());
-    });
-  };
-
+  const searchFoodItems = useRecoilValue(FilteredSearchFoodItemsState);
+  const [searchText, setSearchText] = useRecoilState(SearchTextState);
+  const [searchType, setSearchType] = useRecoilState(SearchTypeState);
+  const [searchFilters, setSearchFilters] = useRecoilState(SelectedSearchFiltersState);
   const handleSubmit = () => {
-    const newFoodItems = handleSearch(foodItems);
-    setShowHistory(false);
-    setSearchFoodItems(newFoodItems);
+    setSearchType(SearchType.Global);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setSearchText(e.target.value as string);
-    setSearchFoodItems([]);
-    if (e.target.value.length > 0) {
-      const newFoodItems = handleSearch(foodHistory);
-      setSearchFoodHistory(newFoodItems);
-    } else {
-      setSearchFoodHistory(foodHistory);
-    }
-    setShowHistory(true);
+    setSearchType(SearchType.History);
   };
 
   const clearSearch = () => {
     setSearchText('');
-    setSearchFoodItems([]);
-    setSearchFoodHistory(foodHistory);
-    setShowHistory(true);
+    setSearchType(SearchType.History);
+  };
+
+  const onFilterSubmit: SubmitHandler<FormValues> = (data) => {
+    setSearchFilters({ typologies: data.typologyNames, subTypologies: data.subTypologyNames });
   };
 
   return (
@@ -99,12 +86,15 @@ function Search() {
           />
         </FormControl>
       </Grid>
-      {showHistory ? (
+      {searchType === SearchType.History && (
         <>
           <Grid>
             <Typography variant="h4">History</Typography>
           </Grid>
-          {searchFoodHistory.map((foodItem, idx) => (
+          <Grid>
+            <SortFilterMenu onSubmit={onFilterSubmit} currentSearchFilters={searchFilters} />
+          </Grid>
+          {searchFoodItems.map((foodItem, idx) => (
             <Grid key={idx} xs={8} lg={7} xl={6}>
               <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
                 <FoodItemCard foodItem={foodItem} />
@@ -118,21 +108,20 @@ function Search() {
               </Button>
             </Grid>
           )}
-          {searchText.length == 0 && foodHistory.length > 0 && (
+          {searchText.length == 0 && searchFoodItems.length > 0 && (
             <Grid>
               <ClearHistoryButton />
             </Grid>
           )}
         </>
-      ) : (
+      )}
+      {searchType === SearchType.Global && (
         <>
           <Grid>
             <Typography variant="h4">Search Results</Typography>
           </Grid>
           <Grid>
-            <Button variant="contained" startIcon={<Tune />}>
-              Sort and filter
-            </Button>
+            <SortFilterMenu onSubmit={onFilterSubmit} currentSearchFilters={searchFilters} />
           </Grid>
           <Grid xs={8} lg={7} xl={6}>
             <Typography

@@ -27,14 +27,9 @@ func (s *Store) ListSubTypologyNames(
 ) (*foodv1.ListSubTypologyNamesResponse, error) {
 	queries := db.New(s.dbPool)
 
-	subTypologies, err := queries.ListSubTypologies(ctx)
+	subTypologyNames, err := queries.ListSubTypologyNames(ctx)
 	if err != nil {
 		return nil, err
-	}
-
-	subTypologyNames := make([]string, len(subTypologies))
-	for i, t := range subTypologies {
-		subTypologyNames[i] = t.Name
 	}
 
 	return &foodv1.ListSubTypologyNamesResponse{Names: subTypologyNames}, nil
