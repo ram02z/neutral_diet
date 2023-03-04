@@ -1,6 +1,6 @@
 import { BaseSyntheticEvent, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { Tune } from '@mui/icons-material';
 import {
@@ -9,6 +9,7 @@ import {
   Collapse,
   FormControl,
   InputLabel,
+  Link,
   MenuItem,
   OutlinedInput,
   Select,
@@ -17,9 +18,9 @@ import {
 import { Box } from '@mui/system';
 
 import { SubTypologiesState, TypologiesState } from '@/store/food';
+import { SearchFilters } from '@/store/search/types';
 
 import { FormValues } from './types';
-import { SearchFilters } from '@/store/search/types';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -35,10 +36,10 @@ const MenuProps = {
 type SortFilterMenuProps = {
   onSubmit: (data: FormValues, event?: BaseSyntheticEvent<object, void, void | undefined>) => void;
   currentSearchFilters: SearchFilters;
-}
+};
 
 function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps) {
-  const { handleSubmit, control } = useForm<FormValues>();
+  const { handleSubmit, control, reset } = useForm<FormValues>();
   const [expanded, setExpanded] = useState(false);
   const typologyNames = useRecoilValue(TypologiesState);
   const subTypologyNames = useRecoilValue(SubTypologiesState);
@@ -47,6 +48,9 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
     setExpanded(!expanded);
   };
 
+  const resetForm = () => {
+    reset({ typologyNames: [], subTypologyNames: [] });
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -56,6 +60,9 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
         </Button>
         <Collapse in={expanded} timeout={0} unmountOnExit>
           <Stack direction="column" alignItems="center" spacing={2} sx={{ py: 2 }}>
+            <Link sx={{ marginLeft: 'auto' }} href="javascript:;" onClick={resetForm}>
+              Clear All
+            </Link>
             <FormControl sx={{ m: 1, width: 300 }}>
               <InputLabel id="typology-select-label">Typology</InputLabel>
               <Controller
@@ -122,7 +129,7 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
                 )}
               />
             </FormControl>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" color="secondary" type="submit">
               Apply
             </Button>
           </Stack>
