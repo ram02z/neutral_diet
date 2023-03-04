@@ -130,7 +130,6 @@ func (c *ConnectWrapper) ListSubTypologyNames(
 	return out, nil
 }
 
-
 func (c *ConnectWrapper) ListAggregateFoodItems(
 	ctx context.Context,
 	req *connect.Request[foodv1.ListAggregateFoodItemsRequest],
