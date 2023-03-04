@@ -17,11 +17,11 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 
+import { MIN_CARD_WIDTH } from '@/config';
 import { SubTypologiesState, TypologiesState } from '@/store/food';
 import { SearchFilters } from '@/store/search/types';
 
 import { FormValues } from './types';
-import { MIN_CARD_WIDTH } from '@/config';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

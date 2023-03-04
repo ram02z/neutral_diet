@@ -1,3 +1,3 @@
-import SortFilterMenu from "./SortFilterMenu";
+import SortFilterMenu from './SortFilterMenu';
 
 export default SortFilterMenu;

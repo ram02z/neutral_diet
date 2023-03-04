@@ -6,4 +6,4 @@ export enum SearchType {
 export type SearchFilters = {
   typologies: string[];
   subTypologies: string[];
-}
+};
