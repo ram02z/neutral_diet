@@ -23,7 +23,9 @@ export type FoodLogStats = {
 };
 
 export type UserInsights = {
-  overallAverageCarbonFootprint: number;
-  overallCarbonFootprint: number;
-  noEntries: number;
+  overallUserAverage: number;
+  overallUser: number;
+  dailyGlobalAverage: number;
+  dailyGlobalAverageUserDietaryRequirement: number;
+  noUserEntries: number;
 }

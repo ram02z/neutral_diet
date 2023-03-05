@@ -55,6 +55,22 @@ FROM
 WHERE
     user_id = $1;
 
+-- name: GetDailyAverageCarbonFootprintByDietaryRequirement :one
+SELECT
+    average_carbon_footprint
+FROM
+    daily_user_average_by_dietary_requirement
+WHERE
+    dietary_requirement = $1
+LIMIT 1;
+
+-- name: GetDailyAverageCarbonFootprint :one
+SELECT
+    average_carbon_footprint
+FROM
+    daily_user_average
+LIMIT 1;
+
 -- name: DeleteFoodItemFromLog :exec
 DELETE FROM "food_item_log"
 WHERE user_id = $1

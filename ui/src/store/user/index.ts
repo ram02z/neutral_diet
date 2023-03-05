@@ -120,34 +120,34 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
     key: 'LocalFoodItemLogState/Default',
     get:
       (date) =>
-      async ({ get }) => {
-        const userHeaders = get(CurrentUserHeadersState);
-        try {
-          const response = await client.getFoodItemLog(
-            {
-              date: { year: date.year(), month: date.month() + 1, day: date.date() },
-            },
-            { headers: userHeaders },
-          );
-
-          return response.foodItemLog.map((foodLogItem) => {
-            return {
-              dbId: foodLogItem.id,
-              foodItemId: foodLogItem.foodItemId,
-              name: foodLogItem.name,
-              weight: {
-                value: foodLogItem.weight,
-                unit: new WeightUnit(foodLogItem.weightUnit),
+        async ({ get }) => {
+          const userHeaders = get(CurrentUserHeadersState);
+          try {
+            const response = await client.getFoodItemLog(
+              {
+                date: { year: date.year(), month: date.month() + 1, day: date.date() },
               },
-              carbonFootprint: foodLogItem.carbonFootprint,
-              region: foodLogItem.region,
-            };
-          });
-        } catch (err) {
-          console.error(err);
-          return [];
-        }
-      },
+              { headers: userHeaders },
+            );
+
+            return response.foodItemLog.map((foodLogItem) => {
+              return {
+                dbId: foodLogItem.id,
+                foodItemId: foodLogItem.foodItemId,
+                name: foodLogItem.name,
+                weight: {
+                  value: foodLogItem.weight,
+                  unit: new WeightUnit(foodLogItem.weightUnit),
+                },
+                carbonFootprint: foodLogItem.carbonFootprint,
+                region: foodLogItem.region,
+              };
+            });
+          } catch (err) {
+            console.error(err);
+            return [];
+          }
+        },
   }),
 });
 
@@ -158,21 +158,21 @@ export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, LocalFoodLogIt
   key: 'LocalFoodItemLogStats',
   get:
     (foodItemLog) =>
-    async ({ get }) => {
-      const userSettings = get(LocalUserSettingsState);
-      const stats = {
-        totalCarbonFootprint: 0.0,
-        carbonFootprintGoalPercent: 0,
-        carbonFootprintRemaining: userSettings.cfLimit,
-      };
-      foodItemLog.forEach((item) => {
-        stats.totalCarbonFootprint += item.carbonFootprint;
-      });
-      stats.carbonFootprintGoalPercent =
-        userSettings.cfLimit != 0 ? (stats.totalCarbonFootprint / userSettings.cfLimit) * 100 : 0;
-      stats.carbonFootprintRemaining -= stats.totalCarbonFootprint;
-      return stats;
-    },
+      async ({ get }) => {
+        const userSettings = get(LocalUserSettingsState);
+        const stats = {
+          totalCarbonFootprint: 0.0,
+          carbonFootprintGoalPercent: 0,
+          carbonFootprintRemaining: userSettings.cfLimit,
+        };
+        foodItemLog.forEach((item) => {
+          stats.totalCarbonFootprint += item.carbonFootprint;
+        });
+        stats.carbonFootprintGoalPercent =
+          userSettings.cfLimit != 0 ? (stats.totalCarbonFootprint / userSettings.cfLimit) * 100 : 0;
+        stats.carbonFootprintRemaining -= stats.totalCarbonFootprint;
+        return stats;
+      },
 });
 
 export const UserInsightsState = selector<UserInsights>({
@@ -182,9 +182,12 @@ export const UserInsightsState = selector<UserInsights>({
     const response = await client.getUserInsights({}, { headers: userHeaders });
 
     return {
-      overallCarbonFootprint: response.overallCarbonFootprint,
-      noEntries: response.noEntries,
-      overallAverageCarbonFootprint: response.overallCarbonFootprint / response.noEntries || 0,
+      overallUser: response.overallCarbonFootprint,
+      noUserEntries: response.noEntries,
+      overallUserAverage: response.overallCarbonFootprint / response.noEntries || 0,
+      dailyGlobalAverage: response.dailyAverageCarbonFootprintOverall,
+      dailyGlobalAverageUserDietaryRequirement:
+        response.dailyAverageCarbonFootprintDietaryRequirement,
     };
   },
 });

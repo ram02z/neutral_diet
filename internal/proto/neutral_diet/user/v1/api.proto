@@ -71,6 +71,8 @@ message GetUserInsightsRequest {}
 message GetUserInsightsResponse {
   double overall_carbon_footprint = 1;
   int32 no_entries = 2;
+  double daily_average_carbon_footprint_dietary_requirement = 3;
+  double daily_average_carbon_footprint_overall = 4;
 }
 
 service UserService {

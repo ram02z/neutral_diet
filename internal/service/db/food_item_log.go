@@ -159,9 +159,24 @@ func (s *Store) GetUserInsights(
 		overallCarbonFootprint = overallCarbonFootprint.Add(f.CarbonFootprint)
 	}
 
+	dailyAverage, err := queries.GetDailyAverageCarbonFootprint(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	dailyAverageDietaryRequirement, err := queries.GetDailyAverageCarbonFootprintByDietaryRequirement(
+		ctx,
+		user.DietaryRequirement,
+	)
+	if err != nil {
+		return nil, err
+	}
+
 	return &userv1.GetUserInsightsResponse{
 		OverallCarbonFootprint: overallCarbonFootprint.InexactFloat64(),
 		NoEntries:              int32(len(foodItemLog)),
+		DailyAverageCarbonFootprintDietaryRequirement: dailyAverageDietaryRequirement.InexactFloat64(),
+		DailyAverageCarbonFootprintOverall:            dailyAverage.InexactFloat64(),
 	}, nil
 }
 

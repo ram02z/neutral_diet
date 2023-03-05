@@ -70,6 +70,38 @@ func (q *Queries) DeleteUserLog(ctx context.Context, userID int32) error {
 	return err
 }
 
+const getDailyAverageCarbonFootprint = `-- name: GetDailyAverageCarbonFootprint :one
+SELECT
+    average_carbon_footprint
+FROM
+    daily_user_average
+LIMIT 1
+`
+
+func (q *Queries) GetDailyAverageCarbonFootprint(ctx context.Context) (decimal.Decimal, error) {
+	row := q.db.QueryRow(ctx, getDailyAverageCarbonFootprint)
+	var average_carbon_footprint decimal.Decimal
+	err := row.Scan(&average_carbon_footprint)
+	return average_carbon_footprint, err
+}
+
+const getDailyAverageCarbonFootprintByDietaryRequirement = `-- name: GetDailyAverageCarbonFootprintByDietaryRequirement :one
+SELECT
+    average_carbon_footprint
+FROM
+    daily_user_average_by_dietary_requirement
+WHERE
+    dietary_requirement = $1
+LIMIT 1
+`
+
+func (q *Queries) GetDailyAverageCarbonFootprintByDietaryRequirement(ctx context.Context, dietaryRequirement int32) (decimal.Decimal, error) {
+	row := q.db.QueryRow(ctx, getDailyAverageCarbonFootprintByDietaryRequirement, dietaryRequirement)
+	var average_carbon_footprint decimal.Decimal
+	err := row.Scan(&average_carbon_footprint)
+	return average_carbon_footprint, err
+}
+
 const getFoodItemIdByLogId = `-- name: GetFoodItemIdByLogId :one
 SELECT
     food_item_id

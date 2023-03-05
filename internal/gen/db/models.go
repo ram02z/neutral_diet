@@ -61,6 +61,15 @@ type AggregateFoodItem struct {
 	MedianCarbonFootprint decimal.Decimal
 }
 
+type DailyUserAverage struct {
+	AverageCarbonFootprint decimal.Decimal
+}
+
+type DailyUserAverageByDietaryRequirement struct {
+	AverageCarbonFootprint decimal.Decimal
+	DietaryRequirement     int32
+}
+
 type FoodItem struct {
 	ID          int32
 	Name        string

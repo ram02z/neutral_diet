@@ -2040,6 +2040,10 @@ func (m *GetUserInsightsResponse) validate(all bool) error {
 
 	// no validation rules for NoEntries
 
+	// no validation rules for DailyAverageCarbonFootprintDietaryRequirement
+
+	// no validation rules for DailyAverageCarbonFootprintOverall
+
 	if len(errors) > 0 {
 		return GetUserInsightsResponseMultiError(errors)
 	}
