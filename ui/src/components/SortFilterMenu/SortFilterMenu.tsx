@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 
-import { MIN_CARD_WIDTH } from '@/config';
 import { SubTypologiesState, TypologiesState } from '@/store/food';
 import { SearchFilters } from '@/store/search/types';
 
@@ -26,11 +25,12 @@ import { FormValues } from './types';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
+const MENU_WIDTH = 330;
 const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+      width: MENU_WIDTH,
     },
   },
 };
@@ -70,8 +70,8 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
             <Link sx={{ marginLeft: 'auto' }} href="javascript:;" onClick={resetForm}>
               Clear All
             </Link>
-            <Stack direction={{ xs: 'column', sm: 'row' }}>
-              <FormControl sx={{ m: 1, minWidth: MIN_CARD_WIDTH }}>
+            <Stack spacing={2} direction={{ xs: 'column', lg: 'row' }}>
+              <FormControl sx={{ minWidth: MENU_WIDTH }}>
                 <InputLabel id="typology-select-label">Typology</InputLabel>
                 <Controller
                   control={control}
@@ -104,7 +104,7 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
                   )}
                 />
               </FormControl>
-              <FormControl sx={{ m: 1, minWidth: MIN_CARD_WIDTH }}>
+              <FormControl sx={{ minWidth: MENU_WIDTH }}>
                 <InputLabel id="sub-typology-select-label">Sub-Typology</InputLabel>
                 <Controller
                   control={control}
