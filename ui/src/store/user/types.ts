@@ -21,3 +21,9 @@ export type FoodLogStats = {
   carbonFootprintRemaining: number;
   carbonFootprintGoalPercent: number;
 };
+
+export type UserInsights = {
+  overallAverageCarbonFootprint: number;
+  overallCarbonFootprint: number;
+  noEntries: number;
+}

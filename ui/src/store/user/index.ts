@@ -16,7 +16,7 @@ import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 import { WeightUnit } from '@/core/weight';
 
-import { FoodLogStats, LocalFoodLogItem, LocalUserSettings } from './types';
+import { FoodLogStats, LocalFoodLogItem, LocalUserSettings, UserInsights } from './types';
 
 export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
@@ -173,4 +173,18 @@ export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, LocalFoodLogIt
       stats.carbonFootprintRemaining -= stats.totalCarbonFootprint;
       return stats;
     },
+});
+
+export const UserInsightsState = selector<UserInsights>({
+  key: 'UserInsightsState',
+  get: async ({ get }) => {
+    const userHeaders = get(CurrentUserHeadersState);
+    const response = await client.getUserInsights({}, { headers: userHeaders });
+
+    return {
+      overallCarbonFootprint: response.overallCarbonFootprint,
+      noEntries: response.noEntries,
+      overallAverageCarbonFootprint: response.overallCarbonFootprint / response.noEntries || 0,
+    };
+  },
 });

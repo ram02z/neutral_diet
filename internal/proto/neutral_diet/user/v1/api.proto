@@ -66,6 +66,13 @@ message GetUserSettingsResponse {
   UserSettings user_settings = 1 [(validate.rules).message.required = true];
 }
 
+message GetUserInsightsRequest {}
+
+message GetUserInsightsResponse {
+  double overall_carbon_footprint = 1;
+  int32 no_entries = 2;
+}
+
 service UserService {
   rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
   rpc UpdateFoodItem(UpdateFoodItemRequest) returns (UpdateFoodItemResponse) {}
@@ -75,4 +82,5 @@ service UserService {
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
   rpc GetUserSettings(GetUserSettingsRequest) returns (GetUserSettingsResponse) {}
   rpc UpdateUserSettings(UpdateUserSettingsRequest) returns (UpdateUserSettingsResponse) {}
+  rpc GetUserInsights(GetUserInsightsRequest) returns (GetUserInsightsResponse) {}
 }

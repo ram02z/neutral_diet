@@ -84,6 +84,57 @@ func (q *Queries) GetFoodItemIdByLogId(ctx context.Context, id int32) (int32, er
 	return food_item_id, err
 }
 
+const getFoodItemLog = `-- name: GetFoodItemLog :many
+SELECT
+    l.id,
+    f.name,
+    l.food_item_id,
+    l.region,
+    l.weight,
+    l.weight_unit
+FROM
+    food_item_log l
+    INNER JOIN food_item f ON l.food_item_id = f.id
+WHERE
+    user_id = $1
+`
+
+type GetFoodItemLogRow struct {
+	ID         int32
+	Name       string
+	FoodItemID int32
+	Region     int32
+	Weight     decimal.Decimal
+	WeightUnit int32
+}
+
+func (q *Queries) GetFoodItemLog(ctx context.Context, userID int32) ([]GetFoodItemLogRow, error) {
+	rows, err := q.db.Query(ctx, getFoodItemLog, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetFoodItemLogRow
+	for rows.Next() {
+		var i GetFoodItemLogRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.FoodItemID,
+			&i.Region,
+			&i.Weight,
+			&i.WeightUnit,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getFoodItemLogByDate = `-- name: GetFoodItemLogByDate :many
 SELECT
     l.id,

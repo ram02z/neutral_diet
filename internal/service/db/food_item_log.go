@@ -135,6 +135,62 @@ func (s *Store) UpdateFoodItemFromLog(
 	return &userv1.UpdateFoodItemResponse{CarbonFootprint: carbonFootprint.InexactFloat64()}, err
 }
 
+func (s *Store) GetUserInsights(
+	ctx context.Context,
+	r *userv1.GetUserInsightsRequest,
+	firebaseUID string,
+) (*userv1.GetUserInsightsResponse, error) {
+	queries := db.New(s.dbPool)
+
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	foodItemLog, err := queries.GetFoodItemLog(ctx, user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	overallCarbonFootprint := decimal.NewFromFloat(0)
+	for i := range foodItemLog {
+		var medianCarbonFootprint decimal.Decimal
+		if foodItemLog[i].Region == int32(foodv1.Region_REGION_UNSPECIFIED) {
+			aggregateFoodItem, err := queries.GetAggregateFoodItem(ctx, foodItemLog[i].FoodItemID)
+			if err != nil {
+				return nil, err
+			}
+			medianCarbonFootprint = aggregateFoodItem.MedianCarbonFootprint
+		} else {
+			regionalAggregateFoodItem, err := queries.GetRegionalAggregateFoodItem(
+				ctx,
+				db.GetRegionalAggregateFoodItemParams{
+					FoodItemID: foodItemLog[i].FoodItemID,
+					Region:     foodItemLog[i].Region,
+				},
+			)
+			if err != nil {
+				return nil, err
+			}
+			medianCarbonFootprint = regionalAggregateFoodItem.MedianCarbonFootprint
+		}
+
+		weightUnit := userv1.WeightUnit(foodItemLog[i].WeightUnit)
+		carbonFootprint := calculateCarbonFootprintByWeight(
+			medianCarbonFootprint,
+			foodItemLog[i].Weight,
+			weightUnit,
+		)
+		overallCarbonFootprint = overallCarbonFootprint.Add(carbonFootprint)
+	}
+
+	println(overallCarbonFootprint.InexactFloat64())
+	return &userv1.GetUserInsightsResponse{
+		OverallCarbonFootprint: overallCarbonFootprint.InexactFloat64(),
+		NoEntries:              int32(len(foodItemLog)),
+	}, nil
+}
+
 func (s *Store) DeleteFoodItemFromLog(
 	ctx context.Context,
 	r *userv1.DeleteFoodItemRequest,

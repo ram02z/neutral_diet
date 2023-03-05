@@ -38,6 +38,20 @@ WHERE
     user_id = $1
     AND log_date = $2;
 
+-- name: GetFoodItemLog :many
+SELECT
+    l.id,
+    f.name,
+    l.food_item_id,
+    l.region,
+    l.weight,
+    l.weight_unit
+FROM
+    food_item_log l
+    INNER JOIN food_item f ON l.food_item_id = f.id
+WHERE
+    user_id = $1;
+
 -- name: DeleteFoodItemFromLog :exec
 DELETE FROM "food_item_log"
 WHERE user_id = $1

@@ -35,6 +35,7 @@ type UserServiceClient interface {
 	DeleteUser(context.Context, *connect_go.Request[v1.DeleteUserRequest]) (*connect_go.Response[v1.DeleteUserResponse], error)
 	GetUserSettings(context.Context, *connect_go.Request[v1.GetUserSettingsRequest]) (*connect_go.Response[v1.GetUserSettingsResponse], error)
 	UpdateUserSettings(context.Context, *connect_go.Request[v1.UpdateUserSettingsRequest]) (*connect_go.Response[v1.UpdateUserSettingsResponse], error)
+	GetUserInsights(context.Context, *connect_go.Request[v1.GetUserInsightsRequest]) (*connect_go.Response[v1.GetUserInsightsResponse], error)
 }
 
 // NewUserServiceClient constructs a client for the neutral_diet.user.v1.UserService service. By
@@ -87,6 +88,11 @@ func NewUserServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+"/neutral_diet.user.v1.UserService/UpdateUserSettings",
 			opts...,
 		),
+		getUserInsights: connect_go.NewClient[v1.GetUserInsightsRequest, v1.GetUserInsightsResponse](
+			httpClient,
+			baseURL+"/neutral_diet.user.v1.UserService/GetUserInsights",
+			opts...,
+		),
 	}
 }
 
@@ -100,6 +106,7 @@ type userServiceClient struct {
 	deleteUser         *connect_go.Client[v1.DeleteUserRequest, v1.DeleteUserResponse]
 	getUserSettings    *connect_go.Client[v1.GetUserSettingsRequest, v1.GetUserSettingsResponse]
 	updateUserSettings *connect_go.Client[v1.UpdateUserSettingsRequest, v1.UpdateUserSettingsResponse]
+	getUserInsights    *connect_go.Client[v1.GetUserInsightsRequest, v1.GetUserInsightsResponse]
 }
 
 // AddFoodItem calls neutral_diet.user.v1.UserService.AddFoodItem.
@@ -142,6 +149,11 @@ func (c *userServiceClient) UpdateUserSettings(ctx context.Context, req *connect
 	return c.updateUserSettings.CallUnary(ctx, req)
 }
 
+// GetUserInsights calls neutral_diet.user.v1.UserService.GetUserInsights.
+func (c *userServiceClient) GetUserInsights(ctx context.Context, req *connect_go.Request[v1.GetUserInsightsRequest]) (*connect_go.Response[v1.GetUserInsightsResponse], error) {
+	return c.getUserInsights.CallUnary(ctx, req)
+}
+
 // UserServiceHandler is an implementation of the neutral_diet.user.v1.UserService service.
 type UserServiceHandler interface {
 	AddFoodItem(context.Context, *connect_go.Request[v1.AddFoodItemRequest]) (*connect_go.Response[v1.AddFoodItemResponse], error)
@@ -152,6 +164,7 @@ type UserServiceHandler interface {
 	DeleteUser(context.Context, *connect_go.Request[v1.DeleteUserRequest]) (*connect_go.Response[v1.DeleteUserResponse], error)
 	GetUserSettings(context.Context, *connect_go.Request[v1.GetUserSettingsRequest]) (*connect_go.Response[v1.GetUserSettingsResponse], error)
 	UpdateUserSettings(context.Context, *connect_go.Request[v1.UpdateUserSettingsRequest]) (*connect_go.Response[v1.UpdateUserSettingsResponse], error)
+	GetUserInsights(context.Context, *connect_go.Request[v1.GetUserInsightsRequest]) (*connect_go.Response[v1.GetUserInsightsResponse], error)
 }
 
 // NewUserServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -201,6 +214,11 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect_go.HandlerOpt
 		svc.UpdateUserSettings,
 		opts...,
 	))
+	mux.Handle("/neutral_diet.user.v1.UserService/GetUserInsights", connect_go.NewUnaryHandler(
+		"/neutral_diet.user.v1.UserService/GetUserInsights",
+		svc.GetUserInsights,
+		opts...,
+	))
 	return "/neutral_diet.user.v1.UserService/", mux
 }
 
@@ -237,4 +255,8 @@ func (UnimplementedUserServiceHandler) GetUserSettings(context.Context, *connect
 
 func (UnimplementedUserServiceHandler) UpdateUserSettings(context.Context, *connect_go.Request[v1.UpdateUserSettingsRequest]) (*connect_go.Response[v1.UpdateUserSettingsResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.UpdateUserSettings is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) GetUserInsights(context.Context, *connect_go.Request[v1.GetUserInsightsRequest]) (*connect_go.Response[v1.GetUserInsightsResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.GetUserInsights is not implemented"))
 }
