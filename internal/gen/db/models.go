@@ -69,15 +69,16 @@ type FoodItem struct {
 }
 
 type FoodItemLog struct {
-	ID         int32
-	FoodItemID int32
-	Weight     decimal.Decimal
-	CreatedAt  pgtype.Timestamptz
-	UpdatedAt  pgtype.Timestamptz
-	UserID     int32
-	LogDate    pgtype.Date
-	WeightUnit int32
-	Region     int32
+	ID              int32
+	FoodItemID      int32
+	Weight          decimal.Decimal
+	CreatedAt       pgtype.Timestamptz
+	UpdatedAt       pgtype.Timestamptz
+	UserID          int32
+	LogDate         pgtype.Date
+	WeightUnit      int32
+	Region          int32
+	CarbonFootprint decimal.Decimal
 }
 
 type LifeCycle struct {

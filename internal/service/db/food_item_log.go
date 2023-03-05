@@ -56,12 +56,13 @@ func (s *Store) AddFoodItemToLog(
 	)
 
 	foodItemLogID, err := queries.AddFoodItemToLog(ctx, db.AddFoodItemToLogParams{
-		FoodItemID: r.FoodLogItem.FoodItemId,
-		Weight:     decimal.NewFromFloat(r.FoodLogItem.Weight),
-		WeightUnit: int32(r.FoodLogItem.WeightUnit),
-		UserID:     user.ID,
-		LogDate:    mapToDate(r.FoodLogItem.GetDate()),
-		Region:     int32(r.FoodLogItem.Region),
+		FoodItemID:      r.FoodLogItem.FoodItemId,
+		Weight:          decimal.NewFromFloat(r.FoodLogItem.Weight),
+		WeightUnit:      int32(r.FoodLogItem.WeightUnit),
+		UserID:          user.ID,
+		LogDate:         mapToDate(r.FoodLogItem.GetDate()),
+		Region:          int32(r.FoodLogItem.Region),
+		CarbonFootprint: carbonFootprint,
 	})
 	if err != nil {
 		return nil, err
@@ -122,10 +123,11 @@ func (s *Store) UpdateFoodItemFromLog(
 	)
 
 	err = queries.UpdateFoodItemFromLog(ctx, db.UpdateFoodItemFromLogParams{
-		UserID:     user.ID,
-		ID:         r.Id,
-		Weight:     weight,
-		WeightUnit: int32(r.WeightUnit),
+		UserID:          user.ID,
+		ID:              r.Id,
+		Weight:          weight,
+		WeightUnit:      int32(r.WeightUnit),
+		CarbonFootprint: carbonFootprint,
 	})
 
 	if err != nil {
@@ -153,38 +155,10 @@ func (s *Store) GetUserInsights(
 	}
 
 	overallCarbonFootprint := decimal.NewFromFloat(0)
-	for i := range foodItemLog {
-		var medianCarbonFootprint decimal.Decimal
-		if foodItemLog[i].Region == int32(foodv1.Region_REGION_UNSPECIFIED) {
-			aggregateFoodItem, err := queries.GetAggregateFoodItem(ctx, foodItemLog[i].FoodItemID)
-			if err != nil {
-				return nil, err
-			}
-			medianCarbonFootprint = aggregateFoodItem.MedianCarbonFootprint
-		} else {
-			regionalAggregateFoodItem, err := queries.GetRegionalAggregateFoodItem(
-				ctx,
-				db.GetRegionalAggregateFoodItemParams{
-					FoodItemID: foodItemLog[i].FoodItemID,
-					Region:     foodItemLog[i].Region,
-				},
-			)
-			if err != nil {
-				return nil, err
-			}
-			medianCarbonFootprint = regionalAggregateFoodItem.MedianCarbonFootprint
-		}
-
-		weightUnit := userv1.WeightUnit(foodItemLog[i].WeightUnit)
-		carbonFootprint := calculateCarbonFootprintByWeight(
-			medianCarbonFootprint,
-			foodItemLog[i].Weight,
-			weightUnit,
-		)
-		overallCarbonFootprint = overallCarbonFootprint.Add(carbonFootprint)
+	for _, f := range foodItemLog {
+		overallCarbonFootprint = overallCarbonFootprint.Add(f.CarbonFootprint)
 	}
 
-	println(overallCarbonFootprint.InexactFloat64())
 	return &userv1.GetUserInsightsResponse{
 		OverallCarbonFootprint: overallCarbonFootprint.InexactFloat64(),
 		NoEntries:              int32(len(foodItemLog)),
@@ -236,47 +210,20 @@ func (s *Store) GetFoodItemLog(
 	}
 
 	foodLogItems := make([]*userv1.FoodLogItemResponse, len(foodItemLog))
-	for i := range foodItemLog {
-		var medianCarbonFootprint decimal.Decimal
-		if foodItemLog[i].Region == int32(foodv1.Region_REGION_UNSPECIFIED) {
-			aggregateFoodItem, err := queries.GetAggregateFoodItem(ctx, foodItemLog[i].FoodItemID)
-			if err != nil {
-				return nil, err
-			}
-			medianCarbonFootprint = aggregateFoodItem.MedianCarbonFootprint
-		} else {
-			regionalAggregateFoodItem, err := queries.GetRegionalAggregateFoodItem(
-				ctx,
-				db.GetRegionalAggregateFoodItemParams{
-					FoodItemID: foodItemLog[i].FoodItemID,
-					Region:     foodItemLog[i].Region,
-				},
-			)
-			if err != nil {
-				return nil, err
-			}
-			medianCarbonFootprint = regionalAggregateFoodItem.MedianCarbonFootprint
-		}
-
-		weightUnit := userv1.WeightUnit(foodItemLog[i].WeightUnit)
-		carbonFootprint := calculateCarbonFootprintByWeight(
-			medianCarbonFootprint,
-			foodItemLog[i].Weight,
-			weightUnit,
-		)
+	for i, f := range foodItemLog {
 		foodLogItems[i] = &userv1.FoodLogItemResponse{
-			Id:              foodItemLog[i].ID,
-			FoodItemId:      foodItemLog[i].FoodItemID,
-			Name:            foodItemLog[i].Name,
-			Weight:          foodItemLog[i].Weight.InexactFloat64(),
-			WeightUnit:      weightUnit,
-			CarbonFootprint: carbonFootprint.InexactFloat64(),
+			Id:              f.ID,
+			FoodItemId:      f.FoodItemID,
+			Name:            f.Name,
+			Weight:          f.Weight.InexactFloat64(),
+			WeightUnit:      userv1.WeightUnit(f.WeightUnit),
+			CarbonFootprint: f.CarbonFootprint.InexactFloat64(),
 			Date: &userv1.Date{
-				Year:  int32(foodItemLog[i].LogDate.Time.Year()),
-				Month: int32(foodItemLog[i].LogDate.Time.Month()),
-				Day:   int32(foodItemLog[i].LogDate.Time.Day()),
+				Year:  int32(f.LogDate.Time.Year()),
+				Month: int32(f.LogDate.Time.Month()),
+				Day:   int32(f.LogDate.Time.Day()),
 			},
-			Region: foodv1.Region(foodItemLog[i].Region),
+			Region: foodv1.Region(f.Region),
 		}
 	}
 

@@ -13,19 +13,20 @@ import (
 )
 
 const addFoodItemToLog = `-- name: AddFoodItemToLog :one
-INSERT INTO "food_item_log" (food_item_id, weight, user_id, log_date, weight_unit, region)
-    VALUES ($1, $2, $3, $4, $5, $6)
+INSERT INTO "food_item_log" (food_item_id, weight, user_id, log_date, weight_unit, region, carbon_footprint)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
 RETURNING
     id
 `
 
 type AddFoodItemToLogParams struct {
-	FoodItemID int32
-	Weight     decimal.Decimal
-	UserID     int32
-	LogDate    pgtype.Date
-	WeightUnit int32
-	Region     int32
+	FoodItemID      int32
+	Weight          decimal.Decimal
+	UserID          int32
+	LogDate         pgtype.Date
+	WeightUnit      int32
+	Region          int32
+	CarbonFootprint decimal.Decimal
 }
 
 func (q *Queries) AddFoodItemToLog(ctx context.Context, arg AddFoodItemToLogParams) (int32, error) {
@@ -36,6 +37,7 @@ func (q *Queries) AddFoodItemToLog(ctx context.Context, arg AddFoodItemToLogPara
 		arg.LogDate,
 		arg.WeightUnit,
 		arg.Region,
+		arg.CarbonFootprint,
 	)
 	var id int32
 	err := row.Scan(&id)
@@ -91,7 +93,8 @@ SELECT
     l.food_item_id,
     l.region,
     l.weight,
-    l.weight_unit
+    l.weight_unit,
+    l.carbon_footprint
 FROM
     food_item_log l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -100,12 +103,13 @@ WHERE
 `
 
 type GetFoodItemLogRow struct {
-	ID         int32
-	Name       string
-	FoodItemID int32
-	Region     int32
-	Weight     decimal.Decimal
-	WeightUnit int32
+	ID              int32
+	Name            string
+	FoodItemID      int32
+	Region          int32
+	Weight          decimal.Decimal
+	WeightUnit      int32
+	CarbonFootprint decimal.Decimal
 }
 
 func (q *Queries) GetFoodItemLog(ctx context.Context, userID int32) ([]GetFoodItemLogRow, error) {
@@ -124,6 +128,7 @@ func (q *Queries) GetFoodItemLog(ctx context.Context, userID int32) ([]GetFoodIt
 			&i.Region,
 			&i.Weight,
 			&i.WeightUnit,
+			&i.CarbonFootprint,
 		); err != nil {
 			return nil, err
 		}
@@ -143,7 +148,8 @@ SELECT
     l.region,
     l.weight,
     l.weight_unit,
-    l.log_date
+    l.log_date,
+    l.carbon_footprint
 FROM
     food_item_log l
     INNER JOIN food_item f ON l.food_item_id = f.id
@@ -158,13 +164,14 @@ type GetFoodItemLogByDateParams struct {
 }
 
 type GetFoodItemLogByDateRow struct {
-	ID         int32
-	Name       string
-	FoodItemID int32
-	Region     int32
-	Weight     decimal.Decimal
-	WeightUnit int32
-	LogDate    pgtype.Date
+	ID              int32
+	Name            string
+	FoodItemID      int32
+	Region          int32
+	Weight          decimal.Decimal
+	WeightUnit      int32
+	LogDate         pgtype.Date
+	CarbonFootprint decimal.Decimal
 }
 
 func (q *Queries) GetFoodItemLogByDate(ctx context.Context, arg GetFoodItemLogByDateParams) ([]GetFoodItemLogByDateRow, error) {
@@ -184,6 +191,7 @@ func (q *Queries) GetFoodItemLogByDate(ctx context.Context, arg GetFoodItemLogBy
 			&i.Weight,
 			&i.WeightUnit,
 			&i.LogDate,
+			&i.CarbonFootprint,
 		); err != nil {
 			return nil, err
 		}
@@ -200,17 +208,19 @@ UPDATE
     "food_item_log"
 SET
     weight = $3,
-    weight_unit = $4
+    weight_unit = $4,
+    carbon_footprint = $5
 WHERE
     user_id = $1
     AND id = $2
 `
 
 type UpdateFoodItemFromLogParams struct {
-	UserID     int32
-	ID         int32
-	Weight     decimal.Decimal
-	WeightUnit int32
+	UserID          int32
+	ID              int32
+	Weight          decimal.Decimal
+	WeightUnit      int32
+	CarbonFootprint decimal.Decimal
 }
 
 func (q *Queries) UpdateFoodItemFromLog(ctx context.Context, arg UpdateFoodItemFromLogParams) error {
@@ -219,6 +229,7 @@ func (q *Queries) UpdateFoodItemFromLog(ctx context.Context, arg UpdateFoodItemF
 		arg.ID,
 		arg.Weight,
 		arg.WeightUnit,
+		arg.CarbonFootprint,
 	)
 	return err
 }
