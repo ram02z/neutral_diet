@@ -235,6 +235,56 @@ func (q *Queries) GetFoodItemLogByDate(ctx context.Context, arg GetFoodItemLogBy
 	return items, nil
 }
 
+const getFoodItemLogStreak = `-- name: GetFoodItemLogStreak :one
+WITH dates AS (
+    SELECT DISTINCT
+        log_date as date
+    FROM
+        food_item_log
+    WHERE
+        user_id = $1
+),
+GROUPS AS (
+    SELECT
+        ROW_NUMBER() OVER (ORDER BY date) AS rn,
+    date + - ROW_NUMBER() OVER (ORDER BY date) * INTERVAL '1 day' AS grp,
+    date
+FROM
+    dates
+)
+SELECT
+    COUNT(*) AS consecutive_dates,
+    MIN(date)::date AS start_date,
+    MAX(date)::date AS end_date,
+    CURRENT_DATE < MAX(date) + 1 AS active
+FROM
+    GROUPS
+GROUP BY
+    grp
+HAVING
+    COUNT(*) > 1
+LIMIT 1
+`
+
+type GetFoodItemLogStreakRow struct {
+	ConsecutiveDates int64
+	StartDate        pgtype.Date
+	EndDate          pgtype.Date
+	Active           bool
+}
+
+func (q *Queries) GetFoodItemLogStreak(ctx context.Context, userID int32) (GetFoodItemLogStreakRow, error) {
+	row := q.db.QueryRow(ctx, getFoodItemLogStreak, userID)
+	var i GetFoodItemLogStreakRow
+	err := row.Scan(
+		&i.ConsecutiveDates,
+		&i.StartDate,
+		&i.EndDate,
+		&i.Active,
+	)
+	return i, err
+}
+
 const updateFoodItemFromLog = `-- name: UpdateFoodItemFromLog :exec
 UPDATE
     "food_item_log"
