@@ -1,15 +1,18 @@
 import { useEffect } from 'react';
 import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil';
 
-import { Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+
+import dayjs from 'dayjs';
 
 import UserStatCard from '@/components/UserStatCard';
 import DietaryRequirement from '@/core/dietary_requirements';
-import { LocalUserSettingsState, UserInsightsState } from '@/store/user';
+import { LocalFoodItemLogStats, LocalUserSettingsState, UserInsightsState } from '@/store/user';
+import { toSerializableDate } from '@/utils/date';
 
 function Home() {
   const userSettings = useRecoilValue(LocalUserSettingsState);
+  const todayStats = useRecoilValue(LocalFoodItemLogStats(toSerializableDate(dayjs())));
   const userInsights = useRecoilValue(UserInsightsState);
   const refreshUserInsights = useRecoilRefresher_UNSTABLE(UserInsightsState);
   const dietaryRequirement = new DietaryRequirement(userSettings.dietaryRequirement);
@@ -20,10 +23,16 @@ function Home() {
   return (
     <Grid container direction="column" alignItems="center" spacing={2} sx={{ mt: 4 }}>
       <Grid>
-        <UserStatCard title="Daily average" carbonFootprint={userInsights.overallUserAverage} />
+        <UserStatCard
+          title="Today carbon footprint"
+          carbonFootprint={todayStats.totalCarbonFootprint}
+        />
       </Grid>
       <Grid>
-        <UserStatCard title="Number of entries" carbonFootprint={userInsights.noUserEntries} />
+        <UserStatCard
+          title="Overall user average"
+          carbonFootprint={userInsights.overallUserAverage}
+        />
       </Grid>
       <Grid>
         <UserStatCard

@@ -21,6 +21,7 @@ import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 
 import { FormValues } from './types';
+import { toSerializableDate } from '@/utils/date';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 
@@ -31,7 +32,7 @@ type FoodItemCardProps = {
 export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [foodHistory, setFoodHistory] = useRecoilState(FoodHistoryState);
   const [date, setDate] = useRecoilState(FoodItemLogDateState);
-  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(date));
+  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(toSerializableDate(date)));
   const [inHistory, setInHistory] = useState(false);
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [openInfoDialog, setOpenInfoDialog] = useState(false);

@@ -1,4 +1,4 @@
-import { Weight } from '@/core/weight';
+import { Weight } from "@/core/weight";
 
 export type LocalUserSettings = {
   region: number;
@@ -28,4 +28,10 @@ export type UserInsights = {
   dailyGlobalAverage: number;
   dailyGlobalAverageUserDietaryRequirement: number;
   noUserEntries: number;
+}
+
+export type SerializableDate = {
+  year: number;
+  month: number;
+  day: number;
 }

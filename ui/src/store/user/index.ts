@@ -16,7 +16,13 @@ import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 import { WeightUnit } from '@/core/weight';
 
-import { FoodLogStats, LocalFoodLogItem, LocalUserSettings, UserInsights } from './types';
+import {
+  FoodLogStats,
+  LocalFoodLogItem,
+  LocalUserSettings,
+  SerializableDate,
+  UserInsights,
+} from './types';
 
 export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
@@ -114,65 +120,63 @@ export const FoodItemLogDateState = atom<dayjs.Dayjs>({
   default: dayjs(),
 });
 
-export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>({
+export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], SerializableDate>({
   key: 'LocalFoodItemLogState',
   default: selectorFamily({
     key: 'LocalFoodItemLogState/Default',
     get:
       (date) =>
-        async ({ get }) => {
-          const userHeaders = get(CurrentUserHeadersState);
-          try {
-            const response = await client.getFoodItemLog(
-              {
-                date: { year: date.year(), month: date.month() + 1, day: date.date() },
-              },
-              { headers: userHeaders },
-            );
+      async ({ get }) => {
+        const userHeaders = get(CurrentUserHeadersState);
+        try {
+          const response = await client.getFoodItemLog(
+            {
+              date: { year: date.year, month: date.month, day: date.day },
+            },
+            { headers: userHeaders },
+          );
 
-            return response.foodItemLog.map((foodLogItem) => {
-              return {
-                dbId: foodLogItem.id,
-                foodItemId: foodLogItem.foodItemId,
-                name: foodLogItem.name,
-                weight: {
-                  value: foodLogItem.weight,
-                  unit: new WeightUnit(foodLogItem.weightUnit),
-                },
-                carbonFootprint: foodLogItem.carbonFootprint,
-                region: foodLogItem.region,
-              };
-            });
-          } catch (err) {
-            console.error(err);
-            return [];
-          }
-        },
+          return response.foodItemLog.map((foodLogItem) => {
+            return {
+              dbId: foodLogItem.id,
+              foodItemId: foodLogItem.foodItemId,
+              name: foodLogItem.name,
+              weight: {
+                value: foodLogItem.weight,
+                unit: new WeightUnit(foodLogItem.weightUnit),
+              },
+              carbonFootprint: foodLogItem.carbonFootprint,
+              region: foodLogItem.region,
+            };
+          });
+        } catch (err) {
+          console.error(err);
+          return [];
+        }
+      },
   }),
 });
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// FIXME: figure out why TS complains about LocalFoodLogItem as a param
-export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, LocalFoodLogItem[]>({
+export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, SerializableDate>({
   key: 'LocalFoodItemLogStats',
   get:
-    (foodItemLog) =>
-      async ({ get }) => {
-        const userSettings = get(LocalUserSettingsState);
-        const stats = {
-          totalCarbonFootprint: 0.0,
-          carbonFootprintGoalPercent: 0,
-          carbonFootprintRemaining: userSettings.cfLimit,
-        };
-        foodItemLog.forEach((item) => {
-          stats.totalCarbonFootprint += item.carbonFootprint;
-        });
-        stats.carbonFootprintGoalPercent =
-          userSettings.cfLimit != 0 ? (stats.totalCarbonFootprint / userSettings.cfLimit) * 100 : 0;
-        stats.carbonFootprintRemaining -= stats.totalCarbonFootprint;
-        return stats;
-      },
+    (date) =>
+    async ({ get }) => {
+      const foodItemLog = get(LocalFoodItemLogState(date));
+      const userSettings = get(LocalUserSettingsState);
+      const stats = {
+        totalCarbonFootprint: 0.0,
+        carbonFootprintGoalPercent: 0,
+        carbonFootprintRemaining: userSettings.cfLimit,
+      };
+      foodItemLog.forEach((item) => {
+        stats.totalCarbonFootprint += item.carbonFootprint;
+      });
+      stats.carbonFootprintGoalPercent =
+        userSettings.cfLimit != 0 ? (stats.totalCarbonFootprint / userSettings.cfLimit) * 100 : 0;
+      stats.carbonFootprintRemaining -= stats.totalCarbonFootprint;
+      return stats;
+    },
 });
 
 export const UserInsightsState = selector<UserInsights>({
