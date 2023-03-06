@@ -9,6 +9,7 @@ import UserStatCard from '@/components/UserStatCard';
 import DietaryRequirement from '@/core/dietary_requirements';
 import { LocalFoodItemLogStats, LocalUserSettingsState, UserInsightsState } from '@/store/user';
 import { toSerializableDate } from '@/utils/date';
+import { Typography } from '@mui/material';
 
 function Home() {
   const userSettings = useRecoilValue(LocalUserSettingsState);
@@ -22,6 +23,9 @@ function Home() {
 
   return (
     <Grid container direction="column" alignItems="center" spacing={2} sx={{ mt: 4 }}>
+      <Grid>
+        <Typography>{userInsights.activeStreak}</Typography>
+      </Grid>
       <Grid>
         <UserStatCard
           title="Today carbon footprint"

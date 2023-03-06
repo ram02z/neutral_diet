@@ -192,6 +192,7 @@ export const UserInsightsState = selector<UserInsights>({
       dailyGlobalAverage: response.dailyAverageCarbonFootprintOverall,
       dailyGlobalAverageUserDietaryRequirement:
         response.dailyAverageCarbonFootprintDietaryRequirement,
+      activeStreak: response.activeStreak,
     };
   },
 });

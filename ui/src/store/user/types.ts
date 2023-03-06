@@ -28,6 +28,7 @@ export type UserInsights = {
   dailyGlobalAverage: number;
   dailyGlobalAverageUserDietaryRequirement: number;
   noUserEntries: number;
+  activeStreak: number;
 }
 
 export type SerializableDate = {

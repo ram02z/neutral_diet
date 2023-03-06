@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
 	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
@@ -172,11 +173,20 @@ func (s *Store) GetUserInsights(
 		return nil, err
 	}
 
+	streakRow, err := queries.GetFoodItemLogStreak(ctx, user.ID)
+	var activeStreak int32 = 0
+	if err != nil && err != pgx.ErrNoRows {
+		return nil, err
+	} else if streakRow.Active {
+		activeStreak = int32(streakRow.ConsecutiveDates)
+	}
+
 	return &userv1.GetUserInsightsResponse{
 		OverallCarbonFootprint: overallCarbonFootprint.InexactFloat64(),
 		NoEntries:              int32(len(foodItemLog)),
 		DailyAverageCarbonFootprintDietaryRequirement: dailyAverageDietaryRequirement.InexactFloat64(),
 		DailyAverageCarbonFootprintOverall:            dailyAverage.InexactFloat64(),
+		ActiveStreak:                                  activeStreak,
 	}, nil
 }
 
