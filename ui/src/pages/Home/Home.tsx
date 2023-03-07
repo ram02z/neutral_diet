@@ -24,7 +24,7 @@ function Home() {
   return (
     <Grid container direction="column" alignItems="center" spacing={2} sx={{ mt: 4 }}>
       <Grid>
-        <Typography>{userInsights.activeStreak}</Typography>
+        <Typography>Active streak: {userInsights.activeStreak}</Typography>
       </Grid>
       <Grid>
         <UserStatCard

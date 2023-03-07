@@ -74,12 +74,16 @@ LIMIT 1;
 -- name: GetFoodItemLogStreak :one
 WITH dates AS (
     SELECT DISTINCT
-        log_date as date
+        log_date AS date
     FROM
         food_item_log
     WHERE
         user_id = $1
 ),
+-- Generate "groups" of dates by subtracting the
+-- date's row number (no gaps) from the date itself
+-- (with potential gaps). Whenever there is a gap,
+-- there will be a new group
 GROUPS AS (
     SELECT
         ROW_NUMBER() OVER (ORDER BY date) AS rn,
@@ -92,7 +96,7 @@ SELECT
     COUNT(*) AS consecutive_dates,
     MIN(date)::date AS start_date,
     MAX(date)::date AS end_date,
-    CURRENT_DATE < MAX(date) + 1 AS active
+    CURRENT_DATE <= MAX(date) + 1 AS active -- must be more than 1 to be a streak
 FROM
     GROUPS
 GROUP BY

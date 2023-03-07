@@ -238,7 +238,7 @@ func (q *Queries) GetFoodItemLogByDate(ctx context.Context, arg GetFoodItemLogBy
 const getFoodItemLogStreak = `-- name: GetFoodItemLogStreak :one
 WITH dates AS (
     SELECT DISTINCT
-        log_date as date
+        log_date AS date
     FROM
         food_item_log
     WHERE
@@ -256,7 +256,7 @@ SELECT
     COUNT(*) AS consecutive_dates,
     MIN(date)::date AS start_date,
     MAX(date)::date AS end_date,
-    CURRENT_DATE < MAX(date) + 1 AS active
+    CURRENT_DATE <= MAX(date) + 1 AS active -- must be more than 1 to be a streak
 FROM
     GROUPS
 GROUP BY
@@ -273,6 +273,10 @@ type GetFoodItemLogStreakRow struct {
 	Active           bool
 }
 
+// Generate "groups" of dates by subtracting the
+// date's row number (no gaps) from the date itself
+// (with potential gaps). Whenever there is a gap,
+// there will be a new group
 func (q *Queries) GetFoodItemLogStreak(ctx context.Context, userID int32) (GetFoodItemLogStreakRow, error) {
 	row := q.db.QueryRow(ctx, getFoodItemLogStreak, userID)
 	var i GetFoodItemLogStreakRow
