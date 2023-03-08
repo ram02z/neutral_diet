@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil';
 
-import { Paper, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import dayjs from 'dayjs';
 
 import Carousel from '@/components/Carousel';
 import CircularProgressWithLabel from '@/components/CircularProgressWithLabel';
+import TrendCard from '@/components/TrendCard';
 import { LocalFoodItemLogStats, UserInsightsState } from '@/store/user';
 import { toSerializableDate } from '@/utils/date';
-import TrendCard from '@/components/TrendCard';
 
 function Home() {
   const todayStats = useRecoilValue(LocalFoodItemLogStats(toSerializableDate(dayjs())));

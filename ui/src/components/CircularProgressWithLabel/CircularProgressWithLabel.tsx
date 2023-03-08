@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography, Stack } from '@mui/material';
+import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 
 type CircularProgressWithLabelProps = {
   value: number;
@@ -45,7 +45,7 @@ function CircularProgressWithLabel({ value, size, remaining }: CircularProgressW
           {Math.abs(remaining).toFixed(3)}
         </Typography>
         <Typography variant="button" color="text.primary">
-          CO<sub>2</sub>/kg {remaining > 0 ? "left" : "over"}
+          CO<sub>2</sub>/kg {remaining > 0 ? 'left' : 'over'}
         </Typography>
       </Stack>
     </Box>

@@ -19,9 +19,9 @@ import UserRegion from '@/core/regions';
 import { WeightUnit } from '@/core/weight';
 import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
+import { toSerializableDate } from '@/utils/date';
 
 import { FormValues } from './types';
-import { toSerializableDate } from '@/utils/date';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 

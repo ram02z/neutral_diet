@@ -25,11 +25,11 @@ import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
+import { WeightUnit } from '@/core/weight';
 import { FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
 import { toSerializableDate } from '@/utils/date';
-import { WeightUnit } from '@/core/weight';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 

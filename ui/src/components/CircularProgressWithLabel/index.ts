@@ -1,3 +1,3 @@
-import CircularProgressWithLabel from "./CircularProgressWithLabel";
+import CircularProgressWithLabel from './CircularProgressWithLabel';
 
 export default CircularProgressWithLabel;
