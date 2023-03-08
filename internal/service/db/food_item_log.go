@@ -174,12 +174,10 @@ func (s *Store) GetUserInsights(
 	}
 
 	streakRow, err := queries.GetFoodItemLogStreak(ctx, user.ID)
-	var streakLength int32 = 0
 	if err != nil && err != pgx.ErrNoRows {
 		return nil, err
-	} else {
-		streakLength = int32(streakRow.ConsecutiveDates)
 	}
+	streakLength := int32(streakRow.ConsecutiveDates)
 
 	return &userv1.GetUserInsightsResponse{
 		OverallCarbonFootprint: overallCarbonFootprint.InexactFloat64(),
