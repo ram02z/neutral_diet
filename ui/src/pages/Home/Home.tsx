@@ -3,6 +3,7 @@ import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil';
 
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Stack } from '@mui/system';
 
 import dayjs from 'dayjs';
 
@@ -31,30 +32,39 @@ function Home() {
       </Grid>
       <Grid>
         <Typography variant="subtitle2" color="secondary">
-          Your longest streak is <b>{userInsights.streakLength}</b> days,
-          {userInsights.isStreakActive ? ' and is still active!' : ' but is no longer active!'}
+          Your longest streak {userInsights.isStreakActive ? 'is' : 'was'}{' '}
+          <b>{userInsights.streakLength}</b> days
         </Typography>
       </Grid>
-      <Grid>
-        <Typography variant="h4">Trends</Typography>
+      <Grid container direction={{ xs: 'column', lg: 'row' }} justifyContent="center">
+        <Grid>
+          <Stack alignItems="center">
+            <Typography variant="h4">Trends</Typography>
+            <Carousel>
+              <TrendCard
+                title="Your daily average"
+                stat={userInsights.overallUserAverage}
+                today={todayStats.totalCarbonFootprint}
+              />
+              <TrendCard
+                title="Global daily average"
+                stat={userInsights.dailyGlobalAverage}
+                today={todayStats.totalCarbonFootprint}
+              />
+              <TrendCard
+                title="Global daily diet average"
+                stat={userInsights.dailyGlobalAverageUserDietaryRequirement}
+                today={todayStats.totalCarbonFootprint}
+              />
+            </Carousel>
+          </Stack>
+        </Grid>
+        <Grid>
+          <Stack alignItems="center">
+            <Typography variant="h4">Progress</Typography>
+          </Stack>
+        </Grid>
       </Grid>
-      <Carousel>
-        <TrendCard
-          title="Your daily average"
-          stat={userInsights.overallUserAverage}
-          today={todayStats.totalCarbonFootprint}
-        />
-        <TrendCard
-          title="Global daily average"
-          stat={userInsights.dailyGlobalAverage}
-          today={todayStats.totalCarbonFootprint}
-        />
-        <TrendCard
-          title="Global daily diet average"
-          stat={userInsights.dailyGlobalAverageUserDietaryRequirement}
-          today={todayStats.totalCarbonFootprint}
-        />
-      </Carousel>
     </Grid>
   );
 }

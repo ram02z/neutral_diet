@@ -11,11 +11,11 @@ type TrendCardProps = {
 function TrendCard({ title, stat, today }: TrendCardProps) {
   const statDiff = ((stat - today) / today) * 100.0;
   return (
-    <Card sx={{ width: 310 }}>
+    <Card sx={{ width: { xs: 280, lg: 400 } }}>
       <CardContent>
         <Grid container columns={5}>
           <Stack spacing={1} sx={{ pt: 1, pl: 1 }}>
-            <Typography sx={{ textTransform: 'capitalize' }} variant="h5" component="div">
+            <Typography sx={{ textTransform: 'capitalize' }} variant="h5">
               {title}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
