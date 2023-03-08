@@ -73,7 +73,8 @@ message GetUserInsightsResponse {
   int32 no_entries = 2;
   double daily_average_carbon_footprint_dietary_requirement = 3;
   double daily_average_carbon_footprint_overall = 4;
-  int32 active_streak = 5;
+  int32 streak_len = 5;
+  bool is_streak_active = 6;
 }
 
 service UserService {

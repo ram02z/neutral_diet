@@ -174,11 +174,11 @@ func (s *Store) GetUserInsights(
 	}
 
 	streakRow, err := queries.GetFoodItemLogStreak(ctx, user.ID)
-	var activeStreak int32 = 0
+	var streakLength int32 = 0
 	if err != nil && err != pgx.ErrNoRows {
 		return nil, err
-	} else if streakRow.Active {
-		activeStreak = int32(streakRow.ConsecutiveDates)
+	} else {
+		streakLength = int32(streakRow.ConsecutiveDates)
 	}
 
 	return &userv1.GetUserInsightsResponse{
@@ -186,7 +186,8 @@ func (s *Store) GetUserInsights(
 		NoEntries:              int32(len(foodItemLog)),
 		DailyAverageCarbonFootprintDietaryRequirement: dailyAverageDietaryRequirement.InexactFloat64(),
 		DailyAverageCarbonFootprintOverall:            dailyAverage.InexactFloat64(),
-		ActiveStreak:                                  activeStreak,
+		StreakLen:                                     streakLength,
+		IsStreakActive:                                streakRow.Active,
 	}, nil
 }
 

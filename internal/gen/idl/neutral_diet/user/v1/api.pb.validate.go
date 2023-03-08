@@ -2044,7 +2044,9 @@ func (m *GetUserInsightsResponse) validate(all bool) error {
 
 	// no validation rules for DailyAverageCarbonFootprintOverall
 
-	// no validation rules for ActiveStreak
+	// no validation rules for StreakLen
+
+	// no validation rules for IsStreakActive
 
 	if len(errors) > 0 {
 		return GetUserInsightsResponseMultiError(errors)

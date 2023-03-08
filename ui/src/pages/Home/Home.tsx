@@ -1,55 +1,60 @@
 import { useEffect } from 'react';
 import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil';
 
+import { Paper, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import dayjs from 'dayjs';
 
-import UserStatCard from '@/components/UserStatCard';
-import DietaryRequirement from '@/core/dietary_requirements';
-import { LocalFoodItemLogStats, LocalUserSettingsState, UserInsightsState } from '@/store/user';
+import Carousel from '@/components/Carousel';
+import CircularProgressWithLabel from '@/components/CircularProgressWithLabel';
+import { LocalFoodItemLogStats, UserInsightsState } from '@/store/user';
 import { toSerializableDate } from '@/utils/date';
-import { Typography } from '@mui/material';
+import TrendCard from '@/components/TrendCard';
 
 function Home() {
-  const userSettings = useRecoilValue(LocalUserSettingsState);
   const todayStats = useRecoilValue(LocalFoodItemLogStats(toSerializableDate(dayjs())));
   const userInsights = useRecoilValue(UserInsightsState);
   const refreshUserInsights = useRecoilRefresher_UNSTABLE(UserInsightsState);
-  const dietaryRequirement = new DietaryRequirement(userSettings.dietaryRequirement);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => refreshUserInsights(), []);
 
   return (
-    <Grid container direction="column" alignItems="center" spacing={2} sx={{ mt: 4 }}>
+    <Grid container direction="column" alignItems="center" spacing={2} sx={{ mt: 4, mb: 8 }}>
       <Grid>
-        <Typography>Active streak: {userInsights.activeStreak}</Typography>
-      </Grid>
-      <Grid>
-        <UserStatCard
-          title="Today carbon footprint"
-          carbonFootprint={todayStats.totalCarbonFootprint}
+        <CircularProgressWithLabel
+          value={todayStats.carbonFootprintGoalPercent}
+          size={200}
+          remaining={todayStats.carbonFootprintRemaining}
         />
       </Grid>
       <Grid>
-        <UserStatCard
-          title="Overall user average"
-          carbonFootprint={userInsights.overallUserAverage}
-        />
+        <Typography variant="subtitle2" color="secondary">
+          Your longest streak is <b>{userInsights.streakLength}</b> days,
+          {userInsights.isStreakActive ? ' and is still active!' : ' but is no longer active!'}
+        </Typography>
       </Grid>
       <Grid>
-        <UserStatCard
-          title="Daily global average"
-          carbonFootprint={userInsights.dailyGlobalAverage}
-        />
+        <Typography variant="h4">Trends</Typography>
       </Grid>
-      <Grid>
-        <UserStatCard
-          title={`Daily global ${dietaryRequirement.getSettingName()} average`}
-          carbonFootprint={userInsights.dailyGlobalAverageUserDietaryRequirement}
+      <Carousel>
+        <TrendCard
+          title="Your daily average"
+          stat={userInsights.overallUserAverage}
+          today={todayStats.totalCarbonFootprint}
         />
-      </Grid>
+        <TrendCard
+          title="Global daily average"
+          stat={userInsights.dailyGlobalAverage}
+          today={todayStats.totalCarbonFootprint}
+        />
+        <TrendCard
+          title="Global daily diet average"
+          stat={userInsights.dailyGlobalAverageUserDietaryRequirement}
+          today={todayStats.totalCarbonFootprint}
+        />
+      </Carousel>
     </Grid>
   );
 }

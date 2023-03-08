@@ -652,9 +652,14 @@ export class GetUserInsightsResponse extends Message<GetUserInsightsResponse> {
   dailyAverageCarbonFootprintOverall = 0;
 
   /**
-   * @generated from field: int32 active_streak = 5;
+   * @generated from field: int32 streak_len = 5;
    */
-  activeStreak = 0;
+  streakLen = 0;
+
+  /**
+   * @generated from field: bool is_streak_active = 6;
+   */
+  isStreakActive = false;
 
   constructor(data?: PartialMessage<GetUserInsightsResponse>) {
     super();
@@ -668,7 +673,8 @@ export class GetUserInsightsResponse extends Message<GetUserInsightsResponse> {
     { no: 2, name: "no_entries", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 3, name: "daily_average_carbon_footprint_dietary_requirement", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 4, name: "daily_average_carbon_footprint_overall", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 5, name: "active_streak", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 5, name: "streak_len", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 6, name: "is_streak_active", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserInsightsResponse {
