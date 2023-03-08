@@ -67,7 +67,7 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
         </Badge>
         <Collapse in={expanded} timeout={0} unmountOnExit>
           <Stack direction="column" alignItems="center" spacing={2} sx={{ py: 2 }}>
-            <Link sx={{ marginLeft: 'auto' }} href="javascript:;" onClick={resetForm}>
+            <Link sx={{ marginLeft: 'auto' }} href="#" onClick={resetForm}>
               Clear All
             </Link>
             <Stack spacing={2} direction={{ xs: 'column', lg: 'row' }}>

@@ -1911,3 +1911,219 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetUserSettingsResponseValidationError{}
+
+// Validate checks the field values on GetUserInsightsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetUserInsightsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetUserInsightsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetUserInsightsRequestMultiError, or nil if none found.
+func (m *GetUserInsightsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetUserInsightsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetUserInsightsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetUserInsightsRequestMultiError is an error wrapping multiple validation
+// errors returned by GetUserInsightsRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetUserInsightsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetUserInsightsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetUserInsightsRequestMultiError) AllErrors() []error { return m }
+
+// GetUserInsightsRequestValidationError is the validation error returned by
+// GetUserInsightsRequest.Validate if the designated constraints aren't met.
+type GetUserInsightsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetUserInsightsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetUserInsightsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetUserInsightsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetUserInsightsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetUserInsightsRequestValidationError) ErrorName() string {
+	return "GetUserInsightsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetUserInsightsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetUserInsightsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetUserInsightsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetUserInsightsRequestValidationError{}
+
+// Validate checks the field values on GetUserInsightsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetUserInsightsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetUserInsightsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetUserInsightsResponseMultiError, or nil if none found.
+func (m *GetUserInsightsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetUserInsightsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for OverallCarbonFootprint
+
+	// no validation rules for NoEntries
+
+	// no validation rules for DailyAverageCarbonFootprintDietaryRequirement
+
+	// no validation rules for DailyAverageCarbonFootprintOverall
+
+	// no validation rules for StreakLen
+
+	// no validation rules for IsStreakActive
+
+	if len(errors) > 0 {
+		return GetUserInsightsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetUserInsightsResponseMultiError is an error wrapping multiple validation
+// errors returned by GetUserInsightsResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetUserInsightsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetUserInsightsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetUserInsightsResponseMultiError) AllErrors() []error { return m }
+
+// GetUserInsightsResponseValidationError is the validation error returned by
+// GetUserInsightsResponse.Validate if the designated constraints aren't met.
+type GetUserInsightsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetUserInsightsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetUserInsightsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetUserInsightsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetUserInsightsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetUserInsightsResponseValidationError) ErrorName() string {
+	return "GetUserInsightsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetUserInsightsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetUserInsightsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetUserInsightsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetUserInsightsResponseValidationError{}

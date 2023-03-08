@@ -17,16 +17,16 @@ import {
   LocalFoodItemLogStats,
   LocalUserSettingsState,
 } from '@/store/user';
-import { getDateString } from '@/utils/date';
+import { getDateString, toSerializableDate } from '@/utils/date';
 
 function Diary() {
   const [isForcePickerOpen, setIsOpen] = useState(false);
   const [date, setDate] = useRecoilState(FoodItemLogDateState);
   const isToday = useMemo(() => date.isSame(dayjs(), 'date'), [date]);
   // TODO: handle errors
-  const foodItemLog = useRecoilValue(LocalFoodItemLogState(date));
+  const foodItemLog = useRecoilValue(LocalFoodItemLogState(toSerializableDate(date)));
   const userSettings = useRecoilValue(LocalUserSettingsState);
-  const stats = useRecoilValue(LocalFoodItemLogStats(foodItemLog));
+  const stats = useRecoilValue(LocalFoodItemLogStats(toSerializableDate(date)));
 
   const yesterday = () => {
     setDate(date.subtract(1, 'day'));

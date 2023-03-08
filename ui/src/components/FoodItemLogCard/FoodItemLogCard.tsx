@@ -29,6 +29,7 @@ import { WeightUnit } from '@/core/weight';
 import { FoodItemInfoQuery } from '@/store/food';
 import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
+import { toSerializableDate } from '@/utils/date';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 
@@ -43,7 +44,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const date = useRecoilValue(FoodItemLogDateState);
   const { enqueueSnackbar } = useSnackbar();
-  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(date));
+  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(toSerializableDate(date)));
   const foodItemInfo = useRecoilValue(
     FoodItemInfoQuery({ foodItemId: foodLogItem.foodItemId, region: foodLogItem.region }),
   );
@@ -78,13 +79,13 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
             return { ...item };
           });
         });
+        handleCloseDeleteDialog();
         enqueueSnackbar('Updated food entry', { variant: 'success' });
       })
       .catch((err) => {
         enqueueSnackbar("Couldn't update food entry", { variant: 'error' });
         console.error(err);
       });
-    handleCloseDeleteDialog();
   };
 
   const handleDelete = async () => {

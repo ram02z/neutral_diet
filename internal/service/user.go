@@ -189,3 +189,22 @@ func (c *ConnectWrapper) GetFoodItemLog(
 
 	return out, nil
 }
+
+func (c *ConnectWrapper) GetUserInsights(
+	ctx context.Context,
+	req *connect.Request[userv1.GetUserInsightsRequest],
+) (*connect.Response[userv1.GetUserInsightsResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.GetUserInsights(ctx, req.Msg, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}

@@ -16,7 +16,13 @@ import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 import { WeightUnit } from '@/core/weight';
 
-import { FoodLogStats, LocalFoodLogItem, LocalUserSettings } from './types';
+import {
+  FoodLogStats,
+  LocalFoodLogItem,
+  LocalUserSettings,
+  SerializableDate,
+  UserInsights,
+} from './types';
 
 export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
@@ -114,7 +120,7 @@ export const FoodItemLogDateState = atom<dayjs.Dayjs>({
   default: dayjs(),
 });
 
-export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>({
+export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], SerializableDate>({
   key: 'LocalFoodItemLogState',
   default: selectorFamily({
     key: 'LocalFoodItemLogState/Default',
@@ -125,7 +131,7 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
         try {
           const response = await client.getFoodItemLog(
             {
-              date: { year: date.year(), month: date.month() + 1, day: date.date() },
+              date: { year: date.year, month: date.month, day: date.day },
             },
             { headers: userHeaders },
           );
@@ -151,14 +157,12 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], dayjs.Dayjs>
   }),
 });
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// FIXME: figure out why TS complains about LocalFoodLogItem as a param
-export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, LocalFoodLogItem[]>({
+export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, SerializableDate>({
   key: 'LocalFoodItemLogStats',
   get:
-    (foodItemLog) =>
+    (date) =>
     async ({ get }) => {
+      const foodItemLog = get(LocalFoodItemLogState(date));
       const userSettings = get(LocalUserSettingsState);
       const stats = {
         totalCarbonFootprint: 0.0,
@@ -173,4 +177,23 @@ export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, LocalFoodLogIt
       stats.carbonFootprintRemaining -= stats.totalCarbonFootprint;
       return stats;
     },
+});
+
+export const UserInsightsState = selector<UserInsights>({
+  key: 'UserInsightsState',
+  get: async ({ get }) => {
+    const userHeaders = get(CurrentUserHeadersState);
+    const response = await client.getUserInsights({}, { headers: userHeaders });
+
+    return {
+      overallUser: response.overallCarbonFootprint,
+      noUserEntries: response.noEntries,
+      overallUserAverage: response.overallCarbonFootprint / response.noEntries || 0,
+      dailyGlobalAverage: response.dailyAverageCarbonFootprintOverall,
+      dailyGlobalAverageUserDietaryRequirement:
+        response.dailyAverageCarbonFootprintDietaryRequirement,
+      streakLength: response.streakLen,
+      isStreakActive: response.isStreakActive,
+    };
+  },
 });

@@ -61,6 +61,15 @@ type AggregateFoodItem struct {
 	MedianCarbonFootprint decimal.Decimal
 }
 
+type DailyUserAverage struct {
+	AverageCarbonFootprint decimal.Decimal
+}
+
+type DailyUserAverageByDietaryRequirement struct {
+	AverageCarbonFootprint decimal.Decimal
+	DietaryRequirement     int32
+}
+
 type FoodItem struct {
 	ID          int32
 	Name        string
@@ -69,15 +78,16 @@ type FoodItem struct {
 }
 
 type FoodItemLog struct {
-	ID         int32
-	FoodItemID int32
-	Weight     decimal.Decimal
-	CreatedAt  pgtype.Timestamptz
-	UpdatedAt  pgtype.Timestamptz
-	UserID     int32
-	LogDate    pgtype.Date
-	WeightUnit int32
-	Region     int32
+	ID              int32
+	FoodItemID      int32
+	Weight          decimal.Decimal
+	CreatedAt       pgtype.Timestamptz
+	UpdatedAt       pgtype.Timestamptz
+	UserID          int32
+	LogDate         pgtype.Date
+	WeightUnit      int32
+	Region          int32
+	CarbonFootprint decimal.Decimal
 }
 
 type LifeCycle struct {

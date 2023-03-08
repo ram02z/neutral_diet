@@ -596,3 +596,101 @@ export class GetUserSettingsResponse extends Message<GetUserSettingsResponse> {
   }
 }
 
+/**
+ * @generated from message neutral_diet.user.v1.GetUserInsightsRequest
+ */
+export class GetUserInsightsRequest extends Message<GetUserInsightsRequest> {
+  constructor(data?: PartialMessage<GetUserInsightsRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetUserInsightsRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserInsightsRequest {
+    return new GetUserInsightsRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserInsightsRequest {
+    return new GetUserInsightsRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserInsightsRequest {
+    return new GetUserInsightsRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetUserInsightsRequest | PlainMessage<GetUserInsightsRequest> | undefined, b: GetUserInsightsRequest | PlainMessage<GetUserInsightsRequest> | undefined): boolean {
+    return proto3.util.equals(GetUserInsightsRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetUserInsightsResponse
+ */
+export class GetUserInsightsResponse extends Message<GetUserInsightsResponse> {
+  /**
+   * @generated from field: double overall_carbon_footprint = 1;
+   */
+  overallCarbonFootprint = 0;
+
+  /**
+   * @generated from field: int32 no_entries = 2;
+   */
+  noEntries = 0;
+
+  /**
+   * @generated from field: double daily_average_carbon_footprint_dietary_requirement = 3;
+   */
+  dailyAverageCarbonFootprintDietaryRequirement = 0;
+
+  /**
+   * @generated from field: double daily_average_carbon_footprint_overall = 4;
+   */
+  dailyAverageCarbonFootprintOverall = 0;
+
+  /**
+   * @generated from field: int32 streak_len = 5;
+   */
+  streakLen = 0;
+
+  /**
+   * @generated from field: bool is_streak_active = 6;
+   */
+  isStreakActive = false;
+
+  constructor(data?: PartialMessage<GetUserInsightsResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetUserInsightsResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "overall_carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 2, name: "no_entries", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 3, name: "daily_average_carbon_footprint_dietary_requirement", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 4, name: "daily_average_carbon_footprint_overall", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 5, name: "streak_len", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 6, name: "is_streak_active", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserInsightsResponse {
+    return new GetUserInsightsResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserInsightsResponse {
+    return new GetUserInsightsResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserInsightsResponse {
+    return new GetUserInsightsResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetUserInsightsResponse | PlainMessage<GetUserInsightsResponse> | undefined, b: GetUserInsightsResponse | PlainMessage<GetUserInsightsResponse> | undefined): boolean {
+    return proto3.util.equals(GetUserInsightsResponse, a, b);
+  }
+}
+

@@ -21,3 +21,19 @@ export type FoodLogStats = {
   carbonFootprintRemaining: number;
   carbonFootprintGoalPercent: number;
 };
+
+export type UserInsights = {
+  overallUserAverage: number;
+  overallUser: number;
+  dailyGlobalAverage: number;
+  dailyGlobalAverageUserDietaryRequirement: number;
+  noUserEntries: number;
+  streakLength: number;
+  isStreakActive: boolean;
+};
+
+export type SerializableDate = {
+  year: number;
+  month: number;
+  day: number;
+};
