@@ -13,6 +13,7 @@ import DietaryRequirementSelect from '@/components/DietaryRequirementSelect';
 import Loading from '@/components/Loading';
 import RegionSelect from '@/components/RegionSelect';
 import { CarbonFootprintSlider } from '@/components/StyledSlider';
+import UserAvatar from '@/components/UserAvatar';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useSignOut } from '@/hooks/useSignOut';
 import {
@@ -83,7 +84,10 @@ function Account() {
           direction="column"
         >
           <Grid>
-            <Avatar sx={{ width: 80, height: 80, fontSize: 40 }}>{user.displayName?.at(0)}</Avatar>
+            <UserAvatar
+              sx={{ width: 80, height: 80, fontSize: 40 }}
+              name={user.displayName ?? ''}
+            />
           </Grid>
         </Grid>
         <Divider sx={{ py: '4vh' }}>
