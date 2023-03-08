@@ -22,7 +22,7 @@ function Carousel(props: CarouselProps) {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+    <Box>
       <Box sx={{ width: '100%', p: 2 }}>{props.children[activeStep]}</Box>
       <MobileStepper
         steps={maxSteps}

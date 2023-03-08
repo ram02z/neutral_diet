@@ -37,7 +37,7 @@ function Home() {
         </Typography>
       </Grid>
       <Grid container direction={{ xs: 'column', lg: 'row' }} justifyContent="center">
-        <Grid>
+        <Grid sx={{ mr: { lg: 5 } }}>
           <Stack alignItems="center">
             <Typography variant="h4">Trends</Typography>
             <Carousel>
