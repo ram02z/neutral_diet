@@ -5,30 +5,49 @@ import { useRecoilValue } from 'recoil';
 import { Button, Dialog, DialogActions, DialogTitle, MenuItem, TextField } from '@mui/material';
 import { Stack } from '@mui/system';
 
-import { FormValues } from '@/components/FoodItemCard/types';
+import { FormValues } from '@/components/FoodItemLogCard/types';
 import { Weight } from '@/core/weight';
-import { WeightUnitsState } from '@/store/user';
+import { MealsState, WeightUnitsState } from '@/store/user';
 
 type EditFoodItemDialogProps = {
   onSubmit: (data: FormValues, event?: BaseSyntheticEvent<object, void, void | undefined>) => void;
   openDialog: boolean;
   handleClose: () => void;
   currentWeight: Weight;
+  currentMeal: number;
 };
 
 function EditFoodItemDialog({
   openDialog,
   currentWeight,
+  currentMeal,
   handleClose,
   onSubmit,
 }: EditFoodItemDialogProps) {
   const { handleSubmit, control } = useForm<FormValues>();
   const weightUnits = useRecoilValue(WeightUnitsState);
+  const meals = useRecoilValue(MealsState);
+
   return (
     <Dialog open={openDialog} onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTitle textAlign="center">Edit food</DialogTitle>
         <Stack sx={{ px: 5 }} spacing={3}>
+          <Controller
+            control={control}
+            name="meal"
+            defaultValue={currentMeal}
+            rules={{ required: true }}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <TextField select label="Meal" error={!!error} onChange={onChange} value={value}>
+                {meals.map((meal, key) => (
+                  <MenuItem key={key} value={meal.value}>
+                    {meal.getName()}
+                  </MenuItem>
+                ))}
+              </TextField>
+            )}
+          />
           <Controller
             control={control}
             name="weight"

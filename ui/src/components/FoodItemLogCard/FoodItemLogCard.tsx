@@ -20,14 +20,18 @@ import { useSnackbar } from 'notistack';
 
 import client from '@/api/user_service';
 import EditFoodItemDialog from '@/components/EditFoodItemDialog';
-import { FormValues } from '@/components/FoodItemCard/types';
+import { FormValues } from '@/components/FoodItemLogCard/types';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
 import { WeightUnit } from '@/core/weight';
 import { FoodItemInfoQuery } from '@/store/food';
-import { CurrentUserHeadersState, FoodItemLogDateState, FoodItemLogSerializableDateState, LocalFoodItemLogState } from '@/store/user';
+import {
+  CurrentUserHeadersState,
+  FoodItemLogSerializableDateState,
+  LocalFoodItemLogState,
+} from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
@@ -59,6 +63,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
           weight: weight,
           weightUnit: data.weightUnit,
           region: foodLogItem.region,
+          meal: data.meal,
         },
         { headers: userHeaders },
       )
@@ -73,7 +78,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 weight: { value: weight, unit: weightUnit },
                 carbonFootprint: res.carbonFootprint,
                 region: foodLogItem.region,
-                meal: foodLogItem.meal,
+                meal: data.meal,
               };
             }
             return { ...item };
@@ -105,9 +110,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
       client
         .deleteFoodItem({ id: foodLogItem.dbId }, { headers: userHeaders })
         .then(() => {
-          setFoodItemLog((old) =>
-            old.filter((item) => item.dbId !== foodLogItem.dbId),
-          );
+          setFoodItemLog((old) => old.filter((item) => item.dbId !== foodLogItem.dbId));
           enqueueSnackbar('Deleted food entry.', { variant: 'success' });
         })
         .catch((err) => {
@@ -180,6 +183,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
         openDialog={openDeleteDialog}
         handleClose={handleCloseDeleteDialog}
         currentWeight={foodLogItem.weight}
+        currentMeal={foodLogItem.meal}
       />
       <FoodItemInfoDialog
         openDialog={openInfoDialog}
