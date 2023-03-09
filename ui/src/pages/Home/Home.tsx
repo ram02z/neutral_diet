@@ -9,13 +9,16 @@ import dayjs from 'dayjs';
 import Carousel from '@/components/Carousel';
 import CircularProgressWithLabel from '@/components/CircularProgressWithLabel';
 import TrendCard from '@/components/TrendCard';
-import { LocalFoodItemLogStats, UserInsightsState } from '@/store/user';
+import DietaryRequirement from '@/core/dietary_requirements';
+import { LocalFoodItemLogStats, LocalUserSettingsState, UserInsightsState } from '@/store/user';
 import { toSerializableDate } from '@/utils/date';
 
 function Home() {
   const todayStats = useRecoilValue(LocalFoodItemLogStats(toSerializableDate(dayjs())));
   const userInsights = useRecoilValue(UserInsightsState);
   const refreshUserInsights = useRecoilRefresher_UNSTABLE(UserInsightsState);
+  const userSettings = useRecoilValue(LocalUserSettingsState);
+  const dietaryRequirement = new DietaryRequirement(userSettings.dietaryRequirement);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => refreshUserInsights(), []);
@@ -47,12 +50,17 @@ function Home() {
           today={todayStats.totalCarbonFootprint}
         />
         <TrendCard
-          title="Global daily average"
+          title="UK daily diet average"
+          stat={dietaryRequirement.getMeanEmissionsPerDay()}
+          today={todayStats.totalCarbonFootprint}
+        />
+        <TrendCard
+          title="User daily average"
           stat={userInsights.dailyGlobalAverage}
           today={todayStats.totalCarbonFootprint}
         />
         <TrendCard
-          title="Global daily diet average"
+          title="User daily diet average"
           stat={userInsights.dailyGlobalAverageUserDietaryRequirement}
           today={todayStats.totalCarbonFootprint}
         />

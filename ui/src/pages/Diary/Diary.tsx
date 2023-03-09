@@ -19,7 +19,7 @@ import {
   LocalUserSettingsState,
   MealsState,
 } from '@/store/user';
-import { getDateString, toSerializableDate } from '@/utils/date';
+import { getDateString } from '@/utils/date';
 
 function Diary() {
   const [isForcePickerOpen, setIsOpen] = useState(false);
@@ -29,7 +29,7 @@ function Diary() {
   // TODO: handle errors
   const foodItemLog = useRecoilValue(LocalFoodItemLogState(serializableDate));
   const userSettings = useRecoilValue(LocalUserSettingsState);
-  const stats = useRecoilValue(LocalFoodItemLogStats(toSerializableDate(date)));
+  const stats = useRecoilValue(LocalFoodItemLogStats(serializableDate));
   const meals = useRecoilValue(MealsState);
 
   const yesterday = () => {
