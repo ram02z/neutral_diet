@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import RenderIfVisible from 'react-render-if-visible';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { Button, Typography } from '@mui/material';
+import { Button, Icon, IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
@@ -135,16 +135,24 @@ function Diary() {
       {meals.map((meal, i) => {
         return (
           <>
-            <Grid key={i}>
-              <Typography>{meal.getName()}</Typography>
+            <Grid key={i} xs={8} lg={7} xl={6}>
+              <Typography
+                sx={{ textTransform: 'capitalize' }}
+                variant="h5"
+                color="secondary.dark"
+              >
+                {meal.getName()}
+              </Typography>
             </Grid>
             {foodItemLog.map((foodLogItem, j) => {
-              return foodLogItem.meal == meal.value && (
-                <Grid key={j} xs={8} lg={7} xl={6}>
-                  <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
-                    <FoodItemLogCard foodLogItem={foodLogItem} />
-                  </RenderIfVisible>
-                </Grid>
+              return (
+                foodLogItem.meal == meal.value && (
+                  <Grid key={j} xs={8} lg={7} xl={6}>
+                    <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
+                      <FoodItemLogCard foodLogItem={foodLogItem} />
+                    </RenderIfVisible>
+                  </Grid>
+                )
               );
             })}
           </>

@@ -19,6 +19,7 @@ import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 import { Meal } from '@/core/meal';
 import { WeightUnit } from '@/core/weight';
+import { toSerializableDate } from '@/utils/date';
 
 import {
   FoodLogStats,
@@ -27,7 +28,6 @@ import {
   SerializableDate,
   UserInsights,
 } from './types';
-import { toSerializableDate } from '@/utils/date';
 
 export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
@@ -125,7 +125,8 @@ export const MealsState = selector({
   get: () => {
     return Object.values(MealProto)
       .filter((x) => typeof x === 'number')
-      .map((m) => new Meal(m as MealProto));
+      .map((m) => new Meal(m as MealProto))
+      .sort((m1, m2) => m1.getOrder() - m2.getOrder());
   },
 });
 
@@ -140,8 +141,8 @@ export const FoodItemLogSerializableDateState = selector({
     const date = get(FoodItemLogDateState);
 
     return toSerializableDate(date);
-  }
-})
+  },
+});
 
 export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], SerializableDate>({
   key: 'LocalFoodItemLogState',
