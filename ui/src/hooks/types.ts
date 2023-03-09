@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { CustomParameters, UserCredential } from 'firebase/auth';
 
 export type AuthActionHook<M> = [M, UserCredential | undefined, boolean, boolean];
@@ -16,3 +17,10 @@ export type SignInWithPopupHook = AuthActionHook<
     customOAuthParameters?: CustomParameters,
   ) => Promise<UserCredential | undefined>
 >;
+
+export type HighlightedDaysHook = [
+  (date: dayjs.Dayjs) => Promise<number[]>,
+  number[],
+  boolean,
+  React.MutableRefObject<AbortController | null>,
+];

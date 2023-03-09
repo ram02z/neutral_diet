@@ -16,6 +16,16 @@ WHERE
     user_id = $1
     AND id = $2;
 
+-- name: GetLoggedDaysInMonth :many
+SELECT DISTINCT
+    DATE_PART('day', log_date)::int AS day
+FROM
+    food_item_log
+WHERE
+    DATE_PART('month', log_date) = @month::int
+    AND DATE_PART('year', log_date) = @year::int
+    AND user_id = $1;
+
 -- name: GetFoodItemIdByLogId :one
 SELECT
     food_item_id

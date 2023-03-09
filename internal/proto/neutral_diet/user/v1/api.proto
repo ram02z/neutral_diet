@@ -43,6 +43,21 @@ message GetFoodItemLogResponse {
   repeated FoodLogItemResponse food_item_log = 1;
 }
 
+message GetFoodItemLogDaysRequest {
+  int32 month = 1 [(validate.rules).int32 = {
+    gte: 1,
+    lte: 12
+  }];
+  int32 year = 2 [(validate.rules).int32 = {
+    gte: 1,
+    lte: 9999
+  }];
+}
+
+message GetFoodItemLogDaysResponse {
+  repeated int32 days = 1;
+}
+
 message CreateUserRequest {
   string firebase_uid = 1 [(validate.rules).string.min_len = 1];
 }
@@ -83,6 +98,7 @@ service UserService {
   rpc UpdateFoodItem(UpdateFoodItemRequest) returns (UpdateFoodItemResponse) {}
   rpc DeleteFoodItem(DeleteFoodItemRequest) returns (DeleteFoodItemResponse) {}
   rpc GetFoodItemLog(GetFoodItemLogRequest) returns (GetFoodItemLogResponse) {}
+  rpc GetFoodItemLogDays(GetFoodItemLogDaysRequest) returns (GetFoodItemLogDaysResponse) {}
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
   rpc GetUserSettings(GetUserSettingsRequest) returns (GetUserSettingsResponse) {}

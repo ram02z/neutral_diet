@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { AddFoodItemRequest, AddFoodItemResponse, CreateUserRequest, CreateUserResponse, DeleteFoodItemRequest, DeleteFoodItemResponse, DeleteUserRequest, DeleteUserResponse, GetFoodItemLogRequest, GetFoodItemLogResponse, GetUserInsightsRequest, GetUserInsightsResponse, GetUserSettingsRequest, GetUserSettingsResponse, UpdateFoodItemRequest, UpdateFoodItemResponse, UpdateUserSettingsRequest, UpdateUserSettingsResponse } from "./api_pb.js";
+import { AddFoodItemRequest, AddFoodItemResponse, CreateUserRequest, CreateUserResponse, DeleteFoodItemRequest, DeleteFoodItemResponse, DeleteUserRequest, DeleteUserResponse, GetFoodItemLogDaysRequest, GetFoodItemLogDaysResponse, GetFoodItemLogRequest, GetFoodItemLogResponse, GetUserInsightsRequest, GetUserInsightsResponse, GetUserSettingsRequest, GetUserSettingsResponse, UpdateFoodItemRequest, UpdateFoodItemResponse, UpdateUserSettingsRequest, UpdateUserSettingsResponse } from "./api_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -46,6 +46,15 @@ export const UserService = {
       name: "GetFoodItemLog",
       I: GetFoodItemLogRequest,
       O: GetFoodItemLogResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.GetFoodItemLogDays
+     */
+    getFoodItemLogDays: {
+      name: "GetFoodItemLogDays",
+      I: GetFoodItemLogDaysRequest,
+      O: GetFoodItemLogDaysResponse,
       kind: MethodKind.Unary,
     },
     /**

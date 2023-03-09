@@ -294,6 +294,43 @@ func (q *Queries) GetFoodItemLogStreak(ctx context.Context, userID int32) (GetFo
 	return i, err
 }
 
+const getLoggedDaysInMonth = `-- name: GetLoggedDaysInMonth :many
+SELECT DISTINCT
+    DATE_PART('day', log_date)::int AS day
+FROM
+    food_item_log
+WHERE
+    DATE_PART('month', log_date) = $2::int
+    AND DATE_PART('year', log_date) = $3::int
+    AND user_id = $1
+`
+
+type GetLoggedDaysInMonthParams struct {
+	UserID int32
+	Month  int32
+	Year   int32
+}
+
+func (q *Queries) GetLoggedDaysInMonth(ctx context.Context, arg GetLoggedDaysInMonthParams) ([]int32, error) {
+	rows, err := q.db.Query(ctx, getLoggedDaysInMonth, arg.UserID, arg.Month, arg.Year)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []int32
+	for rows.Next() {
+		var day int32
+		if err := rows.Scan(&day); err != nil {
+			return nil, err
+		}
+		items = append(items, day)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateFoodItemFromLog = `-- name: UpdateFoodItemFromLog :exec
 UPDATE
     "food_item_log"

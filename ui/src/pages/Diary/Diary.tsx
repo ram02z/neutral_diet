@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import RenderIfVisible from 'react-render-if-visible';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { Button, Typography } from '@mui/material';
+import { Badge, Button, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { CalendarPickerSkeleton, PickersDay } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import dayjs from 'dayjs';
@@ -11,6 +12,7 @@ import dayjs from 'dayjs';
 import FoodItemLogCard from '@/components/FoodItemLogCard';
 import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemLogCard/FoodItemLogCard';
 import LinearProgressWithLabel from '@/components/LinearProgressWithLabel';
+import useHighlightedDays from '@/hooks/useHighlightedDays';
 import {
   FoodItemLogDateState,
   FoodItemLogSerializableDateState,
@@ -31,6 +33,8 @@ function Diary() {
   const userSettings = useRecoilValue(LocalUserSettingsState);
   const stats = useRecoilValue(LocalFoodItemLogStats(serializableDate));
   const meals = useRecoilValue(MealsState);
+  const [fetchHighlightedDays, highlightedDays, loading, requestAbortController] =
+    useHighlightedDays();
 
   const yesterday = () => {
     setDate(date.subtract(1, 'day'));
@@ -38,6 +42,18 @@ function Diary() {
 
   const tommorrow = () => {
     setDate(date.add(1, 'day'));
+  };
+
+  useEffect(() => {
+    fetchHighlightedDays(date);
+    // abort request on unmount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => requestAbortController.current?.abort();
+  }, [date, fetchHighlightedDays, requestAbortController]);
+
+  const handleMonthChange = (date: dayjs.Dayjs) => {
+    requestAbortController.current?.abort();
+    fetchHighlightedDays(date);
   };
 
   return (
@@ -60,9 +76,26 @@ function Diary() {
             open={isForcePickerOpen}
             onClose={() => setIsOpen(false)}
             value={date}
+            loading={loading}
+            onMonthChange={handleMonthChange}
+            renderLoading={() => <CalendarPickerSkeleton />}
             maxDate={dayjs()}
             onChange={(newValue) => {
               setDate(newValue ?? date);
+            }}
+            renderDay={(day, _value, DayComponentProps) => {
+              const isSelected =
+                !DayComponentProps.outsideCurrentMonth && highlightedDays.includes(day.date());
+
+              return (
+                <Badge
+                  key={day.toString()}
+                  overlap="circular"
+                  badgeContent={isSelected ? '👍' : undefined}
+                >
+                  <PickersDay {...DayComponentProps} />
+                </Badge>
+              );
             }}
             renderInput={(params) => (
               <div ref={params.inputRef}>
