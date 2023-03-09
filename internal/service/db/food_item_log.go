@@ -250,7 +250,7 @@ func (s *Store) GetFoodItemLog(
 				Day:   int32(f.LogDate.Time.Day()),
 			},
 			Region: foodv1.Region(f.Region),
-			Meal: userv1.Meal(f.Meal),
+			Meal:   userv1.Meal(f.Meal),
 		}
 	}
 
