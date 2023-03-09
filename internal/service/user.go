@@ -208,3 +208,29 @@ func (c *ConnectWrapper) GetUserInsights(
 
 	return out, nil
 }
+
+func (c *ConnectWrapper) GetFoodItemLogDays(
+
+	ctx context.Context,
+	req *connect.Request[userv1.GetFoodItemLogDaysRequest],
+) (*connect.Response[userv1.GetFoodItemLogDaysResponse], error) {
+
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	err = validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.GetFoodItemLogDays(ctx, req.Msg, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}

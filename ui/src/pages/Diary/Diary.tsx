@@ -1,17 +1,20 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import RenderIfVisible from 'react-render-if-visible';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { Button, Typography } from '@mui/material';
+import { Badge, Button, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { CalendarPickerSkeleton, PickersDay } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import dayjs from 'dayjs';
 
+import client from '@/api/user_service';
 import FoodItemLogCard from '@/components/FoodItemLogCard';
 import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemLogCard/FoodItemLogCard';
 import LinearProgressWithLabel from '@/components/LinearProgressWithLabel';
 import {
+  CurrentUserHeadersState,
   FoodItemLogDateState,
   FoodItemLogSerializableDateState,
   LocalFoodItemLogState,
@@ -20,6 +23,17 @@ import {
   MealsState,
 } from '@/store/user';
 import { getDateString } from '@/utils/date';
+
+function fetchDays(date: dayjs.Dayjs, headers: Headers, { signal }: { signal: AbortSignal }) {
+  return new Promise<number[]>((resolve, reject) => {
+    client
+      .getFoodItemLogDays({ year: date.year(), month: date.month() + 1 }, { headers: headers })
+      .then((res) => resolve(res.days));
+    signal.onabort = () => {
+      reject(new DOMException('aborted', 'AbortError'));
+    };
+  });
+}
 
 function Diary() {
   const [isForcePickerOpen, setIsOpen] = useState(false);
@@ -31,6 +45,10 @@ function Diary() {
   const userSettings = useRecoilValue(LocalUserSettingsState);
   const stats = useRecoilValue(LocalFoodItemLogStats(serializableDate));
   const meals = useRecoilValue(MealsState);
+  const userHeaders = useRecoilValue(CurrentUserHeadersState);
+  const requestAbortController = useRef<AbortController | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [highlightedDays, setHighlightedDays] = useState<number[]>([]);
 
   const yesterday = () => {
     setDate(date.subtract(1, 'day'));
@@ -38,6 +56,43 @@ function Diary() {
 
   const tommorrow = () => {
     setDate(date.add(1, 'day'));
+  };
+
+  const fetchHighlightedDays = (date: dayjs.Dayjs) => {
+    const controller = new AbortController();
+    fetchDays(date, userHeaders, {
+      signal: controller.signal,
+    })
+      .then((days) => {
+        setHighlightedDays(days);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        // ignore the error if it's caused by `controller.abort`
+        if (error.name !== 'AbortError') {
+          throw error;
+        }
+      });
+
+    requestAbortController.current = controller;
+  };
+
+  useEffect(() => {
+    fetchHighlightedDays(date);
+    // abort request on unmount
+    return () => requestAbortController.current?.abort();
+  }, [date]);
+
+  const handleMonthChange = (date: dayjs.Dayjs) => {
+    if (requestAbortController.current) {
+      // make sure that you are aborting useless requests
+      // because it is possible to switch between months pretty quickly
+      requestAbortController.current.abort();
+    }
+
+    setIsLoading(true);
+    setHighlightedDays([]);
+    fetchHighlightedDays(date);
   };
 
   return (
@@ -60,9 +115,26 @@ function Diary() {
             open={isForcePickerOpen}
             onClose={() => setIsOpen(false)}
             value={date}
+            loading={isLoading}
+            onMonthChange={handleMonthChange}
+            renderLoading={() => <CalendarPickerSkeleton />}
             maxDate={dayjs()}
             onChange={(newValue) => {
               setDate(newValue ?? date);
+            }}
+            renderDay={(day, _value, DayComponentProps) => {
+              const isSelected =
+                !DayComponentProps.outsideCurrentMonth && highlightedDays.includes(day.date());
+
+              return (
+                <Badge
+                  key={day.toString()}
+                  overlap="circular"
+                  badgeContent={isSelected ? '👍' : undefined}
+                >
+                  <PickersDay {...DayComponentProps} />
+                </Badge>
+              );
             }}
             renderInput={(params) => (
               <div ref={params.inputRef}>

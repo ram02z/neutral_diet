@@ -331,6 +331,86 @@ export class GetFoodItemLogResponse extends Message<GetFoodItemLogResponse> {
 }
 
 /**
+ * @generated from message neutral_diet.user.v1.GetFoodItemLogDaysRequest
+ */
+export class GetFoodItemLogDaysRequest extends Message<GetFoodItemLogDaysRequest> {
+  /**
+   * @generated from field: int32 month = 1;
+   */
+  month = 0;
+
+  /**
+   * @generated from field: int32 year = 2;
+   */
+  year = 0;
+
+  constructor(data?: PartialMessage<GetFoodItemLogDaysRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetFoodItemLogDaysRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "month", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "year", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemLogDaysRequest {
+    return new GetFoodItemLogDaysRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysRequest {
+    return new GetFoodItemLogDaysRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysRequest {
+    return new GetFoodItemLogDaysRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFoodItemLogDaysRequest | PlainMessage<GetFoodItemLogDaysRequest> | undefined, b: GetFoodItemLogDaysRequest | PlainMessage<GetFoodItemLogDaysRequest> | undefined): boolean {
+    return proto3.util.equals(GetFoodItemLogDaysRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetFoodItemLogDaysResponse
+ */
+export class GetFoodItemLogDaysResponse extends Message<GetFoodItemLogDaysResponse> {
+  /**
+   * @generated from field: repeated int32 days = 1;
+   */
+  days: number[] = [];
+
+  constructor(data?: PartialMessage<GetFoodItemLogDaysResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetFoodItemLogDaysResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "days", kind: "scalar", T: 5 /* ScalarType.INT32 */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemLogDaysResponse {
+    return new GetFoodItemLogDaysResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysResponse {
+    return new GetFoodItemLogDaysResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysResponse {
+    return new GetFoodItemLogDaysResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFoodItemLogDaysResponse | PlainMessage<GetFoodItemLogDaysResponse> | undefined, b: GetFoodItemLogDaysResponse | PlainMessage<GetFoodItemLogDaysResponse> | undefined): boolean {
+    return proto3.util.equals(GetFoodItemLogDaysResponse, a, b);
+  }
+}
+
+/**
  * @generated from message neutral_diet.user.v1.CreateUserRequest
  */
 export class CreateUserRequest extends Message<CreateUserRequest> {

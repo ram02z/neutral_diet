@@ -257,6 +257,29 @@ func (s *Store) GetFoodItemLog(
 	return &userv1.GetFoodItemLogResponse{FoodItemLog: foodLogItems}, nil
 }
 
+func (s *Store) GetFoodItemLogDays(
+	ctx context.Context,
+	r *userv1.GetFoodItemLogDaysRequest,
+	firebaseUID string,
+) (*userv1.GetFoodItemLogDaysResponse, error) {
+	queries := db.New(s.dbPool)
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	days, err := queries.GetLoggedDaysInMonth(ctx, db.GetLoggedDaysInMonthParams{
+		UserID: user.ID,
+		Month:  r.Month,
+		Year:   r.Year,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &userv1.GetFoodItemLogDaysResponse{Days: days}, err
+}
+
 func calculateCarbonFootprintByWeight(
 	carbonFootprint decimal.Decimal,
 	weight decimal.Decimal,

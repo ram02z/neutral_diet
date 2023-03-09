@@ -429,6 +429,108 @@ func (x *GetFoodItemLogResponse) GetFoodItemLog() []*FoodLogItemResponse {
 	return nil
 }
 
+type GetFoodItemLogDaysRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Month int32 `protobuf:"varint,1,opt,name=month,proto3" json:"month,omitempty"`
+	Year  int32 `protobuf:"varint,2,opt,name=year,proto3" json:"year,omitempty"`
+}
+
+func (x *GetFoodItemLogDaysRequest) Reset() {
+	*x = GetFoodItemLogDaysRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetFoodItemLogDaysRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFoodItemLogDaysRequest) ProtoMessage() {}
+
+func (x *GetFoodItemLogDaysRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFoodItemLogDaysRequest.ProtoReflect.Descriptor instead.
+func (*GetFoodItemLogDaysRequest) Descriptor() ([]byte, []int) {
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetFoodItemLogDaysRequest) GetMonth() int32 {
+	if x != nil {
+		return x.Month
+	}
+	return 0
+}
+
+func (x *GetFoodItemLogDaysRequest) GetYear() int32 {
+	if x != nil {
+		return x.Year
+	}
+	return 0
+}
+
+type GetFoodItemLogDaysResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Days []int32 `protobuf:"varint,1,rep,packed,name=days,proto3" json:"days,omitempty"`
+}
+
+func (x *GetFoodItemLogDaysResponse) Reset() {
+	*x = GetFoodItemLogDaysResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetFoodItemLogDaysResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFoodItemLogDaysResponse) ProtoMessage() {}
+
+func (x *GetFoodItemLogDaysResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFoodItemLogDaysResponse.ProtoReflect.Descriptor instead.
+func (*GetFoodItemLogDaysResponse) Descriptor() ([]byte, []int) {
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetFoodItemLogDaysResponse) GetDays() []int32 {
+	if x != nil {
+		return x.Days
+	}
+	return nil
+}
+
 type CreateUserRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -440,7 +542,7 @@ type CreateUserRequest struct {
 func (x *CreateUserRequest) Reset() {
 	*x = CreateUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[8]
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -453,7 +555,7 @@ func (x *CreateUserRequest) String() string {
 func (*CreateUserRequest) ProtoMessage() {}
 
 func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[8]
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -466,7 +568,7 @@ func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{8}
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CreateUserRequest) GetFirebaseUid() string {
@@ -487,7 +589,7 @@ type CreateUserResponse struct {
 func (x *CreateUserResponse) Reset() {
 	*x = CreateUserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[9]
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -500,7 +602,7 @@ func (x *CreateUserResponse) String() string {
 func (*CreateUserResponse) ProtoMessage() {}
 
 func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[9]
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -513,7 +615,7 @@ func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserResponse.ProtoReflect.Descriptor instead.
 func (*CreateUserResponse) Descriptor() ([]byte, []int) {
-	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{9}
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *CreateUserResponse) GetId() int32 {
@@ -532,7 +634,7 @@ type DeleteUserRequest struct {
 func (x *DeleteUserRequest) Reset() {
 	*x = DeleteUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[10]
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -545,7 +647,7 @@ func (x *DeleteUserRequest) String() string {
 func (*DeleteUserRequest) ProtoMessage() {}
 
 func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[10]
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -558,7 +660,7 @@ func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
 func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
-	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{10}
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{12}
 }
 
 type DeleteUserResponse struct {
@@ -570,7 +672,7 @@ type DeleteUserResponse struct {
 func (x *DeleteUserResponse) Reset() {
 	*x = DeleteUserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[11]
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -583,7 +685,7 @@ func (x *DeleteUserResponse) String() string {
 func (*DeleteUserResponse) ProtoMessage() {}
 
 func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[11]
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -596,7 +698,7 @@ func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserResponse.ProtoReflect.Descriptor instead.
 func (*DeleteUserResponse) Descriptor() ([]byte, []int) {
-	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{11}
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{13}
 }
 
 type UpdateUserSettingsRequest struct {
@@ -610,7 +712,7 @@ type UpdateUserSettingsRequest struct {
 func (x *UpdateUserSettingsRequest) Reset() {
 	*x = UpdateUserSettingsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[12]
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -623,7 +725,7 @@ func (x *UpdateUserSettingsRequest) String() string {
 func (*UpdateUserSettingsRequest) ProtoMessage() {}
 
 func (x *UpdateUserSettingsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[12]
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -636,7 +738,7 @@ func (x *UpdateUserSettingsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserSettingsRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserSettingsRequest) Descriptor() ([]byte, []int) {
-	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{12}
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *UpdateUserSettingsRequest) GetUserSettings() *UserSettings {
@@ -655,7 +757,7 @@ type UpdateUserSettingsResponse struct {
 func (x *UpdateUserSettingsResponse) Reset() {
 	*x = UpdateUserSettingsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[13]
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -668,7 +770,7 @@ func (x *UpdateUserSettingsResponse) String() string {
 func (*UpdateUserSettingsResponse) ProtoMessage() {}
 
 func (x *UpdateUserSettingsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[13]
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -681,7 +783,7 @@ func (x *UpdateUserSettingsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserSettingsResponse.ProtoReflect.Descriptor instead.
 func (*UpdateUserSettingsResponse) Descriptor() ([]byte, []int) {
-	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{13}
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{15}
 }
 
 type GetUserSettingsRequest struct {
@@ -693,7 +795,7 @@ type GetUserSettingsRequest struct {
 func (x *GetUserSettingsRequest) Reset() {
 	*x = GetUserSettingsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[14]
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -706,7 +808,7 @@ func (x *GetUserSettingsRequest) String() string {
 func (*GetUserSettingsRequest) ProtoMessage() {}
 
 func (x *GetUserSettingsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[14]
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -719,7 +821,7 @@ func (x *GetUserSettingsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserSettingsRequest.ProtoReflect.Descriptor instead.
 func (*GetUserSettingsRequest) Descriptor() ([]byte, []int) {
-	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{14}
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{16}
 }
 
 type GetUserSettingsResponse struct {
@@ -733,7 +835,7 @@ type GetUserSettingsResponse struct {
 func (x *GetUserSettingsResponse) Reset() {
 	*x = GetUserSettingsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[15]
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -746,7 +848,7 @@ func (x *GetUserSettingsResponse) String() string {
 func (*GetUserSettingsResponse) ProtoMessage() {}
 
 func (x *GetUserSettingsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[15]
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -759,7 +861,7 @@ func (x *GetUserSettingsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserSettingsResponse.ProtoReflect.Descriptor instead.
 func (*GetUserSettingsResponse) Descriptor() ([]byte, []int) {
-	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{15}
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *GetUserSettingsResponse) GetUserSettings() *UserSettings {
@@ -778,7 +880,7 @@ type GetUserInsightsRequest struct {
 func (x *GetUserInsightsRequest) Reset() {
 	*x = GetUserInsightsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[16]
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -791,7 +893,7 @@ func (x *GetUserInsightsRequest) String() string {
 func (*GetUserInsightsRequest) ProtoMessage() {}
 
 func (x *GetUserInsightsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[16]
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -804,7 +906,7 @@ func (x *GetUserInsightsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserInsightsRequest.ProtoReflect.Descriptor instead.
 func (*GetUserInsightsRequest) Descriptor() ([]byte, []int) {
-	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{16}
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{18}
 }
 
 type GetUserInsightsResponse struct {
@@ -823,7 +925,7 @@ type GetUserInsightsResponse struct {
 func (x *GetUserInsightsResponse) Reset() {
 	*x = GetUserInsightsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[17]
+		mi := &file_neutral_diet_user_v1_api_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -836,7 +938,7 @@ func (x *GetUserInsightsResponse) String() string {
 func (*GetUserInsightsResponse) ProtoMessage() {}
 
 func (x *GetUserInsightsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[17]
+	mi := &file_neutral_diet_user_v1_api_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -849,7 +951,7 @@ func (x *GetUserInsightsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserInsightsResponse.ProtoReflect.Descriptor instead.
 func (*GetUserInsightsResponse) Descriptor() ([]byte, []int) {
-	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{17}
+	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *GetUserInsightsResponse) GetOverallCarbonFootprint() float64 {
@@ -959,6 +1061,15 @@ var file_neutral_diet_user_v1_api_proto_rawDesc = []byte{
 	0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x46,
 	0x6f, 0x6f, 0x64, 0x4c, 0x6f, 0x67, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
 	0x73, 0x65, 0x52, 0x0b, 0x66, 0x6f, 0x6f, 0x64, 0x49, 0x74, 0x65, 0x6d, 0x4c, 0x6f, 0x67, 0x22,
+	0x5c, 0x0a, 0x19, 0x47, 0x65, 0x74, 0x46, 0x6f, 0x6f, 0x64, 0x49, 0x74, 0x65, 0x6d, 0x4c, 0x6f,
+	0x67, 0x44, 0x61, 0x79, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x05,
+	0x6d, 0x6f, 0x6e, 0x74, 0x68, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x42, 0x09, 0xfa, 0x42, 0x06,
+	0x1a, 0x04, 0x18, 0x0c, 0x28, 0x01, 0x52, 0x05, 0x6d, 0x6f, 0x6e, 0x74, 0x68, 0x12, 0x1e, 0x0a,
+	0x04, 0x79, 0x65, 0x61, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x42, 0x0a, 0xfa, 0x42, 0x07,
+	0x1a, 0x05, 0x18, 0x8f, 0x4e, 0x28, 0x01, 0x52, 0x04, 0x79, 0x65, 0x61, 0x72, 0x22, 0x30, 0x0a,
+	0x1a, 0x47, 0x65, 0x74, 0x46, 0x6f, 0x6f, 0x64, 0x49, 0x74, 0x65, 0x6d, 0x4c, 0x6f, 0x67, 0x44,
+	0x61, 0x79, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x64,
+	0x61, 0x79, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x05, 0x52, 0x04, 0x64, 0x61, 0x79, 0x73, 0x22,
 	0x3f, 0x0a, 0x11, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71,
 	0x75, 0x65, 0x73, 0x74, 0x12, 0x2a, 0x0a, 0x0c, 0x66, 0x69, 0x72, 0x65, 0x62, 0x61, 0x73, 0x65,
 	0x5f, 0x75, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x07, 0xfa, 0x42, 0x04, 0x72,
@@ -1010,8 +1121,8 @@ var file_neutral_diet_user_v1_api_proto_rawDesc = []byte{
 	0x6c, 0x65, 0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x73, 0x74, 0x72, 0x65, 0x61,
 	0x6b, 0x4c, 0x65, 0x6e, 0x12, 0x28, 0x0a, 0x10, 0x69, 0x73, 0x5f, 0x73, 0x74, 0x72, 0x65, 0x61,
 	0x6b, 0x5f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0e,
-	0x69, 0x73, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6b, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x32, 0xe5,
-	0x07, 0x0a, 0x0b, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x64,
+	0x69, 0x73, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6b, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x32, 0xe0,
+	0x08, 0x0a, 0x0b, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x64,
 	0x0a, 0x0b, 0x41, 0x64, 0x64, 0x46, 0x6f, 0x6f, 0x64, 0x49, 0x74, 0x65, 0x6d, 0x12, 0x28, 0x2e,
 	0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65,
 	0x72, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x64, 0x46, 0x6f, 0x6f, 0x64, 0x49, 0x74, 0x65, 0x6d,
@@ -1039,55 +1150,63 @@ var file_neutral_diet_user_v1_api_proto_rawDesc = []byte{
 	0x74, 0x1a, 0x2c, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74,
 	0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x46, 0x6f, 0x6f, 0x64,
 	0x49, 0x74, 0x65, 0x6d, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
-	0x00, 0x12, 0x61, 0x0a, 0x0a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x12,
-	0x27, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75,
-	0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65,
-	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x28, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72,
-	0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x00, 0x12, 0x61, 0x0a, 0x0a, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73,
-	0x65, 0x72, 0x12, 0x27, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65,
-	0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
-	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x28, 0x2e, 0x6e, 0x65,
-	0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e,
-	0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x70, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x55, 0x73,
-	0x65, 0x72, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x2c, 0x2e, 0x6e, 0x65, 0x75,
-	0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76,
-	0x31, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67,
-	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72,
-	0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e,
-	0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x79, 0x0a, 0x12, 0x55, 0x70, 0x64,
-	0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x12,
-	0x2f, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75,
-	0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65,
-	0x72, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x30, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e,
-	0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73,
-	0x65, 0x72, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x00, 0x12, 0x70, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49,
-	0x6e, 0x73, 0x69, 0x67, 0x68, 0x74, 0x73, 0x12, 0x2c, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61,
+	0x00, 0x12, 0x79, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x46, 0x6f, 0x6f, 0x64, 0x49, 0x74, 0x65, 0x6d,
+	0x4c, 0x6f, 0x67, 0x44, 0x61, 0x79, 0x73, 0x12, 0x2f, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61,
 	0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x47,
-	0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x73, 0x69, 0x67, 0x68, 0x74, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f,
+	0x65, 0x74, 0x46, 0x6f, 0x6f, 0x64, 0x49, 0x74, 0x65, 0x6d, 0x4c, 0x6f, 0x67, 0x44, 0x61, 0x79,
+	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72,
+	0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e,
+	0x47, 0x65, 0x74, 0x46, 0x6f, 0x6f, 0x64, 0x49, 0x74, 0x65, 0x6d, 0x4c, 0x6f, 0x67, 0x44, 0x61,
+	0x79, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x61, 0x0a, 0x0a,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x12, 0x27, 0x2e, 0x6e, 0x65, 0x75,
+	0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76,
+	0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x28, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69,
+	0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12,
+	0x61, 0x0a, 0x0a, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x12, 0x27, 0x2e,
+	0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65,
+	0x72, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x28, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c,
+	0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65,
+	0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x00, 0x12, 0x70, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x74,
+	0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x2c, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f,
 	0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74,
-	0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x73, 0x69, 0x67, 0x68, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0xdf, 0x01, 0x0a, 0x18, 0x63, 0x6f, 0x6d, 0x2e, 0x6e,
-	0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72,
-	0x2e, 0x76, 0x31, 0x42, 0x08, 0x41, 0x70, 0x69, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
-	0x4b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x72, 0x61, 0x6d, 0x30,
-	0x32, 0x7a, 0x2f, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2f,
-	0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2f, 0x67, 0x65, 0x6e, 0x2f, 0x69, 0x64, 0x6c,
-	0x2f, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2f, 0x75, 0x73,
-	0x65, 0x72, 0x2f, 0x76, 0x31, 0x3b, 0x75, 0x73, 0x65, 0x72, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x4e,
-	0x55, 0x58, 0xaa, 0x02, 0x13, 0x4e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x44, 0x69, 0x65, 0x74,
-	0x2e, 0x55, 0x73, 0x65, 0x72, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x13, 0x4e, 0x65, 0x75, 0x74, 0x72,
-	0x61, 0x6c, 0x44, 0x69, 0x65, 0x74, 0x5c, 0x55, 0x73, 0x65, 0x72, 0x5c, 0x56, 0x31, 0xe2, 0x02,
-	0x1f, 0x4e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x44, 0x69, 0x65, 0x74, 0x5c, 0x55, 0x73, 0x65,
-	0x72, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
-	0xea, 0x02, 0x15, 0x4e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x44, 0x69, 0x65, 0x74, 0x3a, 0x3a,
-	0x55, 0x73, 0x65, 0x72, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69,
+	0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73,
+	0x65, 0x72, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x00, 0x12, 0x79, 0x0a, 0x12, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73,
+	0x65, 0x72, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x2f, 0x2e, 0x6e, 0x65, 0x75,
+	0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76,
+	0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x74, 0x74,
+	0x69, 0x6e, 0x67, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x6e, 0x65,
+	0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e,
+	0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x74,
+	0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12,
+	0x70, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x73, 0x69, 0x67, 0x68,
+	0x74, 0x73, 0x12, 0x2c, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65,
+	0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65,
+	0x72, 0x49, 0x6e, 0x73, 0x69, 0x67, 0x68, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x2d, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e,
+	0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49,
+	0x6e, 0x73, 0x69, 0x67, 0x68, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x42, 0xdf, 0x01, 0x0a, 0x18, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61,
+	0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x42, 0x08,
+	0x41, 0x70, 0x69, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x4b, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x72, 0x61, 0x6d, 0x30, 0x32, 0x7a, 0x2f, 0x6e, 0x65,
+	0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72,
+	0x6e, 0x61, 0x6c, 0x2f, 0x67, 0x65, 0x6e, 0x2f, 0x69, 0x64, 0x6c, 0x2f, 0x6e, 0x65, 0x75, 0x74,
+	0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x2f, 0x76, 0x31,
+	0x3b, 0x75, 0x73, 0x65, 0x72, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x4e, 0x55, 0x58, 0xaa, 0x02, 0x13,
+	0x4e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x44, 0x69, 0x65, 0x74, 0x2e, 0x55, 0x73, 0x65, 0x72,
+	0x2e, 0x56, 0x31, 0xca, 0x02, 0x13, 0x4e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x44, 0x69, 0x65,
+	0x74, 0x5c, 0x55, 0x73, 0x65, 0x72, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x1f, 0x4e, 0x65, 0x75, 0x74,
+	0x72, 0x61, 0x6c, 0x44, 0x69, 0x65, 0x74, 0x5c, 0x55, 0x73, 0x65, 0x72, 0x5c, 0x56, 0x31, 0x5c,
+	0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x15, 0x4e, 0x65,
+	0x75, 0x74, 0x72, 0x61, 0x6c, 0x44, 0x69, 0x65, 0x74, 0x3a, 0x3a, 0x55, 0x73, 0x65, 0x72, 0x3a,
+	0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1102,7 +1221,7 @@ func file_neutral_diet_user_v1_api_proto_rawDescGZIP() []byte {
 	return file_neutral_diet_user_v1_api_proto_rawDescData
 }
 
-var file_neutral_diet_user_v1_api_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_neutral_diet_user_v1_api_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_neutral_diet_user_v1_api_proto_goTypes = []interface{}{
 	(*AddFoodItemRequest)(nil),         // 0: neutral_diet.user.v1.AddFoodItemRequest
 	(*AddFoodItemResponse)(nil),        // 1: neutral_diet.user.v1.AddFoodItemResponse
@@ -1112,53 +1231,57 @@ var file_neutral_diet_user_v1_api_proto_goTypes = []interface{}{
 	(*DeleteFoodItemResponse)(nil),     // 5: neutral_diet.user.v1.DeleteFoodItemResponse
 	(*GetFoodItemLogRequest)(nil),      // 6: neutral_diet.user.v1.GetFoodItemLogRequest
 	(*GetFoodItemLogResponse)(nil),     // 7: neutral_diet.user.v1.GetFoodItemLogResponse
-	(*CreateUserRequest)(nil),          // 8: neutral_diet.user.v1.CreateUserRequest
-	(*CreateUserResponse)(nil),         // 9: neutral_diet.user.v1.CreateUserResponse
-	(*DeleteUserRequest)(nil),          // 10: neutral_diet.user.v1.DeleteUserRequest
-	(*DeleteUserResponse)(nil),         // 11: neutral_diet.user.v1.DeleteUserResponse
-	(*UpdateUserSettingsRequest)(nil),  // 12: neutral_diet.user.v1.UpdateUserSettingsRequest
-	(*UpdateUserSettingsResponse)(nil), // 13: neutral_diet.user.v1.UpdateUserSettingsResponse
-	(*GetUserSettingsRequest)(nil),     // 14: neutral_diet.user.v1.GetUserSettingsRequest
-	(*GetUserSettingsResponse)(nil),    // 15: neutral_diet.user.v1.GetUserSettingsResponse
-	(*GetUserInsightsRequest)(nil),     // 16: neutral_diet.user.v1.GetUserInsightsRequest
-	(*GetUserInsightsResponse)(nil),    // 17: neutral_diet.user.v1.GetUserInsightsResponse
-	(*FoodLogItemRequest)(nil),         // 18: neutral_diet.user.v1.FoodLogItemRequest
-	(WeightUnit)(0),                    // 19: neutral_diet.user.v1.WeightUnit
-	(v1.Region)(0),                     // 20: neutral_diet.food.v1.Region
-	(Meal)(0),                          // 21: neutral_diet.user.v1.Meal
-	(*Date)(nil),                       // 22: neutral_diet.user.v1.Date
-	(*FoodLogItemResponse)(nil),        // 23: neutral_diet.user.v1.FoodLogItemResponse
-	(*UserSettings)(nil),               // 24: neutral_diet.user.v1.UserSettings
+	(*GetFoodItemLogDaysRequest)(nil),  // 8: neutral_diet.user.v1.GetFoodItemLogDaysRequest
+	(*GetFoodItemLogDaysResponse)(nil), // 9: neutral_diet.user.v1.GetFoodItemLogDaysResponse
+	(*CreateUserRequest)(nil),          // 10: neutral_diet.user.v1.CreateUserRequest
+	(*CreateUserResponse)(nil),         // 11: neutral_diet.user.v1.CreateUserResponse
+	(*DeleteUserRequest)(nil),          // 12: neutral_diet.user.v1.DeleteUserRequest
+	(*DeleteUserResponse)(nil),         // 13: neutral_diet.user.v1.DeleteUserResponse
+	(*UpdateUserSettingsRequest)(nil),  // 14: neutral_diet.user.v1.UpdateUserSettingsRequest
+	(*UpdateUserSettingsResponse)(nil), // 15: neutral_diet.user.v1.UpdateUserSettingsResponse
+	(*GetUserSettingsRequest)(nil),     // 16: neutral_diet.user.v1.GetUserSettingsRequest
+	(*GetUserSettingsResponse)(nil),    // 17: neutral_diet.user.v1.GetUserSettingsResponse
+	(*GetUserInsightsRequest)(nil),     // 18: neutral_diet.user.v1.GetUserInsightsRequest
+	(*GetUserInsightsResponse)(nil),    // 19: neutral_diet.user.v1.GetUserInsightsResponse
+	(*FoodLogItemRequest)(nil),         // 20: neutral_diet.user.v1.FoodLogItemRequest
+	(WeightUnit)(0),                    // 21: neutral_diet.user.v1.WeightUnit
+	(v1.Region)(0),                     // 22: neutral_diet.food.v1.Region
+	(Meal)(0),                          // 23: neutral_diet.user.v1.Meal
+	(*Date)(nil),                       // 24: neutral_diet.user.v1.Date
+	(*FoodLogItemResponse)(nil),        // 25: neutral_diet.user.v1.FoodLogItemResponse
+	(*UserSettings)(nil),               // 26: neutral_diet.user.v1.UserSettings
 }
 var file_neutral_diet_user_v1_api_proto_depIdxs = []int32{
-	18, // 0: neutral_diet.user.v1.AddFoodItemRequest.food_log_item:type_name -> neutral_diet.user.v1.FoodLogItemRequest
-	19, // 1: neutral_diet.user.v1.UpdateFoodItemRequest.weight_unit:type_name -> neutral_diet.user.v1.WeightUnit
-	20, // 2: neutral_diet.user.v1.UpdateFoodItemRequest.region:type_name -> neutral_diet.food.v1.Region
-	21, // 3: neutral_diet.user.v1.UpdateFoodItemRequest.meal:type_name -> neutral_diet.user.v1.Meal
-	22, // 4: neutral_diet.user.v1.GetFoodItemLogRequest.date:type_name -> neutral_diet.user.v1.Date
-	23, // 5: neutral_diet.user.v1.GetFoodItemLogResponse.food_item_log:type_name -> neutral_diet.user.v1.FoodLogItemResponse
-	24, // 6: neutral_diet.user.v1.UpdateUserSettingsRequest.user_settings:type_name -> neutral_diet.user.v1.UserSettings
-	24, // 7: neutral_diet.user.v1.GetUserSettingsResponse.user_settings:type_name -> neutral_diet.user.v1.UserSettings
+	20, // 0: neutral_diet.user.v1.AddFoodItemRequest.food_log_item:type_name -> neutral_diet.user.v1.FoodLogItemRequest
+	21, // 1: neutral_diet.user.v1.UpdateFoodItemRequest.weight_unit:type_name -> neutral_diet.user.v1.WeightUnit
+	22, // 2: neutral_diet.user.v1.UpdateFoodItemRequest.region:type_name -> neutral_diet.food.v1.Region
+	23, // 3: neutral_diet.user.v1.UpdateFoodItemRequest.meal:type_name -> neutral_diet.user.v1.Meal
+	24, // 4: neutral_diet.user.v1.GetFoodItemLogRequest.date:type_name -> neutral_diet.user.v1.Date
+	25, // 5: neutral_diet.user.v1.GetFoodItemLogResponse.food_item_log:type_name -> neutral_diet.user.v1.FoodLogItemResponse
+	26, // 6: neutral_diet.user.v1.UpdateUserSettingsRequest.user_settings:type_name -> neutral_diet.user.v1.UserSettings
+	26, // 7: neutral_diet.user.v1.GetUserSettingsResponse.user_settings:type_name -> neutral_diet.user.v1.UserSettings
 	0,  // 8: neutral_diet.user.v1.UserService.AddFoodItem:input_type -> neutral_diet.user.v1.AddFoodItemRequest
 	2,  // 9: neutral_diet.user.v1.UserService.UpdateFoodItem:input_type -> neutral_diet.user.v1.UpdateFoodItemRequest
 	4,  // 10: neutral_diet.user.v1.UserService.DeleteFoodItem:input_type -> neutral_diet.user.v1.DeleteFoodItemRequest
 	6,  // 11: neutral_diet.user.v1.UserService.GetFoodItemLog:input_type -> neutral_diet.user.v1.GetFoodItemLogRequest
-	8,  // 12: neutral_diet.user.v1.UserService.CreateUser:input_type -> neutral_diet.user.v1.CreateUserRequest
-	10, // 13: neutral_diet.user.v1.UserService.DeleteUser:input_type -> neutral_diet.user.v1.DeleteUserRequest
-	14, // 14: neutral_diet.user.v1.UserService.GetUserSettings:input_type -> neutral_diet.user.v1.GetUserSettingsRequest
-	12, // 15: neutral_diet.user.v1.UserService.UpdateUserSettings:input_type -> neutral_diet.user.v1.UpdateUserSettingsRequest
-	16, // 16: neutral_diet.user.v1.UserService.GetUserInsights:input_type -> neutral_diet.user.v1.GetUserInsightsRequest
-	1,  // 17: neutral_diet.user.v1.UserService.AddFoodItem:output_type -> neutral_diet.user.v1.AddFoodItemResponse
-	3,  // 18: neutral_diet.user.v1.UserService.UpdateFoodItem:output_type -> neutral_diet.user.v1.UpdateFoodItemResponse
-	5,  // 19: neutral_diet.user.v1.UserService.DeleteFoodItem:output_type -> neutral_diet.user.v1.DeleteFoodItemResponse
-	7,  // 20: neutral_diet.user.v1.UserService.GetFoodItemLog:output_type -> neutral_diet.user.v1.GetFoodItemLogResponse
-	9,  // 21: neutral_diet.user.v1.UserService.CreateUser:output_type -> neutral_diet.user.v1.CreateUserResponse
-	11, // 22: neutral_diet.user.v1.UserService.DeleteUser:output_type -> neutral_diet.user.v1.DeleteUserResponse
-	15, // 23: neutral_diet.user.v1.UserService.GetUserSettings:output_type -> neutral_diet.user.v1.GetUserSettingsResponse
-	13, // 24: neutral_diet.user.v1.UserService.UpdateUserSettings:output_type -> neutral_diet.user.v1.UpdateUserSettingsResponse
-	17, // 25: neutral_diet.user.v1.UserService.GetUserInsights:output_type -> neutral_diet.user.v1.GetUserInsightsResponse
-	17, // [17:26] is the sub-list for method output_type
-	8,  // [8:17] is the sub-list for method input_type
+	8,  // 12: neutral_diet.user.v1.UserService.GetFoodItemLogDays:input_type -> neutral_diet.user.v1.GetFoodItemLogDaysRequest
+	10, // 13: neutral_diet.user.v1.UserService.CreateUser:input_type -> neutral_diet.user.v1.CreateUserRequest
+	12, // 14: neutral_diet.user.v1.UserService.DeleteUser:input_type -> neutral_diet.user.v1.DeleteUserRequest
+	16, // 15: neutral_diet.user.v1.UserService.GetUserSettings:input_type -> neutral_diet.user.v1.GetUserSettingsRequest
+	14, // 16: neutral_diet.user.v1.UserService.UpdateUserSettings:input_type -> neutral_diet.user.v1.UpdateUserSettingsRequest
+	18, // 17: neutral_diet.user.v1.UserService.GetUserInsights:input_type -> neutral_diet.user.v1.GetUserInsightsRequest
+	1,  // 18: neutral_diet.user.v1.UserService.AddFoodItem:output_type -> neutral_diet.user.v1.AddFoodItemResponse
+	3,  // 19: neutral_diet.user.v1.UserService.UpdateFoodItem:output_type -> neutral_diet.user.v1.UpdateFoodItemResponse
+	5,  // 20: neutral_diet.user.v1.UserService.DeleteFoodItem:output_type -> neutral_diet.user.v1.DeleteFoodItemResponse
+	7,  // 21: neutral_diet.user.v1.UserService.GetFoodItemLog:output_type -> neutral_diet.user.v1.GetFoodItemLogResponse
+	9,  // 22: neutral_diet.user.v1.UserService.GetFoodItemLogDays:output_type -> neutral_diet.user.v1.GetFoodItemLogDaysResponse
+	11, // 23: neutral_diet.user.v1.UserService.CreateUser:output_type -> neutral_diet.user.v1.CreateUserResponse
+	13, // 24: neutral_diet.user.v1.UserService.DeleteUser:output_type -> neutral_diet.user.v1.DeleteUserResponse
+	17, // 25: neutral_diet.user.v1.UserService.GetUserSettings:output_type -> neutral_diet.user.v1.GetUserSettingsResponse
+	15, // 26: neutral_diet.user.v1.UserService.UpdateUserSettings:output_type -> neutral_diet.user.v1.UpdateUserSettingsResponse
+	19, // 27: neutral_diet.user.v1.UserService.GetUserInsights:output_type -> neutral_diet.user.v1.GetUserInsightsResponse
+	18, // [18:28] is the sub-list for method output_type
+	8,  // [8:18] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
 	8,  // [8:8] is the sub-list for extension extendee
 	0,  // [0:8] is the sub-list for field type_name
@@ -1270,7 +1393,7 @@ func file_neutral_diet_user_v1_api_proto_init() {
 			}
 		}
 		file_neutral_diet_user_v1_api_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateUserRequest); i {
+			switch v := v.(*GetFoodItemLogDaysRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1282,7 +1405,7 @@ func file_neutral_diet_user_v1_api_proto_init() {
 			}
 		}
 		file_neutral_diet_user_v1_api_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateUserResponse); i {
+			switch v := v.(*GetFoodItemLogDaysResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1294,7 +1417,7 @@ func file_neutral_diet_user_v1_api_proto_init() {
 			}
 		}
 		file_neutral_diet_user_v1_api_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteUserRequest); i {
+			switch v := v.(*CreateUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1306,7 +1429,7 @@ func file_neutral_diet_user_v1_api_proto_init() {
 			}
 		}
 		file_neutral_diet_user_v1_api_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteUserResponse); i {
+			switch v := v.(*CreateUserResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1318,7 +1441,7 @@ func file_neutral_diet_user_v1_api_proto_init() {
 			}
 		}
 		file_neutral_diet_user_v1_api_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateUserSettingsRequest); i {
+			switch v := v.(*DeleteUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1330,7 +1453,7 @@ func file_neutral_diet_user_v1_api_proto_init() {
 			}
 		}
 		file_neutral_diet_user_v1_api_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateUserSettingsResponse); i {
+			switch v := v.(*DeleteUserResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1342,7 +1465,7 @@ func file_neutral_diet_user_v1_api_proto_init() {
 			}
 		}
 		file_neutral_diet_user_v1_api_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUserSettingsRequest); i {
+			switch v := v.(*UpdateUserSettingsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1354,7 +1477,7 @@ func file_neutral_diet_user_v1_api_proto_init() {
 			}
 		}
 		file_neutral_diet_user_v1_api_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUserSettingsResponse); i {
+			switch v := v.(*UpdateUserSettingsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1366,7 +1489,7 @@ func file_neutral_diet_user_v1_api_proto_init() {
 			}
 		}
 		file_neutral_diet_user_v1_api_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUserInsightsRequest); i {
+			switch v := v.(*GetUserSettingsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1378,6 +1501,30 @@ func file_neutral_diet_user_v1_api_proto_init() {
 			}
 		}
 		file_neutral_diet_user_v1_api_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserSettingsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_neutral_diet_user_v1_api_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserInsightsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_neutral_diet_user_v1_api_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetUserInsightsResponse); i {
 			case 0:
 				return &v.state
@@ -1396,7 +1543,7 @@ func file_neutral_diet_user_v1_api_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_neutral_diet_user_v1_api_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
