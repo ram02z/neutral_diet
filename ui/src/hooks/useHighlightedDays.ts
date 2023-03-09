@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 
 import client from '@/api/user_service';
 import { CurrentUserHeadersState } from '@/store/user';
+
 import { HighlightedDaysHook } from './types';
 
 function useHighlightedDays(): HighlightedDaysHook {
