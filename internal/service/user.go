@@ -210,7 +210,6 @@ func (c *ConnectWrapper) GetUserInsights(
 }
 
 func (c *ConnectWrapper) GetFoodItemLogDays(
-
 	ctx context.Context,
 	req *connect.Request[userv1.GetFoodItemLogDaysRequest],
 ) (*connect.Response[userv1.GetFoodItemLogDaysResponse], error) {
