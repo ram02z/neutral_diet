@@ -18,7 +18,12 @@ import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
 import { WeightUnit } from '@/core/weight';
 import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
-import { CurrentUserHeadersState, FoodItemLogDateState, FoodItemLogSerializableDateState, LocalFoodItemLogState } from '@/store/user';
+import {
+  CurrentUserHeadersState,
+  FoodItemLogDateState,
+  FoodItemLogSerializableDateState,
+  LocalFoodItemLogState,
+} from '@/store/user';
 
 import { FormValues } from './types';
 

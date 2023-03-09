@@ -1,6 +1,6 @@
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { Card, CardContent, Grid, Stack, Typography } from '@mui/material';
 
 type TrendCardProps = {
@@ -14,11 +14,11 @@ function TrendCard({ title, stat, today }: TrendCardProps) {
   if (today > 0) {
     statDiff = ((stat - today) / today) * 100.0;
   }
-  let textColor = "text.secondary";
+  let textColor = 'text.secondary';
   if (statDiff > 0) {
-    textColor = "success.main";
-  } else if (statDiff < 0 ) {
-    textColor = "error.main";
+    textColor = 'success.main';
+  } else if (statDiff < 0) {
+    textColor = 'error.main';
   }
   return (
     <Card sx={{ width: 310 }}>
@@ -36,15 +36,9 @@ function TrendCard({ title, stat, today }: TrendCardProps) {
             </Typography>
             <Grid container direction="row" alignItems="center">
               <Grid sx={{ pr: 1 }}>
-                {statDiff > 0 && (
-                  <TrendingUpIcon color="success" />
-                )}
-                {statDiff == 0 && (
-                  <TrendingFlatIcon color="secondary" />
-                )}
-                {statDiff < 0 && (
-                  <TrendingDownIcon color="error" />
-                )}
+                {statDiff > 0 && <TrendingUpIcon color="success" />}
+                {statDiff == 0 && <TrendingFlatIcon color="secondary" />}
+                {statDiff < 0 && <TrendingDownIcon color="error" />}
               </Grid>
               <Grid>
                 <Typography variant="subtitle1" color={textColor}>

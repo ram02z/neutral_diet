@@ -1,8 +1,9 @@
-import { Meal as MealProto } from '@/api/gen/neutral_diet/user/v1/food_item_log_pb';
 import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
-import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
+import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import TapasIcon from '@mui/icons-material/Tapas';
+
+import { Meal as MealProto } from '@/api/gen/neutral_diet/user/v1/food_item_log_pb';
 
 export class Meal {
   value: MealProto;

@@ -20,8 +20,8 @@ import { useSnackbar } from 'notistack';
 
 import client from '@/api/user_service';
 import EditFoodItemDialog from '@/components/EditFoodItemDialog';
-import { FormValues } from '@/components/FoodItemLogCard/types';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
+import { FormValues } from '@/components/FoodItemLogCard/types';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';

@@ -32,7 +32,9 @@ function Home() {
       <Grid>
         <Typography variant="subtitle2" color="secondary">
           {userInsights.streakLength > 0 &&
-            `Your longest streak ${userInsights.isStreakActive ? 'is' : 'was'} <b>{userInsights.streakLength}</b> days`}
+            `Your longest streak ${
+              userInsights.isStreakActive ? 'is' : 'was'
+            } <b>{userInsights.streakLength}</b> days`}
         </Typography>
       </Grid>
       <Grid>
