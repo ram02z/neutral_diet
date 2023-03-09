@@ -98,6 +98,8 @@ func (m *FoodLogItemRequest) validate(all bool) error {
 
 	// no validation rules for Region
 
+	// no validation rules for Meal
+
 	if len(errors) > 0 {
 		return FoodLogItemRequestMultiError(errors)
 	}
@@ -242,6 +244,8 @@ func (m *FoodLogItemResponse) validate(all bool) error {
 	// no validation rules for WeightUnit
 
 	// no validation rules for Region
+
+	// no validation rules for Meal
 
 	if len(errors) > 0 {
 		return FoodLogItemResponseMultiError(errors)

@@ -22,6 +22,7 @@ message UpdateFoodItemRequest {
   double weight = 2;
   WeightUnit weight_unit = 3;
   food.v1.Region region = 4;
+  Meal meal = 5;
 }
 
 message UpdateFoodItemResponse {

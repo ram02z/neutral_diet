@@ -13,20 +13,24 @@ import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemLogCard/FoodItemLogC
 import LinearProgressWithLabel from '@/components/LinearProgressWithLabel';
 import {
   FoodItemLogDateState,
+  FoodItemLogSerializableDateState,
   LocalFoodItemLogState,
   LocalFoodItemLogStats,
   LocalUserSettingsState,
+  MealsState,
 } from '@/store/user';
 import { getDateString, toSerializableDate } from '@/utils/date';
 
 function Diary() {
   const [isForcePickerOpen, setIsOpen] = useState(false);
   const [date, setDate] = useRecoilState(FoodItemLogDateState);
+  const serializableDate = useRecoilValue(FoodItemLogSerializableDateState);
   const isToday = useMemo(() => date.isSame(dayjs(), 'date'), [date]);
   // TODO: handle errors
-  const foodItemLog = useRecoilValue(LocalFoodItemLogState(toSerializableDate(date)));
+  const foodItemLog = useRecoilValue(LocalFoodItemLogState(serializableDate));
   const userSettings = useRecoilValue(LocalUserSettingsState);
   const stats = useRecoilValue(LocalFoodItemLogStats(toSerializableDate(date)));
+  const meals = useRecoilValue(MealsState);
 
   const yesterday = () => {
     setDate(date.subtract(1, 'day'));
@@ -128,13 +132,28 @@ function Diary() {
       <Grid xs={8} lg={7} xl={6}>
         <LinearProgressWithLabel value={stats.carbonFootprintGoalPercent} />
       </Grid>
-      {foodItemLog.map((foodLogItem, idx) => (
-        <Grid key={idx} xs={8} lg={7} xl={6}>
-          <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
-            <FoodItemLogCard foodLogItem={foodLogItem} />
-          </RenderIfVisible>
-        </Grid>
-      ))}
+      {meals.map((meal, i) => {
+        return (
+          <>
+            <Grid key={i} xs={8} lg={7} xl={6}>
+              <Typography sx={{ textTransform: 'capitalize' }} variant="h5" color="secondary.dark">
+                {meal.getName()}
+              </Typography>
+            </Grid>
+            {foodItemLog.map((foodLogItem, j) => {
+              return (
+                foodLogItem.meal == meal.value && (
+                  <Grid key={j} xs={8} lg={7} xl={6}>
+                    <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
+                      <FoodItemLogCard foodLogItem={foodLogItem} />
+                    </RenderIfVisible>
+                  </Grid>
+                )
+              );
+            })}
+          </>
+        );
+      })}
     </Grid>
   );
 }

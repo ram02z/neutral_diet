@@ -20,16 +20,19 @@ import { useSnackbar } from 'notistack';
 
 import client from '@/api/user_service';
 import EditFoodItemDialog from '@/components/EditFoodItemDialog';
-import { FormValues } from '@/components/FoodItemCard/types';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
+import { FormValues } from '@/components/FoodItemLogCard/types';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
 import { WeightUnit } from '@/core/weight';
 import { FoodItemInfoQuery } from '@/store/food';
-import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
+import {
+  CurrentUserHeadersState,
+  FoodItemLogSerializableDateState,
+  LocalFoodItemLogState,
+} from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
-import { toSerializableDate } from '@/utils/date';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 
@@ -42,9 +45,9 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
-  const date = useRecoilValue(FoodItemLogDateState);
+  const serializableDate = useRecoilValue(FoodItemLogSerializableDateState);
   const { enqueueSnackbar } = useSnackbar();
-  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(toSerializableDate(date)));
+  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(serializableDate));
   const foodItemInfo = useRecoilValue(
     FoodItemInfoQuery({ foodItemId: foodLogItem.foodItemId, region: foodLogItem.region }),
   );
@@ -60,6 +63,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
           weight: weight,
           weightUnit: data.weightUnit,
           region: foodLogItem.region,
+          meal: data.meal,
         },
         { headers: userHeaders },
       )
@@ -74,6 +78,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 weight: { value: weight, unit: weightUnit },
                 carbonFootprint: res.carbonFootprint,
                 region: foodLogItem.region,
+                meal: data.meal,
               };
             }
             return { ...item };
@@ -178,6 +183,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
         openDialog={openDeleteDialog}
         handleClose={handleCloseDeleteDialog}
         currentWeight={foodLogItem.weight}
+        currentMeal={foodLogItem.meal}
       />
       <FoodItemInfoDialog
         openDialog={openInfoDialog}

@@ -14,6 +14,7 @@ export type LocalFoodLogItem = {
   weight: Weight;
   carbonFootprint: number;
   region: number;
+  meal: number;
 };
 
 export type FoodLogStats = {

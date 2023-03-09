@@ -64,6 +64,7 @@ func (s *Store) AddFoodItemToLog(
 		LogDate:         mapToDate(r.FoodLogItem.GetDate()),
 		Region:          int32(r.FoodLogItem.Region),
 		CarbonFootprint: carbonFootprint,
+		Meal:            int32(r.FoodLogItem.Meal),
 	})
 	if err != nil {
 		return nil, err
@@ -129,6 +130,7 @@ func (s *Store) UpdateFoodItemFromLog(
 		Weight:          weight,
 		WeightUnit:      int32(r.WeightUnit),
 		CarbonFootprint: carbonFootprint,
+		Meal:            int32(r.Meal),
 	})
 
 	if err != nil {
@@ -162,7 +164,7 @@ func (s *Store) GetUserInsights(
 
 	dailyAverage, err := queries.GetDailyAverageCarbonFootprint(ctx)
 	if err != nil {
-		return nil, err
+		dailyAverage = decimal.NewFromFloat(0)
 	}
 
 	dailyAverageDietaryRequirement, err := queries.GetDailyAverageCarbonFootprintByDietaryRequirement(
@@ -170,7 +172,7 @@ func (s *Store) GetUserInsights(
 		user.DietaryRequirement,
 	)
 	if err != nil {
-		return nil, err
+		dailyAverageDietaryRequirement = decimal.NewFromFloat(0)
 	}
 
 	streakRow, err := queries.GetFoodItemLogStreak(ctx, user.ID)
@@ -248,12 +250,11 @@ func (s *Store) GetFoodItemLog(
 				Day:   int32(f.LogDate.Time.Day()),
 			},
 			Region: foodv1.Region(f.Region),
+			Meal:   userv1.Meal(f.Meal),
 		}
 	}
 
-	return &userv1.GetFoodItemLogResponse{
-		FoodItemLog: foodLogItems,
-	}, nil
+	return &userv1.GetFoodItemLogResponse{FoodItemLog: foodLogItems}, nil
 }
 
 func calculateCarbonFootprintByWeight(

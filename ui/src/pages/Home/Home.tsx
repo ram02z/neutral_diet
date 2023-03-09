@@ -31,8 +31,10 @@ function Home() {
       </Grid>
       <Grid>
         <Typography variant="subtitle2" color="secondary">
-          Your longest streak is <b>{userInsights.streakLength}</b> days,
-          {userInsights.isStreakActive ? ' and is still active!' : ' but is no longer active!'}
+          {userInsights.streakLength > 0 &&
+            `Your longest streak ${
+              userInsights.isStreakActive ? 'is' : 'was'
+            } <b>{userInsights.streakLength}</b> days`}
         </Typography>
       </Grid>
       <Grid>

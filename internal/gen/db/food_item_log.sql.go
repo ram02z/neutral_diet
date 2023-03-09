@@ -13,8 +13,8 @@ import (
 )
 
 const addFoodItemToLog = `-- name: AddFoodItemToLog :one
-INSERT INTO "food_item_log" (food_item_id, weight, user_id, log_date, weight_unit, region, carbon_footprint)
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+INSERT INTO "food_item_log" (food_item_id, weight, user_id, log_date, weight_unit, region, carbon_footprint, meal)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING
     id
 `
@@ -27,6 +27,7 @@ type AddFoodItemToLogParams struct {
 	WeightUnit      int32
 	Region          int32
 	CarbonFootprint decimal.Decimal
+	Meal            int32
 }
 
 func (q *Queries) AddFoodItemToLog(ctx context.Context, arg AddFoodItemToLogParams) (int32, error) {
@@ -38,6 +39,7 @@ func (q *Queries) AddFoodItemToLog(ctx context.Context, arg AddFoodItemToLogPara
 		arg.WeightUnit,
 		arg.Region,
 		arg.CarbonFootprint,
+		arg.Meal,
 	)
 	var id int32
 	err := row.Scan(&id)
@@ -181,6 +183,7 @@ SELECT
     l.weight,
     l.weight_unit,
     l.log_date,
+    l.meal,
     l.carbon_footprint
 FROM
     food_item_log l
@@ -203,6 +206,7 @@ type GetFoodItemLogByDateRow struct {
 	Weight          decimal.Decimal
 	WeightUnit      int32
 	LogDate         pgtype.Date
+	Meal            int32
 	CarbonFootprint decimal.Decimal
 }
 
@@ -223,6 +227,7 @@ func (q *Queries) GetFoodItemLogByDate(ctx context.Context, arg GetFoodItemLogBy
 			&i.Weight,
 			&i.WeightUnit,
 			&i.LogDate,
+			&i.Meal,
 			&i.CarbonFootprint,
 		); err != nil {
 			return nil, err
@@ -295,7 +300,8 @@ UPDATE
 SET
     weight = $3,
     weight_unit = $4,
-    carbon_footprint = $5
+    carbon_footprint = $5,
+    meal = $6
 WHERE
     user_id = $1
     AND id = $2
@@ -307,6 +313,7 @@ type UpdateFoodItemFromLogParams struct {
 	Weight          decimal.Decimal
 	WeightUnit      int32
 	CarbonFootprint decimal.Decimal
+	Meal            int32
 }
 
 func (q *Queries) UpdateFoodItemFromLog(ctx context.Context, arg UpdateFoodItemFromLogParams) error {
@@ -316,6 +323,7 @@ func (q *Queries) UpdateFoodItemFromLog(ctx context.Context, arg UpdateFoodItemF
 		arg.Weight,
 		arg.WeightUnit,
 		arg.CarbonFootprint,
+		arg.Meal,
 	)
 	return err
 }

@@ -1,4 +1,5 @@
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { Card, CardContent, Grid, Stack, Typography } from '@mui/material';
 
@@ -9,7 +10,16 @@ type TrendCardProps = {
 };
 
 function TrendCard({ title, stat, today }: TrendCardProps) {
-  const statDiff = ((stat - today) / today) * 100.0;
+  let statDiff = 0;
+  if (today > 0) {
+    statDiff = ((stat - today) / today) * 100.0;
+  }
+  let textColor = 'text.secondary';
+  if (statDiff > 0) {
+    textColor = 'success.main';
+  } else if (statDiff < 0) {
+    textColor = 'error.main';
+  }
   return (
     <Card sx={{ width: 310 }}>
       <CardContent>
@@ -26,14 +36,12 @@ function TrendCard({ title, stat, today }: TrendCardProps) {
             </Typography>
             <Grid container direction="row" alignItems="center">
               <Grid sx={{ pr: 1 }}>
-                {statDiff > 0 ? (
-                  <TrendingUpIcon color="success" />
-                ) : (
-                  <TrendingDownIcon color="error" />
-                )}
+                {statDiff > 0 && <TrendingUpIcon color="success" />}
+                {statDiff == 0 && <TrendingFlatIcon color="secondary" />}
+                {statDiff < 0 && <TrendingDownIcon color="error" />}
               </Grid>
               <Grid>
-                <Typography variant="subtitle1" color={statDiff > 0 ? 'success' : 'error'}>
+                <Typography variant="subtitle1" color={textColor}>
                   <b>{Math.abs(statDiff).toFixed(2)}%</b>
                 </Typography>
               </Grid>

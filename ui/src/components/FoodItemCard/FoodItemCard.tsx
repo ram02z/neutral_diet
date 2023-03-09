@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Add, Info } from '@mui/icons-material';
 import { Box, Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
@@ -18,8 +18,12 @@ import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
 import { WeightUnit } from '@/core/weight';
 import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
-import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
-import { toSerializableDate } from '@/utils/date';
+import {
+  CurrentUserHeadersState,
+  FoodItemLogDateState,
+  FoodItemLogSerializableDateState,
+  LocalFoodItemLogState,
+} from '@/store/user';
 
 import { FormValues } from './types';
 
@@ -31,8 +35,9 @@ type FoodItemCardProps = {
 
 export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [foodHistory, setFoodHistory] = useRecoilState(FoodHistoryState);
-  const [date, setDate] = useRecoilState(FoodItemLogDateState);
-  const [, setFoodItemLog] = useRecoilState(LocalFoodItemLogState(toSerializableDate(date)));
+  const setDate = useSetRecoilState(FoodItemLogDateState);
+  const serializableDate = useRecoilValue(FoodItemLogSerializableDateState);
+  const [, setFoodItemLog] = useRecoilState(LocalFoodItemLogState(serializableDate));
   const [inHistory, setInHistory] = useState(false);
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
@@ -56,6 +61,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
             weightUnit: data.weightUnit,
             date: { year: data.date.year(), month: data.date.month() + 1, day: data.date.date() },
             region: foodItem.region,
+            meal: data.meal,
           },
         },
         { headers: userHeaders },
@@ -74,6 +80,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
               weight: { value: weight, unit: weightUnit },
               carbonFootprint: res.carbonFootprint,
               region: foodItem.region,
+              meal: data.meal,
             },
           ];
         });

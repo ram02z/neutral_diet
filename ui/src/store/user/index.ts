@@ -4,7 +4,10 @@ import dayjs from 'dayjs';
 import { User } from 'firebase/auth';
 
 import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
-import { WeightUnit as WeightUnitProto } from '@/api/gen/neutral_diet/user/v1/food_item_log_pb';
+import {
+  Meal as MealProto,
+  WeightUnit as WeightUnitProto,
+} from '@/api/gen/neutral_diet/user/v1/food_item_log_pb';
 import {
   UserSettings,
   UserSettings_DietaryRequirement,
@@ -14,7 +17,9 @@ import client from '@/api/user_service';
 import { MIN_CF_LIMIT } from '@/config';
 import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
+import { Meal } from '@/core/meal';
 import { WeightUnit } from '@/core/weight';
+import { toSerializableDate } from '@/utils/date';
 
 import {
   FoodLogStats,
@@ -115,9 +120,28 @@ export const WeightUnitsState = selector({
   },
 });
 
+export const MealsState = selector({
+  key: 'MealsState',
+  get: () => {
+    return Object.values(MealProto)
+      .filter((x) => typeof x === 'number')
+      .map((m) => new Meal(m as MealProto))
+      .sort((m1, m2) => m1.getOrder() - m2.getOrder());
+  },
+});
+
 export const FoodItemLogDateState = atom<dayjs.Dayjs>({
   key: 'FoodItemLogDateState',
   default: dayjs(),
+});
+
+export const FoodItemLogSerializableDateState = selector({
+  key: 'FoodItemLogSerializableDateState',
+  get: ({ get }) => {
+    const date = get(FoodItemLogDateState);
+
+    return toSerializableDate(date);
+  },
 });
 
 export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], SerializableDate>({
@@ -147,6 +171,7 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], Serializable
               },
               carbonFootprint: foodLogItem.carbonFootprint,
               region: foodLogItem.region,
+              meal: foodLogItem.meal,
             };
           });
         } catch (err) {

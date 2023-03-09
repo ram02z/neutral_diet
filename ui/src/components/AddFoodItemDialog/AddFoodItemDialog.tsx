@@ -9,7 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
 import { FormValues } from '@/components/FoodItemCard/types';
-import { WeightUnitsState } from '@/store/user';
+import { MealsState, WeightUnitsState } from '@/store/user';
 
 type AddFoodItemDialogProps = {
   onSubmit: (data: FormValues, event?: BaseSyntheticEvent<object, void, void | undefined>) => void;
@@ -20,6 +20,8 @@ type AddFoodItemDialogProps = {
 function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDialogProps) {
   const { handleSubmit, control } = useForm<FormValues>();
   const weightUnits = useRecoilValue(WeightUnitsState);
+  const meals = useRecoilValue(MealsState);
+
   return (
     <Dialog open={openDialog} onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -44,6 +46,20 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
                   <TextField {...inputProps} error={!!error} helperText={error?.message} />
                 )}
               />
+            )}
+          />
+          <Controller
+            control={control}
+            name="meal"
+            rules={{ required: true }}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <TextField select label="Meal" error={!!error} onChange={onChange} value={value}>
+                {meals.map((meal, key) => (
+                  <MenuItem key={key} value={meal.value}>
+                    {meal.getName()}
+                  </MenuItem>
+                ))}
+              </TextField>
             )}
           />
           <Controller

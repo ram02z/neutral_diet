@@ -133,6 +133,7 @@ type UpdateFoodItemRequest struct {
 	Weight     float64    `protobuf:"fixed64,2,opt,name=weight,proto3" json:"weight,omitempty"`
 	WeightUnit WeightUnit `protobuf:"varint,3,opt,name=weight_unit,json=weightUnit,proto3,enum=neutral_diet.user.v1.WeightUnit" json:"weight_unit,omitempty"`
 	Region     v1.Region  `protobuf:"varint,4,opt,name=region,proto3,enum=neutral_diet.food.v1.Region" json:"region,omitempty"`
+	Meal       Meal       `protobuf:"varint,5,opt,name=meal,proto3,enum=neutral_diet.user.v1.Meal" json:"meal,omitempty"`
 }
 
 func (x *UpdateFoodItemRequest) Reset() {
@@ -193,6 +194,13 @@ func (x *UpdateFoodItemRequest) GetRegion() v1.Region {
 		return x.Region
 	}
 	return v1.Region(0)
+}
+
+func (x *UpdateFoodItemRequest) GetMeal() Meal {
+	if x != nil {
+		return x.Meal
+	}
+	return Meal_MEAL_UNSPECIFIED
 }
 
 type UpdateFoodItemResponse struct {
@@ -914,7 +922,7 @@ var file_neutral_diet_user_v1_api_proto_rawDesc = []byte{
 	0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52,
 	0x02, 0x69, 0x64, 0x12, 0x29, 0x0a, 0x10, 0x63, 0x61, 0x72, 0x62, 0x6f, 0x6e, 0x5f, 0x66, 0x6f,
 	0x6f, 0x74, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52, 0x0f, 0x63,
-	0x61, 0x72, 0x62, 0x6f, 0x6e, 0x46, 0x6f, 0x6f, 0x74, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x22, 0xc1,
+	0x61, 0x72, 0x62, 0x6f, 0x6e, 0x46, 0x6f, 0x6f, 0x74, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x22, 0xf1,
 	0x01, 0x0a, 0x15, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x46, 0x6f, 0x6f, 0x64, 0x49, 0x74, 0x65,
 	0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x05, 0x42, 0x07, 0xfa, 0x42, 0x04, 0x1a, 0x02, 0x20, 0x00, 0x52, 0x02, 0x69,
@@ -927,7 +935,10 @@ var file_neutral_diet_user_v1_api_proto_rawDesc = []byte{
 	0x72, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1c, 0x2e, 0x6e,
 	0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x66, 0x6f, 0x6f, 0x64,
 	0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x52, 0x06, 0x72, 0x65, 0x67, 0x69,
-	0x6f, 0x6e, 0x22, 0x43, 0x0a, 0x16, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x46, 0x6f, 0x6f, 0x64,
+	0x6f, 0x6e, 0x12, 0x2e, 0x0a, 0x04, 0x6d, 0x65, 0x61, 0x6c, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0e,
+	0x32, 0x1a, 0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e,
+	0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x65, 0x61, 0x6c, 0x52, 0x04, 0x6d, 0x65,
+	0x61, 0x6c, 0x22, 0x43, 0x0a, 0x16, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x46, 0x6f, 0x6f, 0x64,
 	0x49, 0x74, 0x65, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x29, 0x0a, 0x10,
 	0x63, 0x61, 0x72, 0x62, 0x6f, 0x6e, 0x5f, 0x66, 0x6f, 0x6f, 0x74, 0x70, 0x72, 0x69, 0x6e, 0x74,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x01, 0x52, 0x0f, 0x63, 0x61, 0x72, 0x62, 0x6f, 0x6e, 0x46, 0x6f,
@@ -1114,41 +1125,43 @@ var file_neutral_diet_user_v1_api_proto_goTypes = []interface{}{
 	(*FoodLogItemRequest)(nil),         // 18: neutral_diet.user.v1.FoodLogItemRequest
 	(WeightUnit)(0),                    // 19: neutral_diet.user.v1.WeightUnit
 	(v1.Region)(0),                     // 20: neutral_diet.food.v1.Region
-	(*Date)(nil),                       // 21: neutral_diet.user.v1.Date
-	(*FoodLogItemResponse)(nil),        // 22: neutral_diet.user.v1.FoodLogItemResponse
-	(*UserSettings)(nil),               // 23: neutral_diet.user.v1.UserSettings
+	(Meal)(0),                          // 21: neutral_diet.user.v1.Meal
+	(*Date)(nil),                       // 22: neutral_diet.user.v1.Date
+	(*FoodLogItemResponse)(nil),        // 23: neutral_diet.user.v1.FoodLogItemResponse
+	(*UserSettings)(nil),               // 24: neutral_diet.user.v1.UserSettings
 }
 var file_neutral_diet_user_v1_api_proto_depIdxs = []int32{
 	18, // 0: neutral_diet.user.v1.AddFoodItemRequest.food_log_item:type_name -> neutral_diet.user.v1.FoodLogItemRequest
 	19, // 1: neutral_diet.user.v1.UpdateFoodItemRequest.weight_unit:type_name -> neutral_diet.user.v1.WeightUnit
 	20, // 2: neutral_diet.user.v1.UpdateFoodItemRequest.region:type_name -> neutral_diet.food.v1.Region
-	21, // 3: neutral_diet.user.v1.GetFoodItemLogRequest.date:type_name -> neutral_diet.user.v1.Date
-	22, // 4: neutral_diet.user.v1.GetFoodItemLogResponse.food_item_log:type_name -> neutral_diet.user.v1.FoodLogItemResponse
-	23, // 5: neutral_diet.user.v1.UpdateUserSettingsRequest.user_settings:type_name -> neutral_diet.user.v1.UserSettings
-	23, // 6: neutral_diet.user.v1.GetUserSettingsResponse.user_settings:type_name -> neutral_diet.user.v1.UserSettings
-	0,  // 7: neutral_diet.user.v1.UserService.AddFoodItem:input_type -> neutral_diet.user.v1.AddFoodItemRequest
-	2,  // 8: neutral_diet.user.v1.UserService.UpdateFoodItem:input_type -> neutral_diet.user.v1.UpdateFoodItemRequest
-	4,  // 9: neutral_diet.user.v1.UserService.DeleteFoodItem:input_type -> neutral_diet.user.v1.DeleteFoodItemRequest
-	6,  // 10: neutral_diet.user.v1.UserService.GetFoodItemLog:input_type -> neutral_diet.user.v1.GetFoodItemLogRequest
-	8,  // 11: neutral_diet.user.v1.UserService.CreateUser:input_type -> neutral_diet.user.v1.CreateUserRequest
-	10, // 12: neutral_diet.user.v1.UserService.DeleteUser:input_type -> neutral_diet.user.v1.DeleteUserRequest
-	14, // 13: neutral_diet.user.v1.UserService.GetUserSettings:input_type -> neutral_diet.user.v1.GetUserSettingsRequest
-	12, // 14: neutral_diet.user.v1.UserService.UpdateUserSettings:input_type -> neutral_diet.user.v1.UpdateUserSettingsRequest
-	16, // 15: neutral_diet.user.v1.UserService.GetUserInsights:input_type -> neutral_diet.user.v1.GetUserInsightsRequest
-	1,  // 16: neutral_diet.user.v1.UserService.AddFoodItem:output_type -> neutral_diet.user.v1.AddFoodItemResponse
-	3,  // 17: neutral_diet.user.v1.UserService.UpdateFoodItem:output_type -> neutral_diet.user.v1.UpdateFoodItemResponse
-	5,  // 18: neutral_diet.user.v1.UserService.DeleteFoodItem:output_type -> neutral_diet.user.v1.DeleteFoodItemResponse
-	7,  // 19: neutral_diet.user.v1.UserService.GetFoodItemLog:output_type -> neutral_diet.user.v1.GetFoodItemLogResponse
-	9,  // 20: neutral_diet.user.v1.UserService.CreateUser:output_type -> neutral_diet.user.v1.CreateUserResponse
-	11, // 21: neutral_diet.user.v1.UserService.DeleteUser:output_type -> neutral_diet.user.v1.DeleteUserResponse
-	15, // 22: neutral_diet.user.v1.UserService.GetUserSettings:output_type -> neutral_diet.user.v1.GetUserSettingsResponse
-	13, // 23: neutral_diet.user.v1.UserService.UpdateUserSettings:output_type -> neutral_diet.user.v1.UpdateUserSettingsResponse
-	17, // 24: neutral_diet.user.v1.UserService.GetUserInsights:output_type -> neutral_diet.user.v1.GetUserInsightsResponse
-	16, // [16:25] is the sub-list for method output_type
-	7,  // [7:16] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	21, // 3: neutral_diet.user.v1.UpdateFoodItemRequest.meal:type_name -> neutral_diet.user.v1.Meal
+	22, // 4: neutral_diet.user.v1.GetFoodItemLogRequest.date:type_name -> neutral_diet.user.v1.Date
+	23, // 5: neutral_diet.user.v1.GetFoodItemLogResponse.food_item_log:type_name -> neutral_diet.user.v1.FoodLogItemResponse
+	24, // 6: neutral_diet.user.v1.UpdateUserSettingsRequest.user_settings:type_name -> neutral_diet.user.v1.UserSettings
+	24, // 7: neutral_diet.user.v1.GetUserSettingsResponse.user_settings:type_name -> neutral_diet.user.v1.UserSettings
+	0,  // 8: neutral_diet.user.v1.UserService.AddFoodItem:input_type -> neutral_diet.user.v1.AddFoodItemRequest
+	2,  // 9: neutral_diet.user.v1.UserService.UpdateFoodItem:input_type -> neutral_diet.user.v1.UpdateFoodItemRequest
+	4,  // 10: neutral_diet.user.v1.UserService.DeleteFoodItem:input_type -> neutral_diet.user.v1.DeleteFoodItemRequest
+	6,  // 11: neutral_diet.user.v1.UserService.GetFoodItemLog:input_type -> neutral_diet.user.v1.GetFoodItemLogRequest
+	8,  // 12: neutral_diet.user.v1.UserService.CreateUser:input_type -> neutral_diet.user.v1.CreateUserRequest
+	10, // 13: neutral_diet.user.v1.UserService.DeleteUser:input_type -> neutral_diet.user.v1.DeleteUserRequest
+	14, // 14: neutral_diet.user.v1.UserService.GetUserSettings:input_type -> neutral_diet.user.v1.GetUserSettingsRequest
+	12, // 15: neutral_diet.user.v1.UserService.UpdateUserSettings:input_type -> neutral_diet.user.v1.UpdateUserSettingsRequest
+	16, // 16: neutral_diet.user.v1.UserService.GetUserInsights:input_type -> neutral_diet.user.v1.GetUserInsightsRequest
+	1,  // 17: neutral_diet.user.v1.UserService.AddFoodItem:output_type -> neutral_diet.user.v1.AddFoodItemResponse
+	3,  // 18: neutral_diet.user.v1.UserService.UpdateFoodItem:output_type -> neutral_diet.user.v1.UpdateFoodItemResponse
+	5,  // 19: neutral_diet.user.v1.UserService.DeleteFoodItem:output_type -> neutral_diet.user.v1.DeleteFoodItemResponse
+	7,  // 20: neutral_diet.user.v1.UserService.GetFoodItemLog:output_type -> neutral_diet.user.v1.GetFoodItemLogResponse
+	9,  // 21: neutral_diet.user.v1.UserService.CreateUser:output_type -> neutral_diet.user.v1.CreateUserResponse
+	11, // 22: neutral_diet.user.v1.UserService.DeleteUser:output_type -> neutral_diet.user.v1.DeleteUserResponse
+	15, // 23: neutral_diet.user.v1.UserService.GetUserSettings:output_type -> neutral_diet.user.v1.GetUserSettingsResponse
+	13, // 24: neutral_diet.user.v1.UserService.UpdateUserSettings:output_type -> neutral_diet.user.v1.UpdateUserSettingsResponse
+	17, // 25: neutral_diet.user.v1.UserService.GetUserInsights:output_type -> neutral_diet.user.v1.GetUserInsightsResponse
+	17, // [17:26] is the sub-list for method output_type
+	8,  // [8:17] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_neutral_diet_user_v1_api_proto_init() }
