@@ -1,6 +1,6 @@
 -- name: AddFoodItemToLog :one
-INSERT INTO "food_item_log" (food_item_id, weight, user_id, log_date, weight_unit, region, carbon_footprint)
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+INSERT INTO "food_item_log" (food_item_id, weight, user_id, log_date, weight_unit, region, carbon_footprint, meal)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING
     id;
 
@@ -10,7 +10,8 @@ UPDATE
 SET
     weight = $3,
     weight_unit = $4,
-    carbon_footprint = $5
+    carbon_footprint = $5,
+    meal = $6
 WHERE
     user_id = $1
     AND id = $2;
@@ -32,6 +33,7 @@ SELECT
     l.weight,
     l.weight_unit,
     l.log_date,
+    l.meal,
     l.carbon_footprint
 FROM
     food_item_log l

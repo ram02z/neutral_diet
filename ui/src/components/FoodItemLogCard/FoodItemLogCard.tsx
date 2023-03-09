@@ -27,9 +27,8 @@ import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
 import { WeightUnit } from '@/core/weight';
 import { FoodItemInfoQuery } from '@/store/food';
-import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
+import { CurrentUserHeadersState, FoodItemLogDateState, FoodItemLogSerializableDateState, LocalFoodItemLogState } from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
-import { toSerializableDate } from '@/utils/date';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 
@@ -42,9 +41,9 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
-  const date = useRecoilValue(FoodItemLogDateState);
+  const serializableDate = useRecoilValue(FoodItemLogSerializableDateState);
   const { enqueueSnackbar } = useSnackbar();
-  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(toSerializableDate(date)));
+  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(serializableDate));
   const foodItemInfo = useRecoilValue(
     FoodItemInfoQuery({ foodItemId: foodLogItem.foodItemId, region: foodLogItem.region }),
   );
@@ -74,6 +73,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 weight: { value: weight, unit: weightUnit },
                 carbonFootprint: res.carbonFootprint,
                 region: foodLogItem.region,
+                meal: foodLogItem.meal,
               };
             }
             return { ...item };
@@ -105,7 +105,9 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
       client
         .deleteFoodItem({ id: foodLogItem.dbId }, { headers: userHeaders })
         .then(() => {
-          setFoodItemLog((old) => old.filter((item) => item.dbId !== foodLogItem.dbId));
+          setFoodItemLog((old) =>
+            old.filter((item) => item.dbId !== foodLogItem.dbId),
+          );
           enqueueSnackbar('Deleted food entry.', { variant: 'success' });
         })
         .catch((err) => {

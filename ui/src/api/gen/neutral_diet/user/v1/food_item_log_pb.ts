@@ -43,6 +43,38 @@ proto3.util.setEnumType(WeightUnit, "neutral_diet.user.v1.WeightUnit", [
 ]);
 
 /**
+ * @generated from enum neutral_diet.user.v1.Meal
+ */
+export enum Meal {
+  /**
+   * @generated from enum value: MEAL_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: MEAL_BREAKFAST = 1;
+   */
+  BREAKFAST = 1,
+
+  /**
+   * @generated from enum value: MEAL_LUNCH = 2;
+   */
+  LUNCH = 2,
+
+  /**
+   * @generated from enum value: MEAL_DINNER = 3;
+   */
+  DINNER = 3,
+}
+// Retrieve enum metadata with: proto3.getEnumType(Meal)
+proto3.util.setEnumType(Meal, "neutral_diet.user.v1.Meal", [
+  { no: 0, name: "MEAL_UNSPECIFIED" },
+  { no: 1, name: "MEAL_BREAKFAST" },
+  { no: 2, name: "MEAL_LUNCH" },
+  { no: 3, name: "MEAL_DINNER" },
+]);
+
+/**
  * @generated from message neutral_diet.user.v1.FoodLogItemRequest
  */
 export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
@@ -71,6 +103,11 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
    */
   region = Region.UNSPECIFIED;
 
+  /**
+   * @generated from field: neutral_diet.user.v1.Meal meal = 6;
+   */
+  meal = Meal.UNSPECIFIED;
+
   constructor(data?: PartialMessage<FoodLogItemRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -84,6 +121,7 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
     { no: 3, name: "date", kind: "message", T: Date },
     { no: 4, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
     { no: 5, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
+    { no: 6, name: "meal", kind: "enum", T: proto3.getEnumType(Meal) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItemRequest {
@@ -147,6 +185,11 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
    */
   region = Region.UNSPECIFIED;
 
+  /**
+   * @generated from field: neutral_diet.user.v1.Meal meal = 9;
+   */
+  meal = Meal.UNSPECIFIED;
+
   constructor(data?: PartialMessage<FoodLogItemResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -163,6 +206,7 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
     { no: 6, name: "date", kind: "message", T: Date },
     { no: 7, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
     { no: 8, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
+    { no: 9, name: "meal", kind: "enum", T: proto3.getEnumType(Meal) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItemResponse {

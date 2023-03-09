@@ -13,12 +13,20 @@ enum WeightUnit {
   WEIGHT_UNIT_POUND = 3;
 }
 
+enum Meal {
+  MEAL_UNSPECIFIED = 0;
+  MEAL_BREAKFAST = 1;
+  MEAL_LUNCH = 2;
+  MEAL_DINNER = 3;
+}
+
 message FoodLogItemRequest {
   int32 food_item_id = 1;
   double weight = 2;
   Date date = 3;
   WeightUnit weight_unit = 4;
   food.v1.Region region = 5;
+  Meal meal = 6;
 }
 
 message FoodLogItemResponse {
@@ -30,4 +38,5 @@ message FoodLogItemResponse {
   Date date = 6;
   WeightUnit weight_unit = 7;
   food.v1.Region region = 8;
+  Meal meal = 9;
 }

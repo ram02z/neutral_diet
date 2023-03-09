@@ -88,6 +88,7 @@ type FoodItemLog struct {
 	WeightUnit      int32
 	Region          int32
 	CarbonFootprint decimal.Decimal
+	Meal            int32
 }
 
 type LifeCycle struct {
