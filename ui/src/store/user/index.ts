@@ -201,6 +201,26 @@ export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, SerializableDa
     },
 });
 
+export const LocalFoodItemLogStatsByMeal = selectorFamily<Map<number, number>, SerializableDate>({
+  key: 'LocalFoodItemLogStatsByMeal',
+  get:
+    (date) =>
+    async ({ get }) => {
+      const foodItemLog = get(LocalFoodItemLogState(date));
+      const mealMap = new Map(
+        Object.values(MealProto)
+          .filter((x) => typeof x === 'number')
+          .fill(0.0)
+          .entries(),
+      ) as Map<number, number>;
+      foodItemLog.forEach((item) => {
+        const value = mealMap.get(item.meal) ?? 0.0;
+        mealMap.set(item.meal, value + item.carbonFootprint);
+      });
+      return mealMap;
+    },
+});
+
 export const UserInsightsState = selector<UserInsights>({
   key: 'UserInsightsState',
   get: async ({ get }) => {

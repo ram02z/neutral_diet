@@ -2,8 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import RenderIfVisible from 'react-render-if-visible';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { Badge, Button, Typography } from '@mui/material';
+import { Badge, Button, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Stack } from '@mui/system';
 import { CalendarPickerSkeleton, PickersDay } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
@@ -18,6 +19,7 @@ import {
   FoodItemLogSerializableDateState,
   LocalFoodItemLogState,
   LocalFoodItemLogStats,
+  LocalFoodItemLogStatsByMeal,
   LocalUserSettingsState,
   MealsState,
 } from '@/store/user';
@@ -32,6 +34,7 @@ function Diary() {
   const foodItemLog = useRecoilValue(LocalFoodItemLogState(serializableDate));
   const userSettings = useRecoilValue(LocalUserSettingsState);
   const stats = useRecoilValue(LocalFoodItemLogStats(serializableDate));
+  const statsByMeal = useRecoilValue(LocalFoodItemLogStatsByMeal(serializableDate));
   const meals = useRecoilValue(MealsState);
   const [fetchHighlightedDays, highlightedDays, loading, requestAbortController] =
     useHighlightedDays();
@@ -169,9 +172,22 @@ function Diary() {
         return (
           <>
             <Grid key={i} xs={8} lg={7} xl={6}>
-              <Typography sx={{ textTransform: 'capitalize' }} variant="h5" color="secondary.dark">
-                {meal.getName()}
-              </Typography>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography
+                  sx={{ textTransform: 'capitalize' }}
+                  variant="h5"
+                  color="secondary.dark"
+                >
+                  {meal.getName()}
+                </Typography>
+                <Typography variant="h5" color="text.secondary">
+                  <strong>{statsByMeal.get(meal.value)?.toFixed(3) ?? '0.000'}</strong>
+                  <Typography variant="caption">
+                    CO<sub>2</sub>/kg
+                  </Typography>
+                </Typography>
+              </Stack>
+              <Divider flexItem />
             </Grid>
             {foodItemLog.map((foodLogItem, j) => {
               return (
