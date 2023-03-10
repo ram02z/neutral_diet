@@ -320,9 +320,9 @@ func (m *UpdateFoodItemRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	// no validation rules for Weight
+	// no validation rules for Quantity
 
-	// no validation rules for WeightUnit
+	// no validation rules for Unit
 
 	// no validation rules for Region
 

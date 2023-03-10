@@ -19,8 +19,8 @@ message AddFoodItemResponse {
 
 message UpdateFoodItemRequest {
   int32 id = 1 [(validate.rules).int32.gt = 0];
-  double weight = 2;
-  WeightUnit weight_unit = 3;
+  double quantity = 2;
+  Unit unit = 3;
   food.v1.Region region = 4;
   Meal meal = 5;
 }

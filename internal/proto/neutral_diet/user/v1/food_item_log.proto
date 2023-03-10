@@ -5,12 +5,16 @@ package neutral_diet.user.v1;
 import "neutral_diet/food/v1/region.proto";
 import "neutral_diet/user/v1/date.proto";
 
-enum WeightUnit {
+enum Unit {
   // Kilogram
-  WEIGHT_UNIT_UNSPECIFIED = 0;
-  WEIGHT_UNIT_GRAM = 1;
-  WEIGHT_UNIT_OUNCE = 2;
-  WEIGHT_UNIT_POUND = 3;
+  UNIT_UNSPECIFIED = 0;
+  UNIT_GRAM = 1;
+  UNIT_OUNCE = 2;
+  UNIT_POUND = 3;
+  UNIT_LITRE = 4;
+  UNIT_MILLILITRE = 5;
+  UNIT_GALLON = 6;
+  UNIT_PINT = 7;
 }
 
 enum Meal {
@@ -22,9 +26,9 @@ enum Meal {
 
 message FoodLogItemRequest {
   int32 food_item_id = 1;
-  double weight = 2;
+  double quantity = 2;
   Date date = 3;
-  WeightUnit weight_unit = 4;
+  Unit unit = 4;
   food.v1.Region region = 5;
   Meal meal = 6;
 }
@@ -33,10 +37,10 @@ message FoodLogItemResponse {
   int32 id = 1;
   int32 food_item_id = 2;
   string name = 3;
-  double weight = 4;
+  double quantity = 4;
   double carbon_footprint = 5;
   Date date = 6;
-  WeightUnit weight_unit = 7;
+  Unit unit = 7;
   food.v1.Region region = 8;
   Meal meal = 9;
 }

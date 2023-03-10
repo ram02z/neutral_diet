@@ -6,26 +6,26 @@ import { Button, Dialog, DialogActions, DialogTitle, MenuItem, TextField } from 
 import { Stack } from '@mui/system';
 
 import { FormValues } from '@/components/FoodItemLogCard/types';
-import { Weight } from '@/core/weight';
-import { MealsState, WeightUnitsState } from '@/store/user';
+import { QuantityUnit } from '@/core/food_unit';
+import { FoodUnitsState, MealsState } from '@/store/user';
 
 type EditFoodItemDialogProps = {
   onSubmit: (data: FormValues, event?: BaseSyntheticEvent<object, void, void | undefined>) => void;
   openDialog: boolean;
   handleClose: () => void;
-  currentWeight: Weight;
+  currentQuantity: QuantityUnit;
   currentMeal: number;
 };
 
 function EditFoodItemDialog({
   openDialog,
-  currentWeight,
+  currentQuantity,
   currentMeal,
   handleClose,
   onSubmit,
 }: EditFoodItemDialogProps) {
   const { handleSubmit, control } = useForm<FormValues>();
-  const weightUnits = useRecoilValue(WeightUnitsState);
+  const foodUnits = useRecoilValue(FoodUnitsState);
   const meals = useRecoilValue(MealsState);
 
   return (
@@ -50,8 +50,8 @@ function EditFoodItemDialog({
           />
           <Controller
             control={control}
-            name="weight"
-            defaultValue={currentWeight.value.toString()}
+            name="quantity"
+            defaultValue={currentQuantity.value.toString()}
             rules={{ required: true, min: 0.001 }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField
@@ -60,21 +60,21 @@ function EditFoodItemDialog({
                 onChange={onChange}
                 value={value}
                 type="number"
-                label="Weight"
+                label="Quantity"
                 inputProps={{ step: 0.001 }}
               />
             )}
           />
           <Controller
             control={control}
-            name="weightUnit"
-            defaultValue={currentWeight.unit.value}
+            name="unit"
+            defaultValue={currentQuantity.unit.value}
             rules={{ required: true }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField select label="Unit" error={!!error} onChange={onChange} value={value}>
-                {weightUnits.map((weight, key) => (
-                  <MenuItem key={key} value={weight.value}>
-                    {weight.getName()}
+                {foodUnits.map((unit, key) => (
+                  <MenuItem key={key} value={unit.value}>
+                    {unit.getName()}
                   </MenuItem>
                 ))}
               </TextField>

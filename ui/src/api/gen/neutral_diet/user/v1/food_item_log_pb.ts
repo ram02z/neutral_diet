@@ -9,37 +9,61 @@ import { Date } from "./date_pb.js";
 import { Region } from "../../food/v1/region_pb.js";
 
 /**
- * @generated from enum neutral_diet.user.v1.WeightUnit
+ * @generated from enum neutral_diet.user.v1.Unit
  */
-export enum WeightUnit {
+export enum Unit {
   /**
    * Kilogram
    *
-   * @generated from enum value: WEIGHT_UNIT_UNSPECIFIED = 0;
+   * @generated from enum value: UNIT_UNSPECIFIED = 0;
    */
   UNSPECIFIED = 0,
 
   /**
-   * @generated from enum value: WEIGHT_UNIT_GRAM = 1;
+   * @generated from enum value: UNIT_GRAM = 1;
    */
   GRAM = 1,
 
   /**
-   * @generated from enum value: WEIGHT_UNIT_OUNCE = 2;
+   * @generated from enum value: UNIT_OUNCE = 2;
    */
   OUNCE = 2,
 
   /**
-   * @generated from enum value: WEIGHT_UNIT_POUND = 3;
+   * @generated from enum value: UNIT_POUND = 3;
    */
   POUND = 3,
+
+  /**
+   * @generated from enum value: UNIT_LITRE = 4;
+   */
+  LITRE = 4,
+
+  /**
+   * @generated from enum value: UNIT_MILLILITRE = 5;
+   */
+  MILLILITRE = 5,
+
+  /**
+   * @generated from enum value: UNIT_GALLON = 6;
+   */
+  GALLON = 6,
+
+  /**
+   * @generated from enum value: UNIT_PINT = 7;
+   */
+  PINT = 7,
 }
-// Retrieve enum metadata with: proto3.getEnumType(WeightUnit)
-proto3.util.setEnumType(WeightUnit, "neutral_diet.user.v1.WeightUnit", [
-  { no: 0, name: "WEIGHT_UNIT_UNSPECIFIED" },
-  { no: 1, name: "WEIGHT_UNIT_GRAM" },
-  { no: 2, name: "WEIGHT_UNIT_OUNCE" },
-  { no: 3, name: "WEIGHT_UNIT_POUND" },
+// Retrieve enum metadata with: proto3.getEnumType(Unit)
+proto3.util.setEnumType(Unit, "neutral_diet.user.v1.Unit", [
+  { no: 0, name: "UNIT_UNSPECIFIED" },
+  { no: 1, name: "UNIT_GRAM" },
+  { no: 2, name: "UNIT_OUNCE" },
+  { no: 3, name: "UNIT_POUND" },
+  { no: 4, name: "UNIT_LITRE" },
+  { no: 5, name: "UNIT_MILLILITRE" },
+  { no: 6, name: "UNIT_GALLON" },
+  { no: 7, name: "UNIT_PINT" },
 ]);
 
 /**
@@ -84,9 +108,9 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
   foodItemId = 0;
 
   /**
-   * @generated from field: double weight = 2;
+   * @generated from field: double quantity = 2;
    */
-  weight = 0;
+  quantity = 0;
 
   /**
    * @generated from field: neutral_diet.user.v1.Date date = 3;
@@ -94,9 +118,9 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
   date?: Date;
 
   /**
-   * @generated from field: neutral_diet.user.v1.WeightUnit weight_unit = 4;
+   * @generated from field: neutral_diet.user.v1.Unit unit = 4;
    */
-  weightUnit = WeightUnit.UNSPECIFIED;
+  unit = Unit.UNSPECIFIED;
 
   /**
    * @generated from field: neutral_diet.food.v1.Region region = 5;
@@ -117,9 +141,9 @@ export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
   static readonly typeName = "neutral_diet.user.v1.FoodLogItemRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "food_item_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 2, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 2, name: "quantity", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 3, name: "date", kind: "message", T: Date },
-    { no: 4, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
+    { no: 4, name: "unit", kind: "enum", T: proto3.getEnumType(Unit) },
     { no: 5, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
     { no: 6, name: "meal", kind: "enum", T: proto3.getEnumType(Meal) },
   ]);
@@ -161,9 +185,9 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
   name = "";
 
   /**
-   * @generated from field: double weight = 4;
+   * @generated from field: double quantity = 4;
    */
-  weight = 0;
+  quantity = 0;
 
   /**
    * @generated from field: double carbon_footprint = 5;
@@ -176,9 +200,9 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
   date?: Date;
 
   /**
-   * @generated from field: neutral_diet.user.v1.WeightUnit weight_unit = 7;
+   * @generated from field: neutral_diet.user.v1.Unit unit = 7;
    */
-  weightUnit = WeightUnit.UNSPECIFIED;
+  unit = Unit.UNSPECIFIED;
 
   /**
    * @generated from field: neutral_diet.food.v1.Region region = 8;
@@ -201,10 +225,10 @@ export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
     { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 2, name: "food_item_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 3, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 4, name: "quantity", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 5, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 6, name: "date", kind: "message", T: Date },
-    { no: 7, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
+    { no: 7, name: "unit", kind: "enum", T: proto3.getEnumType(Unit) },
     { no: 8, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
     { no: 9, name: "meal", kind: "enum", T: proto3.getEnumType(Meal) },
   ]);

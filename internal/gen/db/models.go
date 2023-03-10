@@ -80,12 +80,12 @@ type FoodItem struct {
 type FoodItemLog struct {
 	ID              int32
 	FoodItemID      int32
-	Weight          decimal.Decimal
+	Quantity        decimal.Decimal
 	CreatedAt       pgtype.Timestamptz
 	UpdatedAt       pgtype.Timestamptz
 	UserID          int32
 	LogDate         pgtype.Date
-	WeightUnit      int32
+	Unit            int32
 	Region          int32
 	CarbonFootprint decimal.Decimal
 	Meal            int32

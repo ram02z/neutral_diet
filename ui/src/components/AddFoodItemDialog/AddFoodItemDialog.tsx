@@ -9,7 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
 import { FormValues } from '@/components/FoodItemCard/types';
-import { MealsState, WeightUnitsState } from '@/store/user';
+import { FoodUnitsState, MealsState } from '@/store/user';
 
 type AddFoodItemDialogProps = {
   onSubmit: (data: FormValues, event?: BaseSyntheticEvent<object, void, void | undefined>) => void;
@@ -19,7 +19,7 @@ type AddFoodItemDialogProps = {
 
 function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDialogProps) {
   const { handleSubmit, control } = useForm<FormValues>();
-  const weightUnits = useRecoilValue(WeightUnitsState);
+  const foodUnits = useRecoilValue(FoodUnitsState);
   const meals = useRecoilValue(MealsState);
 
   return (
@@ -64,7 +64,7 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
           />
           <Controller
             control={control}
-            name="weight"
+            name="quantity"
             defaultValue="1.0"
             rules={{ required: true, min: 0.001 }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
@@ -74,20 +74,20 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
                 onChange={onChange}
                 value={value}
                 type="number"
-                label="Weight"
+                label="Quantity"
                 inputProps={{ step: 0.001 }}
               />
             )}
           />
           <Controller
             control={control}
-            name="weightUnit"
+            name="unit"
             rules={{ required: true }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField select label="Unit" error={!!error} onChange={onChange} value={value}>
-                {weightUnits.map((weight, key) => (
-                  <MenuItem key={key} value={weight.value}>
-                    {weight.getName()}
+                {foodUnits.map((unit, key) => (
+                  <MenuItem key={key} value={unit.value}>
+                    {unit.getName()}
                   </MenuItem>
                 ))}
               </TextField>
