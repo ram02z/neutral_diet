@@ -6,7 +6,7 @@ import { User } from 'firebase/auth';
 import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
 import {
   Meal as MealProto,
-  WeightUnit as WeightUnitProto,
+  Unit
 } from '@/api/gen/neutral_diet/user/v1/food_item_log_pb';
 import {
   UserSettings,
@@ -18,7 +18,7 @@ import { MIN_CF_LIMIT } from '@/config';
 import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 import { Meal } from '@/core/meal';
-import { WeightUnit } from '@/core/weight';
+import { FoodUnit } from '@/core/food_unit';
 import { toSerializableDate } from '@/utils/date';
 
 import {
@@ -111,12 +111,12 @@ export const DietaryRequirementsState = selector({
   },
 });
 
-export const WeightUnitsState = selector({
-  key: 'WeightUnitsState',
+export const FoodUnitsState = selector({
+  key: 'FoodUnitsState',
   get: () => {
-    return Object.values(WeightUnitProto)
+    return Object.values(Unit)
       .filter((x) => typeof x === 'number')
-      .map((w) => new WeightUnit(w as WeightUnitProto));
+      .map((u) => new FoodUnit(u as Unit));
   },
 });
 
@@ -165,9 +165,9 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], Serializable
               dbId: foodLogItem.id,
               foodItemId: foodLogItem.foodItemId,
               name: foodLogItem.name,
-              weight: {
-                value: foodLogItem.weight,
-                unit: new WeightUnit(foodLogItem.weightUnit),
+              quantity: {
+                value: foodLogItem.quantity,
+                unit: new FoodUnit(foodLogItem.unit),
               },
               carbonFootprint: foodLogItem.carbonFootprint,
               region: foodLogItem.region,

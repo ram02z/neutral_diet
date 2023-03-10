@@ -25,7 +25,7 @@ import { FormValues } from '@/components/FoodItemLogCard/types';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
-import { WeightUnit } from '@/core/weight';
+import { FoodUnit } from '@/core/food_unit';
 import { FoodItemInfoQuery } from '@/store/food';
 import {
   CurrentUserHeadersState,
@@ -54,14 +54,14 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const region = new UserRegion(foodLogItem.region);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const weight = parseFloat(data.weight);
-    const weightUnit = new WeightUnit(data.weightUnit);
+    const quantity = parseFloat(data.quantity);
+    const unit = new FoodUnit(data.unit);
     client
       .updateFoodItem(
         {
           id: foodLogItem.dbId,
-          weight: weight,
-          weightUnit: data.weightUnit,
+          quantity: quantity,
+          unit: data.unit,
           region: foodLogItem.region,
           meal: data.meal,
         },
@@ -75,7 +75,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 dbId: foodLogItem.dbId,
                 foodItemId: foodLogItem.foodItemId,
                 name: foodLogItem.name,
-                weight: { value: weight, unit: weightUnit },
+                quantity: { value: quantity, unit: unit },
                 carbonFootprint: res.carbonFootprint,
                 region: foodLogItem.region,
                 meal: data.meal,
@@ -146,7 +146,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 {foodLogItem.name.toLowerCase()}
               </Typography>
               <Typography variant="subtitle1" color="text.secondary" component="div">
-                {`${foodLogItem.weight.value}${foodLogItem.weight.unit.getShortName()}`}
+                {`${foodLogItem.quantity.value}${foodLogItem.quantity.unit.getShortName()}`}
               </Typography>
             </Grid>
             <Grid
@@ -182,7 +182,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
         onSubmit={onSubmit}
         openDialog={openDeleteDialog}
         handleClose={handleCloseDeleteDialog}
-        currentWeight={foodLogItem.weight}
+        currentQuantity={foodLogItem.quantity}
         currentMeal={foodLogItem.meal}
       />
       <FoodItemInfoDialog

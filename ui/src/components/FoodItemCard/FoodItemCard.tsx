@@ -16,7 +16,7 @@ import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
 import UserRegion from '@/core/regions';
-import { WeightUnit } from '@/core/weight';
+import { FoodUnit } from '@/core/food_unit';
 import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
 import {
   CurrentUserHeadersState,
@@ -50,15 +50,15 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setDate(data.date);
-    const weight = parseFloat(data.weight);
-    const weightUnit = new WeightUnit(data.weightUnit);
+    const quantity = parseFloat(data.quantity);
+    const unit = new FoodUnit(data.unit);
     client
       .addFoodItem(
         {
           foodLogItem: {
             foodItemId: foodItem.id,
-            weight: weight,
-            weightUnit: data.weightUnit,
+            quantity: quantity,
+            unit: data.unit,
             date: { year: data.date.year(), month: data.date.month() + 1, day: data.date.date() },
             region: foodItem.region,
             meal: data.meal,
@@ -77,7 +77,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
               dbId: res.id,
               foodItemId: foodItem.id,
               name: foodItem.foodName,
-              weight: { value: weight, unit: weightUnit },
+              quantity: { value: quantity, unit: unit },
               carbonFootprint: res.carbonFootprint,
               region: foodItem.region,
               meal: data.meal,

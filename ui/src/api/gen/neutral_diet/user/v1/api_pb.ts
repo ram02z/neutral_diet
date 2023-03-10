@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { FoodLogItemRequest, FoodLogItemResponse, Meal, WeightUnit } from "./food_item_log_pb.js";
+import { FoodLogItemRequest, FoodLogItemResponse, Meal, Unit } from "./food_item_log_pb.js";
 import { Region } from "../../food/v1/region_pb.js";
 import { Date } from "./date_pb.js";
 import { UserSettings } from "./user_pb.js";
@@ -100,14 +100,14 @@ export class UpdateFoodItemRequest extends Message<UpdateFoodItemRequest> {
   id = 0;
 
   /**
-   * @generated from field: double weight = 2;
+   * @generated from field: double quantity = 2;
    */
-  weight = 0;
+  quantity = 0;
 
   /**
-   * @generated from field: neutral_diet.user.v1.WeightUnit weight_unit = 3;
+   * @generated from field: neutral_diet.user.v1.Unit unit = 3;
    */
-  weightUnit = WeightUnit.UNSPECIFIED;
+  unit = Unit.UNSPECIFIED;
 
   /**
    * @generated from field: neutral_diet.food.v1.Region region = 4;
@@ -128,8 +128,8 @@ export class UpdateFoodItemRequest extends Message<UpdateFoodItemRequest> {
   static readonly typeName = "neutral_diet.user.v1.UpdateFoodItemRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 2, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 3, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
+    { no: 2, name: "quantity", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 3, name: "unit", kind: "enum", T: proto3.getEnumType(Unit) },
     { no: 4, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
     { no: 5, name: "meal", kind: "enum", T: proto3.getEnumType(Meal) },
   ]);

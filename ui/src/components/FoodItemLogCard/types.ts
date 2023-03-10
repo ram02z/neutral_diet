@@ -1,5 +1,5 @@
 export type FormValues = {
-  weight: string;
-  weightUnit: number;
+  quantity: string;
+  unit: number;
   meal: number;
 };

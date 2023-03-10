@@ -63,7 +63,7 @@ func (m *FoodLogItemRequest) validate(all bool) error {
 
 	// no validation rules for FoodItemId
 
-	// no validation rules for Weight
+	// no validation rules for Quantity
 
 	if all {
 		switch v := interface{}(m.GetDate()).(type) {
@@ -94,7 +94,7 @@ func (m *FoodLogItemRequest) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for WeightUnit
+	// no validation rules for Unit
 
 	// no validation rules for Region
 
@@ -208,7 +208,7 @@ func (m *FoodLogItemResponse) validate(all bool) error {
 
 	// no validation rules for Name
 
-	// no validation rules for Weight
+	// no validation rules for Quantity
 
 	// no validation rules for CarbonFootprint
 
@@ -241,7 +241,7 @@ func (m *FoodLogItemResponse) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for WeightUnit
+	// no validation rules for Unit
 
 	// no validation rules for Region
 
