@@ -122,7 +122,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
               {foodItem.foodName.toLowerCase()}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
-              <b>{parseFloat(foodItem.medianCarbonFootprint.toFixed(3))}</b>
+              <b>{foodItem.medianCarbonFootprint.toFixed(3)}</b>
               <Typography variant="caption">
                 CO<sub>2</sub>/kg
               </Typography>
