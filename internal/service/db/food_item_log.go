@@ -48,22 +48,23 @@ func (s *Store) AddFoodItemToLog(
 		medianCarbonFootprint = regionalAggFoodItem.MedianCarbonFootprint
 	}
 
-	weight := decimal.NewFromFloat(r.FoodLogItem.Weight)
+	quantity := decimal.NewFromFloat(r.FoodLogItem.Quantity)
 
-	carbonFootprint := calculateCarbonFootprintByWeight(
+	carbonFootprint := calculateCarbonFootprint(
 		medianCarbonFootprint,
-		weight,
-		r.FoodLogItem.WeightUnit,
+		quantity,
+		r.FoodLogItem.Unit,
 	)
 
 	foodItemLogID, err := queries.AddFoodItemToLog(ctx, db.AddFoodItemToLogParams{
 		FoodItemID:      r.FoodLogItem.FoodItemId,
-		Weight:          decimal.NewFromFloat(r.FoodLogItem.Weight),
-		WeightUnit:      int32(r.FoodLogItem.WeightUnit),
+		Quantity:        decimal.NewFromFloat(r.FoodLogItem.Quantity),
+		Unit:            int32(r.FoodLogItem.Unit),
 		UserID:          user.ID,
 		LogDate:         mapToDate(r.FoodLogItem.GetDate()),
 		Region:          int32(r.FoodLogItem.Region),
 		CarbonFootprint: carbonFootprint,
+		Meal:            int32(r.FoodLogItem.Meal),
 	})
 	if err != nil {
 		return nil, err
@@ -115,20 +116,21 @@ func (s *Store) UpdateFoodItemFromLog(
 		medianCarbonFootprint = regionalAggFoodItem.MedianCarbonFootprint
 	}
 
-	weight := decimal.NewFromFloat(r.Weight)
+	quantity := decimal.NewFromFloat(r.Quantity)
 
-	carbonFootprint := calculateCarbonFootprintByWeight(
+	carbonFootprint := calculateCarbonFootprint(
 		medianCarbonFootprint,
-		weight,
-		r.WeightUnit,
+		quantity,
+		r.Unit,
 	)
 
 	err = queries.UpdateFoodItemFromLog(ctx, db.UpdateFoodItemFromLogParams{
 		UserID:          user.ID,
 		ID:              r.Id,
-		Weight:          weight,
-		WeightUnit:      int32(r.WeightUnit),
+		Quantity:        quantity,
+		Unit:            int32(r.Unit),
 		CarbonFootprint: carbonFootprint,
+		Meal:            int32(r.Meal),
 	})
 
 	if err != nil {
@@ -162,7 +164,7 @@ func (s *Store) GetUserInsights(
 
 	dailyAverage, err := queries.GetDailyAverageCarbonFootprint(ctx)
 	if err != nil {
-		return nil, err
+		dailyAverage = decimal.NewFromFloat(0)
 	}
 
 	dailyAverageDietaryRequirement, err := queries.GetDailyAverageCarbonFootprintByDietaryRequirement(
@@ -170,7 +172,7 @@ func (s *Store) GetUserInsights(
 		user.DietaryRequirement,
 	)
 	if err != nil {
-		return nil, err
+		dailyAverageDietaryRequirement = decimal.NewFromFloat(0)
 	}
 
 	streakRow, err := queries.GetFoodItemLogStreak(ctx, user.ID)
@@ -239,8 +241,8 @@ func (s *Store) GetFoodItemLog(
 			Id:              f.ID,
 			FoodItemId:      f.FoodItemID,
 			Name:            f.Name,
-			Weight:          f.Weight.InexactFloat64(),
-			WeightUnit:      userv1.WeightUnit(f.WeightUnit),
+			Quantity:        f.Quantity.InexactFloat64(),
+			Unit:            userv1.Unit(f.Unit),
 			CarbonFootprint: f.CarbonFootprint.InexactFloat64(),
 			Date: &userv1.Date{
 				Year:  int32(f.LogDate.Time.Year()),
@@ -248,33 +250,61 @@ func (s *Store) GetFoodItemLog(
 				Day:   int32(f.LogDate.Time.Day()),
 			},
 			Region: foodv1.Region(f.Region),
+			Meal:   userv1.Meal(f.Meal),
 		}
 	}
 
-	return &userv1.GetFoodItemLogResponse{
-		FoodItemLog: foodLogItems,
-	}, nil
+	return &userv1.GetFoodItemLogResponse{FoodItemLog: foodLogItems}, nil
 }
 
-func calculateCarbonFootprintByWeight(
-	carbonFootprint decimal.Decimal,
-	weight decimal.Decimal,
-	weightUnit userv1.WeightUnit,
-) decimal.Decimal {
-	// Default is kilogram
-	multiplier := decimal.NewFromFloat(1)
-	switch weightUnit {
-	case userv1.WeightUnit_WEIGHT_UNIT_GRAM:
-		multiplier = decimal.NewFromFloat(0.001)
-	case userv1.WeightUnit_WEIGHT_UNIT_OUNCE:
-		multiplier = decimal.NewFromFloat(0.02834952)
-	case userv1.WeightUnit_WEIGHT_UNIT_POUND:
-		multiplier = decimal.NewFromFloat(0.45359237)
+func (s *Store) GetFoodItemLogDays(
+	ctx context.Context,
+	r *userv1.GetFoodItemLogDaysRequest,
+	firebaseUID string,
+) (*userv1.GetFoodItemLogDaysResponse, error) {
+	queries := db.New(s.dbPool)
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	weight = weight.Mul(multiplier)
+	days, err := queries.GetLoggedDaysInMonth(ctx, db.GetLoggedDaysInMonthParams{
+		UserID: user.ID,
+		Month:  r.Month,
+		Year:   r.Year,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return carbonFootprint.Mul(weight)
+	return &userv1.GetFoodItemLogDaysResponse{Days: days}, err
+}
+
+func calculateCarbonFootprint(
+	carbonFootprint decimal.Decimal,
+	quantity decimal.Decimal,
+	unit userv1.Unit,
+) decimal.Decimal {
+	// Default is kilogram or litre
+	multiplier := decimal.NewFromFloat(1)
+	switch unit {
+	case userv1.Unit_UNIT_GRAM:
+		multiplier = decimal.NewFromFloat(0.001)
+	case userv1.Unit_UNIT_OUNCE:
+		multiplier = decimal.NewFromFloat(0.02834952)
+	case userv1.Unit_UNIT_POUND:
+		multiplier = decimal.NewFromFloat(0.45359237)
+	case userv1.Unit_UNIT_MILLILITRE:
+		multiplier = decimal.NewFromFloat(0.001)
+	case userv1.Unit_UNIT_GALLON:
+		multiplier = decimal.NewFromFloat(4.54609)
+	case userv1.Unit_UNIT_PINT:
+		multiplier = decimal.NewFromFloat(0.568261)
+	}
+
+	quantity = quantity.Mul(multiplier)
+
+	return carbonFootprint.Mul(quantity)
 }
 
 func mapToDate(date *userv1.Date) pgtype.Date {

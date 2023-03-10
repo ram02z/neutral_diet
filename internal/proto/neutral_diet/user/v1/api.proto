@@ -19,9 +19,10 @@ message AddFoodItemResponse {
 
 message UpdateFoodItemRequest {
   int32 id = 1 [(validate.rules).int32.gt = 0];
-  double weight = 2;
-  WeightUnit weight_unit = 3;
+  double quantity = 2;
+  Unit unit = 3;
   food.v1.Region region = 4;
+  Meal meal = 5;
 }
 
 message UpdateFoodItemResponse {
@@ -40,6 +41,21 @@ message GetFoodItemLogRequest {
 
 message GetFoodItemLogResponse {
   repeated FoodLogItemResponse food_item_log = 1;
+}
+
+message GetFoodItemLogDaysRequest {
+  int32 month = 1 [(validate.rules).int32 = {
+    gte: 1,
+    lte: 12
+  }];
+  int32 year = 2 [(validate.rules).int32 = {
+    gte: 1,
+    lte: 9999
+  }];
+}
+
+message GetFoodItemLogDaysResponse {
+  repeated int32 days = 1;
 }
 
 message CreateUserRequest {
@@ -82,6 +98,7 @@ service UserService {
   rpc UpdateFoodItem(UpdateFoodItemRequest) returns (UpdateFoodItemResponse) {}
   rpc DeleteFoodItem(DeleteFoodItemRequest) returns (DeleteFoodItemResponse) {}
   rpc GetFoodItemLog(GetFoodItemLogRequest) returns (GetFoodItemLogResponse) {}
+  rpc GetFoodItemLogDays(GetFoodItemLogDaysRequest) returns (GetFoodItemLogDaysResponse) {}
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
   rpc GetUserSettings(GetUserSettingsRequest) returns (GetUserSettingsResponse) {}

@@ -20,16 +20,19 @@ import { useSnackbar } from 'notistack';
 
 import client from '@/api/user_service';
 import EditFoodItemDialog from '@/components/EditFoodItemDialog';
-import { FormValues } from '@/components/FoodItemCard/types';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
+import { FormValues } from '@/components/FoodItemLogCard/types';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
+import { FoodUnit } from '@/core/food_unit';
 import UserRegion from '@/core/regions';
-import { WeightUnit } from '@/core/weight';
 import { FoodItemInfoQuery } from '@/store/food';
-import { CurrentUserHeadersState, FoodItemLogDateState, LocalFoodItemLogState } from '@/store/user';
+import {
+  CurrentUserHeadersState,
+  FoodItemLogSerializableDateState,
+  LocalFoodItemLogState,
+} from '@/store/user';
 import { LocalFoodLogItem } from '@/store/user/types';
-import { toSerializableDate } from '@/utils/date';
 
 export const ESTIMATED_CARD_HEIGHT = 160;
 
@@ -42,24 +45,25 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
-  const date = useRecoilValue(FoodItemLogDateState);
+  const serializableDate = useRecoilValue(FoodItemLogSerializableDateState);
   const { enqueueSnackbar } = useSnackbar();
-  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(toSerializableDate(date)));
+  const setFoodItemLog = useSetRecoilState(LocalFoodItemLogState(serializableDate));
   const foodItemInfo = useRecoilValue(
     FoodItemInfoQuery({ foodItemId: foodLogItem.foodItemId, region: foodLogItem.region }),
   );
   const region = new UserRegion(foodLogItem.region);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const weight = parseFloat(data.weight);
-    const weightUnit = new WeightUnit(data.weightUnit);
+    const quantity = parseFloat(data.quantity);
+    const unit = new FoodUnit(data.unit);
     client
       .updateFoodItem(
         {
           id: foodLogItem.dbId,
-          weight: weight,
-          weightUnit: data.weightUnit,
+          quantity: quantity,
+          unit: data.unit,
           region: foodLogItem.region,
+          meal: data.meal,
         },
         { headers: userHeaders },
       )
@@ -71,9 +75,10 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 dbId: foodLogItem.dbId,
                 foodItemId: foodLogItem.foodItemId,
                 name: foodLogItem.name,
-                weight: { value: weight, unit: weightUnit },
+                quantity: { value: quantity, unit: unit },
                 carbonFootprint: res.carbonFootprint,
                 region: foodLogItem.region,
+                meal: data.meal,
               };
             }
             return { ...item };
@@ -141,7 +146,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
                 {foodLogItem.name.toLowerCase()}
               </Typography>
               <Typography variant="subtitle1" color="text.secondary" component="div">
-                {`${foodLogItem.weight.value}${foodLogItem.weight.unit.getShortName()}`}
+                {`${foodLogItem.quantity.value}${foodLogItem.quantity.unit.getShortName()}`}
               </Typography>
             </Grid>
             <Grid
@@ -177,7 +182,8 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
         onSubmit={onSubmit}
         openDialog={openDeleteDialog}
         handleClose={handleCloseDeleteDialog}
-        currentWeight={foodLogItem.weight}
+        currentQuantity={foodLogItem.quantity}
+        currentMeal={foodLogItem.meal}
       />
       <FoodItemInfoDialog
         openDialog={openInfoDialog}

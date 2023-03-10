@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { FoodLogItemRequest, FoodLogItemResponse, WeightUnit } from "./food_item_log_pb.js";
+import { FoodLogItemRequest, FoodLogItemResponse, Meal, Unit } from "./food_item_log_pb.js";
 import { Region } from "../../food/v1/region_pb.js";
 import { Date } from "./date_pb.js";
 import { UserSettings } from "./user_pb.js";
@@ -100,19 +100,24 @@ export class UpdateFoodItemRequest extends Message<UpdateFoodItemRequest> {
   id = 0;
 
   /**
-   * @generated from field: double weight = 2;
+   * @generated from field: double quantity = 2;
    */
-  weight = 0;
+  quantity = 0;
 
   /**
-   * @generated from field: neutral_diet.user.v1.WeightUnit weight_unit = 3;
+   * @generated from field: neutral_diet.user.v1.Unit unit = 3;
    */
-  weightUnit = WeightUnit.UNSPECIFIED;
+  unit = Unit.UNSPECIFIED;
 
   /**
    * @generated from field: neutral_diet.food.v1.Region region = 4;
    */
   region = Region.UNSPECIFIED;
+
+  /**
+   * @generated from field: neutral_diet.user.v1.Meal meal = 5;
+   */
+  meal = Meal.UNSPECIFIED;
 
   constructor(data?: PartialMessage<UpdateFoodItemRequest>) {
     super();
@@ -123,9 +128,10 @@ export class UpdateFoodItemRequest extends Message<UpdateFoodItemRequest> {
   static readonly typeName = "neutral_diet.user.v1.UpdateFoodItemRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 2, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 3, name: "weight_unit", kind: "enum", T: proto3.getEnumType(WeightUnit) },
+    { no: 2, name: "quantity", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 3, name: "unit", kind: "enum", T: proto3.getEnumType(Unit) },
     { no: 4, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
+    { no: 5, name: "meal", kind: "enum", T: proto3.getEnumType(Meal) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateFoodItemRequest {
@@ -321,6 +327,86 @@ export class GetFoodItemLogResponse extends Message<GetFoodItemLogResponse> {
 
   static equals(a: GetFoodItemLogResponse | PlainMessage<GetFoodItemLogResponse> | undefined, b: GetFoodItemLogResponse | PlainMessage<GetFoodItemLogResponse> | undefined): boolean {
     return proto3.util.equals(GetFoodItemLogResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetFoodItemLogDaysRequest
+ */
+export class GetFoodItemLogDaysRequest extends Message<GetFoodItemLogDaysRequest> {
+  /**
+   * @generated from field: int32 month = 1;
+   */
+  month = 0;
+
+  /**
+   * @generated from field: int32 year = 2;
+   */
+  year = 0;
+
+  constructor(data?: PartialMessage<GetFoodItemLogDaysRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetFoodItemLogDaysRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "month", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "year", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemLogDaysRequest {
+    return new GetFoodItemLogDaysRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysRequest {
+    return new GetFoodItemLogDaysRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysRequest {
+    return new GetFoodItemLogDaysRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFoodItemLogDaysRequest | PlainMessage<GetFoodItemLogDaysRequest> | undefined, b: GetFoodItemLogDaysRequest | PlainMessage<GetFoodItemLogDaysRequest> | undefined): boolean {
+    return proto3.util.equals(GetFoodItemLogDaysRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetFoodItemLogDaysResponse
+ */
+export class GetFoodItemLogDaysResponse extends Message<GetFoodItemLogDaysResponse> {
+  /**
+   * @generated from field: repeated int32 days = 1;
+   */
+  days: number[] = [];
+
+  constructor(data?: PartialMessage<GetFoodItemLogDaysResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetFoodItemLogDaysResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "days", kind: "scalar", T: 5 /* ScalarType.INT32 */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemLogDaysResponse {
+    return new GetFoodItemLogDaysResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysResponse {
+    return new GetFoodItemLogDaysResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysResponse {
+    return new GetFoodItemLogDaysResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFoodItemLogDaysResponse | PlainMessage<GetFoodItemLogDaysResponse> | undefined, b: GetFoodItemLogDaysResponse | PlainMessage<GetFoodItemLogDaysResponse> | undefined): boolean {
+    return proto3.util.equals(GetFoodItemLogDaysResponse, a, b);
   }
 }
 

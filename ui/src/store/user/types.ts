@@ -1,4 +1,4 @@
-import { Weight } from '@/core/weight';
+import { QuantityUnit } from '@/core/food_unit';
 
 export type LocalUserSettings = {
   region: number;
@@ -11,9 +11,10 @@ export type LocalFoodLogItem = {
   dbId: number;
   foodItemId: number;
   name: string;
-  weight: Weight;
+  quantity: QuantityUnit;
   carbonFootprint: number;
   region: number;
+  meal: number;
 };
 
 export type FoodLogStats = {

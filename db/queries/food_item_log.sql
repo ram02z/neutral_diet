@@ -1,6 +1,6 @@
 -- name: AddFoodItemToLog :one
-INSERT INTO "food_item_log" (food_item_id, weight, user_id, log_date, weight_unit, region, carbon_footprint)
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+INSERT INTO "food_item_log" (food_item_id, quantity, user_id, log_date, unit, region, carbon_footprint, meal)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING
     id;
 
@@ -8,12 +8,23 @@ RETURNING
 UPDATE
     "food_item_log"
 SET
-    weight = $3,
-    weight_unit = $4,
-    carbon_footprint = $5
+    quantity = $3,
+    unit = $4,
+    carbon_footprint = $5,
+    meal = $6
 WHERE
     user_id = $1
     AND id = $2;
+
+-- name: GetLoggedDaysInMonth :many
+SELECT DISTINCT
+    DATE_PART('day', log_date)::int AS day
+FROM
+    food_item_log
+WHERE
+    DATE_PART('month', log_date) = @month::int
+    AND DATE_PART('year', log_date) = @year::int
+    AND user_id = $1;
 
 -- name: GetFoodItemIdByLogId :one
 SELECT
@@ -29,9 +40,10 @@ SELECT
     f.name,
     l.food_item_id,
     l.region,
-    l.weight,
-    l.weight_unit,
+    l.quantity,
+    l.unit,
     l.log_date,
+    l.meal,
     l.carbon_footprint
 FROM
     food_item_log l
@@ -46,8 +58,8 @@ SELECT
     f.name,
     l.food_item_id,
     l.region,
-    l.weight,
-    l.weight_unit,
+    l.quantity,
+    l.unit,
     l.carbon_footprint
 FROM
     food_item_log l
