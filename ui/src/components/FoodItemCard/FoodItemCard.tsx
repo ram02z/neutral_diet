@@ -15,8 +15,8 @@ import AddFoodItemDialog from '@/components/AddFoodItemDialog';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
 import RegionChip from '@/components/RegionChip';
 import { MIN_CARD_WIDTH } from '@/config';
-import UserRegion from '@/core/regions';
 import { FoodUnit } from '@/core/food_unit';
+import UserRegion from '@/core/regions';
 import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
 import {
   CurrentUserHeadersState,

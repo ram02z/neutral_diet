@@ -7,7 +7,7 @@ import { Stack } from '@mui/system';
 
 import { FormValues } from '@/components/FoodItemLogCard/types';
 import { QuantityUnit } from '@/core/food_unit';
-import { MealsState, FoodUnitsState } from '@/store/user';
+import { FoodUnitsState, MealsState } from '@/store/user';
 
 type EditFoodItemDialogProps = {
   onSubmit: (data: FormValues, event?: BaseSyntheticEvent<object, void, void | undefined>) => void;

@@ -4,10 +4,7 @@ import dayjs from 'dayjs';
 import { User } from 'firebase/auth';
 
 import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
-import {
-  Meal as MealProto,
-  Unit
-} from '@/api/gen/neutral_diet/user/v1/food_item_log_pb';
+import { Meal as MealProto, Unit } from '@/api/gen/neutral_diet/user/v1/food_item_log_pb';
 import {
   UserSettings,
   UserSettings_DietaryRequirement,
@@ -17,8 +14,8 @@ import client from '@/api/user_service';
 import { MIN_CF_LIMIT } from '@/config';
 import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
-import { Meal } from '@/core/meal';
 import { FoodUnit } from '@/core/food_unit';
+import { Meal } from '@/core/meal';
 import { toSerializableDate } from '@/utils/date';
 
 import {
