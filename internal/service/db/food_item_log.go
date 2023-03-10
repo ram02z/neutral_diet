@@ -58,8 +58,8 @@ func (s *Store) AddFoodItemToLog(
 
 	foodItemLogID, err := queries.AddFoodItemToLog(ctx, db.AddFoodItemToLogParams{
 		FoodItemID:      r.FoodLogItem.FoodItemId,
-		Weight:          decimal.NewFromFloat(r.FoodLogItem.Quantity),
-		WeightUnit:      int32(r.FoodLogItem.Unit),
+		Quantity:          decimal.NewFromFloat(r.FoodLogItem.Quantity),
+		Unit:      int32(r.FoodLogItem.Unit),
 		UserID:          user.ID,
 		LogDate:         mapToDate(r.FoodLogItem.GetDate()),
 		Region:          int32(r.FoodLogItem.Region),
@@ -127,8 +127,8 @@ func (s *Store) UpdateFoodItemFromLog(
 	err = queries.UpdateFoodItemFromLog(ctx, db.UpdateFoodItemFromLogParams{
 		UserID:          user.ID,
 		ID:              r.Id,
-		Weight:          quantity,
-		WeightUnit:      int32(r.Unit),
+		Quantity:          quantity,
+		Unit:      int32(r.Unit),
 		CarbonFootprint: carbonFootprint,
 		Meal:            int32(r.Meal),
 	})
@@ -241,8 +241,8 @@ func (s *Store) GetFoodItemLog(
 			Id:              f.ID,
 			FoodItemId:      f.FoodItemID,
 			Name:            f.Name,
-			Quantity:        f.Weight.InexactFloat64(),
-			Unit:            userv1.Unit(f.WeightUnit),
+			Quantity:        f.Quantity.InexactFloat64(),
+			Unit:            userv1.Unit(f.Unit),
 			CarbonFootprint: f.CarbonFootprint.InexactFloat64(),
 			Date: &userv1.Date{
 				Year:  int32(f.LogDate.Time.Year()),
