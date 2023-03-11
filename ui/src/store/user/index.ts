@@ -32,7 +32,7 @@ export const CurrentUserState = atom<User | null>({
   effects: [
     (ctx) => {
       if (ctx.trigger === 'get') {
-        return auth.onAuthStateChanged((user) => {
+        return auth.onIdTokenChanged((user) => {
           ctx.setSelf(user);
         });
       }
