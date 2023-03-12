@@ -12,6 +12,7 @@ import {
   ChartOptions,
   ChartData,
 } from 'chart.js';
+import { useTheme } from '@mui/material';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -33,20 +34,21 @@ type GoalLinePlotProps = {
 
 function GoalLinePlot({ actualData, goal }: GoalLinePlotProps) {
   const labels = Object.keys(actualData);
+  const theme = useTheme();
   const data: ChartData<'line'> = {
     labels,
     datasets: [
       {
         label: 'Goal',
         data: labels.map(() => goal),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.secondary.dark,
       },
       {
         label: 'Actual',
         data: Object.values(actualData),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.dark,
       },
     ],
   };
