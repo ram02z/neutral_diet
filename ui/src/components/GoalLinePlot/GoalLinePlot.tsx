@@ -1,18 +1,19 @@
 import { Line } from 'react-chartjs-2';
 
+import { useTheme } from '@mui/material';
+
 import {
   CategoryScale,
+  ChartData,
   Chart as ChartJS,
+  ChartOptions,
   Legend,
   LineElement,
   LinearScale,
   PointElement,
   Title,
   Tooltip,
-  ChartOptions,
-  ChartData,
 } from 'chart.js';
-import { useTheme } from '@mui/material';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -27,12 +28,12 @@ const options: ChartOptions<'line'> = {
 };
 
 type GoalLinePlotProps = {
-  actualData: Record<string, number>
+  actualData: Record<string, number>;
   goal: number;
+  title: string;
+};
 
-}
-
-function GoalLinePlot({ actualData, goal }: GoalLinePlotProps) {
+function GoalLinePlot({ actualData, goal, title }: GoalLinePlotProps) {
   const labels = Object.keys(actualData);
   const theme = useTheme();
   const data: ChartData<'line'> = {
@@ -53,7 +54,9 @@ function GoalLinePlot({ actualData, goal }: GoalLinePlotProps) {
     ],
   };
 
-  return (<Line options={options} data={data}/>);
+  const extOptions = { ...options, plugins: { title: { display: true, text: title } } };
+
+  return <Line options={extOptions} data={data} />;
 }
 
 export default GoalLinePlot;
