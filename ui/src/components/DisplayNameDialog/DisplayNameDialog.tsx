@@ -24,7 +24,7 @@ function DisplayNameDialog({
   return (
     <Dialog open={openDialog} onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogTitle textAlign="center">Edit food</DialogTitle>
+        <DialogTitle textAlign="center">Profile</DialogTitle>
         <Stack sx={{ px: 5 }} spacing={3}>
           <Controller
             control={control}
