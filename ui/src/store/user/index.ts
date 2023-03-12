@@ -1,7 +1,7 @@
 import { atom, atomFamily, selector, selectorFamily } from 'recoil';
 
 import dayjs from 'dayjs';
-import { User } from 'firebase/auth';
+import { User, updateProfile } from 'firebase/auth';
 
 import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
 import { Meal as MealProto, Unit } from '@/api/gen/neutral_diet/user/v1/food_item_log_pb';
@@ -36,6 +36,23 @@ export const CurrentUserState = atom<User | null>({
           ctx.setSelf(user);
         });
       }
+    },
+  ],
+});
+
+export const CurrentUserDisplayName = atom<string | null>({
+  key: 'CurrentUserDisplayName',
+  default: null,
+  effects: [
+    ({ onSet, getPromise }) => {
+      onSet((newValue, oldValue) => {
+        if (newValue === oldValue) return;
+        if (newValue === null) return;
+        getPromise(CurrentUserState).then((user) => {
+          if (!user) return;
+          updateProfile(user, { displayName: newValue });
+        });
+      });
     },
   ],
 });

@@ -17,6 +17,7 @@ import UserAvatar from '@/components/UserAvatar';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useSignOut } from '@/hooks/useSignOut';
 import {
+  CurrentUserDisplayName,
   CurrentUserHeadersState,
   LocalUserSettingsState,
   RemoteUserSettingsState,
@@ -24,6 +25,7 @@ import {
 
 function Account() {
   const user = useCurrentUser();
+  const displayName = useRecoilValue(CurrentUserDisplayName);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const remoteUserSettings = useRecoilValue(RemoteUserSettingsState);
   const [localUserSettings, setLocalUserSettings] = useRecoilState(LocalUserSettingsState);
@@ -84,10 +86,7 @@ function Account() {
           direction="column"
         >
           <Grid>
-            <UserAvatar
-              sx={{ width: 80, height: 80, fontSize: 40 }}
-              name={user.displayName ?? ''}
-            />
+            <UserAvatar sx={{ width: 80, height: 80, fontSize: 40 }} name={displayName ?? ''} />
           </Grid>
         </Grid>
         <Divider sx={{ py: '4vh' }}>
