@@ -40,12 +40,12 @@ export const FilteredSearchFoodItemsState = selector({
     return foodItems.filter((foodItem) => {
       if (
         (searchFilters.typologies.length > 0 &&
-          !searchFilters.typologies.includes(foodItem.typologyName)) ||
+          !searchFilters.typologies.includes(foodItem.typology)) ||
         (searchFilters.subTypologies.length > 0 &&
-          !searchFilters.subTypologies.includes(foodItem.subTypologyName))
+          !searchFilters.subTypologies.includes(foodItem.subTypology))
       )
         return;
-      return foodItem.foodName.toLowerCase().includes(searchText.toLowerCase());
+      return foodItem.name.toLowerCase().includes(searchText.toLowerCase());
     });
   },
 });

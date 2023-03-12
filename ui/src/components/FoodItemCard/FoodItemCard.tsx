@@ -9,7 +9,6 @@ import { Stack } from '@mui/system';
 
 import { useSnackbar } from 'notistack';
 
-import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import client from '@/api/user_service';
 import AddFoodItemDialog from '@/components/AddFoodItemDialog';
 import FoodItemInfoDialog from '@/components/FoodItemInfoDialog';
@@ -18,6 +17,7 @@ import { MIN_CARD_WIDTH } from '@/config';
 import { FoodUnit } from '@/core/food_unit';
 import UserRegion from '@/core/regions';
 import { FoodHistoryState, FoodItemInfoQuery } from '@/store/food';
+import { FoodItem } from '@/store/food/types';
 import {
   CurrentUserHeadersState,
   FoodItemLogDateState,
@@ -30,7 +30,7 @@ import { FormValues } from './types';
 export const ESTIMATED_CARD_HEIGHT = 160;
 
 type FoodItemCardProps = {
-  foodItem: AggregateFoodItem;
+  foodItem: FoodItem;
 };
 
 export function FoodItemCard({ foodItem }: FoodItemCardProps) {
@@ -76,7 +76,7 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
             {
               dbId: res.id,
               foodItemId: foodItem.id,
-              name: foodItem.foodName,
+              name: foodItem.name,
               quantity: { value: quantity, unit: unit },
               carbonFootprint: res.carbonFootprint,
               region: foodItem.region,
@@ -119,10 +119,10 @@ export function FoodItemCard({ foodItem }: FoodItemCardProps) {
         <Grid container columns={5}>
           <Stack spacing={1} sx={{ pt: 1, pl: 1 }}>
             <Typography sx={{ textTransform: 'capitalize' }} variant="h5" component="div">
-              {foodItem.foodName.toLowerCase()}
+              {foodItem.name.toLowerCase()}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
-              <b>{parseFloat(foodItem.medianCarbonFootprint.toFixed(3))}</b>
+              <b>{parseFloat(foodItem.carbonFootprint.toFixed(3))}</b>
               <Typography variant="caption">
                 CO<sub>2</sub>/kg
               </Typography>
