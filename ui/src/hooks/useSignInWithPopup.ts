@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 import {
   Auth,
@@ -10,10 +11,9 @@ import {
 } from 'firebase/auth';
 
 import client from '@/api/user_service';
+import { CurrentUserDisplayName } from '@/store/user';
 
 import { SignInWithPopupHook } from './types';
-import { useSetRecoilState } from 'recoil';
-import { CurrentUserDisplayName } from '@/store/user';
 
 export const useSignInWithGoogle = (auth: Auth): SignInWithPopupHook => {
   const createGoogleAuthProvider = useCallback(
@@ -61,7 +61,7 @@ const useSignInWithPopup = (
         setLoading(false);
       }
     },
-    [auth, createProvider],
+    [auth, createProvider, setUserDisplayName],
   );
 
   return [doSignInWithPopup, loggedInUser, loading, error];

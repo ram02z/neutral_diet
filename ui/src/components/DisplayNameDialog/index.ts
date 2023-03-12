@@ -1,3 +1,3 @@
-import DisplayNameDialog from "./DisplayNameDialog";
+import DisplayNameDialog from './DisplayNameDialog';
 
 export default DisplayNameDialog;

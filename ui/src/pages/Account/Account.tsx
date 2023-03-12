@@ -3,7 +3,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { Button, Chip, Divider, IconButton, Stack } from '@mui/material';
+import { Button, Chip, Divider, IconButton, Stack, useTheme } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { useSnackbar } from 'notistack';
@@ -11,6 +11,7 @@ import { useSnackbar } from 'notistack';
 import client from '@/api/user_service';
 import DeleteAccount from '@/components/DeleteAccount';
 import DietaryRequirementSelect from '@/components/DietaryRequirementSelect';
+import DisplayNameDialog from '@/components/DisplayNameDialog';
 import { FormValues } from '@/components/DisplayNameDialog/types';
 import Loading from '@/components/Loading';
 import RegionSelect from '@/components/RegionSelect';
@@ -24,10 +25,10 @@ import {
   LocalUserSettingsState,
   RemoteUserSettingsState,
 } from '@/store/user';
-import DisplayNameDialog from '@/components/DisplayNameDialog';
 
 function Account() {
   const user = useCurrentUser();
+  const theme = useTheme();
   const [displayName, setDisplayName] = useRecoilState(CurrentUserDisplayName);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const remoteUserSettings = useRecoilValue(RemoteUserSettingsState);
@@ -71,7 +72,6 @@ function Account() {
     setOpenNameDialog(false);
   };
 
-
   if (user === undefined) {
     return (
       <>
@@ -106,7 +106,10 @@ function Account() {
         >
           <Grid>
             <IconButton onClick={handleOpenNameDialog}>
-              <UserAvatar sx={{ width: 80, height: 80, fontSize: 40 }} name={displayName ?? ''} />
+              <UserAvatar
+                sx={{ width: 80, height: 80, fontSize: 40, bgcolor: theme.palette.primary.main }}
+                name={displayName ?? ''}
+              />
             </IconButton>
           </Grid>
         </Grid>
@@ -144,12 +147,12 @@ function Account() {
             <DeleteAccount user={user} />
           </Grid>
         </Grid>
-      <DisplayNameDialog
-        openDialog={openNameDialog}
-        handleClose={handleCloseNameDialog}
-        onSubmit={onDisplayNameSave}
-        currentDisplayName={displayName ?? ""}
-      />
+        <DisplayNameDialog
+          openDialog={openNameDialog}
+          handleClose={handleCloseNameDialog}
+          onSubmit={onDisplayNameSave}
+          currentDisplayName={displayName ?? ''}
+        />
       </Grid>
     );
   }
