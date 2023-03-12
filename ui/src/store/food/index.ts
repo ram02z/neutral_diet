@@ -1,12 +1,13 @@
 import { atom, selector, selectorFamily } from 'recoil';
 
 import client from '@/api/food_service';
-import { AggregateFoodItem, FoodItemInfo } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
+import { FoodItemInfo } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
 import { Region } from '@/api/gen/neutral_diet/food/v1/region_pb';
 import UserRegion from '@/core/regions';
+import { persistAtom } from '@/store';
 import { LocalUserSettingsState } from '@/store/user';
 
-import { FoodItemInfoQueryParams } from './types';
+import { FoodItem, FoodItemInfoQueryParams } from './types';
 
 export const RegionsState = selector({
   key: 'RegionsState',
@@ -17,12 +18,21 @@ export const RegionsState = selector({
   },
 });
 
-export const FoodItemsState = selector({
+export const FoodItemsState = selector<FoodItem[]>({
   key: 'FoodItems',
   get: async ({ get }) => {
     const userSettings = get(LocalUserSettingsState);
     const response = await client.listAggregateFoodItems({ region: userSettings.region });
-    return response.foodItems;
+    return response.foodItems.map((a) => {
+      return {
+        id: a.id,
+        name: a.foodName,
+        carbonFootprint: a.medianCarbonFootprint,
+        region: a.region,
+        typology: a.typologyName,
+        subTypology: a.subTypologyName,
+      };
+    });
   },
 });
 
@@ -55,10 +65,8 @@ export const SubTypologiesState = selector({
   },
 });
 
-// TODO: should food history be managed by user?
-export const FoodHistoryState = atom<AggregateFoodItem[]>({
+export const FoodHistoryState = atom<FoodItem[]>({
   key: 'FoodHistoryState',
   default: [],
-  // FIXME: disabled persist since enum gets stored as string
-  // effects: [persistAtom],
+  effects: [persistAtom],
 });

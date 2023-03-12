@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { Button, Chip, Divider, Stack } from '@mui/material';
+import { Button, Chip, Divider, IconButton, Stack, useTheme } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { useSnackbar } from 'notistack';
@@ -10,6 +11,8 @@ import { useSnackbar } from 'notistack';
 import client from '@/api/user_service';
 import DeleteAccount from '@/components/DeleteAccount';
 import DietaryRequirementSelect from '@/components/DietaryRequirementSelect';
+import DisplayNameDialog from '@/components/DisplayNameDialog';
+import { FormValues } from '@/components/DisplayNameDialog/types';
 import Loading from '@/components/Loading';
 import RegionSelect from '@/components/RegionSelect';
 import { CarbonFootprintSlider } from '@/components/StyledSlider';
@@ -17,6 +20,7 @@ import UserAvatar from '@/components/UserAvatar';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useSignOut } from '@/hooks/useSignOut';
 import {
+  CurrentUserDisplayName,
   CurrentUserHeadersState,
   LocalUserSettingsState,
   RemoteUserSettingsState,
@@ -24,11 +28,15 @@ import {
 
 function Account() {
   const user = useCurrentUser();
+  const theme = useTheme();
+  const [displayName, setDisplayName] = useRecoilState(CurrentUserDisplayName);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const remoteUserSettings = useRecoilValue(RemoteUserSettingsState);
   const [localUserSettings, setLocalUserSettings] = useRecoilState(LocalUserSettingsState);
   const signOut = useSignOut();
   const { enqueueSnackbar } = useSnackbar();
+  const [openNameDialog, setOpenNameDialog] = useState(false);
+
   const saveSettings = () => {
     client
       .updateUserSettings({ userSettings: remoteUserSettings }, { headers: userHeaders })
@@ -50,6 +58,19 @@ function Account() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const onDisplayNameSave: SubmitHandler<FormValues> = (data) => {
+    setDisplayName(data.displayName);
+    handleCloseNameDialog();
+  };
+
+  const handleOpenNameDialog = () => {
+    setOpenNameDialog(true);
+  };
+
+  const handleCloseNameDialog = () => {
+    setOpenNameDialog(false);
+  };
 
   if (user === undefined) {
     return (
@@ -84,10 +105,12 @@ function Account() {
           direction="column"
         >
           <Grid>
-            <UserAvatar
-              sx={{ width: 80, height: 80, fontSize: 40 }}
-              name={user.displayName ?? ''}
-            />
+            <IconButton onClick={handleOpenNameDialog}>
+              <UserAvatar
+                sx={{ width: 80, height: 80, fontSize: 40, bgcolor: theme.palette.primary.main }}
+                name={displayName ?? ''}
+              />
+            </IconButton>
           </Grid>
         </Grid>
         <Divider sx={{ py: '4vh' }}>
@@ -124,6 +147,12 @@ function Account() {
             <DeleteAccount user={user} />
           </Grid>
         </Grid>
+        <DisplayNameDialog
+          openDialog={openNameDialog}
+          handleClose={handleCloseNameDialog}
+          onSubmit={onDisplayNameSave}
+          currentDisplayName={displayName ?? ''}
+        />
       </Grid>
     );
   }
