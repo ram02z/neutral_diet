@@ -33,6 +33,11 @@ export type UserInsights = {
   isStreakActive: boolean;
 };
 
+export type UserProgress = {
+  all: Record<string, number>;
+  meal: Map<number, Record<string, number>>;
+}
+
 export type SerializableDate = {
   year: number;
   month: number;

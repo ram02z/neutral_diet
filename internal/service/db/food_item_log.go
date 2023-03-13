@@ -208,12 +208,70 @@ func (s *Store) GetUserProgress(
 		return nil, err
 	}
 
-	dailyProgress := make(map[string]float64)
+	dailyProgressAll := make(map[string]float64)
 	for _, e := range dailySums {
-		dailyProgress[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
+		dailyProgressAll[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
 	}
 
-	return &userv1.GetUserProgressResponse{DailyProgress: dailyProgress}, err
+	dailySumsBreakfast, err := queries.GetDailyCarbonFootprintByMeal(ctx, db.GetDailyCarbonFootprintByMealParams{
+		UserID: user.ID,
+		Meal:   int32(userv1.Meal_MEAL_BREAKFAST),
+	})
+	if err != nil && err != pgx.ErrNoRows {
+		return nil, err
+	}
+
+	dailyProgressBreakfast := make(map[string]float64)
+	for _, e := range dailySumsBreakfast {
+		dailyProgressBreakfast[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
+	}
+
+	dailySumsLunch, err := queries.GetDailyCarbonFootprintByMeal(ctx, db.GetDailyCarbonFootprintByMealParams{
+		UserID: user.ID,
+		Meal:   int32(userv1.Meal_MEAL_LUNCH),
+	})
+	if err != nil && err != pgx.ErrNoRows {
+		return nil, err
+	}
+
+	dailyProgressLunch := make(map[string]float64)
+	for _, e := range dailySumsLunch {
+		dailyProgressLunch[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
+	}
+
+	dailySumsDinner, err := queries.GetDailyCarbonFootprintByMeal(ctx, db.GetDailyCarbonFootprintByMealParams{
+		UserID: user.ID,
+		Meal:   int32(userv1.Meal_MEAL_DINNER),
+	})
+	if err != nil && err != pgx.ErrNoRows {
+		return nil, err
+	}
+
+	dailyProgressDinner := make(map[string]float64)
+	for _, e := range dailySumsDinner {
+		dailyProgressDinner[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
+	}
+
+	dailySumsSnacks, err := queries.GetDailyCarbonFootprintByMeal(ctx, db.GetDailyCarbonFootprintByMealParams{
+		UserID: user.ID,
+		Meal:   int32(userv1.Meal_MEAL_UNSPECIFIED),
+	})
+	if err != nil && err != pgx.ErrNoRows {
+		return nil, err
+	}
+
+	dailyProgressSnacks := make(map[string]float64)
+	for _, e := range dailySumsSnacks {
+		dailyProgressSnacks[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
+	}
+
+	return &userv1.GetUserProgressResponse{
+		DailyProgressAll:       dailyProgressAll,
+		DailyProgressBreakfast: dailyProgressBreakfast,
+		DailyProgressLunch:     dailyProgressLunch,
+		DailyProgressDinner:    dailyProgressDinner,
+		DailyProgressSnacks:    dailyProgressSnacks,
+	}, err
 }
 
 func (s *Store) DeleteFoodItemFromLog(

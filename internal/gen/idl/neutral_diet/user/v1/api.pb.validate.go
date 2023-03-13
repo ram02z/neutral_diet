@@ -2480,7 +2480,15 @@ func (m *GetUserProgressResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for DailyProgress
+	// no validation rules for DailyProgressAll
+
+	// no validation rules for DailyProgressBreakfast
+
+	// no validation rules for DailyProgressLunch
+
+	// no validation rules for DailyProgressDinner
+
+	// no validation rules for DailyProgressSnacks
 
 	if len(errors) > 0 {
 		return GetUserProgressResponseMultiError(errors)

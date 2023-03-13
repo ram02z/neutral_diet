@@ -816,9 +816,29 @@ export class GetUserProgressRequest extends Message<GetUserProgressRequest> {
  */
 export class GetUserProgressResponse extends Message<GetUserProgressResponse> {
   /**
-   * @generated from field: map<string, double> daily_progress = 1;
+   * @generated from field: map<string, double> daily_progress_all = 1;
    */
-  dailyProgress: { [key: string]: number } = {};
+  dailyProgressAll: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_breakfast = 2;
+   */
+  dailyProgressBreakfast: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_lunch = 3;
+   */
+  dailyProgressLunch: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_dinner = 4;
+   */
+  dailyProgressDinner: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_snacks = 5;
+   */
+  dailyProgressSnacks: { [key: string]: number } = {};
 
   constructor(data?: PartialMessage<GetUserProgressResponse>) {
     super();
@@ -828,7 +848,11 @@ export class GetUserProgressResponse extends Message<GetUserProgressResponse> {
   static readonly runtime = proto3;
   static readonly typeName = "neutral_diet.user.v1.GetUserProgressResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "daily_progress", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 1, name: "daily_progress_all", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 2, name: "daily_progress_breakfast", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 3, name: "daily_progress_lunch", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 4, name: "daily_progress_dinner", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 5, name: "daily_progress_snacks", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserProgressResponse {

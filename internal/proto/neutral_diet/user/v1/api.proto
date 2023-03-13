@@ -96,7 +96,10 @@ message GetUserInsightsResponse {
 message GetUserProgressRequest {}
 
 message GetUserProgressResponse {
-  map<string, double> daily_progress = 1;
+  map<string, double> daily_progress_all = 1;
+  map<string, double> daily_progress_breakfast = 2;
+  map<string, double> daily_progress_lunch = 3;
+  map<string, double> daily_progress_dinner = 4;
 }
 
 service UserService {

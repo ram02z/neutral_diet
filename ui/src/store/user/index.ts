@@ -24,6 +24,7 @@ import {
   LocalUserSettings,
   SerializableDate,
   UserInsights,
+  UserProgress,
 } from './types';
 
 export const CurrentUserState = atom<User | null>({
@@ -257,12 +258,17 @@ export const UserInsightsState = selector<UserInsights>({
   },
 });
 
-export const UserProgressState = selector({
+export const UserProgressState = selector<UserProgress>({
   key: 'UserProgressState',
   get: async ({ get }) => {
     const userHeaders = get(CurrentUserHeadersState);
     const response = await client.getUserProgress({}, { headers: userHeaders });
+    const mealMap = new Map<number, Record<string, number>>();
+    mealMap.set(MealProto.BREAKFAST, response.dailyProgressBreakfast)
+    mealMap.set(MealProto.LUNCH, response.dailyProgressLunch)
+    mealMap.set(MealProto.DINNER, response.dailyProgressDinner)
+    mealMap.set(MealProto.UNSPECIFIED, response.dailyProgressSnacks)
 
-    return response.dailyProgress;
+    return { all: response.dailyProgressAll, meal: mealMap };
   }
 })

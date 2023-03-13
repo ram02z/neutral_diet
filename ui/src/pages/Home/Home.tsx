@@ -3,7 +3,6 @@ import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil';
 
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Stack } from '@mui/system';
 
 import dayjs from 'dayjs';
 
@@ -19,6 +18,7 @@ import {
   UserProgressState,
 } from '@/store/user';
 import { toSerializableDate } from '@/utils/date';
+import { Meal } from '@/core/meal';
 
 function Home() {
   const todayStats = useRecoilValue(LocalFoodItemLogStats(toSerializableDate(dayjs())));
@@ -85,14 +85,17 @@ function Home() {
           <Carousel>
             <GoalLinePlot
               goal={userSettings.cfLimit}
-              actualData={userProgress}
-              title="Daily carbon footprint"
+              actualData={userProgress.all}
+              title="Daily carbon footprint, all meals"
             />
-            <GoalLinePlot
-              goal={userSettings.cfLimit}
-              actualData={{ Monday: 2, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5 }}
-              title="Test 2"
-            />
+            {Array.from(userProgress.meal).map(([key, value]) => (
+              <GoalLinePlot
+                key={key}
+                goal={userSettings.cfLimit}
+                actualData={value}
+                title={`Daily carbon footprint, ${new Meal(key).getName()}`}
+              />
+            ))}
           </Carousel>
         </Grid>
       </Grid>
