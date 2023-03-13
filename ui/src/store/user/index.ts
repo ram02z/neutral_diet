@@ -264,11 +264,11 @@ export const UserProgressState = selector<UserProgress>({
     const userHeaders = get(CurrentUserHeadersState);
     const response = await client.getUserProgress({}, { headers: userHeaders });
     const mealMap = new Map<number, Record<string, number>>();
-    mealMap.set(MealProto.BREAKFAST, response.dailyProgressBreakfast)
-    mealMap.set(MealProto.LUNCH, response.dailyProgressLunch)
-    mealMap.set(MealProto.DINNER, response.dailyProgressDinner)
-    mealMap.set(MealProto.UNSPECIFIED, response.dailyProgressSnacks)
+    mealMap.set(MealProto.BREAKFAST, response.dailyProgressBreakfast);
+    mealMap.set(MealProto.LUNCH, response.dailyProgressLunch);
+    mealMap.set(MealProto.DINNER, response.dailyProgressDinner);
+    mealMap.set(MealProto.UNSPECIFIED, response.dailyProgressSnacks);
 
     return { all: response.dailyProgressAll, meal: mealMap };
-  }
-})
+  },
+});

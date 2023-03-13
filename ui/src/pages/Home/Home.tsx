@@ -11,6 +11,7 @@ import CircularProgressWithLabel from '@/components/CircularProgressWithLabel';
 import GoalLinePlot from '@/components/GoalLinePlot';
 import TrendCard from '@/components/TrendCard';
 import DietaryRequirement from '@/core/dietary_requirements';
+import { Meal } from '@/core/meal';
 import {
   LocalFoodItemLogStats,
   LocalUserSettingsState,
@@ -18,7 +19,6 @@ import {
   UserProgressState,
 } from '@/store/user';
 import { toSerializableDate } from '@/utils/date';
-import { Meal } from '@/core/meal';
 
 function Home() {
   const todayStats = useRecoilValue(LocalFoodItemLogStats(toSerializableDate(dayjs())));
@@ -48,15 +48,11 @@ function Home() {
             } days`}
         </Typography>
       </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        xs={11}
-      >
-        <Grid xs={10} sm={11}  md={10} lg={9} xl={8}>
-          <Typography textAlign="center" variant="h4">Trends</Typography>
+      <Grid container direction="column" justifyContent="center" alignItems="center" xs={11}>
+        <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
+          <Typography textAlign="center" variant="h4">
+            Trends
+          </Typography>
           <Carousel>
             <TrendCard
               title="Your daily average"
@@ -81,7 +77,9 @@ function Home() {
           </Carousel>
         </Grid>
         <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
-          <Typography textAlign="center" variant="h4">Progress</Typography>
+          <Typography textAlign="center" variant="h4">
+            Progress
+          </Typography>
           <Carousel>
             <GoalLinePlot
               goal={userSettings.cfLimit}

@@ -36,7 +36,7 @@ export type UserInsights = {
 export type UserProgress = {
   all: Record<string, number>;
   meal: Map<number, Record<string, number>>;
-}
+};
 
 export type SerializableDate = {
   year: number;

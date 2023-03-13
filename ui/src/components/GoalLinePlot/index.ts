@@ -1,3 +1,3 @@
-import GoalLinePlot from "./GoalLinePlot";
+import GoalLinePlot from './GoalLinePlot';
 
 export default GoalLinePlot;

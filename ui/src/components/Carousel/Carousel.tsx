@@ -11,7 +11,7 @@ type CarouselProps = {
 function Carousel(props: CarouselProps) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
-  const children = useMemo(() => props.children.flatMap((c) => c), [props.children])
+  const children = useMemo(() => props.children.flatMap((c) => c), [props.children]);
   const maxSteps = children.length;
 
   const handleNext = () => {
