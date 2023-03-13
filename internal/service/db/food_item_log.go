@@ -214,7 +214,7 @@ func (s *Store) GetUserProgress(
 	dailyProgressDinner := make(map[string]float64)
 	dailyProgressSnacks := make(map[string]float64)
 	for _, e := range dailySums {
-		date := e.LogDate.Time.Format(time.DateOnly) //nolint:all
+		date := e.LogDate.Time.Format(time.DateOnly)
 		emissions := e.CarbonFootprint.InexactFloat64()
 		switch userv1.Meal(e.Meal) {
 		case userv1.Meal_MEAL_BREAKFAST:
@@ -359,7 +359,7 @@ func mapToDate(date *userv1.Date) pgtype.Date {
 		return pgtype.Date{Valid: false}
 	}
 
-	time := time.Date(
+	dateTime := time.Date(
 		int(date.GetYear()),
 		time.Month(int(date.GetMonth())),
 		int(date.GetDay()),
@@ -369,5 +369,5 @@ func mapToDate(date *userv1.Date) pgtype.Date {
 		0,
 		0,
 		time.UTC)
-	return pgtype.Date{Time: time, Valid: true}
+	return pgtype.Date{Time: dateTime, Valid: true}
 }
