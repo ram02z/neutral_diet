@@ -214,7 +214,7 @@ func (s *Store) GetUserProgress(
 	dailyProgressDinner := make(map[string]float64)
 	dailyProgressSnacks := make(map[string]float64)
 	for _, e := range dailySums {
-		date := e.LogDate.Time.Format(time.DateOnly)
+		date := e.LogDate.Time.Format(time.DateOnly) //nolint:all
 		emissions := e.CarbonFootprint.InexactFloat64()
 		switch userv1.Meal(e.Meal) {
 		case userv1.Meal_MEAL_BREAKFAST:
