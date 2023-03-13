@@ -136,7 +136,3 @@ LIMIT 1;
 DELETE FROM "food_item_log"
 WHERE user_id = $1
     AND id = $2;
-
--- name: DeleteUserLog :exec
-DELETE FROM "food_item_log"
-WHERE user_id = $1;

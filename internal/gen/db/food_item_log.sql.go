@@ -62,16 +62,6 @@ func (q *Queries) DeleteFoodItemFromLog(ctx context.Context, arg DeleteFoodItemF
 	return err
 }
 
-const deleteUserLog = `-- name: DeleteUserLog :exec
-DELETE FROM "food_item_log"
-WHERE user_id = $1
-`
-
-func (q *Queries) DeleteUserLog(ctx context.Context, userID int32) error {
-	_, err := q.db.Exec(ctx, deleteUserLog, userID)
-	return err
-}
-
 const getDailyAverageCarbonFootprint = `-- name: GetDailyAverageCarbonFootprint :one
 SELECT
     average_carbon_footprint
