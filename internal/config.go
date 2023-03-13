@@ -1,3 +1,5 @@
 package config
 
-const UserIDHeaderKey string = "X-UID"
+type key int
+
+const UserIDKey key = iota
