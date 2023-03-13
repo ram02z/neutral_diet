@@ -14,6 +14,7 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
+
 import { MAX_CF_LIMIT } from '@/config';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -30,6 +31,10 @@ const options: ChartOptions<'line'> = {
     y: {
       suggestedMin: 0,
       suggestedMax: MAX_CF_LIMIT,
+      title: { display: true, text: 'CO2/kg' },
+    },
+    x: {
+      title: { display: true, text: 'Date' },
     },
   },
 };
