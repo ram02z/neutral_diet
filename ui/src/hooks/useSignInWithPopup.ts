@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import {
   Auth,
@@ -11,7 +11,7 @@ import {
 } from 'firebase/auth';
 
 import client from '@/api/user_service';
-import { CurrentUserDisplayName } from '@/store/user';
+import { CurrentUserDisplayName, CurrentUserHeadersState } from '@/store/user';
 
 import { SignInWithPopupHook } from './types';
 
@@ -50,7 +50,11 @@ const useSignInWithPopup = (
         const userCredential = await signInWithPopup(auth, provider);
         setUserDisplayName(userCredential.user.displayName);
         // Add user to backend DB
-        client.createUser({ firebaseUid: userCredential.user.uid });
+        userCredential.user.getIdToken().then((idToken) => {
+          const headers = new Headers();
+          headers.set('Authorization', `Bearer ${idToken}`);
+          client.createUser({ firebaseUid: userCredential.user.uid }, { headers: headers });
+        });
         setLoggedInUser(userCredential);
 
         return userCredential;

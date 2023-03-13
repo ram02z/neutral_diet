@@ -9,7 +9,6 @@ import {
   UserSettings,
   UserSettings_DietaryRequirement,
 } from '@/api/gen/neutral_diet/user/v1/user_pb';
-import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import { MIN_CF_LIMIT } from '@/config';
 import DietaryRequirement from '@/core/dietary_requirements';
@@ -71,9 +70,7 @@ export const CurrentUserHeadersState = selector({
   get: async ({ get }) => {
     const headers = new Headers();
     const idToken = get(CurrentUserTokenIDState);
-    if (idToken) {
-      headers.set(ID_TOKEN_HEADER, idToken);
-    }
+    headers.set('Authorization', `Bearer ${idToken}`);
     return headers;
   },
 });

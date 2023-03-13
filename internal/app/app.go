@@ -76,6 +76,7 @@ func Run() {
 		Logger:     l,
 		ConnectSvc: connectWrapper,
 		Mux:        server.Mux,
+		AuthClient: authClient,
 	}
 	connectgo.RegisterConnectGoServer(registerIn)
 

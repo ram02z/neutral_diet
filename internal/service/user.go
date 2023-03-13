@@ -7,6 +7,8 @@ import (
 	userv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1"
 )
 
+const UserIDHeaderKey string = "X-UID"
+
 func (c *ConnectWrapper) CreateUser(
 	ctx context.Context,
 	req *connect.Request[userv1.CreateUserRequest],
@@ -30,18 +32,14 @@ func (c *ConnectWrapper) DeleteUser(
 	ctx context.Context,
 	req *connect.Request[userv1.DeleteUserRequest],
 ) (*connect.Response[userv1.DeleteUserResponse], error) {
-	token, err := c.verify(ctx, req.Header())
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.DeleteUser(ctx, token.UID)
+	uid := req.Header().Get(UserIDHeaderKey)
+	res, err := c.s.DeleteUser(ctx, uid)
 	if err != nil {
 		return nil, err
 	}
 
 	// Delete user from firebase user table
-	err = c.a.DeleteUser(ctx, token.UID)
+	err = c.a.DeleteUser(ctx, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -55,17 +53,14 @@ func (c *ConnectWrapper) AddFoodItem(
 	ctx context.Context,
 	req *connect.Request[userv1.AddFoodItemRequest],
 ) (*connect.Response[userv1.AddFoodItemResponse], error) {
-	token, err := c.verify(ctx, req.Header())
+	uid := req.Header().Get(UserIDHeaderKey)
+
+	err := validate(req.Msg)
 	if err != nil {
 		return nil, err
 	}
 
-	err = validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.AddFoodItemToLog(ctx, req.Msg, token.UID)
+	res, err := c.s.AddFoodItemToLog(ctx, req.Msg, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -79,17 +74,14 @@ func (c *ConnectWrapper) UpdateFoodItem(
 	ctx context.Context,
 	req *connect.Request[userv1.UpdateFoodItemRequest],
 ) (*connect.Response[userv1.UpdateFoodItemResponse], error) {
-	token, err := c.verify(ctx, req.Header())
+	uid := req.Header().Get(UserIDHeaderKey)
+
+	err := validate(req.Msg)
 	if err != nil {
 		return nil, err
 	}
 
-	err = validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.UpdateFoodItemFromLog(ctx, req.Msg, token.UID)
+	res, err := c.s.UpdateFoodItemFromLog(ctx, req.Msg, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -103,17 +95,14 @@ func (c *ConnectWrapper) DeleteFoodItem(
 	ctx context.Context,
 	req *connect.Request[userv1.DeleteFoodItemRequest],
 ) (*connect.Response[userv1.DeleteFoodItemResponse], error) {
-	token, err := c.verify(ctx, req.Header())
+	uid := req.Header().Get(UserIDHeaderKey)
+
+	err := validate(req.Msg)
 	if err != nil {
 		return nil, err
 	}
 
-	err = validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.DeleteFoodItemFromLog(ctx, req.Msg, token.UID)
+	res, err := c.s.DeleteFoodItemFromLog(ctx, req.Msg, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -127,17 +116,14 @@ func (c *ConnectWrapper) UpdateUserSettings(
 	ctx context.Context,
 	req *connect.Request[userv1.UpdateUserSettingsRequest],
 ) (*connect.Response[userv1.UpdateUserSettingsResponse], error) {
-	token, err := c.verify(ctx, req.Header())
+	uid := req.Header().Get(UserIDHeaderKey)
+
+	err := validate(req.Msg)
 	if err != nil {
 		return nil, err
 	}
 
-	err = validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.UpdateUserSettings(ctx, req.Msg, token.UID)
+	res, err := c.s.UpdateUserSettings(ctx, req.Msg, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -151,12 +137,9 @@ func (c *ConnectWrapper) GetUserSettings(
 	ctx context.Context,
 	req *connect.Request[userv1.GetUserSettingsRequest],
 ) (*connect.Response[userv1.GetUserSettingsResponse], error) {
-	token, err := c.verify(ctx, req.Header())
-	if err != nil {
-		return nil, err
-	}
+	uid := req.Header().Get(UserIDHeaderKey)
 
-	res, err := c.s.GetUser(ctx, token.UID)
+	res, err := c.s.GetUser(ctx, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -175,12 +158,9 @@ func (c *ConnectWrapper) GetFoodItemLog(
 	ctx context.Context,
 	req *connect.Request[userv1.GetFoodItemLogRequest],
 ) (*connect.Response[userv1.GetFoodItemLogResponse], error) {
-	token, err := c.verify(ctx, req.Header())
-	if err != nil {
-		return nil, err
-	}
+	uid := req.Header().Get(UserIDHeaderKey)
 
-	res, err := c.s.GetFoodItemLog(ctx, req.Msg, token.UID)
+	res, err := c.s.GetFoodItemLog(ctx, req.Msg, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -194,12 +174,9 @@ func (c *ConnectWrapper) GetUserInsights(
 	ctx context.Context,
 	req *connect.Request[userv1.GetUserInsightsRequest],
 ) (*connect.Response[userv1.GetUserInsightsResponse], error) {
-	token, err := c.verify(ctx, req.Header())
-	if err != nil {
-		return nil, err
-	}
+	uid := req.Header().Get(UserIDHeaderKey)
 
-	res, err := c.s.GetUserInsights(ctx, req.Msg, token.UID)
+	res, err := c.s.GetUserInsights(ctx, req.Msg, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -213,12 +190,9 @@ func (c *ConnectWrapper) GetUserProgress(
 	ctx context.Context,
 	req *connect.Request[userv1.GetUserProgressRequest],
 ) (*connect.Response[userv1.GetUserProgressResponse], error) {
-	token, err := c.verify(ctx, req.Header())
-	if err != nil {
-		return nil, err
-	}
+	uid := req.Header().Get(UserIDHeaderKey)
 
-	res, err := c.s.GetUserProgress(ctx, req.Msg, token.UID)
+	res, err := c.s.GetUserProgress(ctx, req.Msg, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -232,18 +206,14 @@ func (c *ConnectWrapper) GetFoodItemLogDays(
 	ctx context.Context,
 	req *connect.Request[userv1.GetFoodItemLogDaysRequest],
 ) (*connect.Response[userv1.GetFoodItemLogDaysResponse], error) {
+	uid := req.Header().Get(UserIDHeaderKey)
 
-	token, err := c.verify(ctx, req.Header())
+	err := validate(req.Msg)
 	if err != nil {
 		return nil, err
 	}
 
-	err = validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.GetFoodItemLogDays(ctx, req.Msg, token.UID)
+	res, err := c.s.GetFoodItemLogDays(ctx, req.Msg, uid)
 	if err != nil {
 		return nil, err
 	}
