@@ -57,20 +57,14 @@ export const CurrentUserDisplayName = atom<string | null>({
   ],
 });
 
-export const CurrentUserTokenIDState = selector({
-  key: 'CurrentUserTokenIDState',
-  get: async ({ get }) => {
-    const idToken = await get(CurrentUserState)?.getIdToken();
-    return idToken;
-  },
-});
-
 export const CurrentUserHeadersState = selector({
   key: 'CurrentUserHeadersState',
   get: async ({ get }) => {
     const headers = new Headers();
-    const idToken = get(CurrentUserTokenIDState);
-    headers.set('Authorization', `Bearer ${idToken}`);
+    const user = get(CurrentUserState);
+    user?.getIdToken().then((idToken) => {
+      headers.set('Authorization', `Bearer ${idToken}`);
+    });
     return headers;
   },
 });
