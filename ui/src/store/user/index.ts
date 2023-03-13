@@ -9,7 +9,6 @@ import {
   UserSettings,
   UserSettings_DietaryRequirement,
 } from '@/api/gen/neutral_diet/user/v1/user_pb';
-import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import { MIN_CF_LIMIT } from '@/config';
 import DietaryRequirement from '@/core/dietary_requirements';
@@ -58,22 +57,14 @@ export const CurrentUserDisplayName = atom<string | null>({
   ],
 });
 
-export const CurrentUserTokenIDState = selector({
-  key: 'CurrentUserTokenIDState',
-  get: async ({ get }) => {
-    const idToken = await get(CurrentUserState)?.getIdToken();
-    return idToken;
-  },
-});
-
 export const CurrentUserHeadersState = selector({
   key: 'CurrentUserHeadersState',
   get: async ({ get }) => {
     const headers = new Headers();
-    const idToken = get(CurrentUserTokenIDState);
-    if (idToken) {
-      headers.set(ID_TOKEN_HEADER, idToken);
-    }
+    const user = get(CurrentUserState);
+    user?.getIdToken().then((idToken) => {
+      headers.set('Authorization', `Bearer ${idToken}`);
+    });
     return headers;
   },
 });
