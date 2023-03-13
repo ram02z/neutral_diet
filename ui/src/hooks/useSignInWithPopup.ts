@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import {
   Auth,
@@ -11,7 +11,7 @@ import {
 } from 'firebase/auth';
 
 import client from '@/api/user_service';
-import { CurrentUserDisplayName, CurrentUserHeadersState } from '@/store/user';
+import { CurrentUserDisplayName } from '@/store/user';
 
 import { SignInWithPopupHook } from './types';
 

@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import { Auth, UserCredential, createUserWithEmailAndPassword } from 'firebase/auth';
 
 import client from '@/api/user_service';
-import { CurrentUserDisplayName, CurrentUserHeadersState } from '@/store/user';
+import { CurrentUserDisplayName } from '@/store/user';
 
 import { DefaultSignUpHook } from './types';
 
