@@ -26,7 +26,6 @@ function AddGoalDialog({
 }: AddGoalDialogProps) {
   const { handleSubmit, control } = useForm<FormValues>();
 
-  // TODO: use CarbonFootprintSlider
   return (
     <Dialog fullWidth open={openDialog} onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -46,10 +45,30 @@ function AddGoalDialog({
               ></TextField>
             )}
           />
+          <TextField
+            aria-readonly
+            InputProps={{
+              readOnly: true,
+            }}
+            disabled
+            value={startCarbonFootprint.toFixed(3)}
+            type="number"
+            label="Current daily average"
+          />
           <Controller
             control={control}
             name="targetCarbonFootprint"
-            rules={{ required: true, min: MIN_CF_LIMIT, max: startCarbonFootprint }}
+            rules={{
+              required: true,
+              min: {
+                value: MIN_CF_LIMIT,
+                message: `Target needs to be greater than ${MIN_CF_LIMIT}`,
+              },
+              max: {
+                value: startCarbonFootprint,
+                message: 'Target needs to be lower than current daily average',
+              },
+            }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField
                 error={!!error}

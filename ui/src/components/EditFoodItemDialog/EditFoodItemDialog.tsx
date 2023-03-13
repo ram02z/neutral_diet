@@ -52,7 +52,10 @@ function EditFoodItemDialog({
             control={control}
             name="quantity"
             defaultValue={currentQuantity.value.toString()}
-            rules={{ required: true, min: 0.001 }}
+            rules={{
+              required: true,
+              min: { value: 0.001, message: 'Quantity needs to be greater than 0.001' },
+            }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField
                 error={!!error}
