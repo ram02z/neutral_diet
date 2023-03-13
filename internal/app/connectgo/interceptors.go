@@ -8,9 +8,8 @@ import (
 	"firebase.google.com/go/auth"
 	"github.com/bufbuild/connect-go"
 	"github.com/rs/zerolog"
+	"github.com/ram02z/neutral_diet/internal"
 )
-
-const UserIDHeaderKey string = "X-UID"
 
 func getUnaryInterceptors(logger *zerolog.Logger) []connect.Interceptor {
 	return []connect.Interceptor{
@@ -61,7 +60,7 @@ func connectInterceptorForAuth(auth *auth.Client) connect.UnaryInterceptorFunc {
 					errors.New("authorization token could not be verified"),
 				)
 			}
-			req.Header().Set(UserIDHeaderKey, token.UID)
+			req.Header().Set(config.UserIDHeaderKey, token.UID)
 
 			return next(ctx, req)
 		})
