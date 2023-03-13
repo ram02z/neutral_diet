@@ -18,28 +18,16 @@ WHERE
 
 -- name: GetDailyCarbonFootprint :many
 SELECT
-    sum(carbon_footprint)::decimal as carbon_footprint,
-    log_date
+    sum(carbon_footprint)::decimal AS carbon_footprint,
+    log_date,
+    meal
 FROM
     food_item_log
 WHERE
     user_id = $1
 GROUP BY
-    log_date
-ORDER BY
-    log_date;
-
--- name: GetDailyCarbonFootprintByMeal :many
-SELECT
-    sum(carbon_footprint)::decimal as carbon_footprint,
-    log_date
-FROM
-    food_item_log
-WHERE
-    user_id = $1
-    AND meal = $2
-GROUP BY
-    log_date
+    log_date,
+    meal
 ORDER BY
     log_date;
 

@@ -209,60 +209,24 @@ func (s *Store) GetUserProgress(
 	}
 
 	dailyProgressAll := make(map[string]float64)
-	for _, e := range dailySums {
-		dailyProgressAll[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
-	}
-
-	dailySumsBreakfast, err := queries.GetDailyCarbonFootprintByMeal(ctx, db.GetDailyCarbonFootprintByMealParams{
-		UserID: user.ID,
-		Meal:   int32(userv1.Meal_MEAL_BREAKFAST),
-	})
-	if err != nil && err != pgx.ErrNoRows {
-		return nil, err
-	}
-
 	dailyProgressBreakfast := make(map[string]float64)
-	for _, e := range dailySumsBreakfast {
-		dailyProgressBreakfast[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
-	}
-
-	dailySumsLunch, err := queries.GetDailyCarbonFootprintByMeal(ctx, db.GetDailyCarbonFootprintByMealParams{
-		UserID: user.ID,
-		Meal:   int32(userv1.Meal_MEAL_LUNCH),
-	})
-	if err != nil && err != pgx.ErrNoRows {
-		return nil, err
-	}
-
 	dailyProgressLunch := make(map[string]float64)
-	for _, e := range dailySumsLunch {
-		dailyProgressLunch[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
-	}
-
-	dailySumsDinner, err := queries.GetDailyCarbonFootprintByMeal(ctx, db.GetDailyCarbonFootprintByMealParams{
-		UserID: user.ID,
-		Meal:   int32(userv1.Meal_MEAL_DINNER),
-	})
-	if err != nil && err != pgx.ErrNoRows {
-		return nil, err
-	}
-
 	dailyProgressDinner := make(map[string]float64)
-	for _, e := range dailySumsDinner {
-		dailyProgressDinner[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
-	}
-
-	dailySumsSnacks, err := queries.GetDailyCarbonFootprintByMeal(ctx, db.GetDailyCarbonFootprintByMealParams{
-		UserID: user.ID,
-		Meal:   int32(userv1.Meal_MEAL_UNSPECIFIED),
-	})
-	if err != nil && err != pgx.ErrNoRows {
-		return nil, err
-	}
-
 	dailyProgressSnacks := make(map[string]float64)
-	for _, e := range dailySumsSnacks {
-		dailyProgressSnacks[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
+	for _, e := range dailySums {
+		date := e.LogDate.Time.Format(time.DateOnly)
+		emissions := e.CarbonFootprint.InexactFloat64()
+		switch userv1.Meal(e.Meal) {
+		case userv1.Meal_MEAL_BREAKFAST:
+			dailyProgressBreakfast[date] = emissions
+		case userv1.Meal_MEAL_LUNCH:
+			dailyProgressLunch[date] = emissions
+		case userv1.Meal_MEAL_DINNER:
+			dailyProgressDinner[date] = emissions
+		case userv1.Meal_MEAL_UNSPECIFIED:
+			dailyProgressSnacks[date] = emissions
+		}
+		dailyProgressAll[date] += emissions
 	}
 
 	return &userv1.GetUserProgressResponse{

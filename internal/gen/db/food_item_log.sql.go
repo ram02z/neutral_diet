@@ -106,14 +106,16 @@ func (q *Queries) GetDailyAverageCarbonFootprintByDietaryRequirement(ctx context
 
 const getDailyCarbonFootprint = `-- name: GetDailyCarbonFootprint :many
 SELECT
-    sum(carbon_footprint)::decimal as carbon_footprint,
-    log_date
+    sum(carbon_footprint)::decimal AS carbon_footprint,
+    log_date,
+    meal
 FROM
     food_item_log
 WHERE
     user_id = $1
 GROUP BY
-    log_date
+    log_date,
+    meal
 ORDER BY
     log_date
 `
@@ -121,6 +123,7 @@ ORDER BY
 type GetDailyCarbonFootprintRow struct {
 	CarbonFootprint decimal.Decimal
 	LogDate         pgtype.Date
+	Meal            int32
 }
 
 func (q *Queries) GetDailyCarbonFootprint(ctx context.Context, userID int32) ([]GetDailyCarbonFootprintRow, error) {
@@ -132,52 +135,7 @@ func (q *Queries) GetDailyCarbonFootprint(ctx context.Context, userID int32) ([]
 	var items []GetDailyCarbonFootprintRow
 	for rows.Next() {
 		var i GetDailyCarbonFootprintRow
-		if err := rows.Scan(&i.CarbonFootprint, &i.LogDate); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getDailyCarbonFootprintByMeal = `-- name: GetDailyCarbonFootprintByMeal :many
-SELECT
-    sum(carbon_footprint)::decimal as carbon_footprint,
-    log_date
-FROM
-    food_item_log
-WHERE
-    user_id = $1
-    AND meal = $2
-GROUP BY
-    log_date
-ORDER BY
-    log_date
-`
-
-type GetDailyCarbonFootprintByMealParams struct {
-	UserID int32
-	Meal   int32
-}
-
-type GetDailyCarbonFootprintByMealRow struct {
-	CarbonFootprint decimal.Decimal
-	LogDate         pgtype.Date
-}
-
-func (q *Queries) GetDailyCarbonFootprintByMeal(ctx context.Context, arg GetDailyCarbonFootprintByMealParams) ([]GetDailyCarbonFootprintByMealRow, error) {
-	rows, err := q.db.Query(ctx, getDailyCarbonFootprintByMeal, arg.UserID, arg.Meal)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []GetDailyCarbonFootprintByMealRow
-	for rows.Next() {
-		var i GetDailyCarbonFootprintByMealRow
-		if err := rows.Scan(&i.CarbonFootprint, &i.LogDate); err != nil {
+		if err := rows.Scan(&i.CarbonFootprint, &i.LogDate, &i.Meal); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
