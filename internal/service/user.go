@@ -232,7 +232,6 @@ func (c *ConnectWrapper) GetFoodItemLogDays(
 	ctx context.Context,
 	req *connect.Request[userv1.GetFoodItemLogDaysRequest],
 ) (*connect.Response[userv1.GetFoodItemLogDaysResponse], error) {
-
 	token, err := c.verify(ctx, req.Header())
 	if err != nil {
 		return nil, err
@@ -244,6 +243,97 @@ func (c *ConnectWrapper) GetFoodItemLogDays(
 	}
 
 	res, err := c.s.GetFoodItemLogDays(ctx, req.Msg, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) AddCarbonFootprintGoal(
+	ctx context.Context,
+	req *connect.Request[userv1.AddCarbonFootprintGoalRequest],
+) (*connect.Response[userv1.AddCarbonFootprintGoalResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	err = validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.AddCarbonFootprintGoal(ctx, req.Msg, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) UpdateCarbonFootprintGoal(
+	ctx context.Context,
+	req *connect.Request[userv1.UpdateCarbonFootprintGoalRequest],
+) (*connect.Response[userv1.UpdateCarbonFootprintGoalResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	err = validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.UpdateCarbonFootprintGoal(ctx, req.Msg, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) DeleteCarbonFootprintGoal(
+	ctx context.Context,
+	req *connect.Request[userv1.DeleteCarbonFootprintGoalRequest],
+) (*connect.Response[userv1.DeleteCarbonFootprintGoalResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	err = validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.DeleteCarbonFootprintGoal(ctx, req.Msg, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) GetCarbonFootprintGoals(
+	ctx context.Context,
+	req *connect.Request[userv1.GetCarbonFootprintGoalsRequest],
+) (*connect.Response[userv1.GetCarbonFootprintGoalsResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.GetCarbonFootprintGoals(ctx, req.Msg, token.UID)
 	if err != nil {
 		return nil, err
 	}

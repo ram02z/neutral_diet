@@ -38,6 +38,10 @@ type UserServiceClient interface {
 	UpdateUserSettings(context.Context, *connect_go.Request[v1.UpdateUserSettingsRequest]) (*connect_go.Response[v1.UpdateUserSettingsResponse], error)
 	GetUserInsights(context.Context, *connect_go.Request[v1.GetUserInsightsRequest]) (*connect_go.Response[v1.GetUserInsightsResponse], error)
 	GetUserProgress(context.Context, *connect_go.Request[v1.GetUserProgressRequest]) (*connect_go.Response[v1.GetUserProgressResponse], error)
+	AddCarbonFootprintGoal(context.Context, *connect_go.Request[v1.AddCarbonFootprintGoalRequest]) (*connect_go.Response[v1.AddCarbonFootprintGoalResponse], error)
+	UpdateCarbonFootprintGoal(context.Context, *connect_go.Request[v1.UpdateCarbonFootprintGoalRequest]) (*connect_go.Response[v1.UpdateCarbonFootprintGoalResponse], error)
+	DeleteCarbonFootprintGoal(context.Context, *connect_go.Request[v1.DeleteCarbonFootprintGoalRequest]) (*connect_go.Response[v1.DeleteCarbonFootprintGoalResponse], error)
+	GetCarbonFootprintGoals(context.Context, *connect_go.Request[v1.GetCarbonFootprintGoalsRequest]) (*connect_go.Response[v1.GetCarbonFootprintGoalsResponse], error)
 }
 
 // NewUserServiceClient constructs a client for the neutral_diet.user.v1.UserService service. By
@@ -105,22 +109,46 @@ func NewUserServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+"/neutral_diet.user.v1.UserService/GetUserProgress",
 			opts...,
 		),
+		addCarbonFootprintGoal: connect_go.NewClient[v1.AddCarbonFootprintGoalRequest, v1.AddCarbonFootprintGoalResponse](
+			httpClient,
+			baseURL+"/neutral_diet.user.v1.UserService/AddCarbonFootprintGoal",
+			opts...,
+		),
+		updateCarbonFootprintGoal: connect_go.NewClient[v1.UpdateCarbonFootprintGoalRequest, v1.UpdateCarbonFootprintGoalResponse](
+			httpClient,
+			baseURL+"/neutral_diet.user.v1.UserService/UpdateCarbonFootprintGoal",
+			opts...,
+		),
+		deleteCarbonFootprintGoal: connect_go.NewClient[v1.DeleteCarbonFootprintGoalRequest, v1.DeleteCarbonFootprintGoalResponse](
+			httpClient,
+			baseURL+"/neutral_diet.user.v1.UserService/DeleteCarbonFootprintGoal",
+			opts...,
+		),
+		getCarbonFootprintGoals: connect_go.NewClient[v1.GetCarbonFootprintGoalsRequest, v1.GetCarbonFootprintGoalsResponse](
+			httpClient,
+			baseURL+"/neutral_diet.user.v1.UserService/GetCarbonFootprintGoals",
+			opts...,
+		),
 	}
 }
 
 // userServiceClient implements UserServiceClient.
 type userServiceClient struct {
-	addFoodItem        *connect_go.Client[v1.AddFoodItemRequest, v1.AddFoodItemResponse]
-	updateFoodItem     *connect_go.Client[v1.UpdateFoodItemRequest, v1.UpdateFoodItemResponse]
-	deleteFoodItem     *connect_go.Client[v1.DeleteFoodItemRequest, v1.DeleteFoodItemResponse]
-	getFoodItemLog     *connect_go.Client[v1.GetFoodItemLogRequest, v1.GetFoodItemLogResponse]
-	getFoodItemLogDays *connect_go.Client[v1.GetFoodItemLogDaysRequest, v1.GetFoodItemLogDaysResponse]
-	createUser         *connect_go.Client[v1.CreateUserRequest, v1.CreateUserResponse]
-	deleteUser         *connect_go.Client[v1.DeleteUserRequest, v1.DeleteUserResponse]
-	getUserSettings    *connect_go.Client[v1.GetUserSettingsRequest, v1.GetUserSettingsResponse]
-	updateUserSettings *connect_go.Client[v1.UpdateUserSettingsRequest, v1.UpdateUserSettingsResponse]
-	getUserInsights    *connect_go.Client[v1.GetUserInsightsRequest, v1.GetUserInsightsResponse]
-	getUserProgress    *connect_go.Client[v1.GetUserProgressRequest, v1.GetUserProgressResponse]
+	addFoodItem               *connect_go.Client[v1.AddFoodItemRequest, v1.AddFoodItemResponse]
+	updateFoodItem            *connect_go.Client[v1.UpdateFoodItemRequest, v1.UpdateFoodItemResponse]
+	deleteFoodItem            *connect_go.Client[v1.DeleteFoodItemRequest, v1.DeleteFoodItemResponse]
+	getFoodItemLog            *connect_go.Client[v1.GetFoodItemLogRequest, v1.GetFoodItemLogResponse]
+	getFoodItemLogDays        *connect_go.Client[v1.GetFoodItemLogDaysRequest, v1.GetFoodItemLogDaysResponse]
+	createUser                *connect_go.Client[v1.CreateUserRequest, v1.CreateUserResponse]
+	deleteUser                *connect_go.Client[v1.DeleteUserRequest, v1.DeleteUserResponse]
+	getUserSettings           *connect_go.Client[v1.GetUserSettingsRequest, v1.GetUserSettingsResponse]
+	updateUserSettings        *connect_go.Client[v1.UpdateUserSettingsRequest, v1.UpdateUserSettingsResponse]
+	getUserInsights           *connect_go.Client[v1.GetUserInsightsRequest, v1.GetUserInsightsResponse]
+	getUserProgress           *connect_go.Client[v1.GetUserProgressRequest, v1.GetUserProgressResponse]
+	addCarbonFootprintGoal    *connect_go.Client[v1.AddCarbonFootprintGoalRequest, v1.AddCarbonFootprintGoalResponse]
+	updateCarbonFootprintGoal *connect_go.Client[v1.UpdateCarbonFootprintGoalRequest, v1.UpdateCarbonFootprintGoalResponse]
+	deleteCarbonFootprintGoal *connect_go.Client[v1.DeleteCarbonFootprintGoalRequest, v1.DeleteCarbonFootprintGoalResponse]
+	getCarbonFootprintGoals   *connect_go.Client[v1.GetCarbonFootprintGoalsRequest, v1.GetCarbonFootprintGoalsResponse]
 }
 
 // AddFoodItem calls neutral_diet.user.v1.UserService.AddFoodItem.
@@ -178,6 +206,26 @@ func (c *userServiceClient) GetUserProgress(ctx context.Context, req *connect_go
 	return c.getUserProgress.CallUnary(ctx, req)
 }
 
+// AddCarbonFootprintGoal calls neutral_diet.user.v1.UserService.AddCarbonFootprintGoal.
+func (c *userServiceClient) AddCarbonFootprintGoal(ctx context.Context, req *connect_go.Request[v1.AddCarbonFootprintGoalRequest]) (*connect_go.Response[v1.AddCarbonFootprintGoalResponse], error) {
+	return c.addCarbonFootprintGoal.CallUnary(ctx, req)
+}
+
+// UpdateCarbonFootprintGoal calls neutral_diet.user.v1.UserService.UpdateCarbonFootprintGoal.
+func (c *userServiceClient) UpdateCarbonFootprintGoal(ctx context.Context, req *connect_go.Request[v1.UpdateCarbonFootprintGoalRequest]) (*connect_go.Response[v1.UpdateCarbonFootprintGoalResponse], error) {
+	return c.updateCarbonFootprintGoal.CallUnary(ctx, req)
+}
+
+// DeleteCarbonFootprintGoal calls neutral_diet.user.v1.UserService.DeleteCarbonFootprintGoal.
+func (c *userServiceClient) DeleteCarbonFootprintGoal(ctx context.Context, req *connect_go.Request[v1.DeleteCarbonFootprintGoalRequest]) (*connect_go.Response[v1.DeleteCarbonFootprintGoalResponse], error) {
+	return c.deleteCarbonFootprintGoal.CallUnary(ctx, req)
+}
+
+// GetCarbonFootprintGoals calls neutral_diet.user.v1.UserService.GetCarbonFootprintGoals.
+func (c *userServiceClient) GetCarbonFootprintGoals(ctx context.Context, req *connect_go.Request[v1.GetCarbonFootprintGoalsRequest]) (*connect_go.Response[v1.GetCarbonFootprintGoalsResponse], error) {
+	return c.getCarbonFootprintGoals.CallUnary(ctx, req)
+}
+
 // UserServiceHandler is an implementation of the neutral_diet.user.v1.UserService service.
 type UserServiceHandler interface {
 	AddFoodItem(context.Context, *connect_go.Request[v1.AddFoodItemRequest]) (*connect_go.Response[v1.AddFoodItemResponse], error)
@@ -191,6 +239,10 @@ type UserServiceHandler interface {
 	UpdateUserSettings(context.Context, *connect_go.Request[v1.UpdateUserSettingsRequest]) (*connect_go.Response[v1.UpdateUserSettingsResponse], error)
 	GetUserInsights(context.Context, *connect_go.Request[v1.GetUserInsightsRequest]) (*connect_go.Response[v1.GetUserInsightsResponse], error)
 	GetUserProgress(context.Context, *connect_go.Request[v1.GetUserProgressRequest]) (*connect_go.Response[v1.GetUserProgressResponse], error)
+	AddCarbonFootprintGoal(context.Context, *connect_go.Request[v1.AddCarbonFootprintGoalRequest]) (*connect_go.Response[v1.AddCarbonFootprintGoalResponse], error)
+	UpdateCarbonFootprintGoal(context.Context, *connect_go.Request[v1.UpdateCarbonFootprintGoalRequest]) (*connect_go.Response[v1.UpdateCarbonFootprintGoalResponse], error)
+	DeleteCarbonFootprintGoal(context.Context, *connect_go.Request[v1.DeleteCarbonFootprintGoalRequest]) (*connect_go.Response[v1.DeleteCarbonFootprintGoalResponse], error)
+	GetCarbonFootprintGoals(context.Context, *connect_go.Request[v1.GetCarbonFootprintGoalsRequest]) (*connect_go.Response[v1.GetCarbonFootprintGoalsResponse], error)
 }
 
 // NewUserServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -255,6 +307,26 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect_go.HandlerOpt
 		svc.GetUserProgress,
 		opts...,
 	))
+	mux.Handle("/neutral_diet.user.v1.UserService/AddCarbonFootprintGoal", connect_go.NewUnaryHandler(
+		"/neutral_diet.user.v1.UserService/AddCarbonFootprintGoal",
+		svc.AddCarbonFootprintGoal,
+		opts...,
+	))
+	mux.Handle("/neutral_diet.user.v1.UserService/UpdateCarbonFootprintGoal", connect_go.NewUnaryHandler(
+		"/neutral_diet.user.v1.UserService/UpdateCarbonFootprintGoal",
+		svc.UpdateCarbonFootprintGoal,
+		opts...,
+	))
+	mux.Handle("/neutral_diet.user.v1.UserService/DeleteCarbonFootprintGoal", connect_go.NewUnaryHandler(
+		"/neutral_diet.user.v1.UserService/DeleteCarbonFootprintGoal",
+		svc.DeleteCarbonFootprintGoal,
+		opts...,
+	))
+	mux.Handle("/neutral_diet.user.v1.UserService/GetCarbonFootprintGoals", connect_go.NewUnaryHandler(
+		"/neutral_diet.user.v1.UserService/GetCarbonFootprintGoals",
+		svc.GetCarbonFootprintGoals,
+		opts...,
+	))
 	return "/neutral_diet.user.v1.UserService/", mux
 }
 
@@ -303,4 +375,20 @@ func (UnimplementedUserServiceHandler) GetUserInsights(context.Context, *connect
 
 func (UnimplementedUserServiceHandler) GetUserProgress(context.Context, *connect_go.Request[v1.GetUserProgressRequest]) (*connect_go.Response[v1.GetUserProgressResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.GetUserProgress is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) AddCarbonFootprintGoal(context.Context, *connect_go.Request[v1.AddCarbonFootprintGoalRequest]) (*connect_go.Response[v1.AddCarbonFootprintGoalResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.AddCarbonFootprintGoal is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) UpdateCarbonFootprintGoal(context.Context, *connect_go.Request[v1.UpdateCarbonFootprintGoalRequest]) (*connect_go.Response[v1.UpdateCarbonFootprintGoalResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.UpdateCarbonFootprintGoal is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) DeleteCarbonFootprintGoal(context.Context, *connect_go.Request[v1.DeleteCarbonFootprintGoalRequest]) (*connect_go.Response[v1.DeleteCarbonFootprintGoalResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.DeleteCarbonFootprintGoal is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) GetCarbonFootprintGoals(context.Context, *connect_go.Request[v1.GetCarbonFootprintGoalsRequest]) (*connect_go.Response[v1.GetCarbonFootprintGoalsResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.GetCarbonFootprintGoals is not implemented"))
 }
