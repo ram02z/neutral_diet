@@ -1,11 +1,6 @@
 package service
 
 import (
-	"context"
-	"errors"
-	"fmt"
-	"net/http"
-
 	"firebase.google.com/go/auth"
 	"github.com/bufbuild/connect-go"
 	"github.com/ram02z/neutral_diet/internal/service/db"
@@ -31,27 +26,4 @@ func validate(r Validator) error {
 	}
 
 	return nil
-}
-
-func (c *ConnectWrapper) verify(
-	ctx context.Context,
-	header http.Header,
-) (*auth.Token, error) {
-	accessToken := header.Get("X-ID-Token")
-	if accessToken == "" {
-		return nil, connect.NewError(
-			connect.CodeInvalidArgument,
-			errors.New("request is missing 'X-ID-Token' header"),
-		)
-	}
-
-	token, err := c.a.VerifyIDToken(ctx, accessToken)
-	if err != nil {
-		return nil, connect.NewError(
-			connect.CodeInvalidArgument,
-			fmt.Errorf("'accessToken' header is invalid: %v", err),
-		)
-	}
-
-	return token, nil
 }

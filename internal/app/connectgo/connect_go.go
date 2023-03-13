@@ -24,18 +24,23 @@ type RegisterConnectGoServerInput struct {
 	Logger     *zerolog.Logger
 	ConnectSvc *service.ConnectWrapper
 	Mux        *http.ServeMux `name:"connectGoMux"`
+	AuthClient *auth.Client
 }
 
 func RegisterConnectGoServer(in RegisterConnectGoServerInput) {
-	interceptors := connect.WithInterceptors(getUnaryInterceptors(in.Logger)...)
 	api := http.NewServeMux()
 	api.Handle(foodv1connect.NewFoodServiceHandler(
 		in.ConnectSvc,
-		interceptors,
+		connect.WithInterceptors(
+			connectInterceptorForLogger(in.Logger),
+		),
 	))
 	api.Handle(userv1connect.NewUserServiceHandler(
 		in.ConnectSvc,
-		interceptors,
+		connect.WithInterceptors(
+			connectInterceptorForLogger(in.Logger),
+			connectInterceptorForAuth(in.AuthClient),
+		),
 	))
 	// checker := grpchealth.NewStaticChecker(
 	// 	// protoc-gen-connect-go generates package-level constants

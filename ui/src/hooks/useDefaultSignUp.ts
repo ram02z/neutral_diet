@@ -22,7 +22,11 @@ function useDefaultSignUp(auth: Auth): DefaultSignUpHook {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         setUserDisplayName(displayName);
         // Add user to backend DB
-        client.createUser({ firebaseUid: userCredential.user.uid });
+        userCredential.user.getIdToken().then((idToken) => {
+          const headers = new Headers();
+          headers.set('Authorization', `Bearer ${idToken}`);
+          client.createUser({ firebaseUid: userCredential.user.uid }, { headers: headers });
+        });
 
         setRegisteredUser(userCredential);
 
