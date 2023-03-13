@@ -14,6 +14,7 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
+import { MAX_CF_LIMIT } from '@/config';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -23,6 +24,12 @@ const options: ChartOptions<'line'> = {
   plugins: {
     legend: {
       position: 'top' as const,
+    },
+  },
+  scales: {
+    y: {
+      suggestedMin: 0,
+      suggestedMax: MAX_CF_LIMIT,
     },
   },
 };

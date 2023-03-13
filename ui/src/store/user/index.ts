@@ -256,3 +256,13 @@ export const UserInsightsState = selector<UserInsights>({
     };
   },
 });
+
+export const UserProgressState = selector({
+  key: 'UserProgressState',
+  get: async ({ get }) => {
+    const userHeaders = get(CurrentUserHeadersState);
+    const response = await client.getUserProgress({}, { headers: userHeaders });
+
+    return response.dailyProgress;
+  }
+})

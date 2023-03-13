@@ -191,6 +191,31 @@ func (s *Store) GetUserInsights(
 	}, nil
 }
 
+func (s *Store) GetUserProgress(
+	ctx context.Context,
+	r *userv1.GetUserProgressRequest,
+	firebaseUID string,
+) (*userv1.GetUserProgressResponse, error) {
+	queries := db.New(s.dbPool)
+
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	dailySums, err := queries.GetDailyCarbonFootprint(ctx, user.ID)
+	if err != nil && err != pgx.ErrNoRows {
+		return nil, err
+	}
+
+	dailyProgress := make(map[string]float64)
+	for _, e := range dailySums {
+		dailyProgress[e.LogDate.Time.Format(time.DateOnly)] = e.CarbonFootprint.InexactFloat64()
+	}
+
+	return &userv1.GetUserProgressResponse{DailyProgress: dailyProgress}, err
+}
+
 func (s *Store) DeleteFoodItemFromLog(
 	ctx context.Context,
 	r *userv1.DeleteFoodItemRequest,

@@ -21,7 +21,7 @@ function TrendCard({ title, stat, today }: TrendCardProps) {
     textColor = 'error.main';
   }
   return (
-    <Card sx={{ width: { xs: 280, lg: 400 } }}>
+    <Card>
       <CardContent>
         <Grid container columns={5}>
           <Stack spacing={1} sx={{ pt: 1, pl: 1 }}>

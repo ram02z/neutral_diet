@@ -37,6 +37,7 @@ type UserServiceClient interface {
 	GetUserSettings(context.Context, *connect_go.Request[v1.GetUserSettingsRequest]) (*connect_go.Response[v1.GetUserSettingsResponse], error)
 	UpdateUserSettings(context.Context, *connect_go.Request[v1.UpdateUserSettingsRequest]) (*connect_go.Response[v1.UpdateUserSettingsResponse], error)
 	GetUserInsights(context.Context, *connect_go.Request[v1.GetUserInsightsRequest]) (*connect_go.Response[v1.GetUserInsightsResponse], error)
+	GetUserProgress(context.Context, *connect_go.Request[v1.GetUserProgressRequest]) (*connect_go.Response[v1.GetUserProgressResponse], error)
 }
 
 // NewUserServiceClient constructs a client for the neutral_diet.user.v1.UserService service. By
@@ -99,6 +100,11 @@ func NewUserServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+"/neutral_diet.user.v1.UserService/GetUserInsights",
 			opts...,
 		),
+		getUserProgress: connect_go.NewClient[v1.GetUserProgressRequest, v1.GetUserProgressResponse](
+			httpClient,
+			baseURL+"/neutral_diet.user.v1.UserService/GetUserProgress",
+			opts...,
+		),
 	}
 }
 
@@ -114,6 +120,7 @@ type userServiceClient struct {
 	getUserSettings    *connect_go.Client[v1.GetUserSettingsRequest, v1.GetUserSettingsResponse]
 	updateUserSettings *connect_go.Client[v1.UpdateUserSettingsRequest, v1.UpdateUserSettingsResponse]
 	getUserInsights    *connect_go.Client[v1.GetUserInsightsRequest, v1.GetUserInsightsResponse]
+	getUserProgress    *connect_go.Client[v1.GetUserProgressRequest, v1.GetUserProgressResponse]
 }
 
 // AddFoodItem calls neutral_diet.user.v1.UserService.AddFoodItem.
@@ -166,6 +173,11 @@ func (c *userServiceClient) GetUserInsights(ctx context.Context, req *connect_go
 	return c.getUserInsights.CallUnary(ctx, req)
 }
 
+// GetUserProgress calls neutral_diet.user.v1.UserService.GetUserProgress.
+func (c *userServiceClient) GetUserProgress(ctx context.Context, req *connect_go.Request[v1.GetUserProgressRequest]) (*connect_go.Response[v1.GetUserProgressResponse], error) {
+	return c.getUserProgress.CallUnary(ctx, req)
+}
+
 // UserServiceHandler is an implementation of the neutral_diet.user.v1.UserService service.
 type UserServiceHandler interface {
 	AddFoodItem(context.Context, *connect_go.Request[v1.AddFoodItemRequest]) (*connect_go.Response[v1.AddFoodItemResponse], error)
@@ -178,6 +190,7 @@ type UserServiceHandler interface {
 	GetUserSettings(context.Context, *connect_go.Request[v1.GetUserSettingsRequest]) (*connect_go.Response[v1.GetUserSettingsResponse], error)
 	UpdateUserSettings(context.Context, *connect_go.Request[v1.UpdateUserSettingsRequest]) (*connect_go.Response[v1.UpdateUserSettingsResponse], error)
 	GetUserInsights(context.Context, *connect_go.Request[v1.GetUserInsightsRequest]) (*connect_go.Response[v1.GetUserInsightsResponse], error)
+	GetUserProgress(context.Context, *connect_go.Request[v1.GetUserProgressRequest]) (*connect_go.Response[v1.GetUserProgressResponse], error)
 }
 
 // NewUserServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -237,6 +250,11 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect_go.HandlerOpt
 		svc.GetUserInsights,
 		opts...,
 	))
+	mux.Handle("/neutral_diet.user.v1.UserService/GetUserProgress", connect_go.NewUnaryHandler(
+		"/neutral_diet.user.v1.UserService/GetUserProgress",
+		svc.GetUserProgress,
+		opts...,
+	))
 	return "/neutral_diet.user.v1.UserService/", mux
 }
 
@@ -281,4 +299,8 @@ func (UnimplementedUserServiceHandler) UpdateUserSettings(context.Context, *conn
 
 func (UnimplementedUserServiceHandler) GetUserInsights(context.Context, *connect_go.Request[v1.GetUserInsightsRequest]) (*connect_go.Response[v1.GetUserInsightsResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.GetUserInsights is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) GetUserProgress(context.Context, *connect_go.Request[v1.GetUserProgressRequest]) (*connect_go.Response[v1.GetUserProgressResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.GetUserProgress is not implemented"))
 }

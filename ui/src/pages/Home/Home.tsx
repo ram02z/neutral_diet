@@ -9,14 +9,21 @@ import dayjs from 'dayjs';
 
 import Carousel from '@/components/Carousel';
 import CircularProgressWithLabel from '@/components/CircularProgressWithLabel';
+import GoalLinePlot from '@/components/GoalLinePlot';
 import TrendCard from '@/components/TrendCard';
 import DietaryRequirement from '@/core/dietary_requirements';
-import { LocalFoodItemLogStats, LocalUserSettingsState, UserInsightsState } from '@/store/user';
+import {
+  LocalFoodItemLogStats,
+  LocalUserSettingsState,
+  UserInsightsState,
+  UserProgressState,
+} from '@/store/user';
 import { toSerializableDate } from '@/utils/date';
 
 function Home() {
   const todayStats = useRecoilValue(LocalFoodItemLogStats(toSerializableDate(dayjs())));
   const userInsights = useRecoilValue(UserInsightsState);
+  const userProgress = useRecoilValue(UserProgressState);
   const refreshUserInsights = useRecoilRefresher_UNSTABLE(UserInsightsState);
   const userSettings = useRecoilValue(LocalUserSettingsState);
   const dietaryRequirement = new DietaryRequirement(userSettings.dietaryRequirement);
@@ -41,38 +48,52 @@ function Home() {
             } days`}
         </Typography>
       </Grid>
-      <Grid container direction={{ xs: 'column', lg: 'row' }} justifyContent="center">
-        <Grid sx={{ mr: { lg: 5 } }}>
-          <Stack alignItems="center">
-            <Typography variant="h4">Trends</Typography>
-            <Carousel>
-              <TrendCard
-                title="Your daily average"
-                stat={userInsights.overallUserAverage}
-                today={todayStats.totalCarbonFootprint}
-              />
-              <TrendCard
-                title="UK daily diet average"
-                stat={dietaryRequirement.getMeanEmissionsPerDay()}
-                today={todayStats.totalCarbonFootprint}
-              />
-              <TrendCard
-                title="User daily average"
-                stat={userInsights.dailyGlobalAverage}
-                today={todayStats.totalCarbonFootprint}
-              />
-              <TrendCard
-                title="User daily diet average"
-                stat={userInsights.dailyGlobalAverageUserDietaryRequirement}
-                today={todayStats.totalCarbonFootprint}
-              />
-            </Carousel>
-          </Stack>
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        xs={11}
+      >
+        <Grid xs={10} sm={11}  md={10} lg={9} xl={8}>
+          <Typography textAlign="center" variant="h4">Trends</Typography>
+          <Carousel>
+            <TrendCard
+              title="Your daily average"
+              stat={userInsights.overallUserAverage}
+              today={todayStats.totalCarbonFootprint}
+            />
+            <TrendCard
+              title="UK daily diet average"
+              stat={dietaryRequirement.getMeanEmissionsPerDay()}
+              today={todayStats.totalCarbonFootprint}
+            />
+            <TrendCard
+              title="User daily average"
+              stat={userInsights.dailyGlobalAverage}
+              today={todayStats.totalCarbonFootprint}
+            />
+            <TrendCard
+              title="User daily diet average"
+              stat={userInsights.dailyGlobalAverageUserDietaryRequirement}
+              today={todayStats.totalCarbonFootprint}
+            />
+          </Carousel>
         </Grid>
-        <Grid>
-          <Stack alignItems="center">
-            <Typography variant="h4">Progress</Typography>
-          </Stack>
+        <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
+          <Typography textAlign="center" variant="h4">Progress</Typography>
+          <Carousel>
+            <GoalLinePlot
+              goal={userSettings.cfLimit}
+              actualData={userProgress}
+              title="Daily carbon footprint"
+            />
+            <GoalLinePlot
+              goal={userSettings.cfLimit}
+              actualData={{ Monday: 2, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5 }}
+              title="Test 2"
+            />
+          </Carousel>
         </Grid>
       </Grid>
     </Grid>
