@@ -209,6 +209,25 @@ func (c *ConnectWrapper) GetUserInsights(
 	return out, nil
 }
 
+func (c *ConnectWrapper) GetUserProgress(
+	ctx context.Context,
+	req *connect.Request[userv1.GetUserProgressRequest],
+) (*connect.Response[userv1.GetUserProgressResponse], error) {
+	token, err := c.verify(ctx, req.Header())
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.GetUserProgress(ctx, req.Msg, token.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
 func (c *ConnectWrapper) GetFoodItemLogDays(
 	ctx context.Context,
 	req *connect.Request[userv1.GetFoodItemLogDaysRequest],

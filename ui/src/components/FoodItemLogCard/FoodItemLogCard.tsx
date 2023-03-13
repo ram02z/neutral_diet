@@ -158,7 +158,7 @@ export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
               sx={{ pt: 1, pl: 1 }}
             >
               <Typography variant="h6" color="text.primary">
-                {parseFloat(foodLogItem.carbonFootprint.toFixed(3))}
+                {foodLogItem.carbonFootprint.toFixed(3)}
               </Typography>
               <Typography variant="overline">
                 CO<sub>2</sub>/kg

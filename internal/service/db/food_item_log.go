@@ -191,6 +191,53 @@ func (s *Store) GetUserInsights(
 	}, nil
 }
 
+func (s *Store) GetUserProgress(
+	ctx context.Context,
+	r *userv1.GetUserProgressRequest,
+	firebaseUID string,
+) (*userv1.GetUserProgressResponse, error) {
+	queries := db.New(s.dbPool)
+
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	dailySums, err := queries.GetDailyCarbonFootprint(ctx, user.ID)
+	if err != nil && err != pgx.ErrNoRows {
+		return nil, err
+	}
+
+	dailyProgressAll := make(map[string]float64)
+	dailyProgressBreakfast := make(map[string]float64)
+	dailyProgressLunch := make(map[string]float64)
+	dailyProgressDinner := make(map[string]float64)
+	dailyProgressSnacks := make(map[string]float64)
+	for _, e := range dailySums {
+		date := e.LogDate.Time.Format("2006-01-02")
+		emissions := e.CarbonFootprint.InexactFloat64()
+		switch userv1.Meal(e.Meal) {
+		case userv1.Meal_MEAL_BREAKFAST:
+			dailyProgressBreakfast[date] = emissions
+		case userv1.Meal_MEAL_LUNCH:
+			dailyProgressLunch[date] = emissions
+		case userv1.Meal_MEAL_DINNER:
+			dailyProgressDinner[date] = emissions
+		case userv1.Meal_MEAL_UNSPECIFIED:
+			dailyProgressSnacks[date] = emissions
+		}
+		dailyProgressAll[date] += emissions
+	}
+
+	return &userv1.GetUserProgressResponse{
+		DailyProgressAll:       dailyProgressAll,
+		DailyProgressBreakfast: dailyProgressBreakfast,
+		DailyProgressLunch:     dailyProgressLunch,
+		DailyProgressDinner:    dailyProgressDinner,
+		DailyProgressSnacks:    dailyProgressSnacks,
+	}, err
+}
+
 func (s *Store) DeleteFoodItemFromLog(
 	ctx context.Context,
 	r *userv1.DeleteFoodItemRequest,
@@ -312,7 +359,7 @@ func mapToDate(date *userv1.Date) pgtype.Date {
 		return pgtype.Date{Valid: false}
 	}
 
-	time := time.Date(
+	dateTime := time.Date(
 		int(date.GetYear()),
 		time.Month(int(date.GetMonth())),
 		int(date.GetDay()),
@@ -322,5 +369,5 @@ func mapToDate(date *userv1.Date) pgtype.Date {
 		0,
 		0,
 		time.UTC)
-	return pgtype.Date{Time: time, Valid: true}
+	return pgtype.Date{Time: dateTime, Valid: true}
 }

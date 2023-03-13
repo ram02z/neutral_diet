@@ -780,3 +780,95 @@ export class GetUserInsightsResponse extends Message<GetUserInsightsResponse> {
   }
 }
 
+/**
+ * @generated from message neutral_diet.user.v1.GetUserProgressRequest
+ */
+export class GetUserProgressRequest extends Message<GetUserProgressRequest> {
+  constructor(data?: PartialMessage<GetUserProgressRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetUserProgressRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserProgressRequest {
+    return new GetUserProgressRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserProgressRequest {
+    return new GetUserProgressRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserProgressRequest {
+    return new GetUserProgressRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetUserProgressRequest | PlainMessage<GetUserProgressRequest> | undefined, b: GetUserProgressRequest | PlainMessage<GetUserProgressRequest> | undefined): boolean {
+    return proto3.util.equals(GetUserProgressRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetUserProgressResponse
+ */
+export class GetUserProgressResponse extends Message<GetUserProgressResponse> {
+  /**
+   * @generated from field: map<string, double> daily_progress_all = 1;
+   */
+  dailyProgressAll: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_breakfast = 2;
+   */
+  dailyProgressBreakfast: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_lunch = 3;
+   */
+  dailyProgressLunch: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_dinner = 4;
+   */
+  dailyProgressDinner: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_snacks = 5;
+   */
+  dailyProgressSnacks: { [key: string]: number } = {};
+
+  constructor(data?: PartialMessage<GetUserProgressResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetUserProgressResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "daily_progress_all", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 2, name: "daily_progress_breakfast", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 3, name: "daily_progress_lunch", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 4, name: "daily_progress_dinner", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 5, name: "daily_progress_snacks", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserProgressResponse {
+    return new GetUserProgressResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserProgressResponse {
+    return new GetUserProgressResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserProgressResponse {
+    return new GetUserProgressResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetUserProgressResponse | PlainMessage<GetUserProgressResponse> | undefined, b: GetUserProgressResponse | PlainMessage<GetUserProgressResponse> | undefined): boolean {
+    return proto3.util.equals(GetUserProgressResponse, a, b);
+  }
+}
+

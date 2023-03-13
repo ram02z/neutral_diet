@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { Box, Button, MobileStepper } from '@mui/material';
@@ -11,7 +11,8 @@ type CarouselProps = {
 function Carousel(props: CarouselProps) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = props.children.length;
+  const children = useMemo(() => props.children.flatMap((c) => c), [props.children]);
+  const maxSteps = children.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
@@ -22,8 +23,8 @@ function Carousel(props: CarouselProps) {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-      <Box sx={{ width: '100%', p: 2 }}>{props.children[activeStep]}</Box>
+    <Box>
+      <Box sx={{ height: 'auto', p: 2 }}>{children[activeStep]}</Box>
       <MobileStepper
         steps={maxSteps}
         position="static"

@@ -93,6 +93,16 @@ message GetUserInsightsResponse {
   bool is_streak_active = 6;
 }
 
+message GetUserProgressRequest {}
+
+message GetUserProgressResponse {
+  map<string, double> daily_progress_all = 1;
+  map<string, double> daily_progress_breakfast = 2;
+  map<string, double> daily_progress_lunch = 3;
+  map<string, double> daily_progress_dinner = 4;
+  map<string, double> daily_progress_snacks = 5;
+}
+
 service UserService {
   rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
   rpc UpdateFoodItem(UpdateFoodItemRequest) returns (UpdateFoodItemResponse) {}
@@ -104,4 +114,5 @@ service UserService {
   rpc GetUserSettings(GetUserSettingsRequest) returns (GetUserSettingsResponse) {}
   rpc UpdateUserSettings(UpdateUserSettingsRequest) returns (UpdateUserSettingsResponse) {}
   rpc GetUserInsights(GetUserInsightsRequest) returns (GetUserInsightsResponse) {}
+  rpc GetUserProgress(GetUserProgressRequest) returns (GetUserProgressResponse) {}
 }

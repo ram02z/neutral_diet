@@ -2355,3 +2355,217 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetUserInsightsResponseValidationError{}
+
+// Validate checks the field values on GetUserProgressRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetUserProgressRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetUserProgressRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetUserProgressRequestMultiError, or nil if none found.
+func (m *GetUserProgressRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetUserProgressRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetUserProgressRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetUserProgressRequestMultiError is an error wrapping multiple validation
+// errors returned by GetUserProgressRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetUserProgressRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetUserProgressRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetUserProgressRequestMultiError) AllErrors() []error { return m }
+
+// GetUserProgressRequestValidationError is the validation error returned by
+// GetUserProgressRequest.Validate if the designated constraints aren't met.
+type GetUserProgressRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetUserProgressRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetUserProgressRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetUserProgressRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetUserProgressRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetUserProgressRequestValidationError) ErrorName() string {
+	return "GetUserProgressRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetUserProgressRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetUserProgressRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetUserProgressRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetUserProgressRequestValidationError{}
+
+// Validate checks the field values on GetUserProgressResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetUserProgressResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetUserProgressResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetUserProgressResponseMultiError, or nil if none found.
+func (m *GetUserProgressResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetUserProgressResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for DailyProgressAll
+
+	// no validation rules for DailyProgressBreakfast
+
+	// no validation rules for DailyProgressLunch
+
+	// no validation rules for DailyProgressDinner
+
+	// no validation rules for DailyProgressSnacks
+
+	if len(errors) > 0 {
+		return GetUserProgressResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetUserProgressResponseMultiError is an error wrapping multiple validation
+// errors returned by GetUserProgressResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetUserProgressResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetUserProgressResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetUserProgressResponseMultiError) AllErrors() []error { return m }
+
+// GetUserProgressResponseValidationError is the validation error returned by
+// GetUserProgressResponse.Validate if the designated constraints aren't met.
+type GetUserProgressResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetUserProgressResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetUserProgressResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetUserProgressResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetUserProgressResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetUserProgressResponseValidationError) ErrorName() string {
+	return "GetUserProgressResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetUserProgressResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetUserProgressResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetUserProgressResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetUserProgressResponseValidationError{}

@@ -104,6 +104,48 @@ func (q *Queries) GetDailyAverageCarbonFootprintByDietaryRequirement(ctx context
 	return average_carbon_footprint, err
 }
 
+const getDailyCarbonFootprint = `-- name: GetDailyCarbonFootprint :many
+SELECT
+    sum(carbon_footprint)::decimal AS carbon_footprint,
+    log_date,
+    meal
+FROM
+    food_item_log
+WHERE
+    user_id = $1
+GROUP BY
+    log_date,
+    meal
+ORDER BY
+    log_date
+`
+
+type GetDailyCarbonFootprintRow struct {
+	CarbonFootprint decimal.Decimal
+	LogDate         pgtype.Date
+	Meal            int32
+}
+
+func (q *Queries) GetDailyCarbonFootprint(ctx context.Context, userID int32) ([]GetDailyCarbonFootprintRow, error) {
+	rows, err := q.db.Query(ctx, getDailyCarbonFootprint, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetDailyCarbonFootprintRow
+	for rows.Next() {
+		var i GetDailyCarbonFootprintRow
+		if err := rows.Scan(&i.CarbonFootprint, &i.LogDate, &i.Meal); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getFoodItemIdByLogId = `-- name: GetFoodItemIdByLogId :one
 SELECT
     food_item_id

@@ -16,6 +16,21 @@ WHERE
     user_id = $1
     AND id = $2;
 
+-- name: GetDailyCarbonFootprint :many
+SELECT
+    sum(carbon_footprint)::decimal AS carbon_footprint,
+    log_date,
+    meal
+FROM
+    food_item_log
+WHERE
+    user_id = $1
+GROUP BY
+    log_date,
+    meal
+ORDER BY
+    log_date;
+
 -- name: GetLoggedDaysInMonth :many
 SELECT DISTINCT
     DATE_PART('day', log_date)::int AS day
