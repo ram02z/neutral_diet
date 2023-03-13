@@ -33,6 +33,7 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
             defaultValue={dayjs()}
             rules={{
               required: true,
+              validate: (value) => !value.isAfter(dayjs()),
             }}
             render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
               <DatePicker

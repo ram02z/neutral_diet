@@ -20,6 +20,7 @@ import { toSerializableDate } from '@/utils/date';
 import {
   FoodLogStats,
   LocalFoodLogItem,
+  LocalUserGoals,
   LocalUserSettings,
   SerializableDate,
   UserInsights,
@@ -262,4 +263,38 @@ export const UserProgressState = selector<UserProgress>({
 
     return { all: response.dailyProgressAll, meal: mealMap };
   },
+});
+
+export const UserGoalsState = atom<LocalUserGoals>({
+  key: 'UserGoalsState',
+  default: selector({
+    key: 'UserGoalsState/Default',
+    get: async ({ get }) => {
+      const userHeaders = get(CurrentUserHeadersState);
+      const response = await client.getCarbonFootprintGoals({}, { headers: userHeaders });
+
+      return {
+        active: response.active.map((goal) => {
+          return {
+            dbId: goal.id,
+            description: goal.description,
+            startDate: goal.startDate,
+            endDate: goal.endDate,
+            startCarbonFootprint: goal.startCarbonFootprint,
+            targetCarbonFootprint: goal.targetCarbonFootprint,
+          };
+        }),
+        completed: response.completed.map((goal) => {
+          return {
+            dbId: goal.id,
+            description: goal.description,
+            startDate: goal.startDate,
+            endDate: goal.endDate,
+            startCarbonFootprint: goal.startCarbonFootprint,
+            targetCarbonFootprint: goal.targetCarbonFootprint,
+          };
+        }),
+      };
+    },
+  }),
 });

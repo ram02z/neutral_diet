@@ -38,6 +38,20 @@ export type UserProgress = {
   meal: Map<number, Record<string, number>>;
 };
 
+export type LocalUserGoal = {
+  dbId: number;
+  description: string;
+  startDate: SerializableDate | undefined;
+  endDate: SerializableDate | undefined;
+  startCarbonFootprint: number;
+  targetCarbonFootprint: number;
+}
+
+export type LocalUserGoals = {
+  active: LocalUserGoal[];
+  completed: LocalUserGoal[];
+}
+
 export type SerializableDate = {
   year: number;
   month: number;
