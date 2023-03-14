@@ -35,7 +35,7 @@ function GoalList() {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const target = parseFloat(data.targetCarbonFootprint);
-    const today = toSerializableDate(dayjs().subtract(7, 'day'));
+    const today = toSerializableDate(dayjs());
     client
       .addCarbonFootprintGoal(
         {
