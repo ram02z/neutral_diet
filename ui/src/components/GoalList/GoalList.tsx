@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Box, Tab } from '@mui/material';
+import { Box, Tab, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import GoalCard from '@/components/GoalCard';
@@ -33,6 +33,11 @@ function GoalList() {
           </TabList>
         </Box>
         <TabPanel value="1" sx={{ width: '100%' }}>
+          {userGoals.active.length == 0 && (
+            <Grid>
+              <Typography color="text.secondary">No active goals!</Typography>
+            </Grid>
+          )}
           {userGoals.active.map((goal, idx) => (
             <Grid key={idx} xs={12}>
               <GoalCard goal={goal} active />
@@ -40,6 +45,11 @@ function GoalList() {
           ))}
         </TabPanel>
         <TabPanel value="2" sx={{ width: '100%' }}>
+          {userGoals.active.length == 0 && (
+            <Grid>
+              <Typography color="text.secondary">No completed goals!</Typography>
+            </Grid>
+          )}
           {userGoals.completed.map((goal, idx) => (
             <Grid key={idx} xs={12}>
               <GoalCard goal={goal} active={false} />
