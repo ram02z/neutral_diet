@@ -3,7 +3,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Box, Button, Tab } from '@mui/material';
+import { Box, Button, Stack, Tab, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import dayjs from 'dayjs';
@@ -11,20 +11,31 @@ import dayjs from 'dayjs';
 import client from '@/api/user_service';
 import AddGoalDialog from '@/components/AddGoalDialog';
 import { FormValues } from '@/components/AddGoalDialog/types';
+import Carousel from '@/components/Carousel';
 import GoalCard from '@/components/GoalCard';
-import { CurrentUserHeadersState, UserGoalsState, UserInsightsState } from '@/store/user';
+import GoalLinePlot from '@/components/GoalLinePlot';
+import { Meal } from '@/core/meal';
+import {
+  CurrentUserHeadersState,
+  SelectedUserGoalState,
+  UserGoalProgressState,
+  UserGoalsState,
+  UserInsightsState,
+} from '@/store/user';
 import { toSerializableDate } from '@/utils/date';
 
 function GoalList() {
   const [tab, setTab] = useState('1');
   const [userGoals, setUserGoals] = useRecoilState(UserGoalsState);
+  const selectedUserGoal = useRecoilValue(SelectedUserGoalState);
+  const selectedUserGoalData = useRecoilValue(UserGoalProgressState);
   const userInsights = useRecoilValue(UserInsightsState);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const [openAddDialog, setOpenAddDialog] = useState(false);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const target = parseFloat(data.targetCarbonFootprint);
-    const today = toSerializableDate(dayjs());
+    const today = toSerializableDate(dayjs().subtract(7, 'day'));
     client
       .addCarbonFootprintGoal(
         {
@@ -103,7 +114,36 @@ function GoalList() {
         </TabPanel>
       </TabContext>
       <Grid>
-        <Button variant="contained" onClick={handleOpenAddDialog}>Add goal</Button>
+        <Button variant="contained" onClick={handleOpenAddDialog}>
+          Add goal
+        </Button>
+      </Grid>
+      <Grid mt={2} xs={12}>
+        <Typography textAlign="center" variant="h5">
+          Progress
+        </Typography>
+        {selectedUserGoal && selectedUserGoalData ? (
+          <Carousel>
+            <GoalLinePlot
+              goal={selectedUserGoal.targetCarbonFootprint}
+              actualData={selectedUserGoalData.all}
+              title={`${selectedUserGoal.description}, all meals`}
+            />
+            {Array.from(selectedUserGoalData.meal).map(([key, value]) => (
+              <GoalLinePlot
+                key={key}
+                goal={selectedUserGoal.targetCarbonFootprint}
+                actualData={value}
+                title={`${selectedUserGoal.description}, ${new Meal(key).getName()}`}
+              />
+            ))}
+          </Carousel>
+        ) : (
+          <>
+            <Typography color="text.secondary">No goal selected.</Typography>
+            <Typography color="text.secondary">Click on a goal to view progress!</Typography>
+          </>
+        )}
       </Grid>
       <AddGoalDialog
         openDialog={openAddDialog}

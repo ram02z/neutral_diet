@@ -1000,6 +1000,8 @@ type GetUserProgressRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	DateRange *DateRange `protobuf:"bytes,1,opt,name=date_range,json=dateRange,proto3" json:"date_range,omitempty"`
 }
 
 func (x *GetUserProgressRequest) Reset() {
@@ -1032,6 +1034,13 @@ func (x *GetUserProgressRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GetUserProgressRequest.ProtoReflect.Descriptor instead.
 func (*GetUserProgressRequest) Descriptor() ([]byte, []int) {
 	return file_neutral_diet_user_v1_api_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *GetUserProgressRequest) GetDateRange() *DateRange {
+	if x != nil {
+		return x.DateRange
+	}
+	return nil
 }
 
 type GetUserProgressResponse struct {
@@ -1605,8 +1614,12 @@ var file_neutral_diet_user_v1_api_proto_rawDesc = []byte{
 	0x65, 0x61, 0x6b, 0x4c, 0x65, 0x6e, 0x12, 0x28, 0x0a, 0x10, 0x69, 0x73, 0x5f, 0x73, 0x74, 0x72,
 	0x65, 0x61, 0x6b, 0x5f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x08,
 	0x52, 0x0e, 0x69, 0x73, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6b, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65,
-	0x22, 0x18, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x67, 0x72,
-	0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0xea, 0x07, 0x0a, 0x17, 0x47,
+	0x22, 0x58, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x67, 0x72,
+	0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x3e, 0x0a, 0x0a, 0x64, 0x61,
+	0x74, 0x65, 0x5f, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f,
+	0x2e, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x75, 0x73,
+	0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x61, 0x74, 0x65, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x52,
+	0x09, 0x64, 0x61, 0x74, 0x65, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x22, 0xea, 0x07, 0x0a, 0x17, 0x47,
 	0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x52, 0x65,
 	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x71, 0x0a, 0x12, 0x64, 0x61, 0x69, 0x6c, 0x79, 0x5f,
 	0x70, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x5f, 0x61, 0x6c, 0x6c, 0x18, 0x01, 0x20, 0x03,
@@ -1896,8 +1909,9 @@ var file_neutral_diet_user_v1_api_proto_goTypes = []interface{}{
 	(*Date)(nil),                              // 39: neutral_diet.user.v1.Date
 	(*FoodLogItemResponse)(nil),               // 40: neutral_diet.user.v1.FoodLogItemResponse
 	(*UserSettings)(nil),                      // 41: neutral_diet.user.v1.UserSettings
-	(*CarbonFootprintGoalRequest)(nil),        // 42: neutral_diet.user.v1.CarbonFootprintGoalRequest
-	(*CarbonFootprintGoalResponse)(nil),       // 43: neutral_diet.user.v1.CarbonFootprintGoalResponse
+	(*DateRange)(nil),                         // 42: neutral_diet.user.v1.DateRange
+	(*CarbonFootprintGoalRequest)(nil),        // 43: neutral_diet.user.v1.CarbonFootprintGoalRequest
+	(*CarbonFootprintGoalResponse)(nil),       // 44: neutral_diet.user.v1.CarbonFootprintGoalResponse
 }
 var file_neutral_diet_user_v1_api_proto_depIdxs = []int32{
 	35, // 0: neutral_diet.user.v1.AddFoodItemRequest.food_log_item:type_name -> neutral_diet.user.v1.FoodLogItemRequest
@@ -1908,49 +1922,50 @@ var file_neutral_diet_user_v1_api_proto_depIdxs = []int32{
 	40, // 5: neutral_diet.user.v1.GetFoodItemLogResponse.food_item_log:type_name -> neutral_diet.user.v1.FoodLogItemResponse
 	41, // 6: neutral_diet.user.v1.UpdateUserSettingsRequest.user_settings:type_name -> neutral_diet.user.v1.UserSettings
 	41, // 7: neutral_diet.user.v1.GetUserSettingsResponse.user_settings:type_name -> neutral_diet.user.v1.UserSettings
-	30, // 8: neutral_diet.user.v1.GetUserProgressResponse.daily_progress_all:type_name -> neutral_diet.user.v1.GetUserProgressResponse.DailyProgressAllEntry
-	31, // 9: neutral_diet.user.v1.GetUserProgressResponse.daily_progress_breakfast:type_name -> neutral_diet.user.v1.GetUserProgressResponse.DailyProgressBreakfastEntry
-	32, // 10: neutral_diet.user.v1.GetUserProgressResponse.daily_progress_lunch:type_name -> neutral_diet.user.v1.GetUserProgressResponse.DailyProgressLunchEntry
-	33, // 11: neutral_diet.user.v1.GetUserProgressResponse.daily_progress_dinner:type_name -> neutral_diet.user.v1.GetUserProgressResponse.DailyProgressDinnerEntry
-	34, // 12: neutral_diet.user.v1.GetUserProgressResponse.daily_progress_snacks:type_name -> neutral_diet.user.v1.GetUserProgressResponse.DailyProgressSnacksEntry
-	42, // 13: neutral_diet.user.v1.AddCarbonFootprintGoalRequest.carbon_footprint_goal:type_name -> neutral_diet.user.v1.CarbonFootprintGoalRequest
-	43, // 14: neutral_diet.user.v1.GetCarbonFootprintGoalsResponse.completed:type_name -> neutral_diet.user.v1.CarbonFootprintGoalResponse
-	43, // 15: neutral_diet.user.v1.GetCarbonFootprintGoalsResponse.active:type_name -> neutral_diet.user.v1.CarbonFootprintGoalResponse
-	0,  // 16: neutral_diet.user.v1.UserService.AddFoodItem:input_type -> neutral_diet.user.v1.AddFoodItemRequest
-	2,  // 17: neutral_diet.user.v1.UserService.UpdateFoodItem:input_type -> neutral_diet.user.v1.UpdateFoodItemRequest
-	4,  // 18: neutral_diet.user.v1.UserService.DeleteFoodItem:input_type -> neutral_diet.user.v1.DeleteFoodItemRequest
-	6,  // 19: neutral_diet.user.v1.UserService.GetFoodItemLog:input_type -> neutral_diet.user.v1.GetFoodItemLogRequest
-	8,  // 20: neutral_diet.user.v1.UserService.GetFoodItemLogDays:input_type -> neutral_diet.user.v1.GetFoodItemLogDaysRequest
-	10, // 21: neutral_diet.user.v1.UserService.CreateUser:input_type -> neutral_diet.user.v1.CreateUserRequest
-	12, // 22: neutral_diet.user.v1.UserService.DeleteUser:input_type -> neutral_diet.user.v1.DeleteUserRequest
-	16, // 23: neutral_diet.user.v1.UserService.GetUserSettings:input_type -> neutral_diet.user.v1.GetUserSettingsRequest
-	14, // 24: neutral_diet.user.v1.UserService.UpdateUserSettings:input_type -> neutral_diet.user.v1.UpdateUserSettingsRequest
-	18, // 25: neutral_diet.user.v1.UserService.GetUserInsights:input_type -> neutral_diet.user.v1.GetUserInsightsRequest
-	20, // 26: neutral_diet.user.v1.UserService.GetUserProgress:input_type -> neutral_diet.user.v1.GetUserProgressRequest
-	22, // 27: neutral_diet.user.v1.UserService.AddCarbonFootprintGoal:input_type -> neutral_diet.user.v1.AddCarbonFootprintGoalRequest
-	24, // 28: neutral_diet.user.v1.UserService.UpdateCarbonFootprintGoal:input_type -> neutral_diet.user.v1.UpdateCarbonFootprintGoalRequest
-	26, // 29: neutral_diet.user.v1.UserService.DeleteCarbonFootprintGoal:input_type -> neutral_diet.user.v1.DeleteCarbonFootprintGoalRequest
-	28, // 30: neutral_diet.user.v1.UserService.GetCarbonFootprintGoals:input_type -> neutral_diet.user.v1.GetCarbonFootprintGoalsRequest
-	1,  // 31: neutral_diet.user.v1.UserService.AddFoodItem:output_type -> neutral_diet.user.v1.AddFoodItemResponse
-	3,  // 32: neutral_diet.user.v1.UserService.UpdateFoodItem:output_type -> neutral_diet.user.v1.UpdateFoodItemResponse
-	5,  // 33: neutral_diet.user.v1.UserService.DeleteFoodItem:output_type -> neutral_diet.user.v1.DeleteFoodItemResponse
-	7,  // 34: neutral_diet.user.v1.UserService.GetFoodItemLog:output_type -> neutral_diet.user.v1.GetFoodItemLogResponse
-	9,  // 35: neutral_diet.user.v1.UserService.GetFoodItemLogDays:output_type -> neutral_diet.user.v1.GetFoodItemLogDaysResponse
-	11, // 36: neutral_diet.user.v1.UserService.CreateUser:output_type -> neutral_diet.user.v1.CreateUserResponse
-	13, // 37: neutral_diet.user.v1.UserService.DeleteUser:output_type -> neutral_diet.user.v1.DeleteUserResponse
-	17, // 38: neutral_diet.user.v1.UserService.GetUserSettings:output_type -> neutral_diet.user.v1.GetUserSettingsResponse
-	15, // 39: neutral_diet.user.v1.UserService.UpdateUserSettings:output_type -> neutral_diet.user.v1.UpdateUserSettingsResponse
-	19, // 40: neutral_diet.user.v1.UserService.GetUserInsights:output_type -> neutral_diet.user.v1.GetUserInsightsResponse
-	21, // 41: neutral_diet.user.v1.UserService.GetUserProgress:output_type -> neutral_diet.user.v1.GetUserProgressResponse
-	23, // 42: neutral_diet.user.v1.UserService.AddCarbonFootprintGoal:output_type -> neutral_diet.user.v1.AddCarbonFootprintGoalResponse
-	25, // 43: neutral_diet.user.v1.UserService.UpdateCarbonFootprintGoal:output_type -> neutral_diet.user.v1.UpdateCarbonFootprintGoalResponse
-	27, // 44: neutral_diet.user.v1.UserService.DeleteCarbonFootprintGoal:output_type -> neutral_diet.user.v1.DeleteCarbonFootprintGoalResponse
-	29, // 45: neutral_diet.user.v1.UserService.GetCarbonFootprintGoals:output_type -> neutral_diet.user.v1.GetCarbonFootprintGoalsResponse
-	31, // [31:46] is the sub-list for method output_type
-	16, // [16:31] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	42, // 8: neutral_diet.user.v1.GetUserProgressRequest.date_range:type_name -> neutral_diet.user.v1.DateRange
+	30, // 9: neutral_diet.user.v1.GetUserProgressResponse.daily_progress_all:type_name -> neutral_diet.user.v1.GetUserProgressResponse.DailyProgressAllEntry
+	31, // 10: neutral_diet.user.v1.GetUserProgressResponse.daily_progress_breakfast:type_name -> neutral_diet.user.v1.GetUserProgressResponse.DailyProgressBreakfastEntry
+	32, // 11: neutral_diet.user.v1.GetUserProgressResponse.daily_progress_lunch:type_name -> neutral_diet.user.v1.GetUserProgressResponse.DailyProgressLunchEntry
+	33, // 12: neutral_diet.user.v1.GetUserProgressResponse.daily_progress_dinner:type_name -> neutral_diet.user.v1.GetUserProgressResponse.DailyProgressDinnerEntry
+	34, // 13: neutral_diet.user.v1.GetUserProgressResponse.daily_progress_snacks:type_name -> neutral_diet.user.v1.GetUserProgressResponse.DailyProgressSnacksEntry
+	43, // 14: neutral_diet.user.v1.AddCarbonFootprintGoalRequest.carbon_footprint_goal:type_name -> neutral_diet.user.v1.CarbonFootprintGoalRequest
+	44, // 15: neutral_diet.user.v1.GetCarbonFootprintGoalsResponse.completed:type_name -> neutral_diet.user.v1.CarbonFootprintGoalResponse
+	44, // 16: neutral_diet.user.v1.GetCarbonFootprintGoalsResponse.active:type_name -> neutral_diet.user.v1.CarbonFootprintGoalResponse
+	0,  // 17: neutral_diet.user.v1.UserService.AddFoodItem:input_type -> neutral_diet.user.v1.AddFoodItemRequest
+	2,  // 18: neutral_diet.user.v1.UserService.UpdateFoodItem:input_type -> neutral_diet.user.v1.UpdateFoodItemRequest
+	4,  // 19: neutral_diet.user.v1.UserService.DeleteFoodItem:input_type -> neutral_diet.user.v1.DeleteFoodItemRequest
+	6,  // 20: neutral_diet.user.v1.UserService.GetFoodItemLog:input_type -> neutral_diet.user.v1.GetFoodItemLogRequest
+	8,  // 21: neutral_diet.user.v1.UserService.GetFoodItemLogDays:input_type -> neutral_diet.user.v1.GetFoodItemLogDaysRequest
+	10, // 22: neutral_diet.user.v1.UserService.CreateUser:input_type -> neutral_diet.user.v1.CreateUserRequest
+	12, // 23: neutral_diet.user.v1.UserService.DeleteUser:input_type -> neutral_diet.user.v1.DeleteUserRequest
+	16, // 24: neutral_diet.user.v1.UserService.GetUserSettings:input_type -> neutral_diet.user.v1.GetUserSettingsRequest
+	14, // 25: neutral_diet.user.v1.UserService.UpdateUserSettings:input_type -> neutral_diet.user.v1.UpdateUserSettingsRequest
+	18, // 26: neutral_diet.user.v1.UserService.GetUserInsights:input_type -> neutral_diet.user.v1.GetUserInsightsRequest
+	20, // 27: neutral_diet.user.v1.UserService.GetUserProgress:input_type -> neutral_diet.user.v1.GetUserProgressRequest
+	22, // 28: neutral_diet.user.v1.UserService.AddCarbonFootprintGoal:input_type -> neutral_diet.user.v1.AddCarbonFootprintGoalRequest
+	24, // 29: neutral_diet.user.v1.UserService.UpdateCarbonFootprintGoal:input_type -> neutral_diet.user.v1.UpdateCarbonFootprintGoalRequest
+	26, // 30: neutral_diet.user.v1.UserService.DeleteCarbonFootprintGoal:input_type -> neutral_diet.user.v1.DeleteCarbonFootprintGoalRequest
+	28, // 31: neutral_diet.user.v1.UserService.GetCarbonFootprintGoals:input_type -> neutral_diet.user.v1.GetCarbonFootprintGoalsRequest
+	1,  // 32: neutral_diet.user.v1.UserService.AddFoodItem:output_type -> neutral_diet.user.v1.AddFoodItemResponse
+	3,  // 33: neutral_diet.user.v1.UserService.UpdateFoodItem:output_type -> neutral_diet.user.v1.UpdateFoodItemResponse
+	5,  // 34: neutral_diet.user.v1.UserService.DeleteFoodItem:output_type -> neutral_diet.user.v1.DeleteFoodItemResponse
+	7,  // 35: neutral_diet.user.v1.UserService.GetFoodItemLog:output_type -> neutral_diet.user.v1.GetFoodItemLogResponse
+	9,  // 36: neutral_diet.user.v1.UserService.GetFoodItemLogDays:output_type -> neutral_diet.user.v1.GetFoodItemLogDaysResponse
+	11, // 37: neutral_diet.user.v1.UserService.CreateUser:output_type -> neutral_diet.user.v1.CreateUserResponse
+	13, // 38: neutral_diet.user.v1.UserService.DeleteUser:output_type -> neutral_diet.user.v1.DeleteUserResponse
+	17, // 39: neutral_diet.user.v1.UserService.GetUserSettings:output_type -> neutral_diet.user.v1.GetUserSettingsResponse
+	15, // 40: neutral_diet.user.v1.UserService.UpdateUserSettings:output_type -> neutral_diet.user.v1.UpdateUserSettingsResponse
+	19, // 41: neutral_diet.user.v1.UserService.GetUserInsights:output_type -> neutral_diet.user.v1.GetUserInsightsResponse
+	21, // 42: neutral_diet.user.v1.UserService.GetUserProgress:output_type -> neutral_diet.user.v1.GetUserProgressResponse
+	23, // 43: neutral_diet.user.v1.UserService.AddCarbonFootprintGoal:output_type -> neutral_diet.user.v1.AddCarbonFootprintGoalResponse
+	25, // 44: neutral_diet.user.v1.UserService.UpdateCarbonFootprintGoal:output_type -> neutral_diet.user.v1.UpdateCarbonFootprintGoalResponse
+	27, // 45: neutral_diet.user.v1.UserService.DeleteCarbonFootprintGoal:output_type -> neutral_diet.user.v1.DeleteCarbonFootprintGoalResponse
+	29, // 46: neutral_diet.user.v1.UserService.GetCarbonFootprintGoals:output_type -> neutral_diet.user.v1.GetCarbonFootprintGoalsResponse
+	32, // [32:47] is the sub-list for method output_type
+	17, // [17:32] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_neutral_diet_user_v1_api_proto_init() }

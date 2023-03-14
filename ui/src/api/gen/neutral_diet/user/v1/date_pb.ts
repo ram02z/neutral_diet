@@ -61,3 +61,46 @@ export class Date extends Message<Date> {
   }
 }
 
+/**
+ * @generated from message neutral_diet.user.v1.DateRange
+ */
+export class DateRange extends Message<DateRange> {
+  /**
+   * @generated from field: neutral_diet.user.v1.Date start = 1;
+   */
+  start?: Date;
+
+  /**
+   * @generated from field: neutral_diet.user.v1.Date end = 2;
+   */
+  end?: Date;
+
+  constructor(data?: PartialMessage<DateRange>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.DateRange";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "start", kind: "message", T: Date },
+    { no: 2, name: "end", kind: "message", T: Date },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DateRange {
+    return new DateRange().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DateRange {
+    return new DateRange().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DateRange {
+    return new DateRange().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DateRange | PlainMessage<DateRange> | undefined, b: DateRange | PlainMessage<DateRange> | undefined): boolean {
+    return proto3.util.equals(DateRange, a, b);
+  }
+}
+

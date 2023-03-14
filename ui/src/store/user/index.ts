@@ -20,6 +20,7 @@ import { toSerializableDate } from '@/utils/date';
 import {
   FoodLogStats,
   LocalFoodLogItem,
+  LocalUserGoal,
   LocalUserGoals,
   LocalUserSettings,
   SerializableDate,
@@ -297,4 +298,29 @@ export const UserGoalsState = atom<LocalUserGoals>({
       };
     },
   }),
+});
+
+export const SelectedUserGoalState = atom<LocalUserGoal | null>({
+  key: 'SelectedUserGoalState',
+  default: null,
+});
+
+export const UserGoalProgressState = selector<UserProgress | null>({
+  key: 'UserGoalProgressState',
+  get: async ({ get }) => {
+    const goal = get(SelectedUserGoalState);
+    if (!goal) return null;
+    const userHeaders = get(CurrentUserHeadersState);
+    const response = await client.getUserProgress(
+      { dateRange: { start: goal.startDate, end: goal.endDate } },
+      { headers: userHeaders },
+    );
+    const mealMap = new Map<number, Record<string, number>>();
+    mealMap.set(MealProto.BREAKFAST, response.dailyProgressBreakfast);
+    mealMap.set(MealProto.LUNCH, response.dailyProgressLunch);
+    mealMap.set(MealProto.DINNER, response.dailyProgressDinner);
+    mealMap.set(MealProto.UNSPECIFIED, response.dailyProgressSnacks);
+
+    return { all: response.dailyProgressAll, meal: mealMap };
+  },
 });

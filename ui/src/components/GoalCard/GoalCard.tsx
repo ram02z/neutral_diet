@@ -19,7 +19,7 @@ import { useSnackbar } from 'notistack';
 
 import client from '@/api/user_service';
 import { MIN_CARD_WIDTH } from '@/config';
-import { CurrentUserHeadersState, UserGoalsState } from '@/store/user';
+import { CurrentUserHeadersState, SelectedUserGoalState, UserGoalsState } from '@/store/user';
 import { LocalUserGoal } from '@/store/user/types';
 import { getDateString, toDayJsDate } from '@/utils/date';
 
@@ -30,6 +30,7 @@ type GoalCardProps = {
 
 function GoalCard({ goal, active }: GoalCardProps) {
   const setUserGoals = useSetRecoilState(UserGoalsState);
+  const setSelectedUserGoal = useSetRecoilState(SelectedUserGoalState);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const confirm = useConfirm();
   const { enqueueSnackbar } = useSnackbar();
@@ -102,9 +103,13 @@ function GoalCard({ goal, active }: GoalCardProps) {
       });
   };
 
+  const handleSelectGoal = () => {
+    setSelectedUserGoal(goal);
+  }
+
   return (
     <Card sx={{ minWidth: MIN_CARD_WIDTH }}>
-      <CardActionArea>
+      <CardActionArea onClick={handleSelectGoal}>
         <CardContent>
           <Grid container columns={5} direction="column">
             <Grid>

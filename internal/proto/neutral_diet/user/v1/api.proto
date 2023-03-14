@@ -94,7 +94,9 @@ message GetUserInsightsResponse {
   bool is_streak_active = 6;
 }
 
-message GetUserProgressRequest {}
+message GetUserProgressRequest {
+  DateRange date_range = 1;
+}
 
 message GetUserProgressResponse {
   map<string, double> daily_progress_all = 1;

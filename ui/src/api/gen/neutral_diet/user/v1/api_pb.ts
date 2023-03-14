@@ -7,7 +7,7 @@ import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialM
 import { Message, proto3 } from "@bufbuild/protobuf";
 import { FoodLogItemRequest, FoodLogItemResponse, Meal, Unit } from "./food_item_log_pb.js";
 import { Region } from "../../food/v1/region_pb.js";
-import { Date } from "./date_pb.js";
+import { Date, DateRange } from "./date_pb.js";
 import { UserSettings } from "./user_pb.js";
 import { CarbonFootprintGoalRequest, CarbonFootprintGoalResponse } from "./goal_pb.js";
 
@@ -785,6 +785,11 @@ export class GetUserInsightsResponse extends Message<GetUserInsightsResponse> {
  * @generated from message neutral_diet.user.v1.GetUserProgressRequest
  */
 export class GetUserProgressRequest extends Message<GetUserProgressRequest> {
+  /**
+   * @generated from field: neutral_diet.user.v1.DateRange date_range = 1;
+   */
+  dateRange?: DateRange;
+
   constructor(data?: PartialMessage<GetUserProgressRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -793,6 +798,7 @@ export class GetUserProgressRequest extends Message<GetUserProgressRequest> {
   static readonly runtime = proto3;
   static readonly typeName = "neutral_diet.user.v1.GetUserProgressRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "date_range", kind: "message", T: DateRange },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserProgressRequest {
