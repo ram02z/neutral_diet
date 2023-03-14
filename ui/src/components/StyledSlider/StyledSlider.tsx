@@ -1,4 +1,4 @@
-import { Box, Slider, SliderValueLabelProps, Tooltip, Typography } from '@mui/material';
+import { Box, FormControl, Slider, SliderValueLabelProps, Tooltip, Typography } from '@mui/material';
 
 type SliderMark = {
   value: number;
@@ -40,7 +40,7 @@ function StyledSlider({
   const min = Math.min(...marks.map((m) => m.value));
   const max = Math.max(...marks.map((m) => m.value));
   return (
-    <Box>
+    <FormControl fullWidth>
       <Typography gutterBottom>{label}</Typography>
       <Slider
         valueLabelDisplay="auto"
@@ -55,7 +55,7 @@ function StyledSlider({
         min={min}
         max={max}
       />
-    </Box>
+    </FormControl>
   );
 }
 

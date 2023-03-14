@@ -22,24 +22,22 @@ function DietaryRequirementSelect() {
   };
 
   return (
-    <Box sx={{ minWidth: MIN_CARD_WIDTH }}>
-      <FormControl fullWidth>
-        <InputLabel id="dietary-requirement-select-label">Dietary Requirement</InputLabel>
-        <Select
-          labelId="dietary-requirement-select-label"
-          id="dietary-requirement-select"
-          label="dietary-requirement"
-          value={localUserSettings.dietaryRequirement.toString()}
-          onChange={handleChange}
-        >
-          {dietaryRequirements.map((dr, idx) => (
-            <MenuItem key={idx} value={dr.value}>
-              {dr.getSettingName()}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </Box>
+    <FormControl sx={{ minWidth: MIN_CARD_WIDTH }} fullWidth>
+      <InputLabel id="dietary-requirement-select-label">Dietary Requirement</InputLabel>
+      <Select
+        labelId="dietary-requirement-select-label"
+        id="dietary-requirement-select"
+        label="dietary-requirement"
+        value={localUserSettings.dietaryRequirement.toString()}
+        onChange={handleChange}
+      >
+        {dietaryRequirements.map((dr, idx) => (
+          <MenuItem key={idx} value={dr.value}>
+            {dr.getSettingName()}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }
 

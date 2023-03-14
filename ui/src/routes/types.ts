@@ -10,7 +10,14 @@ enum Pages {
   Account,
   LogIn,
   SignUp,
+  Settings,
+  Goals,
   NotFound,
+}
+
+type SubComponent = {
+  path: string;
+  component: FC;
 }
 
 type PathRouteCustomProps = {
@@ -19,6 +26,7 @@ type PathRouteCustomProps = {
   component: FC;
   icon?: FC<SvgIconProps>;
   navigation: boolean;
+  subComponents?: SubComponent[];
 };
 
 type Routes = Record<Pages, PathRouteProps & PathRouteCustomProps>;
