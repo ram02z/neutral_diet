@@ -120,7 +120,7 @@ function Goals() {
         ) : (
           <>
             <Typography color="text.secondary">No goal selected.</Typography>
-            <Typography color="text.secondary">Click on a goal to view progress!</Typography>
+            <Typography color="text.secondary">Click on a goal to view your progress!</Typography>
           </>
         )}
       </Grid>
