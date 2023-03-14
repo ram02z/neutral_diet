@@ -1,4 +1,4 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Delete } from '@mui/icons-material';
 import {
@@ -30,7 +30,7 @@ type GoalCardProps = {
 
 function GoalCard({ goal, active }: GoalCardProps) {
   const setUserGoals = useSetRecoilState(UserGoalsState);
-  const setSelectedUserGoal = useSetRecoilState(SelectedUserGoalState);
+  const [selectedUserGoal, setSelectedUserGoal] = useRecoilState(SelectedUserGoalState);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const confirm = useConfirm();
   const { enqueueSnackbar } = useSnackbar();
@@ -65,6 +65,7 @@ function GoalCard({ goal, active }: GoalCardProps) {
               };
             }
           });
+          if (selectedUserGoal?.dbId === goal.dbId) setSelectedUserGoal(null);
           enqueueSnackbar('Deleted food entry.', { variant: 'success' });
         })
         .catch((err) => {
@@ -105,7 +106,7 @@ function GoalCard({ goal, active }: GoalCardProps) {
 
   const handleSelectGoal = () => {
     setSelectedUserGoal(goal);
-  }
+  };
 
   return (
     <Card sx={{ minWidth: MIN_CARD_WIDTH }}>
@@ -115,7 +116,7 @@ function GoalCard({ goal, active }: GoalCardProps) {
             <Grid>
               <Typography variant="h5" component="div">
                 <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
-                 Goal
+                  Goal
                 </Typography>
                 {goal.description}
               </Typography>

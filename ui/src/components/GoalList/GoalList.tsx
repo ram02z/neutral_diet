@@ -1,85 +1,19 @@
 import { useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Box, Button, Stack, Tab, Typography } from '@mui/material';
+import { Box, Tab } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import dayjs from 'dayjs';
-
-import client from '@/api/user_service';
-import AddGoalDialog from '@/components/AddGoalDialog';
-import { FormValues } from '@/components/AddGoalDialog/types';
-import Carousel from '@/components/Carousel';
 import GoalCard from '@/components/GoalCard';
-import GoalLinePlot from '@/components/GoalLinePlot';
-import { Meal } from '@/core/meal';
-import {
-  CurrentUserHeadersState,
-  SelectedUserGoalState,
-  UserGoalProgressState,
-  UserGoalsState,
-  UserInsightsState,
-} from '@/store/user';
-import { toSerializableDate } from '@/utils/date';
+import { UserGoalsState } from '@/store/user';
 
 function GoalList() {
   const [tab, setTab] = useState('1');
-  const [userGoals, setUserGoals] = useRecoilState(UserGoalsState);
-  const selectedUserGoal = useRecoilValue(SelectedUserGoalState);
-  const selectedUserGoalData = useRecoilValue(UserGoalProgressState);
-  const userInsights = useRecoilValue(UserInsightsState);
-  const userHeaders = useRecoilValue(CurrentUserHeadersState);
-  const [openAddDialog, setOpenAddDialog] = useState(false);
-
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const target = parseFloat(data.targetCarbonFootprint);
-    const today = toSerializableDate(dayjs());
-    client
-      .addCarbonFootprintGoal(
-        {
-          carbonFootprintGoal: {
-            description: data.description,
-            startDate: today,
-            endDate: toSerializableDate(data.endDate),
-            startCarbonFootprint: userInsights.overallUserAverage,
-            targetCarbonFootprint: target,
-          },
-        },
-        { headers: userHeaders },
-      )
-      .then((res) => {
-        setUserGoals((old) => {
-          return {
-            completed: old.completed,
-            active: [
-              ...old.active,
-              {
-                dbId: res.id,
-                description: data.description,
-                startDate: today,
-                endDate: toSerializableDate(data.endDate),
-                startCarbonFootprint: userInsights.overallUserAverage,
-                targetCarbonFootprint: target,
-              },
-            ],
-          };
-        });
-      });
-    handleCloseAddDialog();
-  };
+  const userGoals = useRecoilValue(UserGoalsState);
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: string) => {
     setTab(newValue);
-  };
-
-  const handleOpenAddDialog = () => {
-    setOpenAddDialog(true);
-  };
-
-  const handleCloseAddDialog = () => {
-    setOpenAddDialog(false);
   };
 
   return (
@@ -113,44 +47,6 @@ function GoalList() {
           ))}
         </TabPanel>
       </TabContext>
-      <Grid>
-        <Button variant="contained" onClick={handleOpenAddDialog}>
-          Add goal
-        </Button>
-      </Grid>
-      <Grid mt={2} xs={12}>
-        <Typography textAlign="center" variant="h5">
-          Progress
-        </Typography>
-        {selectedUserGoal && selectedUserGoalData ? (
-          <Carousel>
-            <GoalLinePlot
-              goal={selectedUserGoal.targetCarbonFootprint}
-              actualData={selectedUserGoalData.all}
-              title={`${selectedUserGoal.description}, all meals`}
-            />
-            {Array.from(selectedUserGoalData.meal).map(([key, value]) => (
-              <GoalLinePlot
-                key={key}
-                goal={selectedUserGoal.targetCarbonFootprint}
-                actualData={value}
-                title={`${selectedUserGoal.description}, ${new Meal(key).getName()}`}
-              />
-            ))}
-          </Carousel>
-        ) : (
-          <>
-            <Typography color="text.secondary">No goal selected.</Typography>
-            <Typography color="text.secondary">Click on a goal to view progress!</Typography>
-          </>
-        )}
-      </Grid>
-      <AddGoalDialog
-        openDialog={openAddDialog}
-        handleClose={handleCloseAddDialog}
-        onSubmit={onSubmit}
-        startCarbonFootprint={userInsights.overallUserAverage}
-      />
     </Grid>
   );
 }
