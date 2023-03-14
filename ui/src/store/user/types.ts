@@ -41,8 +41,8 @@ export type UserProgress = {
 export type LocalUserGoal = {
   dbId: number;
   description: string;
-  startDate: SerializableDate | undefined;
-  endDate: SerializableDate | undefined;
+  startDate: SerializableDate;
+  endDate: SerializableDate;
   startCarbonFootprint: number;
   targetCarbonFootprint: number;
 }

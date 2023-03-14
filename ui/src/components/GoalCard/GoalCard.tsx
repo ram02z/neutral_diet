@@ -21,6 +21,7 @@ import client from '@/api/user_service';
 import { MIN_CARD_WIDTH } from '@/config';
 import { CurrentUserHeadersState, UserGoalsState } from '@/store/user';
 import { LocalUserGoal } from '@/store/user/types';
+import { getDateString, toDayJsDate } from '@/utils/date';
 
 type GoalCardProps = {
   goal: LocalUserGoal;
@@ -74,7 +75,7 @@ function GoalCard({ goal, active }: GoalCardProps) {
 
   const handleCheck = async () => {
     client
-      .updateCarbonFootprintGoal({ id: goal.dbId, completed: !active }, { headers: userHeaders })
+      .updateCarbonFootprintGoal({ id: goal.dbId, completed: active }, { headers: userHeaders })
       .then(() => {
         setUserGoals((old) => {
           if (active) {
@@ -109,29 +110,46 @@ function GoalCard({ goal, active }: GoalCardProps) {
             <Grid>
               <Typography variant="h5" component="div">
                 <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
-                  Description
+                 Goal
                 </Typography>
                 {goal.description}
               </Typography>
             </Grid>
-            <Grid>
-              <Typography variant="h6" color="text.primary">
-                Start: {goal.startCarbonFootprint.toFixed(3)}
-                <Typography variant="overline">
-                  CO<sub>2</sub>/kg
+            <Grid container columns={2} direction="row" justifyContent="space-between">
+              <Grid>
+                <Typography variant="caption" color="text.secondary">
+                  Start
                 </Typography>
-              </Typography>
-              <Typography variant="h6" color="text.primary">
-                Target: {goal.targetCarbonFootprint.toFixed(3)}
-                <Typography variant="overline">
-                  CO<sub>2</sub>/kg
+                <Typography variant="h6" color="text.primary">
+                  {getDateString(toDayJsDate(goal.startDate))}
                 </Typography>
-              </Typography>
+              </Grid>
+              <Grid>
+                <Typography variant="caption" color="text.secondary">
+                  Target
+                </Typography>
+                <Typography variant="h6" color="text.primary">
+                  {getDateString(toDayJsDate(goal.endDate))}
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid>
-              <Typography variant="h6" color="text.primary">
-                {goal.endDate?.day}/{goal.endDate?.month}/{goal.endDate?.year}
-              </Typography>
+            <Grid container columns={2} direction="row" justifyContent="space-between">
+              <Grid>
+                <Typography variant="h6" color="text.primary">
+                  {goal.startCarbonFootprint.toFixed(3)}
+                  <Typography variant="overline">
+                    CO<sub>2</sub>/kg
+                  </Typography>
+                </Typography>
+              </Grid>
+              <Grid>
+                <Typography variant="h6" color="text.primary">
+                  {goal.targetCarbonFootprint.toFixed(3)}
+                  <Typography variant="overline">
+                    CO<sub>2</sub>/kg
+                  </Typography>
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
         </CardContent>

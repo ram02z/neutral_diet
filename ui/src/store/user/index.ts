@@ -278,8 +278,8 @@ export const UserGoalsState = atom<LocalUserGoals>({
           return {
             dbId: goal.id,
             description: goal.description,
-            startDate: goal.startDate,
-            endDate: goal.endDate,
+            startDate: goal.startDate as SerializableDate,
+            endDate: goal.endDate as SerializableDate,
             startCarbonFootprint: goal.startCarbonFootprint,
             targetCarbonFootprint: goal.targetCarbonFootprint,
           };
@@ -288,8 +288,8 @@ export const UserGoalsState = atom<LocalUserGoals>({
           return {
             dbId: goal.id,
             description: goal.description,
-            startDate: goal.startDate,
-            endDate: goal.endDate,
+            startDate: goal.startDate as SerializableDate,
+            endDate: goal.endDate as SerializableDate,
             startCarbonFootprint: goal.startCarbonFootprint,
             targetCarbonFootprint: goal.targetCarbonFootprint,
           };

@@ -65,6 +65,8 @@ FROM
     "carbon_footprint_goal"
 WHERE
     user_id = $1
+ORDER BY
+    end_date
 `
 
 func (q *Queries) GetCarbonFootprintGoals(ctx context.Context, userID int32) ([]CarbonFootprintGoal, error) {

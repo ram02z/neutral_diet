@@ -24,4 +24,6 @@ SELECT
 FROM
     "carbon_footprint_goal"
 WHERE
-    user_id = $1;
+    user_id = $1
+ORDER BY
+    end_date;
