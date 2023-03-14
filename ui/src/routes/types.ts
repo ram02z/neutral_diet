@@ -10,8 +10,6 @@ enum Pages {
   Account,
   LogIn,
   SignUp,
-  Settings,
-  Goals,
   NotFound,
 }
 

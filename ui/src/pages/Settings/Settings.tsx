@@ -43,7 +43,13 @@ function Settings() {
   }, []);
 
   return (
-    <Stack direction="column" spacing={4} alignItems="center" justifyContent="center" width="30vw">
+    <Stack
+      direction="column"
+      spacing={4}
+      alignItems="center"
+      justifyContent="center"
+      width={{ xs: '60vw', md: '40vw' }}
+    >
       <RegionSelect />
       <DietaryRequirementSelect />
       <CarbonFootprintSlider />

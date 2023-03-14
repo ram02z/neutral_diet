@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { Link, useOutlet } from 'react-router-dom';
+import { Link, Outlet, useOutlet } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
-import CrisisAlertIcon from '@mui/icons-material/CrisisAlert';
-import SettingsIcon from '@mui/icons-material/Settings';
+import CrisisAlertRoundedIcon from '@mui/icons-material/CrisisAlertRounded';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { Button, Divider, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -70,48 +70,47 @@ function Account() {
           {user.email}
         </Typography>
         <Divider flexItem sx={{ pt: '2vh' }} />
-        <Stack direction="column" spacing={4} alignItems="center" pt="4vh">
-          {outlet ? (
-            outlet
-          ) : (
-            <>
-              <Stack direction="row" alignItems="center" gap={1}>
-                <SettingsIcon color="inherit" fontSize="large" />
-                <Typography
-                  color="text.primary"
-                  variant="h3"
-                  component={Link}
-                  to="settings"
-                  sx={{ textDecoration: 'none' }}
-                >
-                  Settings
-                </Typography>
-              </Stack>
-              <Stack direction="row" alignItems="center" gap={1}>
-                <CrisisAlertIcon color="inherit" fontSize="large" />
-                <Typography
-                  color="text.primary"
-                  variant="h3"
-                  component={Link}
-                  to="goals"
-                  sx={{ textDecoration: 'none' }}
-                >
-                  Goals
-                </Typography>
-              </Stack>
-            </>
-          )}
-          <Button variant="contained" onClick={signOut}>
-            Log out
-          </Button>
-          <DeleteAccount user={user} />
-          <DisplayNameDialog
-            openDialog={openNameDialog}
-            handleClose={handleCloseNameDialog}
-            onSubmit={onDisplayNameSave}
-            currentDisplayName={displayName ?? ''}
-          />
-        </Stack>
+        {outlet ? (
+          <>
+            <Outlet />
+            <Button variant="contained" color="secondary" component={Link} to="/account">
+              Back
+            </Button>
+          </>
+        ) : (
+          <Stack direction="column" spacing={4} alignItems="center" pt="4vh">
+            <Button
+              fullWidth
+              color="primary"
+              variant="contained"
+              component={Link}
+              to="goals"
+              startIcon={<CrisisAlertRoundedIcon />}
+            >
+              Goals
+            </Button>
+            <Button
+              fullWidth
+              color="primary"
+              variant="contained"
+              component={Link}
+              to="settings"
+              startIcon={<SettingsRoundedIcon />}
+            >
+              Settings
+            </Button>
+            <Button variant="contained" onClick={signOut}>
+              Log out
+            </Button>
+            <DeleteAccount user={user} />
+          </Stack>
+        )}
+        <DisplayNameDialog
+          openDialog={openNameDialog}
+          handleClose={handleCloseNameDialog}
+          onSubmit={onDisplayNameSave}
+          currentDisplayName={displayName ?? ''}
+        />
       </Stack>
     );
   }
