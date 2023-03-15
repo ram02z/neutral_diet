@@ -10,7 +10,7 @@ import Carousel from '@/components/Carousel';
 import CircularProgressWithLabel from '@/components/CircularProgressWithLabel';
 import GoalLinePlot from '@/components/GoalLinePlot';
 import TrendCard from '@/components/TrendCard';
-import DietaryRequirement from '@/core/dietary_requirements';
+import Insights from '@/core/insights';
 import { Meal } from '@/core/meal';
 import {
   LocalFoodItemLogStats,
@@ -26,7 +26,7 @@ function Home() {
   const userProgress = useRecoilValue(UserProgressState);
   const refreshUserInsights = useRecoilRefresher_UNSTABLE(UserInsightsState);
   const userSettings = useRecoilValue(LocalUserSettingsState);
-  const dietaryRequirement = new DietaryRequirement(userSettings.dietaryRequirement);
+  const externalInsights = new Insights(userSettings.dietaryRequirement);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => refreshUserInsights(), []);
@@ -58,21 +58,28 @@ function Home() {
               title="Your daily average"
               stat={userInsights.overallUserAverage}
               today={todayStats.totalCarbonFootprint}
+              source="Your food item log"
             />
-            <TrendCard
-              title="UK daily diet average"
-              stat={dietaryRequirement.getMeanEmissionsPerDay()}
-              today={todayStats.totalCarbonFootprint}
-            />
+            {externalInsights.insights.map((insight, idx) => (
+              <TrendCard
+                key={idx}
+                title={insight.title}
+                stat={insight.emissions}
+                today={todayStats.totalCarbonFootprint}
+                source={insight.source}
+              />
+            ))}
             <TrendCard
               title="User daily average"
               stat={userInsights.dailyGlobalAverage}
               today={todayStats.totalCarbonFootprint}
+              source="All application users"
             />
             <TrendCard
               title="User daily diet average"
               stat={userInsights.dailyGlobalAverageUserDietaryRequirement}
               today={todayStats.totalCarbonFootprint}
+              source="All application users with the same dietary requirement"
             />
           </Carousel>
         </Grid>

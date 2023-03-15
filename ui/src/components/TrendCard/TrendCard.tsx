@@ -7,9 +7,10 @@ type TrendCardProps = {
   title: string;
   stat: number;
   today: number;
+  source: string;
 };
 
-function TrendCard({ title, stat, today }: TrendCardProps) {
+function TrendCard({ title, stat, today, source }: TrendCardProps) {
   let statDiff = 0;
   if (today > 0) {
     statDiff = ((stat - today) / today) * 100.0;
@@ -46,6 +47,9 @@ function TrendCard({ title, stat, today }: TrendCardProps) {
                 </Typography>
               </Grid>
             </Grid>
+            <Typography variant="caption" color="text.secondary">
+              <b>Source:</b> {source}
+            </Typography>
           </Stack>
         </Grid>
       </CardContent>
