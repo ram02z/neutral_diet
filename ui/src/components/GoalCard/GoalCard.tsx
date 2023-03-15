@@ -66,10 +66,10 @@ function GoalCard({ goal, active }: GoalCardProps) {
             }
           });
           if (selectedUserGoal?.dbId === goal.dbId) setSelectedUserGoal(null);
-          enqueueSnackbar('Deleted food entry.', { variant: 'success' });
+          enqueueSnackbar('Deleted goal.', { variant: 'success' });
         })
         .catch((err) => {
-          enqueueSnackbar('Could not delete food entry.', { variant: 'error' });
+          enqueueSnackbar('Could not delete goal.', { variant: 'error' });
           console.error(err);
         });
     });

@@ -70,41 +70,43 @@ function Account() {
           {user.email}
         </Typography>
         <Divider flexItem sx={{ pt: '2vh' }} />
-        {outlet ? (
-          <>
-            <Outlet />
-            <Button variant="contained" color="secondary" component={Link} to="/account">
-              Back
-            </Button>
-          </>
-        ) : (
-          <Stack direction="column" spacing={4} alignItems="center" pt="4vh">
-            <Button
-              fullWidth
-              color="primary"
-              variant="contained"
-              component={Link}
-              to="goals"
-              startIcon={<CrisisAlertRoundedIcon />}
-            >
-              Goals
-            </Button>
-            <Button
-              fullWidth
-              color="primary"
-              variant="contained"
-              component={Link}
-              to="settings"
-              startIcon={<SettingsRoundedIcon />}
-            >
-              Settings
-            </Button>
-            <Button variant="contained" onClick={signOut}>
-              Log out
-            </Button>
-            <DeleteAccount user={user} />
-          </Stack>
-        )}
+        <Stack direction="column" spacing={4} alignItems="center" py="4vh">
+          {outlet ? (
+            <>
+              <Outlet />
+              <Button variant="contained" color="secondary" component={Link} to="/account">
+                Back
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                fullWidth
+                color="primary"
+                variant="contained"
+                component={Link}
+                to="goals"
+                startIcon={<CrisisAlertRoundedIcon />}
+              >
+                Goals
+              </Button>
+              <Button
+                fullWidth
+                color="primary"
+                variant="contained"
+                component={Link}
+                to="settings"
+                startIcon={<SettingsRoundedIcon />}
+              >
+                Settings
+              </Button>
+              <Button variant="contained" onClick={signOut}>
+                Log out
+              </Button>
+              <DeleteAccount user={user} />
+            </>
+          )}
+        </Stack>
         <DisplayNameDialog
           openDialog={openNameDialog}
           handleClose={handleCloseNameDialog}
