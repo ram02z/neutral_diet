@@ -21,3 +21,8 @@ message Date {
     lte: 31
   }];
 }
+
+message DateRange {
+  Date start = 1;
+  Date end = 2;
+}

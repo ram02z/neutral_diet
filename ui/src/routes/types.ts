@@ -13,12 +13,18 @@ enum Pages {
   NotFound,
 }
 
+type SubComponent = {
+  path: string;
+  component: FC;
+};
+
 type PathRouteCustomProps = {
   title?: string;
   path: string;
   component: FC;
   icon?: FC<SvgIconProps>;
   navigation: boolean;
+  subComponents?: SubComponent[];
 };
 
 type Routes = Record<Pages, PathRouteProps & PathRouteCustomProps>;

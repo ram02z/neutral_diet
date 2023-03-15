@@ -62,16 +62,6 @@ func (q *Queries) DeleteFoodItemFromLog(ctx context.Context, arg DeleteFoodItemF
 	return err
 }
 
-const deleteUserLog = `-- name: DeleteUserLog :exec
-DELETE FROM "food_item_log"
-WHERE user_id = $1
-`
-
-func (q *Queries) DeleteUserLog(ctx context.Context, userID int32) error {
-	_, err := q.db.Exec(ctx, deleteUserLog, userID)
-	return err
-}
-
 const getDailyAverageCarbonFootprint = `-- name: GetDailyAverageCarbonFootprint :one
 SELECT
     average_carbon_footprint
@@ -104,7 +94,7 @@ func (q *Queries) GetDailyAverageCarbonFootprintByDietaryRequirement(ctx context
 	return average_carbon_footprint, err
 }
 
-const getDailyCarbonFootprint = `-- name: GetDailyCarbonFootprint :many
+const getDailyCarbonFootprintByDateRange = `-- name: GetDailyCarbonFootprintByDateRange :many
 SELECT
     sum(carbon_footprint)::decimal AS carbon_footprint,
     log_date,
@@ -113,6 +103,8 @@ FROM
     food_item_log
 WHERE
     user_id = $1
+    AND log_date >= $2
+    AND log_date < $3
 GROUP BY
     log_date,
     meal
@@ -120,21 +112,27 @@ ORDER BY
     log_date
 `
 
-type GetDailyCarbonFootprintRow struct {
+type GetDailyCarbonFootprintByDateRangeParams struct {
+	UserID    int32
+	StartDate pgtype.Date
+	EndDate   pgtype.Date
+}
+
+type GetDailyCarbonFootprintByDateRangeRow struct {
 	CarbonFootprint decimal.Decimal
 	LogDate         pgtype.Date
 	Meal            int32
 }
 
-func (q *Queries) GetDailyCarbonFootprint(ctx context.Context, userID int32) ([]GetDailyCarbonFootprintRow, error) {
-	rows, err := q.db.Query(ctx, getDailyCarbonFootprint, userID)
+func (q *Queries) GetDailyCarbonFootprintByDateRange(ctx context.Context, arg GetDailyCarbonFootprintByDateRangeParams) ([]GetDailyCarbonFootprintByDateRangeRow, error) {
+	rows, err := q.db.Query(ctx, getDailyCarbonFootprintByDateRange, arg.UserID, arg.StartDate, arg.EndDate)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetDailyCarbonFootprintRow
+	var items []GetDailyCarbonFootprintByDateRangeRow
 	for rows.Next() {
-		var i GetDailyCarbonFootprintRow
+		var i GetDailyCarbonFootprintByDateRangeRow
 		if err := rows.Scan(&i.CarbonFootprint, &i.LogDate, &i.Meal); err != nil {
 			return nil, err
 		}

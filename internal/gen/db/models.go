@@ -61,6 +61,17 @@ type AggregateFoodItem struct {
 	MedianCarbonFootprint decimal.Decimal
 }
 
+type CarbonFootprintGoal struct {
+	ID                    int32
+	UserID                int32
+	Description           string
+	StartDate             pgtype.Date
+	EndDate               pgtype.Date
+	StartCarbonFootprint  decimal.Decimal
+	TargetCarbonFootprint decimal.Decimal
+	Completed             bool
+}
+
 type DailyUserAverage struct {
 	AverageCarbonFootprint decimal.Decimal
 }

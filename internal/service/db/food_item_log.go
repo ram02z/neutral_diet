@@ -203,7 +203,31 @@ func (s *Store) GetUserProgress(
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	dailySums, err := queries.GetDailyCarbonFootprint(ctx, user.ID)
+	var startDate pgtype.Date
+	var endDate pgtype.Date
+	if r.DateRange != nil {
+		startDate = mapToDate(r.DateRange.Start)
+		endDate = mapToDate(r.DateRange.End)
+	} else {
+		startDate = pgtype.Date{
+			Time:  time.Time{},
+			Valid: true,
+		}
+		endDate = pgtype.Date{
+			Time:  time.Now().AddDate(0, 0, 1),
+			Valid: true,
+		}
+	}
+
+	dailySums, err := queries.GetDailyCarbonFootprintByDateRange(
+		ctx,
+		db.GetDailyCarbonFootprintByDateRangeParams{
+			UserID:    user.ID,
+			StartDate: startDate,
+			EndDate:   endDate,
+		},
+	)
+
 	if err != nil && err != pgx.ErrNoRows {
 		return nil, err
 	}

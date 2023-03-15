@@ -22,3 +22,8 @@ export function getDateString(date: dayjs.Dayjs): string {
 export function toSerializableDate(date: dayjs.Dayjs): SerializableDate {
   return { year: date.year(), month: date.month() + 1, day: date.date() };
 }
+
+export function toDayJsDate(date: SerializableDate): dayjs.Dayjs {
+  const d = new Date(date.year, date.month - 1, date.day);
+  return dayjs(d);
+}

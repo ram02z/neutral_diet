@@ -5,6 +5,7 @@ package neutral_diet.user.v1;
 import "neutral_diet/food/v1/region.proto";
 import "neutral_diet/user/v1/date.proto";
 import "neutral_diet/user/v1/food_item_log.proto";
+import "neutral_diet/user/v1/goal.proto";
 import "neutral_diet/user/v1/user.proto";
 import "validate/validate.proto";
 
@@ -93,7 +94,9 @@ message GetUserInsightsResponse {
   bool is_streak_active = 6;
 }
 
-message GetUserProgressRequest {}
+message GetUserProgressRequest {
+  DateRange date_range = 1;
+}
 
 message GetUserProgressResponse {
   map<string, double> daily_progress_all = 1;
@@ -101,6 +104,34 @@ message GetUserProgressResponse {
   map<string, double> daily_progress_lunch = 3;
   map<string, double> daily_progress_dinner = 4;
   map<string, double> daily_progress_snacks = 5;
+}
+
+message AddCarbonFootprintGoalRequest {
+  CarbonFootprintGoalRequest carbon_footprint_goal = 1 [(validate.rules).message.required = true];
+}
+
+message AddCarbonFootprintGoalResponse {
+  int32 id = 1;
+}
+
+message UpdateCarbonFootprintGoalRequest {
+  int32 id = 1 [(validate.rules).int32.gt = 0];
+  bool completed = 2;
+}
+
+message UpdateCarbonFootprintGoalResponse {}
+
+message DeleteCarbonFootprintGoalRequest {
+  int32 id = 1 [(validate.rules).int32.gt = 0];
+}
+
+message DeleteCarbonFootprintGoalResponse {}
+
+message GetCarbonFootprintGoalsRequest {}
+
+message GetCarbonFootprintGoalsResponse {
+  repeated CarbonFootprintGoalResponse completed = 1;
+  repeated CarbonFootprintGoalResponse active = 2;
 }
 
 service UserService {
@@ -115,4 +146,8 @@ service UserService {
   rpc UpdateUserSettings(UpdateUserSettingsRequest) returns (UpdateUserSettingsResponse) {}
   rpc GetUserInsights(GetUserInsightsRequest) returns (GetUserInsightsResponse) {}
   rpc GetUserProgress(GetUserProgressRequest) returns (GetUserProgressResponse) {}
+  rpc AddCarbonFootprintGoal(AddCarbonFootprintGoalRequest) returns (AddCarbonFootprintGoalResponse) {}
+  rpc UpdateCarbonFootprintGoal(UpdateCarbonFootprintGoalRequest) returns (UpdateCarbonFootprintGoalResponse) {}
+  rpc DeleteCarbonFootprintGoal(DeleteCarbonFootprintGoalRequest) returns (DeleteCarbonFootprintGoalResponse) {}
+  rpc GetCarbonFootprintGoals(GetCarbonFootprintGoalsRequest) returns (GetCarbonFootprintGoalsResponse) {}
 }

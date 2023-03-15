@@ -33,6 +33,7 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
             defaultValue={dayjs()}
             rules={{
               required: true,
+              validate: (value) => !value.isAfter(dayjs()),
             }}
             render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
               <DatePicker
@@ -66,7 +67,10 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
             control={control}
             name="quantity"
             defaultValue="1.0"
-            rules={{ required: true, min: 0.001 }}
+            rules={{
+              required: true,
+              min: { value: 0.001, message: 'Quantity needs to be greater than 0.001' },
+            }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField
                 error={!!error}

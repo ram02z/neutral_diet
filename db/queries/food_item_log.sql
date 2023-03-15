@@ -16,7 +16,7 @@ WHERE
     user_id = $1
     AND id = $2;
 
--- name: GetDailyCarbonFootprint :many
+-- name: GetDailyCarbonFootprintByDateRange :many
 SELECT
     sum(carbon_footprint)::decimal AS carbon_footprint,
     log_date,
@@ -24,7 +24,9 @@ SELECT
 FROM
     food_item_log
 WHERE
-    user_id = $1
+    user_id = @user_id
+    AND log_date >= @start_date
+    AND log_date < @end_date
 GROUP BY
     log_date,
     meal
@@ -136,7 +138,3 @@ LIMIT 1;
 DELETE FROM "food_item_log"
 WHERE user_id = $1
     AND id = $2;
-
--- name: DeleteUserLog :exec
-DELETE FROM "food_item_log"
-WHERE user_id = $1;

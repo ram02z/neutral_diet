@@ -34,10 +34,7 @@ func (c *ConnectWrapper) DeleteUser(
 ) (*connect.Response[userv1.DeleteUserResponse], error) {
 	uid, ok := ctx.Value(config.UserIDKey).(string)
 	if !ok {
-		return nil, connect.NewError(
-			connect.CodeInternal,
-			errors.New("user token is malformed"),
-		)
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
 	}
 	res, err := c.s.DeleteUser(ctx, uid)
 	if err != nil {
@@ -61,10 +58,7 @@ func (c *ConnectWrapper) AddFoodItem(
 ) (*connect.Response[userv1.AddFoodItemResponse], error) {
 	uid, ok := ctx.Value(config.UserIDKey).(string)
 	if !ok {
-		return nil, connect.NewError(
-			connect.CodeInternal,
-			errors.New("user token is malformed"),
-		)
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
 	}
 
 	err := validate(req.Msg)
@@ -88,10 +82,7 @@ func (c *ConnectWrapper) UpdateFoodItem(
 ) (*connect.Response[userv1.UpdateFoodItemResponse], error) {
 	uid, ok := ctx.Value(config.UserIDKey).(string)
 	if !ok {
-		return nil, connect.NewError(
-			connect.CodeInternal,
-			errors.New("user token is malformed"),
-		)
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
 	}
 
 	err := validate(req.Msg)
@@ -115,10 +106,7 @@ func (c *ConnectWrapper) DeleteFoodItem(
 ) (*connect.Response[userv1.DeleteFoodItemResponse], error) {
 	uid, ok := ctx.Value(config.UserIDKey).(string)
 	if !ok {
-		return nil, connect.NewError(
-			connect.CodeInternal,
-			errors.New("user token is malformed"),
-		)
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
 	}
 
 	err := validate(req.Msg)
@@ -142,10 +130,7 @@ func (c *ConnectWrapper) UpdateUserSettings(
 ) (*connect.Response[userv1.UpdateUserSettingsResponse], error) {
 	uid, ok := ctx.Value(config.UserIDKey).(string)
 	if !ok {
-		return nil, connect.NewError(
-			connect.CodeInternal,
-			errors.New("user token is malformed"),
-		)
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
 	}
 
 	err := validate(req.Msg)
@@ -169,10 +154,7 @@ func (c *ConnectWrapper) GetUserSettings(
 ) (*connect.Response[userv1.GetUserSettingsResponse], error) {
 	uid, ok := ctx.Value(config.UserIDKey).(string)
 	if !ok {
-		return nil, connect.NewError(
-			connect.CodeInternal,
-			errors.New("user token is malformed"),
-		)
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
 	}
 
 	res, err := c.s.GetUser(ctx, uid)
@@ -196,10 +178,7 @@ func (c *ConnectWrapper) GetFoodItemLog(
 ) (*connect.Response[userv1.GetFoodItemLogResponse], error) {
 	uid, ok := ctx.Value(config.UserIDKey).(string)
 	if !ok {
-		return nil, connect.NewError(
-			connect.CodeInternal,
-			errors.New("user token is malformed"),
-		)
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
 	}
 
 	res, err := c.s.GetFoodItemLog(ctx, req.Msg, uid)
@@ -218,10 +197,7 @@ func (c *ConnectWrapper) GetUserInsights(
 ) (*connect.Response[userv1.GetUserInsightsResponse], error) {
 	uid, ok := ctx.Value(config.UserIDKey).(string)
 	if !ok {
-		return nil, connect.NewError(
-			connect.CodeInternal,
-			errors.New("user token is malformed"),
-		)
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
 	}
 
 	res, err := c.s.GetUserInsights(ctx, req.Msg, uid)
@@ -240,10 +216,7 @@ func (c *ConnectWrapper) GetUserProgress(
 ) (*connect.Response[userv1.GetUserProgressResponse], error) {
 	uid, ok := ctx.Value(config.UserIDKey).(string)
 	if !ok {
-		return nil, connect.NewError(
-			connect.CodeInternal,
-			errors.New("user token is malformed"),
-		)
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
 	}
 
 	res, err := c.s.GetUserProgress(ctx, req.Msg, uid)
@@ -262,10 +235,7 @@ func (c *ConnectWrapper) GetFoodItemLogDays(
 ) (*connect.Response[userv1.GetFoodItemLogDaysResponse], error) {
 	uid, ok := ctx.Value(config.UserIDKey).(string)
 	if !ok {
-		return nil, connect.NewError(
-			connect.CodeInternal,
-			errors.New("user token is malformed"),
-		)
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
 	}
 
 	err := validate(req.Msg)
@@ -274,6 +244,97 @@ func (c *ConnectWrapper) GetFoodItemLogDays(
 	}
 
 	res, err := c.s.GetFoodItemLogDays(ctx, req.Msg, uid)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) AddCarbonFootprintGoal(
+	ctx context.Context,
+	req *connect.Request[userv1.AddCarbonFootprintGoalRequest],
+) (*connect.Response[userv1.AddCarbonFootprintGoalResponse], error) {
+	uid, ok := ctx.Value(config.UserIDKey).(string)
+	if !ok {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
+	}
+
+	err := validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.AddCarbonFootprintGoal(ctx, req.Msg, uid)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) UpdateCarbonFootprintGoal(
+	ctx context.Context,
+	req *connect.Request[userv1.UpdateCarbonFootprintGoalRequest],
+) (*connect.Response[userv1.UpdateCarbonFootprintGoalResponse], error) {
+	uid, ok := ctx.Value(config.UserIDKey).(string)
+	if !ok {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
+	}
+
+	err := validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.UpdateCarbonFootprintGoal(ctx, req.Msg, uid)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) DeleteCarbonFootprintGoal(
+	ctx context.Context,
+	req *connect.Request[userv1.DeleteCarbonFootprintGoalRequest],
+) (*connect.Response[userv1.DeleteCarbonFootprintGoalResponse], error) {
+	uid, ok := ctx.Value(config.UserIDKey).(string)
+	if !ok {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
+	}
+
+	err := validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.s.DeleteCarbonFootprintGoal(ctx, req.Msg, uid)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) GetCarbonFootprintGoals(
+	ctx context.Context,
+	req *connect.Request[userv1.GetCarbonFootprintGoalsRequest],
+) (*connect.Response[userv1.GetCarbonFootprintGoalsResponse], error) {
+	uid, ok := ctx.Value(config.UserIDKey).(string)
+	if !ok {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
+	}
+
+	res, err := c.s.GetCarbonFootprintGoals(ctx, req.Msg, uid)
 	if err != nil {
 		return nil, err
 	}

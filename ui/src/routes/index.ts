@@ -35,6 +35,16 @@ const routes: Routes = {
     title: 'Account',
     icon: AccountCircleIcon,
     navigation: false,
+    subComponents: [
+      {
+        component: asyncComponentLoader(() => import('@/pages/Settings')),
+        path: 'settings',
+      },
+      {
+        component: asyncComponentLoader(() => import('@/pages/Goals')),
+        path: 'goals',
+      },
+    ],
   },
   [Pages.LogIn]: {
     component: asyncComponentLoader(() => import('@/pages/LogIn')),
@@ -43,7 +53,7 @@ const routes: Routes = {
   },
   [Pages.SignUp]: {
     component: asyncComponentLoader(() => import('@/pages/SignUp')),
-    path: 'signup',
+    path: '/signup',
     navigation: false,
   },
   [Pages.NotFound]: {

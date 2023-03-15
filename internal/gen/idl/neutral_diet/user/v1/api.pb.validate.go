@@ -2378,6 +2378,35 @@ func (m *GetUserProgressRequest) validate(all bool) error {
 
 	var errors []error
 
+	if all {
+		switch v := interface{}(m.GetDateRange()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetUserProgressRequestValidationError{
+					field:  "DateRange",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetUserProgressRequestValidationError{
+					field:  "DateRange",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDateRange()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetUserProgressRequestValidationError{
+				field:  "DateRange",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return GetUserProgressRequestMultiError(errors)
 	}
@@ -2569,3 +2598,969 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetUserProgressResponseValidationError{}
+
+// Validate checks the field values on AddCarbonFootprintGoalRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *AddCarbonFootprintGoalRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AddCarbonFootprintGoalRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// AddCarbonFootprintGoalRequestMultiError, or nil if none found.
+func (m *AddCarbonFootprintGoalRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AddCarbonFootprintGoalRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetCarbonFootprintGoal() == nil {
+		err := AddCarbonFootprintGoalRequestValidationError{
+			field:  "CarbonFootprintGoal",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetCarbonFootprintGoal()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AddCarbonFootprintGoalRequestValidationError{
+					field:  "CarbonFootprintGoal",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AddCarbonFootprintGoalRequestValidationError{
+					field:  "CarbonFootprintGoal",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCarbonFootprintGoal()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AddCarbonFootprintGoalRequestValidationError{
+				field:  "CarbonFootprintGoal",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return AddCarbonFootprintGoalRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// AddCarbonFootprintGoalRequestMultiError is an error wrapping multiple
+// validation errors returned by AddCarbonFootprintGoalRequest.ValidateAll()
+// if the designated constraints aren't met.
+type AddCarbonFootprintGoalRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AddCarbonFootprintGoalRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AddCarbonFootprintGoalRequestMultiError) AllErrors() []error { return m }
+
+// AddCarbonFootprintGoalRequestValidationError is the validation error
+// returned by AddCarbonFootprintGoalRequest.Validate if the designated
+// constraints aren't met.
+type AddCarbonFootprintGoalRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AddCarbonFootprintGoalRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AddCarbonFootprintGoalRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AddCarbonFootprintGoalRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AddCarbonFootprintGoalRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AddCarbonFootprintGoalRequestValidationError) ErrorName() string {
+	return "AddCarbonFootprintGoalRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AddCarbonFootprintGoalRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAddCarbonFootprintGoalRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AddCarbonFootprintGoalRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AddCarbonFootprintGoalRequestValidationError{}
+
+// Validate checks the field values on AddCarbonFootprintGoalResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *AddCarbonFootprintGoalResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AddCarbonFootprintGoalResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// AddCarbonFootprintGoalResponseMultiError, or nil if none found.
+func (m *AddCarbonFootprintGoalResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AddCarbonFootprintGoalResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return AddCarbonFootprintGoalResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// AddCarbonFootprintGoalResponseMultiError is an error wrapping multiple
+// validation errors returned by AddCarbonFootprintGoalResponse.ValidateAll()
+// if the designated constraints aren't met.
+type AddCarbonFootprintGoalResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AddCarbonFootprintGoalResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AddCarbonFootprintGoalResponseMultiError) AllErrors() []error { return m }
+
+// AddCarbonFootprintGoalResponseValidationError is the validation error
+// returned by AddCarbonFootprintGoalResponse.Validate if the designated
+// constraints aren't met.
+type AddCarbonFootprintGoalResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AddCarbonFootprintGoalResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AddCarbonFootprintGoalResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AddCarbonFootprintGoalResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AddCarbonFootprintGoalResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AddCarbonFootprintGoalResponseValidationError) ErrorName() string {
+	return "AddCarbonFootprintGoalResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AddCarbonFootprintGoalResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAddCarbonFootprintGoalResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AddCarbonFootprintGoalResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AddCarbonFootprintGoalResponseValidationError{}
+
+// Validate checks the field values on UpdateCarbonFootprintGoalRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *UpdateCarbonFootprintGoalRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateCarbonFootprintGoalRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// UpdateCarbonFootprintGoalRequestMultiError, or nil if none found.
+func (m *UpdateCarbonFootprintGoalRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateCarbonFootprintGoalRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetId() <= 0 {
+		err := UpdateCarbonFootprintGoalRequestValidationError{
+			field:  "Id",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for Completed
+
+	if len(errors) > 0 {
+		return UpdateCarbonFootprintGoalRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateCarbonFootprintGoalRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// UpdateCarbonFootprintGoalRequest.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateCarbonFootprintGoalRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateCarbonFootprintGoalRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateCarbonFootprintGoalRequestMultiError) AllErrors() []error { return m }
+
+// UpdateCarbonFootprintGoalRequestValidationError is the validation error
+// returned by UpdateCarbonFootprintGoalRequest.Validate if the designated
+// constraints aren't met.
+type UpdateCarbonFootprintGoalRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateCarbonFootprintGoalRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateCarbonFootprintGoalRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateCarbonFootprintGoalRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateCarbonFootprintGoalRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateCarbonFootprintGoalRequestValidationError) ErrorName() string {
+	return "UpdateCarbonFootprintGoalRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateCarbonFootprintGoalRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateCarbonFootprintGoalRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateCarbonFootprintGoalRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateCarbonFootprintGoalRequestValidationError{}
+
+// Validate checks the field values on UpdateCarbonFootprintGoalResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *UpdateCarbonFootprintGoalResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateCarbonFootprintGoalResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// UpdateCarbonFootprintGoalResponseMultiError, or nil if none found.
+func (m *UpdateCarbonFootprintGoalResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateCarbonFootprintGoalResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return UpdateCarbonFootprintGoalResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateCarbonFootprintGoalResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// UpdateCarbonFootprintGoalResponse.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateCarbonFootprintGoalResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateCarbonFootprintGoalResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateCarbonFootprintGoalResponseMultiError) AllErrors() []error { return m }
+
+// UpdateCarbonFootprintGoalResponseValidationError is the validation error
+// returned by UpdateCarbonFootprintGoalResponse.Validate if the designated
+// constraints aren't met.
+type UpdateCarbonFootprintGoalResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateCarbonFootprintGoalResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateCarbonFootprintGoalResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateCarbonFootprintGoalResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateCarbonFootprintGoalResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateCarbonFootprintGoalResponseValidationError) ErrorName() string {
+	return "UpdateCarbonFootprintGoalResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateCarbonFootprintGoalResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateCarbonFootprintGoalResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateCarbonFootprintGoalResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateCarbonFootprintGoalResponseValidationError{}
+
+// Validate checks the field values on DeleteCarbonFootprintGoalRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *DeleteCarbonFootprintGoalRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteCarbonFootprintGoalRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// DeleteCarbonFootprintGoalRequestMultiError, or nil if none found.
+func (m *DeleteCarbonFootprintGoalRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteCarbonFootprintGoalRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetId() <= 0 {
+		err := DeleteCarbonFootprintGoalRequestValidationError{
+			field:  "Id",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return DeleteCarbonFootprintGoalRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteCarbonFootprintGoalRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// DeleteCarbonFootprintGoalRequest.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteCarbonFootprintGoalRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteCarbonFootprintGoalRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteCarbonFootprintGoalRequestMultiError) AllErrors() []error { return m }
+
+// DeleteCarbonFootprintGoalRequestValidationError is the validation error
+// returned by DeleteCarbonFootprintGoalRequest.Validate if the designated
+// constraints aren't met.
+type DeleteCarbonFootprintGoalRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteCarbonFootprintGoalRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteCarbonFootprintGoalRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteCarbonFootprintGoalRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteCarbonFootprintGoalRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteCarbonFootprintGoalRequestValidationError) ErrorName() string {
+	return "DeleteCarbonFootprintGoalRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteCarbonFootprintGoalRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteCarbonFootprintGoalRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteCarbonFootprintGoalRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteCarbonFootprintGoalRequestValidationError{}
+
+// Validate checks the field values on DeleteCarbonFootprintGoalResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *DeleteCarbonFootprintGoalResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteCarbonFootprintGoalResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// DeleteCarbonFootprintGoalResponseMultiError, or nil if none found.
+func (m *DeleteCarbonFootprintGoalResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteCarbonFootprintGoalResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return DeleteCarbonFootprintGoalResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteCarbonFootprintGoalResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// DeleteCarbonFootprintGoalResponse.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteCarbonFootprintGoalResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteCarbonFootprintGoalResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteCarbonFootprintGoalResponseMultiError) AllErrors() []error { return m }
+
+// DeleteCarbonFootprintGoalResponseValidationError is the validation error
+// returned by DeleteCarbonFootprintGoalResponse.Validate if the designated
+// constraints aren't met.
+type DeleteCarbonFootprintGoalResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteCarbonFootprintGoalResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteCarbonFootprintGoalResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteCarbonFootprintGoalResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteCarbonFootprintGoalResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteCarbonFootprintGoalResponseValidationError) ErrorName() string {
+	return "DeleteCarbonFootprintGoalResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteCarbonFootprintGoalResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteCarbonFootprintGoalResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteCarbonFootprintGoalResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteCarbonFootprintGoalResponseValidationError{}
+
+// Validate checks the field values on GetCarbonFootprintGoalsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetCarbonFootprintGoalsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetCarbonFootprintGoalsRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetCarbonFootprintGoalsRequestMultiError, or nil if none found.
+func (m *GetCarbonFootprintGoalsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetCarbonFootprintGoalsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetCarbonFootprintGoalsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetCarbonFootprintGoalsRequestMultiError is an error wrapping multiple
+// validation errors returned by GetCarbonFootprintGoalsRequest.ValidateAll()
+// if the designated constraints aren't met.
+type GetCarbonFootprintGoalsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetCarbonFootprintGoalsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetCarbonFootprintGoalsRequestMultiError) AllErrors() []error { return m }
+
+// GetCarbonFootprintGoalsRequestValidationError is the validation error
+// returned by GetCarbonFootprintGoalsRequest.Validate if the designated
+// constraints aren't met.
+type GetCarbonFootprintGoalsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetCarbonFootprintGoalsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetCarbonFootprintGoalsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetCarbonFootprintGoalsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetCarbonFootprintGoalsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetCarbonFootprintGoalsRequestValidationError) ErrorName() string {
+	return "GetCarbonFootprintGoalsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetCarbonFootprintGoalsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetCarbonFootprintGoalsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetCarbonFootprintGoalsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetCarbonFootprintGoalsRequestValidationError{}
+
+// Validate checks the field values on GetCarbonFootprintGoalsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetCarbonFootprintGoalsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetCarbonFootprintGoalsResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetCarbonFootprintGoalsResponseMultiError, or nil if none found.
+func (m *GetCarbonFootprintGoalsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetCarbonFootprintGoalsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetCompleted() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetCarbonFootprintGoalsResponseValidationError{
+						field:  fmt.Sprintf("Completed[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetCarbonFootprintGoalsResponseValidationError{
+						field:  fmt.Sprintf("Completed[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetCarbonFootprintGoalsResponseValidationError{
+					field:  fmt.Sprintf("Completed[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetActive() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetCarbonFootprintGoalsResponseValidationError{
+						field:  fmt.Sprintf("Active[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetCarbonFootprintGoalsResponseValidationError{
+						field:  fmt.Sprintf("Active[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetCarbonFootprintGoalsResponseValidationError{
+					field:  fmt.Sprintf("Active[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GetCarbonFootprintGoalsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetCarbonFootprintGoalsResponseMultiError is an error wrapping multiple
+// validation errors returned by GetCarbonFootprintGoalsResponse.ValidateAll()
+// if the designated constraints aren't met.
+type GetCarbonFootprintGoalsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetCarbonFootprintGoalsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetCarbonFootprintGoalsResponseMultiError) AllErrors() []error { return m }
+
+// GetCarbonFootprintGoalsResponseValidationError is the validation error
+// returned by GetCarbonFootprintGoalsResponse.Validate if the designated
+// constraints aren't met.
+type GetCarbonFootprintGoalsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetCarbonFootprintGoalsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetCarbonFootprintGoalsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetCarbonFootprintGoalsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetCarbonFootprintGoalsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetCarbonFootprintGoalsResponseValidationError) ErrorName() string {
+	return "GetCarbonFootprintGoalsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetCarbonFootprintGoalsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetCarbonFootprintGoalsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetCarbonFootprintGoalsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetCarbonFootprintGoalsResponseValidationError{}
