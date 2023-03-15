@@ -719,32 +719,27 @@ export class GetUserInsightsRequest extends Message<GetUserInsightsRequest> {
  */
 export class GetUserInsightsResponse extends Message<GetUserInsightsResponse> {
   /**
-   * @generated from field: double overall_carbon_footprint = 1;
+   * @generated from field: double daily_user_average = 1;
    */
-  overallCarbonFootprint = 0;
+  dailyUserAverage = 0;
 
   /**
-   * @generated from field: int32 no_entries = 2;
-   */
-  noEntries = 0;
-
-  /**
-   * @generated from field: double daily_average_carbon_footprint_dietary_requirement = 3;
+   * @generated from field: double daily_average_carbon_footprint_dietary_requirement = 2;
    */
   dailyAverageCarbonFootprintDietaryRequirement = 0;
 
   /**
-   * @generated from field: double daily_average_carbon_footprint_overall = 4;
+   * @generated from field: double daily_average_carbon_footprint_overall = 3;
    */
   dailyAverageCarbonFootprintOverall = 0;
 
   /**
-   * @generated from field: int32 streak_len = 5;
+   * @generated from field: int32 streak_len = 4;
    */
   streakLen = 0;
 
   /**
-   * @generated from field: bool is_streak_active = 6;
+   * @generated from field: bool is_streak_active = 5;
    */
   isStreakActive = false;
 
@@ -756,12 +751,11 @@ export class GetUserInsightsResponse extends Message<GetUserInsightsResponse> {
   static readonly runtime = proto3;
   static readonly typeName = "neutral_diet.user.v1.GetUserInsightsResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "overall_carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 2, name: "no_entries", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 3, name: "daily_average_carbon_footprint_dietary_requirement", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 4, name: "daily_average_carbon_footprint_overall", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 5, name: "streak_len", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 6, name: "is_streak_active", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 1, name: "daily_user_average", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 2, name: "daily_average_carbon_footprint_dietary_requirement", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 3, name: "daily_average_carbon_footprint_overall", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 4, name: "streak_len", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 5, name: "is_streak_active", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserInsightsResponse {

@@ -152,14 +152,9 @@ func (s *Store) GetUserInsights(
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	foodItemLog, err := queries.GetFoodItemLog(ctx, user.ID)
+	userDailyAverage, err := queries.GetUserDailyAverageCarbonFootprint(ctx, user.ID)
 	if err != nil {
 		return nil, err
-	}
-
-	overallCarbonFootprint := decimal.NewFromFloat(0)
-	for _, f := range foodItemLog {
-		overallCarbonFootprint = overallCarbonFootprint.Add(f.CarbonFootprint)
 	}
 
 	dailyAverage, err := queries.GetDailyAverageCarbonFootprint(ctx)
@@ -182,8 +177,7 @@ func (s *Store) GetUserInsights(
 	streakLength := int32(streakRow.ConsecutiveDates)
 
 	return &userv1.GetUserInsightsResponse{
-		OverallCarbonFootprint: overallCarbonFootprint.InexactFloat64(),
-		NoEntries:              int32(len(foodItemLog)),
+		DailyUserAverage: userDailyAverage.InexactFloat64(),
 		DailyAverageCarbonFootprintDietaryRequirement: dailyAverageDietaryRequirement.InexactFloat64(),
 		DailyAverageCarbonFootprintOverall:            dailyAverage.InexactFloat64(),
 		StreakLen:                                     streakLength,

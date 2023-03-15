@@ -56,9 +56,8 @@ function Home() {
           <Carousel>
             <TrendCard
               title="Your daily average"
-              stat={userInsights.overallUserAverage}
+              stat={userInsights.userDailyAverage}
               today={todayStats.totalCarbonFootprint}
-              source="Your food item log"
             />
             {externalInsights.insights.map((insight, idx) => (
               <TrendCard
@@ -73,13 +72,11 @@ function Home() {
               title="User daily average"
               stat={userInsights.dailyGlobalAverage}
               today={todayStats.totalCarbonFootprint}
-              source="All application users"
             />
             <TrendCard
               title="User daily diet average"
               stat={userInsights.dailyGlobalAverageUserDietaryRequirement}
               today={todayStats.totalCarbonFootprint}
-              source="All application users with the same dietary requirement"
             />
           </Carousel>
         </Grid>

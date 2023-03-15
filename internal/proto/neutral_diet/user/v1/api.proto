@@ -86,12 +86,11 @@ message GetUserSettingsResponse {
 message GetUserInsightsRequest {}
 
 message GetUserInsightsResponse {
-  double overall_carbon_footprint = 1;
-  int32 no_entries = 2;
-  double daily_average_carbon_footprint_dietary_requirement = 3;
-  double daily_average_carbon_footprint_overall = 4;
-  int32 streak_len = 5;
-  bool is_streak_active = 6;
+  double daily_user_average = 1;
+  double daily_average_carbon_footprint_dietary_requirement = 2;
+  double daily_average_carbon_footprint_overall = 3;
+  int32 streak_len = 4;
+  bool is_streak_active = 5;
 }
 
 message GetUserProgressRequest {

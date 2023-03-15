@@ -2264,9 +2264,7 @@ func (m *GetUserInsightsResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for OverallCarbonFootprint
-
-	// no validation rules for NoEntries
+	// no validation rules for DailyUserAverage
 
 	// no validation rules for DailyAverageCarbonFootprintDietaryRequirement
 

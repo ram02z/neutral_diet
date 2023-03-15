@@ -239,9 +239,7 @@ export const UserInsightsState = selector<UserInsights>({
     const response = await client.getUserInsights({}, { headers: userHeaders });
 
     return {
-      overallUser: response.overallCarbonFootprint,
-      noUserEntries: response.noEntries,
-      overallUserAverage: response.overallCarbonFootprint / response.noEntries || 0,
+      userDailyAverage: response.dailyUserAverage,
       dailyGlobalAverage: response.dailyAverageCarbonFootprintOverall,
       dailyGlobalAverageUserDietaryRequirement:
         response.dailyAverageCarbonFootprintDietaryRequirement,

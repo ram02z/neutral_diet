@@ -24,11 +24,9 @@ export type FoodLogStats = {
 };
 
 export type UserInsights = {
-  overallUserAverage: number;
-  overallUser: number;
+  userDailyAverage: number;
   dailyGlobalAverage: number;
   dailyGlobalAverageUserDietaryRequirement: number;
-  noUserEntries: number;
   streakLength: number;
   isStreakActive: boolean;
 };

@@ -160,60 +160,6 @@ func (q *Queries) GetFoodItemIdByLogId(ctx context.Context, id int32) (int32, er
 	return food_item_id, err
 }
 
-const getFoodItemLog = `-- name: GetFoodItemLog :many
-SELECT
-    l.id,
-    f.name,
-    l.food_item_id,
-    l.region,
-    l.quantity,
-    l.unit,
-    l.carbon_footprint
-FROM
-    food_item_log l
-    INNER JOIN food_item f ON l.food_item_id = f.id
-WHERE
-    user_id = $1
-`
-
-type GetFoodItemLogRow struct {
-	ID              int32
-	Name            string
-	FoodItemID      int32
-	Region          int32
-	Quantity        decimal.Decimal
-	Unit            int32
-	CarbonFootprint decimal.Decimal
-}
-
-func (q *Queries) GetFoodItemLog(ctx context.Context, userID int32) ([]GetFoodItemLogRow, error) {
-	rows, err := q.db.Query(ctx, getFoodItemLog, userID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []GetFoodItemLogRow
-	for rows.Next() {
-		var i GetFoodItemLogRow
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.FoodItemID,
-			&i.Region,
-			&i.Quantity,
-			&i.Unit,
-			&i.CarbonFootprint,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const getFoodItemLogByDate = `-- name: GetFoodItemLogByDate :many
 SELECT
     l.id,
@@ -369,6 +315,22 @@ func (q *Queries) GetLoggedDaysInMonth(ctx context.Context, arg GetLoggedDaysInM
 		return nil, err
 	}
 	return items, nil
+}
+
+const getUserDailyAverageCarbonFootprint = `-- name: GetUserDailyAverageCarbonFootprint :one
+SELECT
+    (SUM(carbon_footprint) / count(DISTINCT log_date))::DECIMAL
+FROM
+    "food_item_log"
+WHERE
+    user_id = $1
+`
+
+func (q *Queries) GetUserDailyAverageCarbonFootprint(ctx context.Context, userID int32) (decimal.Decimal, error) {
+	row := q.db.QueryRow(ctx, getUserDailyAverageCarbonFootprint, userID)
+	var column_1 decimal.Decimal
+	err := row.Scan(&column_1)
+	return column_1, err
 }
 
 const updateFoodItemFromLog = `-- name: UpdateFoodItemFromLog :exec

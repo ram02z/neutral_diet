@@ -69,18 +69,11 @@ WHERE
     user_id = $1
     AND log_date = $2;
 
--- name: GetFoodItemLog :many
+-- name: GetUserDailyAverageCarbonFootprint :one
 SELECT
-    l.id,
-    f.name,
-    l.food_item_id,
-    l.region,
-    l.quantity,
-    l.unit,
-    l.carbon_footprint
+    (SUM(carbon_footprint) / count(DISTINCT log_date))::DECIMAL
 FROM
-    food_item_log l
-    INNER JOIN food_item f ON l.food_item_id = f.id
+    "food_item_log"
 WHERE
     user_id = $1;
 

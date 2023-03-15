@@ -41,7 +41,7 @@ function Goals() {
             description: data.description,
             startDate: today,
             endDate: toSerializableDate(data.endDate),
-            startCarbonFootprint: userInsights.overallUserAverage,
+            startCarbonFootprint: userInsights.userDailyAverage,
             targetCarbonFootprint: target,
           },
         },
@@ -58,7 +58,7 @@ function Goals() {
                 description: data.description,
                 startDate: today,
                 endDate: toSerializableDate(data.endDate),
-                startCarbonFootprint: userInsights.overallUserAverage,
+                startCarbonFootprint: userInsights.userDailyAverage,
                 targetCarbonFootprint: target,
               },
             ],
@@ -128,7 +128,7 @@ function Goals() {
         openDialog={openAddDialog}
         handleClose={handleCloseAddDialog}
         onSubmit={onSubmit}
-        startCarbonFootprint={userInsights.overallUserAverage}
+        startCarbonFootprint={userInsights.userDailyAverage}
       />
     </Grid>
   );
