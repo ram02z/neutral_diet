@@ -1,4 +1,4 @@
-import { Box, FormControl, Slider, SliderValueLabelProps, Tooltip, Typography } from '@mui/material';
+import { FormControl, Slider, SliderValueLabelProps, Tooltip, Typography } from '@mui/material';
 
 type SliderMark = {
   value: number;

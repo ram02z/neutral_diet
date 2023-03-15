@@ -45,12 +45,12 @@ export type LocalUserGoal = {
   endDate: SerializableDate;
   startCarbonFootprint: number;
   targetCarbonFootprint: number;
-}
+};
 
 export type LocalUserGoals = {
   active: LocalUserGoal[];
   completed: LocalUserGoal[];
-}
+};
 
 export type SerializableDate = {
   year: number;

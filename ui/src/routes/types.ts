@@ -16,7 +16,7 @@ enum Pages {
 type SubComponent = {
   path: string;
   component: FC;
-}
+};
 
 type PathRouteCustomProps = {
   title?: string;

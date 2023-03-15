@@ -38,7 +38,7 @@ function AddGoalDialog({
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField
                 label="Goal"
-                placeholder='What do you want to achieve?'
+                placeholder="What do you want to achieve?"
                 multiline
                 error={!!error}
                 onChange={onChange}

@@ -1,3 +1,3 @@
-import Goals from "./Goals";
+import Goals from './Goals';
 
 export default Goals;

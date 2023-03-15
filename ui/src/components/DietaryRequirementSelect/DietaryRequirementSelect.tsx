@@ -1,7 +1,6 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { Box } from '@mui/system';
 
 import { MIN_CARD_WIDTH } from '@/config';
 import { DietaryRequirementsState, LocalUserSettingsState } from '@/store/user';

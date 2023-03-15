@@ -1,3 +1,3 @@
-import GoalCard from "./GoalCard";
+import GoalCard from './GoalCard';
 
 export default GoalCard;
