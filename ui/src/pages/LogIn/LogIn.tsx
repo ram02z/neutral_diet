@@ -1,4 +1,5 @@
 import { Link, Navigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
 import { Divider, Link as MuiLink, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -9,7 +10,6 @@ import LogIn from '@/components/LogIn';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import routes from '@/routes';
 import { Pages } from '@/routes/types';
-import { useRecoilValue } from 'recoil';
 import { PrivateRoutePathState } from '@/store/location';
 
 function LogInPage() {

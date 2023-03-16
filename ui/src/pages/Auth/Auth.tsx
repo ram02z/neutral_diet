@@ -13,13 +13,7 @@ function Auth() {
   if (outlet) return outlet;
 
   return (
-    <Stack
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      height="100%"
-      spacing={2}
-    >
+    <Stack direction="column" justifyContent="center" alignItems="center" height="100%" spacing={2}>
       <Typography>Welcome to Neutral Diet</Typography>
       <Typography>Log in with your account to continue</Typography>
       <Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
