@@ -1,22 +1,21 @@
 import { FC } from 'react';
 import { Navigate } from 'react-router';
+import { useSetRecoilState } from 'recoil';
 
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import routes from '@/routes';
 import { Pages } from '@/routes/types';
-import { useSetRecoilState } from 'recoil';
 import { PrivateRoutePathState } from '@/store/location';
 
 const PrivateRoute: FC<{ children: JSX.Element }> = ({ children }) => {
   const user = useCurrentUser();
   const setPath = useSetRecoilState(PrivateRoutePathState);
-  setPath(user === null ? location.pathname : null)
+  if (user === null) {
+    setPath(location.pathname);
+    return <Navigate to={routes[Pages.Auth].path} replace />;
+  }
 
-  return user === null ? (
-    <Navigate to={routes[Pages.Auth].path} replace/>
-  ) : (
-    children
-  );
+  return children;
 };
 
 export default PrivateRoute;
