@@ -14,6 +14,8 @@ const routes: Routes = {
     title: 'Home',
     icon: HomeIcon,
     navigation: true,
+    requireAuth: true,
+    subComponents: [],
   },
   [Pages.Diary]: {
     component: asyncComponentLoader(() => import('@/pages/Diary')),
@@ -21,6 +23,8 @@ const routes: Routes = {
     title: 'Diary',
     icon: BookIcon,
     navigation: true,
+    requireAuth: true,
+    subComponents: [],
   },
   [Pages.Search]: {
     component: asyncComponentLoader(() => import('@/pages/Search')),
@@ -28,6 +32,8 @@ const routes: Routes = {
     title: 'Search',
     icon: SearchIcon,
     navigation: true,
+    requireAuth: true,
+    subComponents: [],
   },
   [Pages.Account]: {
     component: asyncComponentLoader(() => import('@/pages/Account')),
@@ -35,6 +41,7 @@ const routes: Routes = {
     title: 'Account',
     icon: AccountCircleIcon,
     navigation: false,
+    requireAuth: true,
     subComponents: [
       {
         component: asyncComponentLoader(() => import('@/pages/Settings')),
@@ -46,20 +53,28 @@ const routes: Routes = {
       },
     ],
   },
-  [Pages.LogIn]: {
-    component: asyncComponentLoader(() => import('@/pages/LogIn')),
-    path: '/login',
+  [Pages.Auth]: {
+    component: asyncComponentLoader(() => import('@/pages/Auth')),
+    path: '/auth',
     navigation: false,
-  },
-  [Pages.SignUp]: {
-    component: asyncComponentLoader(() => import('@/pages/SignUp')),
-    path: '/signup',
-    navigation: false,
+    requireAuth: false,
+    subComponents: [
+      {
+        component: asyncComponentLoader(() => import('@/pages/LogIn')),
+        path: 'login',
+      },
+      {
+        component: asyncComponentLoader(() => import('@/pages/SignUp')),
+        path: 'signup',
+      },
+    ],
   },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('@/pages/NotFound')),
     path: '*',
     navigation: false,
+    requireAuth: false,
+    subComponents: [],
   },
 };
 
