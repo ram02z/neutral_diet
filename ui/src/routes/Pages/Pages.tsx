@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 
+import PrivateRoute from '@/components/PrivateRoute';
 import { NAVIGATION_DRAWER_WIDTH } from '@/config';
 import useLayout from '@/hooks/useLayout';
 import routes from '@/routes';
@@ -16,18 +17,40 @@ function Pages() {
   return (
     <Box sx={{ height: (theme) => getPageHeight(theme), p: 3, ml: marginLeft }}>
       <Routes>
-        {Object.values(routes).map(({ path, component: Component, subComponents }) => {
-          if (subComponents && subComponents.length) {
-            return (
-              <Route key={path} path={path} element={<Component />}>
-                {subComponents.map(({ path, component: SubComponent }) => {
-                  return <Route key={path} path={path} element={<SubComponent />} />;
-                })}
-              </Route>
-            );
-          } else {
-            return <Route key={path} path={path} element={<Component />} />;
-          }
+        {Object.values(routes).map(({ path, component: Component, subComponents, requireAuth }) => {
+          return (
+            <Route
+              key={path}
+              path={path}
+              element={
+                requireAuth ? (
+                  <PrivateRoute>
+                    <Component />
+                  </PrivateRoute>
+                ) : (
+                  <Component />
+                )
+              }
+            >
+              {subComponents.map(({ path, component: SubComponent }) => {
+                return (
+                  <Route
+                    key={path}
+                    path={path}
+                    element={
+                      requireAuth ? (
+                        <PrivateRoute>
+                          <SubComponent />
+                        </PrivateRoute>
+                      ) : (
+                        <SubComponent />
+                      )
+                    }
+                  />
+                );
+              })}
+            </Route>
+          );
         })}
       </Routes>
     </Box>

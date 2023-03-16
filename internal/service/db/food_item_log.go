@@ -154,7 +154,7 @@ func (s *Store) GetUserInsights(
 
 	userDailyAverage, err := queries.GetUserDailyAverageCarbonFootprint(ctx, user.ID)
 	if err != nil {
-		return nil, err
+		userDailyAverage = decimal.NewFromFloat(0)
 	}
 
 	dailyAverage, err := queries.GetDailyAverageCarbonFootprint(ctx)

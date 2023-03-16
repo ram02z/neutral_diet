@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { Link, Outlet, useOutlet } from 'react-router-dom';
+import { Link, Navigate, Outlet, useOutlet } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import CrisisAlertRoundedIcon from '@mui/icons-material/CrisisAlertRounded';
@@ -15,6 +15,8 @@ import Loading from '@/components/Loading';
 import UserAvatar from '@/components/UserAvatar';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useSignOut } from '@/hooks/useSignOut';
+import routes from '@/routes';
+import { Pages } from '@/routes/types';
 import { CurrentUserDisplayName } from '@/store/user';
 
 function Account() {
@@ -40,23 +42,12 @@ function Account() {
 
   if (user === undefined) {
     return (
-      <>
-        <Grid container justifyContent="center" alignItems="center" height="100%">
-          <Loading />
-        </Grid>
-      </>
+      <Grid container justifyContent="center" alignItems="center" height="100%">
+        <Loading />
+      </Grid>
     );
   } else if (user === null) {
-    return (
-      <Stack direction="row" justifyContent="center" alignItems="center" height="100%" spacing={2}>
-        <Button component={Link} to="/login" variant="contained">
-          Log in
-        </Button>
-        <Button component={Link} to="/signup" variant="contained">
-          Sign up
-        </Button>
-      </Stack>
-    );
+    return <Navigate to={routes[Pages.Auth].path} />;
   } else {
     return (
       <Stack spacing={2} justifyContent="center" alignItems="center" pt="4vh" direction="column">

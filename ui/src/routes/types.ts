@@ -8,8 +8,7 @@ enum Pages {
   Diary,
   Search,
   Account,
-  LogIn,
-  SignUp,
+  Auth,
   NotFound,
 }
 
@@ -24,7 +23,8 @@ type PathRouteCustomProps = {
   component: FC;
   icon?: FC<SvgIconProps>;
   navigation: boolean;
-  subComponents?: SubComponent[];
+  requireAuth: boolean;
+  subComponents: SubComponent[];
 };
 
 type Routes = Record<Pages, PathRouteProps & PathRouteCustomProps>;

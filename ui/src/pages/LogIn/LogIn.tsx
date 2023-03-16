@@ -9,9 +9,12 @@ import LogIn from '@/components/LogIn';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import routes from '@/routes';
 import { Pages } from '@/routes/types';
+import { useRecoilValue } from 'recoil';
+import { PrivateRoutePathState } from '@/store/location';
 
 function LogInPage() {
   const user = useCurrentUser();
+  const path = useRecoilValue(PrivateRoutePathState);
 
   if (user === undefined) {
     return (
@@ -37,7 +40,7 @@ function LogInPage() {
         <Grid>
           <Typography>
             {"Don't have an account? "}
-            <MuiLink component={Link} to="/signup">
+            <MuiLink component={Link} to="../signup">
               Sign up
             </MuiLink>
           </Typography>
@@ -53,7 +56,7 @@ function LogInPage() {
       </Grid>
     );
   } else {
-    return <Navigate to={routes[Pages.Account].path} />;
+    return <Navigate to={path ?? routes[Pages.Account].path} />;
   }
 }
 
