@@ -1,7 +1,7 @@
 import { ReactNode, useMemo, useState } from 'react';
 
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-import { Box, Button, MobileStepper } from '@mui/material';
+import { Box, Button, MobileStepper, Stack } from '@mui/material';
 import { useTheme } from '@mui/system';
 
 type CarouselProps = {
@@ -23,8 +23,8 @@ function Carousel(props: CarouselProps) {
   };
 
   return (
-    <Box>
-      <Box sx={{ height: 'auto', p: 2 }}>{children[activeStep]}</Box>
+    <Stack>
+      <Box sx={{ height: 'auto' }}>{children[activeStep]}</Box>
       <MobileStepper
         steps={maxSteps}
         position="static"
@@ -42,7 +42,7 @@ function Carousel(props: CarouselProps) {
           </Button>
         }
       />
-    </Box>
+    </Stack>
   );
 }
 

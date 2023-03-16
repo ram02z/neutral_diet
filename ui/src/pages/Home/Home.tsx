@@ -52,7 +52,6 @@ function Home() {
         </Typography>
       </Grid>
       <Grid container direction="column" justifyContent="center" alignItems="center" xs={11}>
-        <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
           <Grid>
           <Typography textAlign="center" variant="h4">
             Goal
@@ -61,7 +60,7 @@ function Home() {
             Active
           </Typography>
           </Grid>
-          <Grid>
+          <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
           {activeUserGoal ? (
             <GoalDeadlineCard
               goal={activeUserGoal}
@@ -71,14 +70,15 @@ function Home() {
             <Typography>No active goals</Typography>
           )}
           </Grid>
-        </Grid>
-        <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
+          <Grid>
           <Typography textAlign="center" variant="h4">
             Trends
           </Typography>
           <Typography textAlign="center" color="text.secondary" variant="subtitle2">
             Daily
           </Typography>
+          </Grid>
+          <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
           <Carousel>
             <TrendCard
               title="Your average"
@@ -105,11 +105,13 @@ function Home() {
               today={todayStats.totalCarbonFootprint}
             />
           </Carousel>
-        </Grid>
-        <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
+          </Grid>
+          <Grid>
           <Typography textAlign="center" variant="h4">
             Progress
           </Typography>
+          </Grid>
+          <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
           <Carousel>
             <GoalLinePlot
               goal={userSettings.cfLimit}
@@ -125,7 +127,7 @@ function Home() {
               />
             ))}
           </Carousel>
-        </Grid>
+          </Grid>
       </Grid>
     </Grid>
   );
