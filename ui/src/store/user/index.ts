@@ -15,7 +15,7 @@ import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 import { FoodUnit } from '@/core/food_unit';
 import { Meal } from '@/core/meal';
-import { toSerializableDate } from '@/utils/date';
+import { toDayJsDate, toSerializableDate } from '@/utils/date';
 
 import {
   FoodLogStats,
@@ -277,8 +277,8 @@ export const UserGoalsState = atom<LocalUserGoals>({
           return {
             dbId: goal.id,
             description: goal.description,
-            startDate: goal.startDate as SerializableDate,
-            endDate: goal.endDate as SerializableDate,
+            startDate: toDayJsDate(goal.startDate as SerializableDate),
+            endDate: toDayJsDate(goal.endDate as SerializableDate),
             startCarbonFootprint: goal.startCarbonFootprint,
             targetCarbonFootprint: goal.targetCarbonFootprint,
           };
@@ -287,8 +287,8 @@ export const UserGoalsState = atom<LocalUserGoals>({
           return {
             dbId: goal.id,
             description: goal.description,
-            startDate: goal.startDate as SerializableDate,
-            endDate: goal.endDate as SerializableDate,
+            startDate: toDayJsDate(goal.startDate as SerializableDate),
+            endDate: toDayJsDate(goal.endDate as SerializableDate),
             startCarbonFootprint: goal.startCarbonFootprint,
             targetCarbonFootprint: goal.targetCarbonFootprint,
           };
@@ -296,6 +296,15 @@ export const UserGoalsState = atom<LocalUserGoals>({
       };
     },
   }),
+});
+
+export const ActiveGoalState = selector<LocalUserGoal | null>({
+  key: 'ActiveGoalState',
+  get: ({ get }) => {
+    const goals = get(UserGoalsState);
+    if (goals.active.length === 0) return null;
+    return goals.active.reduce((a, b) => (a.endDate.isBefore(b.endDate) ? a : b));
+  },
 });
 
 export const SelectedUserGoalState = atom<LocalUserGoal | null>({
@@ -310,7 +319,12 @@ export const UserGoalProgressState = selector<UserProgress | null>({
     if (!goal) return null;
     const userHeaders = get(CurrentUserHeadersState);
     const response = await client.getUserProgress(
-      { dateRange: { start: goal.startDate, end: goal.endDate } },
+      {
+        dateRange: {
+          start: toSerializableDate(goal.startDate),
+          end: toSerializableDate(goal.endDate),
+        },
+      },
       { headers: userHeaders },
     );
     const mealMap = new Map<number, Record<string, number>>();

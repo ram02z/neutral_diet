@@ -30,7 +30,7 @@ class Insights {
     const dre = this.#getEmissionsByDietaryRequiremnent();
     return [
       {
-        title: 'UK daily diet average',
+        title: 'Diet average (UK)',
         emissions: dre,
         source: 'https://doi.org/10.1007/s10584-014-1169-1',
       },

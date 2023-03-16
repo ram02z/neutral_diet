@@ -3,7 +3,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { Link, Navigate, Outlet, useOutlet } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
-import CrisisAlertRoundedIcon from '@mui/icons-material/CrisisAlertRounded';
+import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { Button, Divider, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -77,7 +77,7 @@ function Account() {
                 variant="contained"
                 component={Link}
                 to="goals"
-                startIcon={<CrisisAlertRoundedIcon />}
+                startIcon={<FlagRoundedIcon />}
               >
                 Goals
               </Button>

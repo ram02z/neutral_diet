@@ -1,4 +1,5 @@
 import { QuantityUnit } from '@/core/food_unit';
+import dayjs from 'dayjs';
 
 export type LocalUserSettings = {
   region: number;
@@ -39,8 +40,8 @@ export type UserProgress = {
 export type LocalUserGoal = {
   dbId: number;
   description: string;
-  startDate: SerializableDate;
-  endDate: SerializableDate;
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
   startCarbonFootprint: number;
   targetCarbonFootprint: number;
 };

@@ -33,13 +33,13 @@ function Goals() {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const target = parseFloat(data.targetCarbonFootprint);
-    const today = toSerializableDate(dayjs());
+    const today = dayjs();
     client
       .addCarbonFootprintGoal(
         {
           carbonFootprintGoal: {
             description: data.description,
-            startDate: today,
+            startDate: toSerializableDate(today),
             endDate: toSerializableDate(data.endDate),
             startCarbonFootprint: userInsights.userDailyAverage,
             targetCarbonFootprint: target,
@@ -57,7 +57,7 @@ function Goals() {
                 dbId: res.id,
                 description: data.description,
                 startDate: today,
-                endDate: toSerializableDate(data.endDate),
+                endDate: data.endDate,
                 startCarbonFootprint: userInsights.userDailyAverage,
                 targetCarbonFootprint: target,
               },

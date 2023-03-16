@@ -35,7 +35,7 @@ function GoalList() {
         <TabPanel value="1" sx={{ width: '100%' }}>
           {userGoals.active.length == 0 && (
             <Grid>
-              <Typography color="text.secondary">No active goals</Typography>
+              <Typography color="text.secondary">No active goals.</Typography>
             </Grid>
           )}
           {userGoals.active.map((goal, idx) => (

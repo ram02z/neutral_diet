@@ -21,7 +21,7 @@ import client from '@/api/user_service';
 import { MIN_CARD_WIDTH } from '@/config';
 import { CurrentUserHeadersState, SelectedUserGoalState, UserGoalsState } from '@/store/user';
 import { LocalUserGoal } from '@/store/user/types';
-import { getDateString, toDayJsDate } from '@/utils/date';
+import { getDateString } from '@/utils/date';
 
 type GoalCardProps = {
   goal: LocalUserGoal;
@@ -127,7 +127,7 @@ function GoalCard({ goal, active }: GoalCardProps) {
                   Start
                 </Typography>
                 <Typography variant="h6" color="text.primary">
-                  {getDateString(toDayJsDate(goal.startDate))}
+                  {getDateString(goal.startDate)}
                 </Typography>
               </Grid>
               <Grid>
@@ -135,7 +135,7 @@ function GoalCard({ goal, active }: GoalCardProps) {
                   Target
                 </Typography>
                 <Typography variant="h6" color="text.primary">
-                  {getDateString(toDayJsDate(goal.endDate))}
+                  {getDateString(goal.endDate)}
                 </Typography>
               </Grid>
             </Grid>

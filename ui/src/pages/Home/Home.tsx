@@ -8,11 +8,13 @@ import dayjs from 'dayjs';
 
 import Carousel from '@/components/Carousel';
 import CircularProgressWithLabel from '@/components/CircularProgressWithLabel';
+import GoalCard from '@/components/GoalCard';
 import GoalLinePlot from '@/components/GoalLinePlot';
 import TrendCard from '@/components/TrendCard';
 import Insights from '@/core/insights';
 import { Meal } from '@/core/meal';
 import {
+  ActiveGoalState,
   LocalFoodItemLogStats,
   LocalUserSettingsState,
   UserInsightsState,
@@ -26,6 +28,7 @@ function Home() {
   const userProgress = useRecoilValue(UserProgressState);
   const refreshUserInsights = useRecoilRefresher_UNSTABLE(UserInsightsState);
   const userSettings = useRecoilValue(LocalUserSettingsState);
+  const activeUserGoal = useRecoilValue(ActiveGoalState);
   const externalInsights = new Insights(userSettings.dietaryRequirement);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,11 +54,27 @@ function Home() {
       <Grid container direction="column" justifyContent="center" alignItems="center" xs={11}>
         <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
           <Typography textAlign="center" variant="h4">
+            Goal
+          </Typography>
+          <Typography textAlign="center" color="text.secondary" variant="subtitle2">
+            Active
+          </Typography>
+          {activeUserGoal ? (
+            <GoalCard goal={activeUserGoal} active />
+          ) : (
+            <Typography>No active goals</Typography>
+          )}
+        </Grid>
+        <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
+          <Typography textAlign="center" variant="h4">
             Trends
+          </Typography>
+          <Typography textAlign="center" color="text.secondary" variant="subtitle2">
+            Daily
           </Typography>
           <Carousel>
             <TrendCard
-              title="Your daily average"
+              title="Your average"
               stat={userInsights.userDailyAverage}
               today={todayStats.totalCarbonFootprint}
             />
@@ -69,12 +88,12 @@ function Home() {
               />
             ))}
             <TrendCard
-              title="User daily average"
+              title="Users average"
               stat={userInsights.dailyGlobalAverage}
               today={todayStats.totalCarbonFootprint}
             />
             <TrendCard
-              title="User daily diet average"
+              title="Users diet average"
               stat={userInsights.dailyGlobalAverageUserDietaryRequirement}
               today={todayStats.totalCarbonFootprint}
             />
