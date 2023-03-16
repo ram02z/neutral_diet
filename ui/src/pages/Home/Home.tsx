@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 
 import Carousel from '@/components/Carousel';
 import CircularProgressWithLabel from '@/components/CircularProgressWithLabel';
-import GoalCard from '@/components/GoalCard';
+import { GoalDeadlineCard } from '@/components/GoalCard';
 import GoalLinePlot from '@/components/GoalLinePlot';
 import TrendCard from '@/components/TrendCard';
 import Insights from '@/core/insights';
@@ -53,17 +53,24 @@ function Home() {
       </Grid>
       <Grid container direction="column" justifyContent="center" alignItems="center" xs={11}>
         <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
+          <Grid>
           <Typography textAlign="center" variant="h4">
             Goal
           </Typography>
           <Typography textAlign="center" color="text.secondary" variant="subtitle2">
             Active
           </Typography>
+          </Grid>
+          <Grid>
           {activeUserGoal ? (
-            <GoalCard goal={activeUserGoal} active />
+            <GoalDeadlineCard
+              goal={activeUserGoal}
+              currentUserAverage={userInsights.userDailyAverage}
+            />
           ) : (
             <Typography>No active goals</Typography>
           )}
+          </Grid>
         </Grid>
         <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
           <Typography textAlign="center" variant="h4">

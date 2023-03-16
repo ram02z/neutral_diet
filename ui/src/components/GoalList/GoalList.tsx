@@ -5,7 +5,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box, Tab, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import GoalCard from '@/components/GoalCard';
+import { GoalCard } from '@/components/GoalCard';
 import { UserGoalsState } from '@/store/user';
 
 function GoalList() {
