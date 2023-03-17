@@ -51,8 +51,12 @@ function GoalDeadlineCard({ goal, currentUserAverage }: GoalDeadlineCardProps) {
         </CardContent>
       </Grid>
       <Grid direction="column" alignSelf="center" marginLeft="auto">
-        <Grid>
-          <Typography>{goal.endDate.diff(goal.startDate, 'day')} day(s) remaining</Typography>
+        <Grid textAlign="center">
+          <Typography variant="h2" color="info.light">
+            {goal.endDate.diff(goal.startDate, 'day')}
+          </Typography>
+          <Typography variant="h5" color="info.main">DAYS</Typography>
+          <Typography variant="subtitle2" color="info.main">LEFT</Typography>
         </Grid>
       </Grid>
     </Card>
