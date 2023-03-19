@@ -31,7 +31,7 @@ function Goals() {
   const userInsights = useRecoilValue(UserInsightsState);
   const refreshUserInsights = useRecoilRefresher_UNSTABLE(UserInsightsState);
   const [openAddDialog, setOpenAddDialog] = useState(false);
-  const disabledAddGoalBtn = useMemo(() => userInsights.userDailyAverage === 0, [userInsights]);
+  const newUser = useMemo(() => userInsights.userDailyAverage === 0, [userInsights]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => refreshUserInsights(), []);
@@ -98,9 +98,9 @@ function Goals() {
         <GoalList />
       </Grid>
       <Grid xs={12}>
-        <Tooltip title={disabledAddGoalBtn ? "Add food to your log or try a recommended goal" : ""}>
+        <Tooltip title={newUser ? "Add food to your log or try a recommended goal" : ""}>
           <span>
-            <Button variant="contained" onClick={handleOpenAddDialog} disabled={disabledAddGoalBtn}>
+            <Button variant="contained" onClick={handleOpenAddDialog} disabled={newUser}>
               Add goal
             </Button>
           </span>
