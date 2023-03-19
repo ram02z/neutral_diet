@@ -19,18 +19,20 @@ import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemCard/FoodItemCard';
 import SortFilterMenu from '@/components/SortFilterMenu';
 import { FormValues } from '@/components/SortFilterMenu/types';
 import {
-  FilteredSearchFoodItemsState,
+  SearchSortState,
   SearchTextState,
   SearchTypeState,
   SelectedSearchFiltersState,
+  SortedSearchFoodItemsState,
 } from '@/store/search';
 import { SearchType } from '@/store/search/types';
 
 function Search() {
-  const searchFoodItems = useRecoilValue(FilteredSearchFoodItemsState);
+  const searchFoodItems = useRecoilValue(SortedSearchFoodItemsState);
   const [searchText, setSearchText] = useRecoilState(SearchTextState);
   const [searchType, setSearchType] = useRecoilState(SearchTypeState);
   const [searchFilters, setSearchFilters] = useRecoilState(SelectedSearchFiltersState);
+  const [sortMethod, setSortMethod] = useRecoilState(SearchSortState);
   const handleSubmit = () => {
     setSearchType(SearchType.Global);
   };
@@ -47,6 +49,7 @@ function Search() {
 
   const onFilterSubmit: SubmitHandler<FormValues> = (data) => {
     setSearchFilters({ typologies: data.typologyNames, subTypologies: data.subTypologyNames });
+    setSortMethod(data.sortingMethod);
   };
 
   return (
@@ -92,7 +95,11 @@ function Search() {
             <Typography variant="h4">History</Typography>
           </Grid>
           <Grid>
-            <SortFilterMenu onSubmit={onFilterSubmit} currentSearchFilters={searchFilters} />
+            <SortFilterMenu
+              onSubmit={onFilterSubmit}
+              currentSearchFilters={searchFilters}
+              currentSortingMethod={sortMethod}
+            />
           </Grid>
           {searchFoodItems.map((foodItem, idx) => (
             <Grid key={idx} xs={8} lg={7} xl={6}>
@@ -121,7 +128,11 @@ function Search() {
             <Typography variant="h4">Search Results</Typography>
           </Grid>
           <Grid>
-            <SortFilterMenu onSubmit={onFilterSubmit} currentSearchFilters={searchFilters} />
+            <SortFilterMenu
+              onSubmit={onFilterSubmit}
+              currentSearchFilters={searchFilters}
+              currentSortingMethod={sortMethod}
+            />
           </Grid>
           <Grid xs={8} lg={7} xl={6}>
             <Typography

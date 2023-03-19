@@ -3,6 +3,13 @@ export enum SearchType {
   Global,
 }
 
+export enum SearchSortMethod {
+  NameDescending,
+  NameAscending,
+  EmissionsDescending,
+  EmissionsAscending,
+}
+
 export type SearchFilters = {
   typologies: string[];
   subTypologies: string[];
