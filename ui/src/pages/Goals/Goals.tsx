@@ -176,13 +176,14 @@ function Goals() {
         onSubmit={onSubmit}
         startCarbonFootprint={userInsights.userDailyAverage}
       />
+      {recommendedGoals.length > 0 &&
       <RecommendGoalDialog
         openDialog={openReccomendDialog}
         handleClose={handleCloseRecommendDialog}
         onSubmit={onSubmit}
         startCarbonFootprint={userInsights.userDailyAverage}
         goals={recommendedGoals}
-      />
+      />}
     </Grid>
   );
 }
