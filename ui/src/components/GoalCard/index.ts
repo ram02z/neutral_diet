@@ -1,3 +1,4 @@
 import GoalCard from './GoalCard';
+import GoalDeadlineCard from './GoalDeadlineCard';
 
-export default GoalCard;
+export { GoalCard, GoalDeadlineCard };

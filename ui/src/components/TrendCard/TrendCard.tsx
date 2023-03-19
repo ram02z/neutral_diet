@@ -27,9 +27,7 @@ function TrendCard({ title, stat, today, source }: TrendCardProps) {
     <Card sx={{ minWidth: MIN_CARD_WIDTH }}>
       <CardContent>
         <Stack spacing={1} sx={{ pt: 1, pl: 1 }}>
-          <Typography sx={{ textTransform: 'capitalize' }} variant="h6">
-            {title}
-          </Typography>
+          <Typography variant="h6">{title}</Typography>
           <Typography variant="caption" color="text.secondary">
             {source}
           </Typography>

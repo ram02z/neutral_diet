@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { QuantityUnit } from '@/core/food_unit';
 
 export type LocalUserSettings = {
@@ -39,8 +41,8 @@ export type UserProgress = {
 export type LocalUserGoal = {
   dbId: number;
   description: string;
-  startDate: SerializableDate;
-  endDate: SerializableDate;
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
   startCarbonFootprint: number;
   targetCarbonFootprint: number;
 };

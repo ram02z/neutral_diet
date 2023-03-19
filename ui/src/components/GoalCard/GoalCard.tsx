@@ -3,12 +3,10 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Delete } from '@mui/icons-material';
 import {
   Alert,
-  Box,
   Card,
   CardActionArea,
   CardActions,
   CardContent,
-  Checkbox,
   IconButton,
   Typography,
 } from '@mui/material';
@@ -21,7 +19,7 @@ import client from '@/api/user_service';
 import { MIN_CARD_WIDTH } from '@/config';
 import { CurrentUserHeadersState, SelectedUserGoalState, UserGoalsState } from '@/store/user';
 import { LocalUserGoal } from '@/store/user/types';
-import { getDateString, toDayJsDate } from '@/utils/date';
+import { getDateString } from '@/utils/date';
 
 type GoalCardProps = {
   goal: LocalUserGoal;
@@ -75,35 +73,6 @@ function GoalCard({ goal, active }: GoalCardProps) {
     });
   };
 
-  const handleCheck = async () => {
-    client
-      .updateCarbonFootprintGoal({ id: goal.dbId, completed: active }, { headers: userHeaders })
-      .then(() => {
-        setUserGoals((old) => {
-          if (active) {
-            return {
-              active: old.active.filter((item) => item.dbId !== goal.dbId),
-              completed: [...old.completed, goal],
-            };
-          } else {
-            return {
-              active: [...old.active, goal],
-              completed: old.completed.filter((item) => item.dbId !== goal.dbId),
-            };
-          }
-        });
-        enqueueSnackbar(`Marked goal as ${active ? 'completed' : 'active'}.`, {
-          variant: 'success',
-        });
-      })
-      .catch((err) => {
-        enqueueSnackbar(`Could not move goal to ${active ? 'completed' : 'active'}.`, {
-          variant: 'error',
-        });
-        console.error(err);
-      });
-  };
-
   const handleSelectGoal = () => {
     setSelectedUserGoal(goal);
   };
@@ -127,7 +96,7 @@ function GoalCard({ goal, active }: GoalCardProps) {
                   Start
                 </Typography>
                 <Typography variant="h6" color="text.primary">
-                  {getDateString(toDayJsDate(goal.startDate))}
+                  {getDateString(goal.startDate)}
                 </Typography>
               </Grid>
               <Grid>
@@ -135,7 +104,7 @@ function GoalCard({ goal, active }: GoalCardProps) {
                   Target
                 </Typography>
                 <Typography variant="h6" color="text.primary">
-                  {getDateString(toDayJsDate(goal.endDate))}
+                  {getDateString(goal.endDate)}
                 </Typography>
               </Grid>
             </Grid>
@@ -161,19 +130,9 @@ function GoalCard({ goal, active }: GoalCardProps) {
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>
-        <Box sx={{ marginRight: 'auto' }}>
-          <IconButton onClick={handleDelete}>
-            <Delete />
-          </IconButton>
-        </Box>
-        <Box sx={{ marginLeft: 'auto' }}>
-          <Checkbox
-            onChange={handleCheck}
-            checked={!active}
-            size="medium"
-            inputProps={{ 'aria-label': 'controlled' }}
-          />
-        </Box>
+        <IconButton onClick={handleDelete}>
+          <Delete />
+        </IconButton>
       </CardActions>
     </Card>
   );

@@ -126,7 +126,7 @@ const themes: Record<Themes, ThemeOptions> = {
       },
       info: {
         main: '#f0b7c5',
-        light: '#643b4b',
+        light: '#9a6a76',
         dark: '#ffd9e1',
       },
       success: {

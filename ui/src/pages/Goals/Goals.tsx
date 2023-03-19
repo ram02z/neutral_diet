@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Button, Typography } from '@mui/material';
+import { Button, Tooltip, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import dayjs from 'dayjs';
@@ -13,6 +13,7 @@ import { FormValues } from '@/components/AddGoalDialog/types';
 import Carousel from '@/components/Carousel';
 import GoalLinePlot from '@/components/GoalLinePlot';
 import GoalList from '@/components/GoalList';
+import { RecommendGoalsButton } from '@/components/RecommendGoalDialog';
 import { Meal } from '@/core/meal';
 import {
   CurrentUserHeadersState,
@@ -29,17 +30,22 @@ function Goals() {
   const selectedUserGoal = useRecoilValue(SelectedUserGoalState);
   const selectedUserGoalData = useRecoilValue(UserGoalProgressState);
   const userInsights = useRecoilValue(UserInsightsState);
+  const refreshUserInsights = useRecoilRefresher_UNSTABLE(UserInsightsState);
   const [openAddDialog, setOpenAddDialog] = useState(false);
+  const newUser = useMemo(() => userInsights.userDailyAverage === 0, [userInsights]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => refreshUserInsights(), []);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const target = parseFloat(data.targetCarbonFootprint);
-    const today = toSerializableDate(dayjs());
+    const today = dayjs();
     client
       .addCarbonFootprintGoal(
         {
           carbonFootprintGoal: {
             description: data.description,
-            startDate: today,
+            startDate: toSerializableDate(today),
             endDate: toSerializableDate(data.endDate),
             startCarbonFootprint: userInsights.userDailyAverage,
             targetCarbonFootprint: target,
@@ -57,7 +63,7 @@ function Goals() {
                 dbId: res.id,
                 description: data.description,
                 startDate: today,
-                endDate: toSerializableDate(data.endDate),
+                endDate: data.endDate,
                 startCarbonFootprint: userInsights.userDailyAverage,
                 targetCarbonFootprint: target,
               },
@@ -93,9 +99,16 @@ function Goals() {
         <GoalList />
       </Grid>
       <Grid xs={12}>
-        <Button variant="contained" onClick={handleOpenAddDialog}>
-          Add goal
-        </Button>
+        <Tooltip title={newUser ? 'Add food to your log or try a recommended goal' : ''}>
+          <span>
+            <Button variant="contained" onClick={handleOpenAddDialog} disabled={newUser}>
+              Add goal
+            </Button>
+          </span>
+        </Tooltip>
+      </Grid>
+      <Grid xs={12}>
+        <RecommendGoalsButton />
       </Grid>
       <Grid xs={12} mt={2}>
         <Typography variant="h5">Progress</Typography>

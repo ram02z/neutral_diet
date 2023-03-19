@@ -1,51 +1,71 @@
-import { BaseSyntheticEvent } from 'react';
+import { BaseSyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { Button, Dialog, DialogActions, DialogTitle, TextField } from '@mui/material';
-import { Stack } from '@mui/system';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  MenuItem,
+  Stack,
+  TextField,
+} from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 
 import dayjs from 'dayjs';
 
-import { MIN_CF_LIMIT } from '@/config';
+import { Insight } from '@/core/insights';
 
 import { FormValues } from './types';
 
-type AddGoalDialogProps = {
+type RecommendGoalDialogProps = {
   onSubmit: (data: FormValues, event?: BaseSyntheticEvent<object, void, void | undefined>) => void;
   openDialog: boolean;
   handleClose: () => void;
   startCarbonFootprint: number;
+  goals: Insight[];
 };
 
-function AddGoalDialog({
+function RecommendGoalDialog({
   onSubmit,
   openDialog,
   handleClose,
   startCarbonFootprint,
-}: AddGoalDialogProps) {
-  const { handleSubmit, control } = useForm<FormValues>();
+  goals,
+}: RecommendGoalDialogProps) {
+  const { handleSubmit, control, setValue } = useForm<FormValues>();
+  const [goalIdx, setGoalIdx] = useState(0);
+  const description = useMemo(() => `Meet ${goals[goalIdx].title} emissions`, [goalIdx, goals]);
+  const targetCarbonFootprint = useMemo(
+    () => goals[goalIdx].emissions.toString(),
+    [goalIdx, goals],
+  );
+
+  useEffect(() => {
+    setValue('description', description);
+  }, [description, setValue]);
+
+  useEffect(() => {
+    setValue('targetCarbonFootprint', targetCarbonFootprint);
+  }, [targetCarbonFootprint, setValue]);
+
+  const handleChange = (event: { target: { value: string } }) => {
+    setGoalIdx(parseInt(event.target.value));
+  };
 
   return (
     <Dialog fullWidth open={openDialog} onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogTitle textAlign="center">Add Carbon footprint Goal</DialogTitle>
+        <DialogTitle textAlign="center">Recommended goals</DialogTitle>
         <Stack sx={{ px: 5 }} spacing={3}>
-          <Controller
-            control={control}
-            name="description"
-            rules={{ required: true }}
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                label="Description"
-                placeholder="What do you want to achieve?"
-                multiline
-                error={!!error}
-                onChange={onChange}
-                value={value}
-              ></TextField>
-            )}
-          />
+          <TextField select label="Goal" value={goalIdx} onChange={handleChange}>
+            {goals.map((goal, idx) => (
+              <MenuItem key={idx} value={idx}>
+                {goal.title}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField disabled label="Description" value={description} />
           <TextField
             aria-readonly
             InputProps={{
@@ -56,32 +76,7 @@ function AddGoalDialog({
             type="number"
             label="Current daily average"
           />
-          <Controller
-            control={control}
-            name="targetCarbonFootprint"
-            rules={{
-              required: true,
-              min: {
-                value: MIN_CF_LIMIT,
-                message: `Target needs to be greater than ${MIN_CF_LIMIT}`,
-              },
-              max: {
-                value: startCarbonFootprint,
-                message: 'Target needs to be lower than current daily average',
-              },
-            }}
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                error={!!error}
-                helperText={error?.message}
-                onChange={onChange}
-                value={value}
-                type="number"
-                label="Target"
-                inputProps={{ step: 0.1 }}
-              />
-            )}
-          />
+          <TextField disabled type="number" label="Target" value={targetCarbonFootprint} />
           <Controller
             control={control}
             name="endDate"
@@ -116,4 +111,4 @@ function AddGoalDialog({
   );
 }
 
-export default AddGoalDialog;
+export default RecommendGoalDialog;
