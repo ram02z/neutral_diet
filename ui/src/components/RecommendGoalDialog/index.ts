@@ -1,4 +1,4 @@
-import RecommendGoalsButton from "./RecommendGoalsButton";
-import RecommendGoalDialog from "./RecommendGoalDialog";
+import RecommendGoalDialog from './RecommendGoalDialog';
+import RecommendGoalsButton from './RecommendGoalsButton';
 
 export { RecommendGoalDialog, RecommendGoalsButton };

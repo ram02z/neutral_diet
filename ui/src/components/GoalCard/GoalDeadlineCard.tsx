@@ -54,8 +54,12 @@ function GoalDeadlineCard({ goal, currentUserAverage }: GoalDeadlineCardProps) {
           <Typography variant="h2" color="info.light">
             {goal.endDate.diff(goal.startDate, 'day')}
           </Typography>
-          <Typography variant="h5" color="info.main">DAYS</Typography>
-          <Typography variant="subtitle2" color="info.main">LEFT</Typography>
+          <Typography variant="h5" color="info.main">
+            DAYS
+          </Typography>
+          <Typography variant="subtitle2" color="info.main">
+            LEFT
+          </Typography>
         </Grid>
       </Grid>
     </Card>

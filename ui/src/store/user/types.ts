@@ -1,5 +1,6 @@
-import { QuantityUnit } from '@/core/food_unit';
 import dayjs from 'dayjs';
+
+import { QuantityUnit } from '@/core/food_unit';
 
 export type LocalUserSettings = {
   region: number;
