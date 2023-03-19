@@ -15,13 +15,15 @@ import {
   OutlinedInput,
   Select,
   Stack,
+  TextField,
 } from '@mui/material';
 import { Box } from '@mui/system';
 
 import { SubTypologiesState, TypologiesState } from '@/store/food';
-import { SearchFilters } from '@/store/search/types';
+import { SearchFilters, SearchSortMethod } from '@/store/search/types';
 
 import { FormValues } from './types';
+import { SearchSortMethodsState } from '@/store/search';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -38,11 +40,13 @@ const MenuProps = {
 type SortFilterMenuProps = {
   onSubmit: (data: FormValues, event?: BaseSyntheticEvent<object, void, void | undefined>) => void;
   currentSearchFilters: SearchFilters;
+  currentSortingMethod: SearchSortMethod;
 };
 
-function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps) {
+function SortFilterMenu({ onSubmit, currentSearchFilters, currentSortingMethod }: SortFilterMenuProps) {
   const { handleSubmit, control, reset } = useForm<FormValues>();
   const [expanded, setExpanded] = useState(false);
+  const searchSortMethods = useRecoilValue(SearchSortMethodsState);
   const typologyNames = useRecoilValue(TypologiesState);
   const subTypologyNames = useRecoilValue(SubTypologiesState);
   const noSearchFilters = useMemo(() => {
@@ -71,6 +75,20 @@ function SortFilterMenu({ onSubmit, currentSearchFilters }: SortFilterMenuProps)
               Clear All
             </Link>
             <Stack spacing={2} direction={{ xs: 'column', lg: 'row' }}>
+              <Controller
+                control={control}
+                name="sortingMethod"
+                defaultValue={currentSortingMethod}
+                render={({ field: { onChange, value }}) => (
+                  <TextField select label="Sort by" onChange={onChange} value={value} sx={{ minWidth: MENU_WIDTH }}>
+                    {searchSortMethods.map((method, key) => (
+                      <MenuItem key={key} value={method.value}>
+                        {method.getName()}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
               <FormControl sx={{ minWidth: MENU_WIDTH }}>
                 <InputLabel id="typology-select-label">Typology</InputLabel>
                 <Controller
