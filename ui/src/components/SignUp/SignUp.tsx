@@ -75,9 +75,20 @@ function SignUp() {
         <Controller
           control={control}
           name="password"
-          rules={{ required: true }}
+          rules={{
+            required: true,
+            minLength: {
+              value: 5,
+              message: 'Password needs to be at least 6 characters',
+            },
+          }}
           render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <PasswordTextField password={value} onChangeHandler={onChange} error={!!error} />
+            <PasswordTextField
+              password={value}
+              onChangeHandler={onChange}
+              error={!!error}
+              errorText={error?.message}
+            />
           )}
         />
         <LoadingButton loading={loading} variant="contained" type="submit" fullWidth>

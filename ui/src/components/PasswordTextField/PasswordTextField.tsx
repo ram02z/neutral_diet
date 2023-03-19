@@ -1,15 +1,28 @@
 import { useState } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { FilledInput, FormControl, IconButton, InputAdornment, InputLabel } from '@mui/material';
+import {
+  FilledInput,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+} from '@mui/material';
 
 type PasswordTextFieldProps = {
   password: string;
   onChangeHandler: (newPassword: string) => void;
   error: boolean;
+  errorText?: string;
 };
 
-function PasswordTextField({ password, onChangeHandler, error }: PasswordTextFieldProps) {
+function PasswordTextField({
+  password,
+  onChangeHandler,
+  error,
+  errorText,
+}: PasswordTextFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -23,6 +36,7 @@ function PasswordTextField({ password, onChangeHandler, error }: PasswordTextFie
         <FilledInput
           margin="dense"
           id="filled-adornment-password"
+          aria-describedby="password-error-text"
           type={showPassword ? 'text' : 'password'}
           value={password}
           onChange={(e) => onChangeHandler(e.target.value as string)}
@@ -40,6 +54,11 @@ function PasswordTextField({ password, onChangeHandler, error }: PasswordTextFie
             </InputAdornment>
           }
         />
+        {errorText && (
+          <FormHelperText error id="password-error-text">
+            {errorText}
+          </FormHelperText>
+        )}
       </FormControl>
     </>
   );
