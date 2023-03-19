@@ -1,3 +1,4 @@
 import AddGoalDialog from './AddGoalDialog';
+import RecommendGoalDialog from './RecommendGoalDialog';
 
-export default AddGoalDialog;
+export { AddGoalDialog, RecommendGoalDialog };

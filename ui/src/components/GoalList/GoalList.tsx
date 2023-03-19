@@ -18,28 +18,32 @@ function GoalList() {
   return (
     <TabContext value={tab}>
       <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <TabList onChange={handleTabChange}>
-          <Tab label="Active" value="1" />
-          <Tab label="Completed" value="2" />
-        </TabList>
-      </Box>
-      <TabPanel value="1" sx={{ width: '100%' }}>
-        {userGoals.active.length == 0 && (
-          <Typography color="text.secondary">No active goals.</Typography>
-        )}
-        {userGoals.active.map((goal, idx) => (
-          <GoalCard key={idx} goal={goal} active />
-        ))}
-      </TabPanel>
-      <TabPanel value="2" sx={{ width: '100%' }}>
-        {userGoals.completed.length == 0 && (
-          <Typography color="text.secondary">No completed goals.</Typography>
-        )}
-        {userGoals.completed.map((goal, idx) => (
-          <GoalCard key={idx} goal={goal} active={false} />
-        ))}
-      </TabPanel>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList onChange={handleTabChange}>
+            <Tab label="Active" value="1" />
+            <Tab label="Completed" value="2" />
+          </TabList>
+        </Box>
+        <TabPanel value="1" sx={{ width: '100%' }}>
+          {userGoals.active.length == 0 && (
+            <Typography color="text.secondary">No active goals.</Typography>
+          )}
+          <Stack spacing={2}>
+            {userGoals.active.map((goal, idx) => (
+              <GoalCard key={idx} goal={goal} active />
+            ))}
+          </Stack>
+        </TabPanel>
+        <TabPanel value="2" sx={{ width: '100%' }}>
+          {userGoals.completed.length == 0 && (
+            <Typography color="text.secondary">No completed goals.</Typography>
+          )}
+          <Stack spacing={2}>
+            {userGoals.completed.map((goal, idx) => (
+              <GoalCard key={idx} goal={goal} active={false} />
+            ))}
+          </Stack>
+        </TabPanel>
       </Stack>
     </TabContext>
   );
