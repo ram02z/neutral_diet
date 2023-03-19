@@ -20,10 +20,10 @@ import {
 import { Box } from '@mui/system';
 
 import { SubTypologiesState, TypologiesState } from '@/store/food';
+import { SearchSortMethodsState } from '@/store/search';
 import { SearchFilters, SearchSortMethod } from '@/store/search/types';
 
 import { FormValues } from './types';
-import { SearchSortMethodsState } from '@/store/search';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -43,7 +43,11 @@ type SortFilterMenuProps = {
   currentSortingMethod: SearchSortMethod;
 };
 
-function SortFilterMenu({ onSubmit, currentSearchFilters, currentSortingMethod }: SortFilterMenuProps) {
+function SortFilterMenu({
+  onSubmit,
+  currentSearchFilters,
+  currentSortingMethod,
+}: SortFilterMenuProps) {
   const { handleSubmit, control, reset } = useForm<FormValues>();
   const [expanded, setExpanded] = useState(false);
   const searchSortMethods = useRecoilValue(SearchSortMethodsState);
@@ -79,8 +83,14 @@ function SortFilterMenu({ onSubmit, currentSearchFilters, currentSortingMethod }
                 control={control}
                 name="sortingMethod"
                 defaultValue={currentSortingMethod}
-                render={({ field: { onChange, value }}) => (
-                  <TextField select label="Sort by" onChange={onChange} value={value} sx={{ minWidth: MENU_WIDTH }}>
+                render={({ field: { onChange, value } }) => (
+                  <TextField
+                    select
+                    label="Sort by"
+                    onChange={onChange}
+                    value={value}
+                    sx={{ minWidth: MENU_WIDTH }}
+                  >
                     {searchSortMethods.map((method, key) => (
                       <MenuItem key={key} value={method.value}>
                         {method.getName()}

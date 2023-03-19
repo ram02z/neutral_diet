@@ -1,4 +1,4 @@
-import { SearchSortMethod } from "@/store/search/types";
+import { SearchSortMethod } from '@/store/search/types';
 
 export class SortMethod {
   value: SearchSortMethod;
