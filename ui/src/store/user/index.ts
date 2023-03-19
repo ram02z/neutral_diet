@@ -90,15 +90,11 @@ export const LocalUserSettingsState = atom<LocalUserSettings>({
       };
 
       const userHeaders = get(CurrentUserHeadersState);
-      try {
-        const response = await client.getUserSettings({}, { headers: userHeaders });
-        defaults.cfLimit = response.userSettings?.cfLimit ?? defaults.cfLimit;
-        defaults.region = response.userSettings?.region ?? defaults.region;
-        defaults.dietaryRequirement =
-          response.userSettings?.dietaryRequirement ?? defaults.dietaryRequirement;
-      } catch (err) {
-        console.error(err);
-      }
+      const response = await client.getUserSettings({}, { headers: userHeaders });
+      defaults.cfLimit = response.userSettings?.cfLimit ?? defaults.cfLimit;
+      defaults.region = response.userSettings?.region ?? defaults.region;
+      defaults.dietaryRequirement =
+        response.userSettings?.dietaryRequirement ?? defaults.dietaryRequirement;
       return defaults;
     },
   }),
@@ -166,32 +162,27 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], Serializable
       (date) =>
       async ({ get }) => {
         const userHeaders = get(CurrentUserHeadersState);
-        try {
-          const response = await client.getFoodItemLog(
-            {
-              date: { year: date.year, month: date.month, day: date.day },
-            },
-            { headers: userHeaders },
-          );
+        const response = await client.getFoodItemLog(
+          {
+            date: { year: date.year, month: date.month, day: date.day },
+          },
+          { headers: userHeaders },
+        );
 
-          return response.foodItemLog.map((foodLogItem) => {
-            return {
-              dbId: foodLogItem.id,
-              foodItemId: foodLogItem.foodItemId,
-              name: foodLogItem.name,
-              quantity: {
-                value: foodLogItem.quantity,
-                unit: new FoodUnit(foodLogItem.unit),
-              },
-              carbonFootprint: foodLogItem.carbonFootprint,
-              region: foodLogItem.region,
-              meal: foodLogItem.meal,
-            };
-          });
-        } catch (err) {
-          console.error(err);
-          return [];
-        }
+        return response.foodItemLog.map((foodLogItem) => {
+          return {
+            dbId: foodLogItem.id,
+            foodItemId: foodLogItem.foodItemId,
+            name: foodLogItem.name,
+            quantity: {
+              value: foodLogItem.quantity,
+              unit: new FoodUnit(foodLogItem.unit),
+            },
+            carbonFootprint: foodLogItem.carbonFootprint,
+            region: foodLogItem.region,
+            meal: foodLogItem.meal,
+          };
+        });
       },
   }),
 });
