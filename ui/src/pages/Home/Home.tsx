@@ -57,9 +57,16 @@ function Home() {
           <Typography textAlign="center" variant="h4">
             Goal
           </Typography>
-          <Typography textAlign="center" color="text.secondary" variant="subtitle2">
-            Long term
-          </Typography>
+        </Grid>
+        <Grid>
+        <Typography textAlign="center" color="text.secondary" variant="subtitle2">
+          Today
+        </Typography>
+        </Grid>
+        <Grid>
+        <Typography textAlign="center" color="text.secondary" variant="subtitle2">
+          Long term
+        </Typography>
         </Grid>
         {activeUserGoal ? (
           <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
