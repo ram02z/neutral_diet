@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil';
 
-import { Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import dayjs from 'dayjs';
@@ -22,6 +22,7 @@ import {
   UserProgressState,
 } from '@/store/user';
 import { toSerializableDate } from '@/utils/date';
+import { Link } from 'react-router-dom';
 
 function Home() {
   const todayStats = useRecoilValue(LocalFoodItemLogStats(toSerializableDate(dayjs())));
@@ -47,8 +48,7 @@ function Home() {
       <Grid>
         <Typography variant="subtitle2" color="secondary">
           {userInsights.streakLength > 0 &&
-            `Your longest streak ${userInsights.isStreakActive ? 'is' : 'was'} ${
-              userInsights.streakLength
+            `Your longest streak ${userInsights.isStreakActive ? 'is' : 'was'} ${userInsights.streakLength
             } days`}
         </Typography>
       </Grid>
@@ -58,7 +58,7 @@ function Home() {
             Goal
           </Typography>
           <Typography textAlign="center" color="text.secondary" variant="subtitle2">
-            Active
+            Long term
           </Typography>
         </Grid>
         {activeUserGoal ? (
@@ -67,6 +67,9 @@ function Home() {
               goal={activeUserGoal}
               currentUserAverage={userInsights.userDailyAverage}
             />
+            <Box display="flex" justifyContent="center" my={2}>
+              <Button variant="contained" component={Link} to={"account/goals"}>All goals</Button>
+            </Box>
           </Grid>
         ) : (
           <Grid>
