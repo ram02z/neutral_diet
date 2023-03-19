@@ -63,6 +63,7 @@ function RecommendGoalsButton() {
       });
     handleCloseRecommendDialog();
   };
+
   const handleOpenRecommendDialog = () => {
     setOpenRecommendDialog(true);
   };
@@ -70,6 +71,7 @@ function RecommendGoalsButton() {
   const handleCloseRecommendDialog = () => {
     setOpenRecommendDialog(false);
   };
+
   return (
     <>
       <Button variant="contained" onClick={handleOpenRecommendDialog}>
