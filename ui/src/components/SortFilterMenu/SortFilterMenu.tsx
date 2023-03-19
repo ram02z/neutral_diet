@@ -78,7 +78,7 @@ function SortFilterMenu({
             <Link sx={{ marginLeft: 'auto' }} href="#" onClick={resetForm}>
               Clear All
             </Link>
-            <Stack spacing={2} direction={{ xs: 'column', lg: 'row' }}>
+            <Stack spacing={2} direction={{ xs: 'column', xl: 'row' }}>
               <Controller
                 control={control}
                 name="sortingMethod"
