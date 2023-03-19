@@ -10,6 +10,7 @@ import Carousel from '@/components/Carousel';
 import CircularProgressWithLabel from '@/components/CircularProgressWithLabel';
 import { GoalDeadlineCard } from '@/components/GoalCard';
 import GoalLinePlot from '@/components/GoalLinePlot';
+import { RecommendGoalsButton } from '@/components/RecommendGoalDialog';
 import TrendCard from '@/components/TrendCard';
 import Insights from '@/core/insights';
 import { Meal } from '@/core/meal';
@@ -46,88 +47,89 @@ function Home() {
       <Grid>
         <Typography variant="subtitle2" color="secondary">
           {userInsights.streakLength > 0 &&
-            `Your longest streak ${userInsights.isStreakActive ? 'is' : 'was'} ${
-              userInsights.streakLength
+            `Your longest streak ${userInsights.isStreakActive ? 'is' : 'was'} ${userInsights.streakLength
             } days`}
         </Typography>
       </Grid>
-      <Grid container direction="column" justifyContent="center" alignItems="center" xs={11}>
-          <Grid>
+      <Grid container direction="column" justifyContent="center" alignItems="center" xs={12}>
+        <Grid>
           <Typography textAlign="center" variant="h4">
             Goal
           </Typography>
           <Typography textAlign="center" color="text.secondary" variant="subtitle2">
             Active
           </Typography>
-          </Grid>
+        </Grid>
+        {activeUserGoal ? (
           <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
-          {activeUserGoal ? (
             <GoalDeadlineCard
               goal={activeUserGoal}
               currentUserAverage={userInsights.userDailyAverage}
             />
-          ) : (
-            <Typography>No active goals</Typography>
-          )}
           </Grid>
+        ) : (
           <Grid>
-          <Typography textAlign="center" variant="h4">
-            Trends
-          </Typography>
-          <Typography textAlign="center" color="text.secondary" variant="subtitle2">
-            Daily
-          </Typography>
+            <RecommendGoalsButton />
           </Grid>
-          <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
-          <Carousel>
+        )}
+      </Grid>
+      <Grid>
+        <Typography textAlign="center" variant="h4">
+          Trends
+        </Typography>
+        <Typography textAlign="center" color="text.secondary" variant="subtitle2">
+          Daily
+        </Typography>
+      </Grid>
+      <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
+        <Carousel>
+          <TrendCard
+            title="Your average"
+            stat={userInsights.userDailyAverage}
+            today={todayStats.totalCarbonFootprint}
+          />
+          {externalInsights.insights.map((insight, idx) => (
             <TrendCard
-              title="Your average"
-              stat={userInsights.userDailyAverage}
+              key={idx}
+              title={insight.title}
+              stat={insight.emissions}
               today={todayStats.totalCarbonFootprint}
+              source={insight.source}
             />
-            {externalInsights.insights.map((insight, idx) => (
-              <TrendCard
-                key={idx}
-                title={insight.title}
-                stat={insight.emissions}
-                today={todayStats.totalCarbonFootprint}
-                source={insight.source}
-              />
-            ))}
-            <TrendCard
-              title="Users average"
-              stat={userInsights.dailyGlobalAverage}
-              today={todayStats.totalCarbonFootprint}
-            />
-            <TrendCard
-              title="Users diet average"
-              stat={userInsights.dailyGlobalAverageUserDietaryRequirement}
-              today={todayStats.totalCarbonFootprint}
-            />
-          </Carousel>
-          </Grid>
-          <Grid>
-          <Typography textAlign="center" variant="h4">
-            Progress
-          </Typography>
-          </Grid>
-          <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
-          <Carousel>
+          ))}
+          <TrendCard
+            title="Users average"
+            stat={userInsights.dailyGlobalAverage}
+            today={todayStats.totalCarbonFootprint}
+          />
+          <TrendCard
+            title="Users diet average"
+            stat={userInsights.dailyGlobalAverageUserDietaryRequirement}
+            today={todayStats.totalCarbonFootprint}
+          />
+        </Carousel>
+      </Grid>
+      <Grid>
+        <Typography textAlign="center" variant="h4">
+          Progress
+        </Typography>
+      </Grid>
+      <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
+        <Carousel>
+          <GoalLinePlot
+            goal={userSettings.cfLimit}
+            actualData={userProgress.all}
+            title="Daily carbon footprint, all meals"
+          />
+          {Array.from(userProgress.meal).map(([key, value]) => (
             <GoalLinePlot
+              key={key}
               goal={userSettings.cfLimit}
-              actualData={userProgress.all}
-              title="Daily carbon footprint, all meals"
+              actualData={value}
+              title={`Daily carbon footprint, ${new Meal(key).getName()}`}
             />
-            {Array.from(userProgress.meal).map(([key, value]) => (
-              <GoalLinePlot
-                key={key}
-                goal={userSettings.cfLimit}
-                actualData={value}
-                title={`Daily carbon footprint, ${new Meal(key).getName()}`}
-              />
-            ))}
-          </Carousel>
-          </Grid>
+          ))}
+        </Carousel>
       </Grid>
     </Grid>
   );

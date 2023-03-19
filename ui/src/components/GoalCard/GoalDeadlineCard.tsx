@@ -6,7 +6,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 import { MIN_CARD_WIDTH } from '@/config';
 import { LocalUserGoal } from '@/store/user/types';
-import { getDateString } from '@/utils/date';
 
 type GoalDeadlineCardProps = {
   goal: LocalUserGoal;
