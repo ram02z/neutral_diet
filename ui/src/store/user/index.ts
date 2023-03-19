@@ -44,7 +44,13 @@ export const CurrentUserState = atom<User | null>({
 
 export const CurrentUserDisplayName = atom<string | null>({
   key: 'CurrentUserDisplayName',
-  default: null,
+  default: selector({
+    key: 'CurrentUserDisplayName/Default',
+    get: ({ get }) => {
+      const user = get(CurrentUserState);
+      return user?.displayName ?? null;
+    },
+  }),
   effects: [
     ({ onSet, getPromise }) => {
       onSet((newValue, oldValue) => {
