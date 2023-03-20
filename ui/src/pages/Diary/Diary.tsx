@@ -192,7 +192,7 @@ function Diary() {
             {foodItemLog.map((foodLogItem, j) => {
               return (
                 foodLogItem.meal == meal.value && (
-                  <Grid key={j} xs={8} lg={7} xl={6}>
+                  <Grid key={`${i}-${j}`} xs={8} lg={7} xl={6}>
                     <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
                       <FoodItemLogCard foodLogItem={foodLogItem} />
                     </RenderIfVisible>
