@@ -19,9 +19,6 @@ function App() {
     }
     const token = await NotificationService.getWebToken();
     console.log(token);
-    NotificationService.onNotifications((notification) => {
-      console.log(notification.messageId);
-    })
   })
   return (
     <Fragment>

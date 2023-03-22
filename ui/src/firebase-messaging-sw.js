@@ -22,7 +22,6 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = title;
   const notificationOptions = {
     body,
-    icon: '/favicon.png',
     data: {
       url,
     },
