@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"os"
 	"os/signal"
 	"syscall"
@@ -56,6 +57,10 @@ func Run() {
 	pgpool, err := sql.NewDatabase()
 	if err != nil {
 		l.Fatal().Err(err).Msg("Could not connect to postgres")
+	}
+	err = pgpool.Ping(context.Background())
+	if err != nil {
+		l.Fatal().Err(err).Msg("Could not ping the DB")
 	}
 	l.Info().Msg("Successfully connected to postgres")
 	defer func() {
