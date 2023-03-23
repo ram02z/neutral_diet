@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"firebase.google.com/go/messaging"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
 	"github.com/rs/zerolog"
 	"github.com/shopspring/decimal"
@@ -25,6 +26,17 @@ func generateNotification(
 		return nil, err
 	}
 
+	todayLog, err := queries.GetFoodItemLogByDate(ctx, db.GetFoodItemLogByDateParams{
+		UserID: userID,
+		LogDate: pgtype.Date{
+			Time:  time.Now(),
+			Valid: true,
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+
 	notification := messaging.Notification{}
 
 	if userDailyAverage.IsZero() && len(activeGoals) == 0 {
@@ -33,6 +45,11 @@ func generateNotification(
 	} else {
 		notification.Title = "Carbon footprint goal reminder"
 		notification.Body = fmt.Sprintf("You have %d active goals", len(activeGoals))
+		if len(todayLog) == 0 {
+			notification.Body += "\nEnsure you log your food before the end of today!"
+		} else {
+			notification.Body += "\nKeep up the good work!"
+		}
 	}
 
 	return &notification, nil
