@@ -133,11 +133,11 @@ message GetCarbonFootprintGoalsResponse {
   repeated CarbonFootprintGoalResponse active = 2;
 }
 
-message UpdateUserFCMTokenRequest {
+message AddDeviceRequest {
   string fcm_token = 1;
 }
 
-message UpdateUserFCMTokenResponse {}
+message AddDeviceResponse {}
 
 service UserService {
   rpc AddFoodItem(AddFoodItemRequest) returns (AddFoodItemResponse) {}
@@ -155,5 +155,5 @@ service UserService {
   rpc UpdateCarbonFootprintGoal(UpdateCarbonFootprintGoalRequest) returns (UpdateCarbonFootprintGoalResponse) {}
   rpc DeleteCarbonFootprintGoal(DeleteCarbonFootprintGoalRequest) returns (DeleteCarbonFootprintGoalResponse) {}
   rpc GetCarbonFootprintGoals(GetCarbonFootprintGoalsRequest) returns (GetCarbonFootprintGoalsResponse) {}
-  rpc UpdateUserFCMToken(UpdateUserFCMTokenRequest) returns (UpdateUserFCMTokenResponse) {}
+  rpc AddDevice(AddDeviceRequest) returns (AddDeviceResponse) {}
 }

@@ -82,7 +82,8 @@ func Run() {
 	jobContext := l.WithContext(context.Background())
 	jobWrapper := service.NewJobWrapper(pgpool, messagingClient, &jobContext)
 	for _, job := range jobWrapper.Jobs() {
-		cronScheduler.Every(10).Second().Do(job)
+		cronScheduler.Every(1).Minute().Do(job)
+		// cronScheduler.Every(1).Day().At("19:00").Do(job)
 	}
 	cronScheduler.StartAsync()
 	l.Info().Msg("Successfully started the cron scheduler")

@@ -53,7 +53,7 @@ export const NotificationsState = selector<boolean>({
     }
     const token = await NotificationService.getWebToken();
     const userHeaders = get(CurrentUserHeadersState);
-    client.updateUserFCMToken({ fcmToken: token }, { headers: userHeaders });
+    client.addDevice({ fcmToken: token }, { headers: userHeaders });
     return true;
   },
 });

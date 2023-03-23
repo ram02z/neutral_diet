@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { AddCarbonFootprintGoalRequest, AddCarbonFootprintGoalResponse, AddFoodItemRequest, AddFoodItemResponse, CreateUserRequest, CreateUserResponse, DeleteCarbonFootprintGoalRequest, DeleteCarbonFootprintGoalResponse, DeleteFoodItemRequest, DeleteFoodItemResponse, DeleteUserRequest, DeleteUserResponse, GetCarbonFootprintGoalsRequest, GetCarbonFootprintGoalsResponse, GetFoodItemLogDaysRequest, GetFoodItemLogDaysResponse, GetFoodItemLogRequest, GetFoodItemLogResponse, GetUserInsightsRequest, GetUserInsightsResponse, GetUserProgressRequest, GetUserProgressResponse, GetUserSettingsRequest, GetUserSettingsResponse, UpdateCarbonFootprintGoalRequest, UpdateCarbonFootprintGoalResponse, UpdateFoodItemRequest, UpdateFoodItemResponse, UpdateUserFCMTokenRequest, UpdateUserFCMTokenResponse, UpdateUserSettingsRequest, UpdateUserSettingsResponse } from "./api_pb.js";
+import { AddCarbonFootprintGoalRequest, AddCarbonFootprintGoalResponse, AddDeviceRequest, AddDeviceResponse, AddFoodItemRequest, AddFoodItemResponse, CreateUserRequest, CreateUserResponse, DeleteCarbonFootprintGoalRequest, DeleteCarbonFootprintGoalResponse, DeleteFoodItemRequest, DeleteFoodItemResponse, DeleteUserRequest, DeleteUserResponse, GetCarbonFootprintGoalsRequest, GetCarbonFootprintGoalsResponse, GetFoodItemLogDaysRequest, GetFoodItemLogDaysResponse, GetFoodItemLogRequest, GetFoodItemLogResponse, GetUserInsightsRequest, GetUserInsightsResponse, GetUserProgressRequest, GetUserProgressResponse, GetUserSettingsRequest, GetUserSettingsResponse, UpdateCarbonFootprintGoalRequest, UpdateCarbonFootprintGoalResponse, UpdateFoodItemRequest, UpdateFoodItemResponse, UpdateUserSettingsRequest, UpdateUserSettingsResponse } from "./api_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -148,12 +148,12 @@ export const UserService = {
       kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc neutral_diet.user.v1.UserService.UpdateUserFCMToken
+     * @generated from rpc neutral_diet.user.v1.UserService.AddDevice
      */
-    updateUserFCMToken: {
-      name: "UpdateUserFCMToken",
-      I: UpdateUserFCMTokenRequest,
-      O: UpdateUserFCMTokenResponse,
+    addDevice: {
+      name: "AddDevice",
+      I: AddDeviceRequest,
+      O: AddDeviceResponse,
       kind: MethodKind.Unary,
     },
   }

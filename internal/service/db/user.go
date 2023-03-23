@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/bufbuild/connect-go"
-	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
 	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 	userv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1"
@@ -86,23 +85,30 @@ func (s *Store) UpdateUserSettings(
 	return &userv1.UpdateUserSettingsResponse{}, nil
 }
 
-func (s *Store) UpdateUserFCMToken(
+func (s *Store) AddDevice(
 	ctx context.Context,
-	r *userv1.UpdateUserFCMTokenRequest,
+	r *userv1.AddDeviceRequest,
 	firebaseUID string,
-) (*userv1.UpdateUserFCMTokenResponse, error) {
+) (*userv1.AddDeviceResponse, error) {
 	queries := db.New(s.dbPool)
 
-	err := queries.UpdateUserFCMToken(ctx, db.UpdateUserFCMTokenParams{
-		FirebaseUid: firebaseUID,
-		FcmToken: pgtype.Text{
-			String: r.FcmToken,
-			Valid:  true,
-		},
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeNotFound, err)
+	}
+
+	err = queries.DeleteDeviceByUser(ctx, user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	err = queries.AddDevice(ctx, db.AddDeviceParams{
+		UserID:   user.ID,
+		FcmToken: r.FcmToken,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	return &userv1.UpdateUserFCMTokenResponse{}, nil
+	return &userv1.AddDeviceResponse{}, nil
 }

@@ -3563,22 +3563,22 @@ var _ interface {
 	ErrorName() string
 } = GetCarbonFootprintGoalsResponseValidationError{}
 
-// Validate checks the field values on UpdateUserFCMTokenRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *UpdateUserFCMTokenRequest) Validate() error {
+// Validate checks the field values on AddDeviceRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AddDeviceRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on UpdateUserFCMTokenRequest with the
-// rules defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on AddDeviceRequest with the rules
+// defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// UpdateUserFCMTokenRequestMultiError, or nil if none found.
-func (m *UpdateUserFCMTokenRequest) ValidateAll() error {
+// AddDeviceRequestMultiError, or nil if none found.
+func (m *AddDeviceRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *UpdateUserFCMTokenRequest) validate(all bool) error {
+func (m *AddDeviceRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -3588,19 +3588,19 @@ func (m *UpdateUserFCMTokenRequest) validate(all bool) error {
 	// no validation rules for FcmToken
 
 	if len(errors) > 0 {
-		return UpdateUserFCMTokenRequestMultiError(errors)
+		return AddDeviceRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// UpdateUserFCMTokenRequestMultiError is an error wrapping multiple validation
-// errors returned by UpdateUserFCMTokenRequest.ValidateAll() if the
-// designated constraints aren't met.
-type UpdateUserFCMTokenRequestMultiError []error
+// AddDeviceRequestMultiError is an error wrapping multiple validation errors
+// returned by AddDeviceRequest.ValidateAll() if the designated constraints
+// aren't met.
+type AddDeviceRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m UpdateUserFCMTokenRequestMultiError) Error() string {
+func (m AddDeviceRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -3609,11 +3609,11 @@ func (m UpdateUserFCMTokenRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m UpdateUserFCMTokenRequestMultiError) AllErrors() []error { return m }
+func (m AddDeviceRequestMultiError) AllErrors() []error { return m }
 
-// UpdateUserFCMTokenRequestValidationError is the validation error returned by
-// UpdateUserFCMTokenRequest.Validate if the designated constraints aren't met.
-type UpdateUserFCMTokenRequestValidationError struct {
+// AddDeviceRequestValidationError is the validation error returned by
+// AddDeviceRequest.Validate if the designated constraints aren't met.
+type AddDeviceRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -3621,24 +3621,22 @@ type UpdateUserFCMTokenRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e UpdateUserFCMTokenRequestValidationError) Field() string { return e.field }
+func (e AddDeviceRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e UpdateUserFCMTokenRequestValidationError) Reason() string { return e.reason }
+func (e AddDeviceRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e UpdateUserFCMTokenRequestValidationError) Cause() error { return e.cause }
+func (e AddDeviceRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e UpdateUserFCMTokenRequestValidationError) Key() bool { return e.key }
+func (e AddDeviceRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e UpdateUserFCMTokenRequestValidationError) ErrorName() string {
-	return "UpdateUserFCMTokenRequestValidationError"
-}
+func (e AddDeviceRequestValidationError) ErrorName() string { return "AddDeviceRequestValidationError" }
 
 // Error satisfies the builtin error interface
-func (e UpdateUserFCMTokenRequestValidationError) Error() string {
+func (e AddDeviceRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -3650,14 +3648,14 @@ func (e UpdateUserFCMTokenRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sUpdateUserFCMTokenRequest.%s: %s%s",
+		"invalid %sAddDeviceRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = UpdateUserFCMTokenRequestValidationError{}
+var _ error = AddDeviceRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -3665,24 +3663,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = UpdateUserFCMTokenRequestValidationError{}
+} = AddDeviceRequestValidationError{}
 
-// Validate checks the field values on UpdateUserFCMTokenResponse with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *UpdateUserFCMTokenResponse) Validate() error {
+// Validate checks the field values on AddDeviceResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AddDeviceResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on UpdateUserFCMTokenResponse with the
-// rules defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on AddDeviceResponse with the rules
+// defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// UpdateUserFCMTokenResponseMultiError, or nil if none found.
-func (m *UpdateUserFCMTokenResponse) ValidateAll() error {
+// AddDeviceResponseMultiError, or nil if none found.
+func (m *AddDeviceResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *UpdateUserFCMTokenResponse) validate(all bool) error {
+func (m *AddDeviceResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -3690,19 +3688,19 @@ func (m *UpdateUserFCMTokenResponse) validate(all bool) error {
 	var errors []error
 
 	if len(errors) > 0 {
-		return UpdateUserFCMTokenResponseMultiError(errors)
+		return AddDeviceResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// UpdateUserFCMTokenResponseMultiError is an error wrapping multiple
-// validation errors returned by UpdateUserFCMTokenResponse.ValidateAll() if
-// the designated constraints aren't met.
-type UpdateUserFCMTokenResponseMultiError []error
+// AddDeviceResponseMultiError is an error wrapping multiple validation errors
+// returned by AddDeviceResponse.ValidateAll() if the designated constraints
+// aren't met.
+type AddDeviceResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m UpdateUserFCMTokenResponseMultiError) Error() string {
+func (m AddDeviceResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -3711,11 +3709,11 @@ func (m UpdateUserFCMTokenResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m UpdateUserFCMTokenResponseMultiError) AllErrors() []error { return m }
+func (m AddDeviceResponseMultiError) AllErrors() []error { return m }
 
-// UpdateUserFCMTokenResponseValidationError is the validation error returned
-// by UpdateUserFCMTokenResponse.Validate if the designated constraints aren't met.
-type UpdateUserFCMTokenResponseValidationError struct {
+// AddDeviceResponseValidationError is the validation error returned by
+// AddDeviceResponse.Validate if the designated constraints aren't met.
+type AddDeviceResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -3723,24 +3721,24 @@ type UpdateUserFCMTokenResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e UpdateUserFCMTokenResponseValidationError) Field() string { return e.field }
+func (e AddDeviceResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e UpdateUserFCMTokenResponseValidationError) Reason() string { return e.reason }
+func (e AddDeviceResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e UpdateUserFCMTokenResponseValidationError) Cause() error { return e.cause }
+func (e AddDeviceResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e UpdateUserFCMTokenResponseValidationError) Key() bool { return e.key }
+func (e AddDeviceResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e UpdateUserFCMTokenResponseValidationError) ErrorName() string {
-	return "UpdateUserFCMTokenResponseValidationError"
+func (e AddDeviceResponseValidationError) ErrorName() string {
+	return "AddDeviceResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e UpdateUserFCMTokenResponseValidationError) Error() string {
+func (e AddDeviceResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -3752,14 +3750,14 @@ func (e UpdateUserFCMTokenResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sUpdateUserFCMTokenResponse.%s: %s%s",
+		"invalid %sAddDeviceResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = UpdateUserFCMTokenResponseValidationError{}
+var _ error = AddDeviceResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -3767,4 +3765,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = UpdateUserFCMTokenResponseValidationError{}
+} = AddDeviceResponseValidationError{}

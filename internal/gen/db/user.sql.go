@@ -8,7 +8,6 @@ package db
 import (
 	"context"
 
-	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/shopspring/decimal"
 )
 
@@ -50,7 +49,7 @@ func (q *Queries) DeleteUserByFirebaseUID(ctx context.Context, firebaseUid strin
 
 const getUserByFirebaseUID = `-- name: GetUserByFirebaseUID :one
 SELECT
-    id, firebase_uid, region, cf_limit, created_at, updated_at, dietary_requirement, fcm_token
+    id, firebase_uid, region, cf_limit, created_at, updated_at, dietary_requirement
 FROM
     "user"
 WHERE
@@ -68,57 +67,8 @@ func (q *Queries) GetUserByFirebaseUID(ctx context.Context, firebaseUid string) 
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.DietaryRequirement,
-		&i.FcmToken,
 	)
 	return i, err
-}
-
-const getUserFCMTokens = `-- name: GetUserFCMTokens :many
-SELECT
-    fcm_token
-FROM
-    "user"
-WHERE
-    fcm_token IS NOT NULL
-`
-
-func (q *Queries) GetUserFCMTokens(ctx context.Context) ([]pgtype.Text, error) {
-	rows, err := q.db.Query(ctx, getUserFCMTokens)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []pgtype.Text
-	for rows.Next() {
-		var fcm_token pgtype.Text
-		if err := rows.Scan(&fcm_token); err != nil {
-			return nil, err
-		}
-		items = append(items, fcm_token)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const updateUserFCMToken = `-- name: UpdateUserFCMToken :exec
-UPDATE
-    "user"
-SET
-    fcm_token = $2
-WHERE
-    firebase_uid = $1
-`
-
-type UpdateUserFCMTokenParams struct {
-	FirebaseUid string
-	FcmToken    pgtype.Text
-}
-
-func (q *Queries) UpdateUserFCMToken(ctx context.Context, arg UpdateUserFCMTokenParams) error {
-	_, err := q.db.Exec(ctx, updateUserFCMToken, arg.FirebaseUid, arg.FcmToken)
-	return err
 }
 
 const updateUserSettings = `-- name: UpdateUserSettings :exec

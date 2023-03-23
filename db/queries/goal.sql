@@ -27,3 +27,14 @@ WHERE
     user_id = $1
 ORDER BY
     end_date;
+
+-- name: GetActiveCarbonFootprintGoals :many
+SELECT
+    *
+FROM
+    "carbon_footprint_goal"
+WHERE
+    user_id = $1
+    AND completed = false
+ORDER BY
+    end_date;
