@@ -176,30 +176,30 @@ export const LocalFoodItemLogState = atomFamily<LocalFoodLogItem[], Serializable
     key: 'LocalFoodItemLogState/Default',
     get:
       (date) =>
-        async ({ get }) => {
-          const userHeaders = get(CurrentUserHeadersState);
-          const response = await client.getFoodItemLog(
-            {
-              date: { year: date.year, month: date.month, day: date.day },
-            },
-            { headers: userHeaders },
-          );
+      async ({ get }) => {
+        const userHeaders = get(CurrentUserHeadersState);
+        const response = await client.getFoodItemLog(
+          {
+            date: { year: date.year, month: date.month, day: date.day },
+          },
+          { headers: userHeaders },
+        );
 
-          return response.foodItemLog.map((foodLogItem) => {
-            return {
-              dbId: foodLogItem.id,
-              foodItemId: foodLogItem.foodItemId,
-              name: foodLogItem.name,
-              quantity: {
-                value: foodLogItem.quantity,
-                unit: new FoodUnit(foodLogItem.unit),
-              },
-              carbonFootprint: foodLogItem.carbonFootprint,
-              region: foodLogItem.region,
-              meal: foodLogItem.meal,
-            };
-          });
-        },
+        return response.foodItemLog.map((foodLogItem) => {
+          return {
+            dbId: foodLogItem.id,
+            foodItemId: foodLogItem.foodItemId,
+            name: foodLogItem.name,
+            quantity: {
+              value: foodLogItem.quantity,
+              unit: new FoodUnit(foodLogItem.unit),
+            },
+            carbonFootprint: foodLogItem.carbonFootprint,
+            region: foodLogItem.region,
+            meal: foodLogItem.meal,
+          };
+        });
+      },
   }),
 });
 
@@ -207,42 +207,42 @@ export const LocalFoodItemLogStats = selectorFamily<FoodLogStats, SerializableDa
   key: 'LocalFoodItemLogStats',
   get:
     (date) =>
-      async ({ get }) => {
-        const foodItemLog = get(LocalFoodItemLogState(date));
-        const userSettings = get(LocalUserSettingsState);
-        const stats = {
-          totalCarbonFootprint: 0.0,
-          carbonFootprintGoalPercent: 0,
-          carbonFootprintRemaining: userSettings.cfLimit,
-        };
-        foodItemLog.forEach((item) => {
-          stats.totalCarbonFootprint += item.carbonFootprint;
-        });
-        stats.carbonFootprintGoalPercent =
-          userSettings.cfLimit != 0 ? (stats.totalCarbonFootprint / userSettings.cfLimit) * 100 : 0;
-        stats.carbonFootprintRemaining -= stats.totalCarbonFootprint;
-        return stats;
-      },
+    async ({ get }) => {
+      const foodItemLog = get(LocalFoodItemLogState(date));
+      const userSettings = get(LocalUserSettingsState);
+      const stats = {
+        totalCarbonFootprint: 0.0,
+        carbonFootprintGoalPercent: 0,
+        carbonFootprintRemaining: userSettings.cfLimit,
+      };
+      foodItemLog.forEach((item) => {
+        stats.totalCarbonFootprint += item.carbonFootprint;
+      });
+      stats.carbonFootprintGoalPercent =
+        userSettings.cfLimit != 0 ? (stats.totalCarbonFootprint / userSettings.cfLimit) * 100 : 0;
+      stats.carbonFootprintRemaining -= stats.totalCarbonFootprint;
+      return stats;
+    },
 });
 
 export const LocalFoodItemLogStatsByMeal = selectorFamily<Map<number, number>, SerializableDate>({
   key: 'LocalFoodItemLogStatsByMeal',
   get:
     (date) =>
-      async ({ get }) => {
-        const foodItemLog = get(LocalFoodItemLogState(date));
-        const mealMap = new Map(
-          Object.values(MealProto)
-            .filter((x) => typeof x === 'number')
-            .fill(0.0)
-            .entries(),
-        ) as Map<number, number>;
-        foodItemLog.forEach((item) => {
-          const value = mealMap.get(item.meal) ?? 0.0;
-          mealMap.set(item.meal, value + item.carbonFootprint);
-        });
-        return mealMap;
-      },
+    async ({ get }) => {
+      const foodItemLog = get(LocalFoodItemLogState(date));
+      const mealMap = new Map(
+        Object.values(MealProto)
+          .filter((x) => typeof x === 'number')
+          .fill(0.0)
+          .entries(),
+      ) as Map<number, number>;
+      foodItemLog.forEach((item) => {
+        const value = mealMap.get(item.meal) ?? 0.0;
+        mealMap.set(item.meal, value + item.carbonFootprint);
+      });
+      return mealMap;
+    },
 });
 
 export const UserInsightsState = selector<UserInsights>({

@@ -4,9 +4,10 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { Card, CardContent, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
+import dayjs from 'dayjs';
+
 import { MIN_CARD_WIDTH } from '@/config';
 import { LocalUserGoal } from '@/store/user/types';
-import dayjs from 'dayjs';
 
 type GoalDeadlineCardProps = {
   goal: LocalUserGoal;
@@ -24,7 +25,7 @@ function GoalDeadlineCard({ goal, currentUserAverage }: GoalDeadlineCardProps) {
   } else if (statDiff < 0) {
     textColor = 'error.main';
   }
-  const dateDiff = goal.endDate.diff(dayjs(), "day")
+  const dateDiff = goal.endDate.diff(dayjs(), 'day');
 
   return (
     <Card sx={{ minWidth: MIN_CARD_WIDTH, display: 'flex' }}>
@@ -61,7 +62,7 @@ function GoalDeadlineCard({ goal, currentUserAverage }: GoalDeadlineCardProps) {
             DAYS
           </Typography>
           <Typography variant="subtitle2" color="info.main">
-            {dateDiff >= 0 ? "LEFT" : "OVER"}
+            {dateDiff >= 0 ? 'LEFT' : 'OVER'}
           </Typography>
         </Grid>
       </Grid>
