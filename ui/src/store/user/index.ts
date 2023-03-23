@@ -43,21 +43,6 @@ export const CurrentUserState = atom<User | null>({
   ],
 });
 
-export const NotificationsState = selector<boolean>({
-  key: 'NotificationsState',
-  get: async ({ get }) => {
-    const permission = await Notification.requestPermission();
-    if (permission == 'denied') {
-      console.error('permission denied');
-      return false;
-    }
-    const token = await NotificationService.getWebToken();
-    const userHeaders = get(CurrentUserHeadersState);
-    client.addDevice({ fcmToken: token }, { headers: userHeaders });
-    return true;
-  },
-});
-
 export const CurrentUserDisplayName = atom<string | null>({
   key: 'CurrentUserDisplayName',
   default: selector({
@@ -89,6 +74,13 @@ export const CurrentUserHeadersState = selector({
     user?.getIdToken().then((idToken) => {
       headers.set('Authorization', `Bearer ${idToken}`);
     });
+    try {
+      NotificationService.getWebToken().then((token) => {
+        client.addDevice({ fcmToken: token }, { headers: headers });
+      });
+    } catch {
+      /* empty */
+    }
     return headers;
   },
 });

@@ -12,6 +12,7 @@ import Header from './sections/Header';
 function App() {
   window.addEventListener('load', async () => {
     await NotificationService.registerWorker();
+    await Notification.requestPermission();
   });
   return (
     <Fragment>

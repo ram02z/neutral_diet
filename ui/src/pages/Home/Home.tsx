@@ -18,7 +18,6 @@ import {
   ActiveGoalState,
   LocalFoodItemLogStats,
   LocalUserSettingsState,
-  NotificationsState,
   UserInsightsState,
   UserProgressState,
 } from '@/store/user';
@@ -32,7 +31,6 @@ function Home() {
   const userSettings = useRecoilValue(LocalUserSettingsState);
   const activeUserGoal = useRecoilValue(ActiveGoalState);
   const externalInsights = new Insights(userSettings.dietaryRequirement);
-  const notificationsEnabled = useRecoilValue(NotificationsState);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => refreshUserInsights(), []);
