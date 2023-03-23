@@ -25,3 +25,6 @@ FROM
     "user"
 WHERE
     firebase_uid = $1;
+
+-- name: GetUserIDs :many
+SELECT id FROM "user";

@@ -82,8 +82,14 @@ func Run() {
 	jobContext := l.WithContext(context.Background())
 	jobWrapper := service.NewJobWrapper(pgpool, messagingClient, &jobContext)
 	for _, job := range jobWrapper.Jobs() {
-		cronScheduler.Every(job.Every).At(job.At).Do(job.Job)
-		// cronScheduler.Every(1).Day().At("19:00").Do(job)
+		_, err := cronScheduler.
+			Every(1).
+			Day().
+			At(job.At).
+			Do(job.Job)
+		if err != nil {
+			l.Err(err).Msg("Failed to add job")
+		}
 	}
 	cronScheduler.StartAsync()
 	l.Info().Msg("Successfully started the cron scheduler")

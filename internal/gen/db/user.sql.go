@@ -71,6 +71,30 @@ func (q *Queries) GetUserByFirebaseUID(ctx context.Context, firebaseUid string) 
 	return i, err
 }
 
+const getUserIDs = `-- name: GetUserIDs :many
+SELECT id FROM "user"
+`
+
+func (q *Queries) GetUserIDs(ctx context.Context) ([]int32, error) {
+	rows, err := q.db.Query(ctx, getUserIDs)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []int32
+	for rows.Next() {
+		var id int32
+		if err := rows.Scan(&id); err != nil {
+			return nil, err
+		}
+		items = append(items, id)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateUserSettings = `-- name: UpdateUserSettings :exec
 UPDATE
     "user"
