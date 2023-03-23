@@ -73,6 +73,35 @@ func (q *Queries) GetUserByFirebaseUID(ctx context.Context, firebaseUid string) 
 	return i, err
 }
 
+const getUserFCMTokens = `-- name: GetUserFCMTokens :many
+SELECT
+    fcm_token
+FROM
+    "user"
+WHERE
+    fcm_token IS NOT NULL
+`
+
+func (q *Queries) GetUserFCMTokens(ctx context.Context) ([]pgtype.Text, error) {
+	rows, err := q.db.Query(ctx, getUserFCMTokens)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []pgtype.Text
+	for rows.Next() {
+		var fcm_token pgtype.Text
+		if err := rows.Scan(&fcm_token); err != nil {
+			return nil, err
+		}
+		items = append(items, fcm_token)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateUserFCMToken = `-- name: UpdateUserFCMToken :exec
 UPDATE
     "user"
