@@ -33,6 +33,9 @@ function Goals() {
   const refreshUserInsights = useRecoilRefresher_UNSTABLE(UserInsightsState);
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const newUser = useMemo(() => userInsights.userDailyAverage === 0, [userInsights]);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(
+    Notification.permission == 'granted',
+  );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => refreshUserInsights(), []);
@@ -82,6 +85,13 @@ function Goals() {
     setOpenAddDialog(false);
   };
 
+  const requestNotificationPermission = async () => {
+    const permission = await Notification.requestPermission();
+    if (permission == 'granted') {
+      setNotificationsEnabled(true);
+    }
+  };
+
   return (
     <Grid
       container
@@ -94,6 +104,24 @@ function Goals() {
     >
       <Grid xs={12}>
         <Typography variant="h4">Carbon footprint goals</Typography>
+      </Grid>
+      <Grid xs={12}>
+        <Typography variant="caption" color="text.secondary">
+          Goals are automatically marked as completed if target is reached
+        </Typography>
+      </Grid>
+      <Grid xs={12}>
+        <Tooltip title={notificationsEnabled ? 'Notifications are already enabled' : ''}>
+          <span>
+            <Button
+              variant="contained"
+              onClick={requestNotificationPermission}
+              disabled={notificationsEnabled}
+            >
+              Enable notifications
+            </Button>
+          </span>
+        </Tooltip>
       </Grid>
       <Grid xs={12}>
         <GoalList />
