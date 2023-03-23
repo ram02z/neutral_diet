@@ -13,6 +13,12 @@ type JobWrapper struct {
 	c *context.Context
 }
 
+type CronJob struct {
+	Job   func()
+	At    string
+	Every string
+}
+
 func NewJobWrapper(p *pgxpool.Pool, m *messaging.Client, c *context.Context) *JobWrapper {
 	return &JobWrapper{
 		p: p,
@@ -21,6 +27,10 @@ func NewJobWrapper(p *pgxpool.Pool, m *messaging.Client, c *context.Context) *Jo
 	}
 }
 
-func (j *JobWrapper) Jobs() []func() {
-	return []func(){j.userGoalNotificationsJob}
+func (j *JobWrapper) Jobs() []*CronJob {
+	return []*CronJob{{
+		Job: j.userGoalNotificationsJob,
+		At: "19:00",
+		Every: "1d",
+	}}
 }
