@@ -44,7 +44,7 @@ func generateNotification(
 		notification.Body = "Try adding a carbon footprint goal to get started!"
 	} else {
 		notification.Title = "Carbon footprint goal reminder"
-		notification.Body = fmt.Sprintf("You have %d active goals", len(activeGoals))
+		notification.Body = fmt.Sprintf("You have %d active goals.", len(activeGoals))
 		if len(todayLog) == 0 {
 			notification.Body += "\nEnsure you log your food before the end of today!"
 		} else {
@@ -79,7 +79,7 @@ func (j *JobWrapper) userGoalNotificationsJob() {
 
 	messages := make([]*messaging.Message, len(response))
 	for i, j := range response {
-		notification, err := generateNotification(ctx, queries, j.ID)
+		notification, err := generateNotification(ctx, queries, j.UserID)
 		if err != nil {
 			logger.Err(err).Int32("UserID", j.ID).Msg("Could not generate notification")
 			return
