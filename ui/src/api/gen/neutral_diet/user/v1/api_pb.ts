@@ -1163,3 +1163,71 @@ export class GetCarbonFootprintGoalsResponse extends Message<GetCarbonFootprintG
   }
 }
 
+/**
+ * @generated from message neutral_diet.user.v1.AddDeviceRequest
+ */
+export class AddDeviceRequest extends Message<AddDeviceRequest> {
+  /**
+   * @generated from field: string fcm_token = 1;
+   */
+  fcmToken = "";
+
+  constructor(data?: PartialMessage<AddDeviceRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.AddDeviceRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "fcm_token", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AddDeviceRequest {
+    return new AddDeviceRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AddDeviceRequest {
+    return new AddDeviceRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AddDeviceRequest {
+    return new AddDeviceRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: AddDeviceRequest | PlainMessage<AddDeviceRequest> | undefined, b: AddDeviceRequest | PlainMessage<AddDeviceRequest> | undefined): boolean {
+    return proto3.util.equals(AddDeviceRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.AddDeviceResponse
+ */
+export class AddDeviceResponse extends Message<AddDeviceResponse> {
+  constructor(data?: PartialMessage<AddDeviceResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.AddDeviceResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AddDeviceResponse {
+    return new AddDeviceResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AddDeviceResponse {
+    return new AddDeviceResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AddDeviceResponse {
+    return new AddDeviceResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: AddDeviceResponse | PlainMessage<AddDeviceResponse> | undefined, b: AddDeviceResponse | PlainMessage<AddDeviceResponse> | undefined): boolean {
+    return proto3.util.equals(AddDeviceResponse, a, b);
+  }
+}
+

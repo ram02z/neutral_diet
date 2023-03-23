@@ -84,3 +84,31 @@ func (s *Store) UpdateUserSettings(
 
 	return &userv1.UpdateUserSettingsResponse{}, nil
 }
+
+func (s *Store) AddDevice(
+	ctx context.Context,
+	r *userv1.AddDeviceRequest,
+	firebaseUID string,
+) (*userv1.AddDeviceResponse, error) {
+	queries := db.New(s.dbPool)
+
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeNotFound, err)
+	}
+
+	err = queries.DeleteDeviceByUser(ctx, user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	err = queries.AddDevice(ctx, db.AddDeviceParams{
+		UserID:   user.ID,
+		FcmToken: r.FcmToken,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &userv1.AddDeviceResponse{}, nil
+}

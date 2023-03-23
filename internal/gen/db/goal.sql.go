@@ -58,6 +58,47 @@ func (q *Queries) DeleteCarbonFootprintGoal(ctx context.Context, arg DeleteCarbo
 	return err
 }
 
+const getActiveCarbonFootprintGoals = `-- name: GetActiveCarbonFootprintGoals :many
+SELECT
+    id, user_id, description, start_date, end_date, start_carbon_footprint, target_carbon_footprint, completed
+FROM
+    "carbon_footprint_goal"
+WHERE
+    user_id = $1
+    AND completed = false
+ORDER BY
+    end_date
+`
+
+func (q *Queries) GetActiveCarbonFootprintGoals(ctx context.Context, userID int32) ([]CarbonFootprintGoal, error) {
+	rows, err := q.db.Query(ctx, getActiveCarbonFootprintGoals, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []CarbonFootprintGoal
+	for rows.Next() {
+		var i CarbonFootprintGoal
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.Description,
+			&i.StartDate,
+			&i.EndDate,
+			&i.StartCarbonFootprint,
+			&i.TargetCarbonFootprint,
+			&i.Completed,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getCarbonFootprintGoals = `-- name: GetCarbonFootprintGoals :many
 SELECT
     id, user_id, description, start_date, end_date, start_carbon_footprint, target_carbon_footprint, completed

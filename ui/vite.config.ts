@@ -1,30 +1,39 @@
 import * as path from "path";
-import { defineConfig } from "vite";
+import { build, defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { VitePWA } from "vite-plugin-pwa";
 
-import manifest from "./manifest.json";
+const firebaseSwPlugin: import('vite').Plugin = {
+  name: 'firebaseSwPlugin',
+  apply: 'build',
+  enforce: 'post',
+  buildEnd: async () => {
+    const conf = {
+      build: {
+        lib: {
+          entry: path.resolve(__dirname, './src/firebase-messaging-sw.js'),
+          formats: ['es'],
+        },
+        rollupOptions: {
+          output: {
+            entryFileNames: 'firebase-messaging-sw.js',
+          },
+        },
+        outDir: path.resolve(__dirname, './dist'),
+        emptyOutDir: false,
+      },
+      configFile: false,
+    };
+
+    await build(conf);
+  }
+
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    VitePWA({
-      manifest,
-      includeAssets: [
-        "favicon.svg",
-        "favicon.ico",
-        "robots.txt",
-        "apple-touch-icon.png",
-      ],
-      // switch to "true" to enable sw on development
-      devOptions: {
-        enabled: false,
-      },
-      workbox: {
-        globPatterns: ["**/*.{js,css,html}", "**/*.{svg,png,jpg,gif}"],
-      },
-    }),
+    firebaseSwPlugin,
   ],
   resolve: {
     alias: {

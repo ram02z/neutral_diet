@@ -3562,3 +3562,207 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetCarbonFootprintGoalsResponseValidationError{}
+
+// Validate checks the field values on AddDeviceRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AddDeviceRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AddDeviceRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AddDeviceRequestMultiError, or nil if none found.
+func (m *AddDeviceRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AddDeviceRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for FcmToken
+
+	if len(errors) > 0 {
+		return AddDeviceRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// AddDeviceRequestMultiError is an error wrapping multiple validation errors
+// returned by AddDeviceRequest.ValidateAll() if the designated constraints
+// aren't met.
+type AddDeviceRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AddDeviceRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AddDeviceRequestMultiError) AllErrors() []error { return m }
+
+// AddDeviceRequestValidationError is the validation error returned by
+// AddDeviceRequest.Validate if the designated constraints aren't met.
+type AddDeviceRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AddDeviceRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AddDeviceRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AddDeviceRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AddDeviceRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AddDeviceRequestValidationError) ErrorName() string { return "AddDeviceRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AddDeviceRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAddDeviceRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AddDeviceRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AddDeviceRequestValidationError{}
+
+// Validate checks the field values on AddDeviceResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AddDeviceResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AddDeviceResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AddDeviceResponseMultiError, or nil if none found.
+func (m *AddDeviceResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AddDeviceResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return AddDeviceResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// AddDeviceResponseMultiError is an error wrapping multiple validation errors
+// returned by AddDeviceResponse.ValidateAll() if the designated constraints
+// aren't met.
+type AddDeviceResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AddDeviceResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AddDeviceResponseMultiError) AllErrors() []error { return m }
+
+// AddDeviceResponseValidationError is the validation error returned by
+// AddDeviceResponse.Validate if the designated constraints aren't met.
+type AddDeviceResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AddDeviceResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AddDeviceResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AddDeviceResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AddDeviceResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AddDeviceResponseValidationError) ErrorName() string {
+	return "AddDeviceResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AddDeviceResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAddDeviceResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AddDeviceResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AddDeviceResponseValidationError{}

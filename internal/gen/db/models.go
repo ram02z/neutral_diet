@@ -81,6 +81,12 @@ type DailyUserAverageByDietaryRequirement struct {
 	DietaryRequirement     int32
 }
 
+type Device struct {
+	ID       int32
+	UserID   int32
+	FcmToken string
+}
+
 type FoodItem struct {
 	ID          int32
 	Name        string

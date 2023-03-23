@@ -15,6 +15,7 @@ import DietaryRequirement from '@/core/dietary_requirements';
 import { auth } from '@/core/firebase';
 import { FoodUnit } from '@/core/food_unit';
 import { Meal } from '@/core/meal';
+import NotificationService from '@/core/notifications';
 import { toDayJsDate, toSerializableDate } from '@/utils/date';
 
 import {
@@ -32,10 +33,10 @@ export const CurrentUserState = atom<User | null>({
   key: 'CurrentUserState',
   dangerouslyAllowMutability: true,
   effects: [
-    (ctx) => {
-      if (ctx.trigger === 'get') {
+    ({ trigger, setSelf }) => {
+      if (trigger === 'get') {
         return auth.onIdTokenChanged((user) => {
-          ctx.setSelf(user);
+          setSelf(user);
         });
       }
     },
@@ -73,6 +74,13 @@ export const CurrentUserHeadersState = selector({
     user?.getIdToken().then((idToken) => {
       headers.set('Authorization', `Bearer ${idToken}`);
     });
+    try {
+      NotificationService.getWebToken().then((token) => {
+        client.addDevice({ fcmToken: token }, { headers: headers });
+      });
+    } catch {
+      /* empty */
+    }
     return headers;
   },
 });
