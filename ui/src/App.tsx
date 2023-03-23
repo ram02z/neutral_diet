@@ -12,13 +12,6 @@ import Header from './sections/Header';
 function App() {
   window.addEventListener("load", async () => {
     await NotificationService.registerWorker();
-    const permission = await Notification.requestPermission();
-    if (permission == "denied") {
-      console.error("permission denied")
-      return
-    }
-    const token = await NotificationService.getWebToken();
-    console.log(token);
   })
   return (
     <Fragment>

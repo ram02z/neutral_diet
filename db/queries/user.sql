@@ -25,3 +25,11 @@ FROM
     "user"
 WHERE
     firebase_uid = $1;
+
+-- name: UpdateUserFCMToken :exec
+UPDATE
+    "user"
+SET
+    fcm_token = $2
+WHERE
+    firebase_uid = $1;

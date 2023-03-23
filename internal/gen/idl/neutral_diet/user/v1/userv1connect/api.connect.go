@@ -42,6 +42,7 @@ type UserServiceClient interface {
 	UpdateCarbonFootprintGoal(context.Context, *connect_go.Request[v1.UpdateCarbonFootprintGoalRequest]) (*connect_go.Response[v1.UpdateCarbonFootprintGoalResponse], error)
 	DeleteCarbonFootprintGoal(context.Context, *connect_go.Request[v1.DeleteCarbonFootprintGoalRequest]) (*connect_go.Response[v1.DeleteCarbonFootprintGoalResponse], error)
 	GetCarbonFootprintGoals(context.Context, *connect_go.Request[v1.GetCarbonFootprintGoalsRequest]) (*connect_go.Response[v1.GetCarbonFootprintGoalsResponse], error)
+	UpdateUserFCMToken(context.Context, *connect_go.Request[v1.UpdateUserFCMTokenRequest]) (*connect_go.Response[v1.UpdateUserFCMTokenResponse], error)
 }
 
 // NewUserServiceClient constructs a client for the neutral_diet.user.v1.UserService service. By
@@ -129,6 +130,11 @@ func NewUserServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+"/neutral_diet.user.v1.UserService/GetCarbonFootprintGoals",
 			opts...,
 		),
+		updateUserFCMToken: connect_go.NewClient[v1.UpdateUserFCMTokenRequest, v1.UpdateUserFCMTokenResponse](
+			httpClient,
+			baseURL+"/neutral_diet.user.v1.UserService/UpdateUserFCMToken",
+			opts...,
+		),
 	}
 }
 
@@ -149,6 +155,7 @@ type userServiceClient struct {
 	updateCarbonFootprintGoal *connect_go.Client[v1.UpdateCarbonFootprintGoalRequest, v1.UpdateCarbonFootprintGoalResponse]
 	deleteCarbonFootprintGoal *connect_go.Client[v1.DeleteCarbonFootprintGoalRequest, v1.DeleteCarbonFootprintGoalResponse]
 	getCarbonFootprintGoals   *connect_go.Client[v1.GetCarbonFootprintGoalsRequest, v1.GetCarbonFootprintGoalsResponse]
+	updateUserFCMToken        *connect_go.Client[v1.UpdateUserFCMTokenRequest, v1.UpdateUserFCMTokenResponse]
 }
 
 // AddFoodItem calls neutral_diet.user.v1.UserService.AddFoodItem.
@@ -226,6 +233,11 @@ func (c *userServiceClient) GetCarbonFootprintGoals(ctx context.Context, req *co
 	return c.getCarbonFootprintGoals.CallUnary(ctx, req)
 }
 
+// UpdateUserFCMToken calls neutral_diet.user.v1.UserService.UpdateUserFCMToken.
+func (c *userServiceClient) UpdateUserFCMToken(ctx context.Context, req *connect_go.Request[v1.UpdateUserFCMTokenRequest]) (*connect_go.Response[v1.UpdateUserFCMTokenResponse], error) {
+	return c.updateUserFCMToken.CallUnary(ctx, req)
+}
+
 // UserServiceHandler is an implementation of the neutral_diet.user.v1.UserService service.
 type UserServiceHandler interface {
 	AddFoodItem(context.Context, *connect_go.Request[v1.AddFoodItemRequest]) (*connect_go.Response[v1.AddFoodItemResponse], error)
@@ -243,6 +255,7 @@ type UserServiceHandler interface {
 	UpdateCarbonFootprintGoal(context.Context, *connect_go.Request[v1.UpdateCarbonFootprintGoalRequest]) (*connect_go.Response[v1.UpdateCarbonFootprintGoalResponse], error)
 	DeleteCarbonFootprintGoal(context.Context, *connect_go.Request[v1.DeleteCarbonFootprintGoalRequest]) (*connect_go.Response[v1.DeleteCarbonFootprintGoalResponse], error)
 	GetCarbonFootprintGoals(context.Context, *connect_go.Request[v1.GetCarbonFootprintGoalsRequest]) (*connect_go.Response[v1.GetCarbonFootprintGoalsResponse], error)
+	UpdateUserFCMToken(context.Context, *connect_go.Request[v1.UpdateUserFCMTokenRequest]) (*connect_go.Response[v1.UpdateUserFCMTokenResponse], error)
 }
 
 // NewUserServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -327,6 +340,11 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect_go.HandlerOpt
 		svc.GetCarbonFootprintGoals,
 		opts...,
 	))
+	mux.Handle("/neutral_diet.user.v1.UserService/UpdateUserFCMToken", connect_go.NewUnaryHandler(
+		"/neutral_diet.user.v1.UserService/UpdateUserFCMToken",
+		svc.UpdateUserFCMToken,
+		opts...,
+	))
 	return "/neutral_diet.user.v1.UserService/", mux
 }
 
@@ -391,4 +409,8 @@ func (UnimplementedUserServiceHandler) DeleteCarbonFootprintGoal(context.Context
 
 func (UnimplementedUserServiceHandler) GetCarbonFootprintGoals(context.Context, *connect_go.Request[v1.GetCarbonFootprintGoalsRequest]) (*connect_go.Response[v1.GetCarbonFootprintGoalsResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.GetCarbonFootprintGoals is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) UpdateUserFCMToken(context.Context, *connect_go.Request[v1.UpdateUserFCMTokenRequest]) (*connect_go.Response[v1.UpdateUserFCMTokenResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.user.v1.UserService.UpdateUserFCMToken is not implemented"))
 }

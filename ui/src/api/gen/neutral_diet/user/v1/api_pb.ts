@@ -1163,3 +1163,71 @@ export class GetCarbonFootprintGoalsResponse extends Message<GetCarbonFootprintG
   }
 }
 
+/**
+ * @generated from message neutral_diet.user.v1.UpdateUserFCMTokenRequest
+ */
+export class UpdateUserFCMTokenRequest extends Message<UpdateUserFCMTokenRequest> {
+  /**
+   * @generated from field: string fcm_token = 1;
+   */
+  fcmToken = "";
+
+  constructor(data?: PartialMessage<UpdateUserFCMTokenRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.UpdateUserFCMTokenRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "fcm_token", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateUserFCMTokenRequest {
+    return new UpdateUserFCMTokenRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateUserFCMTokenRequest {
+    return new UpdateUserFCMTokenRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateUserFCMTokenRequest {
+    return new UpdateUserFCMTokenRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UpdateUserFCMTokenRequest | PlainMessage<UpdateUserFCMTokenRequest> | undefined, b: UpdateUserFCMTokenRequest | PlainMessage<UpdateUserFCMTokenRequest> | undefined): boolean {
+    return proto3.util.equals(UpdateUserFCMTokenRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.UpdateUserFCMTokenResponse
+ */
+export class UpdateUserFCMTokenResponse extends Message<UpdateUserFCMTokenResponse> {
+  constructor(data?: PartialMessage<UpdateUserFCMTokenResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.UpdateUserFCMTokenResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateUserFCMTokenResponse {
+    return new UpdateUserFCMTokenResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateUserFCMTokenResponse {
+    return new UpdateUserFCMTokenResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateUserFCMTokenResponse {
+    return new UpdateUserFCMTokenResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UpdateUserFCMTokenResponse | PlainMessage<UpdateUserFCMTokenResponse> | undefined, b: UpdateUserFCMTokenResponse | PlainMessage<UpdateUserFCMTokenResponse> | undefined): boolean {
+    return proto3.util.equals(UpdateUserFCMTokenResponse, a, b);
+  }
+}
+

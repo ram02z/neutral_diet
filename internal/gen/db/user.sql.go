@@ -8,6 +8,7 @@ package db
 import (
 	"context"
 
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/shopspring/decimal"
 )
 
@@ -49,7 +50,7 @@ func (q *Queries) DeleteUserByFirebaseUID(ctx context.Context, firebaseUid strin
 
 const getUserByFirebaseUID = `-- name: GetUserByFirebaseUID :one
 SELECT
-    id, firebase_uid, region, cf_limit, created_at, updated_at, dietary_requirement
+    id, firebase_uid, region, cf_limit, created_at, updated_at, dietary_requirement, fcm_token
 FROM
     "user"
 WHERE
@@ -67,8 +68,28 @@ func (q *Queries) GetUserByFirebaseUID(ctx context.Context, firebaseUid string) 
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.DietaryRequirement,
+		&i.FcmToken,
 	)
 	return i, err
+}
+
+const updateUserFCMToken = `-- name: UpdateUserFCMToken :exec
+UPDATE
+    "user"
+SET
+    fcm_token = $2
+WHERE
+    firebase_uid = $1
+`
+
+type UpdateUserFCMTokenParams struct {
+	FirebaseUid string
+	FcmToken    pgtype.Text
+}
+
+func (q *Queries) UpdateUserFCMToken(ctx context.Context, arg UpdateUserFCMTokenParams) error {
+	_, err := q.db.Exec(ctx, updateUserFCMToken, arg.FirebaseUid, arg.FcmToken)
+	return err
 }
 
 const updateUserSettings = `-- name: UpdateUserSettings :exec

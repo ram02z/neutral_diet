@@ -172,6 +172,30 @@ func (c *ConnectWrapper) GetUserSettings(
 	return out, nil
 }
 
+func (c *ConnectWrapper) UpdateUserFCMToken(
+	ctx context.Context,
+	req *connect.Request[userv1.UpdateUserFCMTokenRequest],
+) (*connect.Response[userv1.UpdateUserFCMTokenResponse], error) {
+	uid, ok := ctx.Value(config.UserIDKey).(string)
+	if !ok {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("user token is malformed"))
+	}
+
+	res, err := c.s.UpdateUserFCMToken(ctx, req.Msg, uid)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	err = validate(out.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (c *ConnectWrapper) GetFoodItemLog(
 	ctx context.Context,
 	req *connect.Request[userv1.GetFoodItemLogRequest],
