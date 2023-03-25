@@ -44,7 +44,6 @@ jobs:
   server:
     permissions:
       contents: 'read'
-      id-token: 'write'
     runs-on: ubuntu-latest
     env:
       PROJECT_ID: ${{ secrets.VITE_GOOGLE_CLOUD_PROJECT }}
@@ -64,9 +63,7 @@ jobs:
       - uses: google-github-actions/auth@v1
         id: auth
         with:
-          token_format: 'access_token'
-          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
-          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
       - name: Docker Auth
         id: docker-auth
         uses: 'docker/login-action@v1'
