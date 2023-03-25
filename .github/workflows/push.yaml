@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  frontend_lint:
+  frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -27,9 +27,16 @@ jobs:
       - name: Run eslint
         run: |-
           npx eslint 'src/**/*.{js,ts,tsx,json}'
-      # TODO: add tsc step
+      - name: Build static assets
+        run: npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_NEUTRAL_DIET }}"
+          projectId: neutral-diet
+          channelId: live
 
-  go:
+  server:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-go@v3
