@@ -11,12 +11,6 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func getUnaryInterceptors(logger *zerolog.Logger) []connect.Interceptor {
-	return []connect.Interceptor{
-		connectInterceptorForLogger(logger),
-	}
-}
-
 func connectInterceptorForLogger(logger *zerolog.Logger) connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
 		return connect.UnaryFunc(func(
@@ -69,4 +63,3 @@ func connectInterceptorForAuth(auth *auth.Client) connect.UnaryInterceptorFunc {
 
 	return connect.UnaryInterceptorFunc(interceptor)
 }
-

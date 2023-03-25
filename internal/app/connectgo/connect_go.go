@@ -9,7 +9,6 @@ import (
 	"firebase.google.com/go/auth"
 	"github.com/bufbuild/connect-go"
 	"github.com/justinas/alice"
-	frontend "github.com/ram02z/neutral_diet"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1/foodv1connect"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1/userv1connect"
 	"github.com/ram02z/neutral_diet/internal/service"
@@ -49,7 +48,6 @@ func RegisterConnectGoServer(in RegisterConnectGoServerInput) {
 	// 	"coop.drivers.foov1beta1.FooService",
 	// )
 	// in.Mux.Handle(grpchealth.NewHandler(checker))
-	in.Mux.Handle("/", handleStatic())
 	in.Mux.Handle("/api/", http.StripPrefix("/api", api))
 }
 
@@ -69,7 +67,7 @@ func NewConnectGoServer(
 	cfg Config,
 ) *Server {
 	mux := http.NewServeMux()
-	address := fmt.Sprintf("%s:%d", cfg.ConnectConfig.Host, cfg.ConnectConfig.Port)
+	address := fmt.Sprintf(":%d", cfg.ConnectConfig.Port)
 
 	c := alice.New()
 	c = c.Append(hlog.NewHandler(*logger))
@@ -119,7 +117,6 @@ func NewConnectGoServer(
 
 func (s *Server) start(logger *zerolog.Logger) {
 	go func() {
-		logger.Info().Str("address", s.Server.Addr).Str("path", "/").Msg("Serving static files")
 		logger.Info().Str("address", s.Server.Addr).Str("path", "/api").Msg("Listening for connect-go")
 		s.notify <- s.Server.ListenAndServe()
 		close(s.notify)
@@ -135,8 +132,4 @@ func (s *Server) Shutdown() error {
 	defer cancel()
 
 	return s.Server.Shutdown(ctx)
-}
-
-func handleStatic() http.Handler {
-	return http.FileServer(frontend.DistFS())
 }

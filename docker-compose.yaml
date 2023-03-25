@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:15
     ports:
-      - "${DB_PORT}:${DB_PORT}"
+      - "5432:5432"
     volumes:
       - "pg_data:/var/lib/postgresql/data"
     command:
@@ -12,15 +12,26 @@ services:
       - "-c"
       - "log_statement=all"
     environment:
-      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_HOST=${DB_HOST}
       - POSTGRES_PASSWORD=${DB_PASS}
-      - POSTGRES_DB=${DB_NAME}
       - WAL_LEVEL=logical
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       timeout: 1s
       retries: 5
+  server:
+    build: .
+    ports:
+      - "8080:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PASS=${DB_PASS}
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   pg_data:
