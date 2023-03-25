@@ -1,6 +1,7 @@
 name: pull_request
 on: pull_request
 
+
 jobs:
   frontend:
     runs-on: ubuntu-latest
@@ -21,8 +22,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: "npm"
-          cache-dependency-path: "ui/package-lock.json"
+          cache: 'npm'
+          cache-dependency-path: 'ui/package-lock.json'
       - name: Install dependencies
         run: npm ci
       - name: Run prettier
@@ -42,7 +43,8 @@ jobs:
 
   server:
     permissions:
-      contents: "read"
+      contents: 'read'
+
     runs-on: ubuntu-latest
     env:
       PROJECT_ID: ${{ secrets.VITE_GOOGLE_CLOUD_PROJECT }}
@@ -59,19 +61,28 @@ jobs:
         uses: golangci/golangci-lint-action@v3
       - name: Run tests
         run: go test -v ./...
-      - uses: google-github-actions/setup-gcloud@v0
+      - uses: google-github-actions/auth@v1
+        id: auth
         with:
-          project_id: "${{ env.PROJECT_ID }}"
-          service_account_email: "${{ secrets.GCP_EMAIL }}"
-          service_account_key: "${{ secrets.GCP_CREDENTIALS }}"
-      - name: Configure Docker
-        run: gcloud auth configure-docker --quiet
+          token_format: 'access_token'
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+      - name: Docker Auth
+        id: docker-auth
+        uses: 'docker/login-action@v1'
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: '${{ env.GAR_LOCATION }}-docker.pkg.dev'
       - name: Build and Push Container
         run: |-
           docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}" ./
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
       - name: Deploy to Cloud Run
-        run: gcloud run deploy "${{ env.PROJECT_ID }}" --image "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }} --region "${{ env.REGION }}" --platform managed
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: ${{ env.SERVICE }}
+          region: ${{ env.REGION }}
+          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}
 
   proto:
     runs-on: ubuntu-latest
