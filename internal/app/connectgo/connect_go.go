@@ -9,7 +9,6 @@ import (
 	"firebase.google.com/go/auth"
 	"github.com/bufbuild/connect-go"
 	"github.com/justinas/alice"
-	frontend "github.com/ram02z/neutral_diet"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1/foodv1connect"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1/userv1connect"
 	"github.com/ram02z/neutral_diet/internal/service"
@@ -49,7 +48,6 @@ func RegisterConnectGoServer(in RegisterConnectGoServerInput) {
 	// 	"coop.drivers.foov1beta1.FooService",
 	// )
 	// in.Mux.Handle(grpchealth.NewHandler(checker))
-	in.Mux.Handle("/", handleStatic())
 	in.Mux.Handle("/api/", http.StripPrefix("/api", api))
 }
 
@@ -135,8 +133,4 @@ func (s *Server) Shutdown() error {
 	defer cancel()
 
 	return s.Server.Shutdown(ctx)
-}
-
-func handleStatic() http.Handler {
-	return http.FileServer(frontend.DistFS())
 }
