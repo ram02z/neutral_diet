@@ -63,4 +63,3 @@ func connectInterceptorForAuth(auth *auth.Client) connect.UnaryInterceptorFunc {
 
 	return connect.UnaryInterceptorFunc(interceptor)
 }
-
