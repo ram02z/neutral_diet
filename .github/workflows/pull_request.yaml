@@ -1,8 +1,5 @@
 name: pull_request
 on: pull_request
-permissions:
-  contents: read
-  pull-requests: read
 
 jobs:
   frontend:
