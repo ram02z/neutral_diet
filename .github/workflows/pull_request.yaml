@@ -43,6 +43,12 @@ jobs:
 
   server:
     runs-on: ubuntu-latest
+    env:
+      PROJECT_ID: ${{ secrets.VITE_GOOGLE_CLOUD_PROJECT }}
+      GAR_LOCATION: ${{ secrets.GAR_LOCATION }}
+      REPOSITORY: ${{ secrets.GAR_REPOSITORY }}
+      SERVICE: ${{ secrets.CR_SERVICE_NAME }}
+      REGION: ${{ secrets.CR_SERVICE_REGION }}
     steps:
       - uses: actions/setup-go@v3
         with:
@@ -51,7 +57,20 @@ jobs:
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
       - name: Run tests
-        run: go test -v ./internal/service
+        run: go test -v ./...
+      - uses: google-github-actions/auth@v1
+        with:
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+      - name: Build and Push Container
+        run: |-
+          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}" ./
+          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: ${{ env.SERVICE }}
+          region: ${{ env.REGION }}
+          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}
 
   proto:
     runs-on: ubuntu-latest
