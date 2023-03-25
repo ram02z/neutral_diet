@@ -67,7 +67,7 @@ func NewConnectGoServer(
 	cfg Config,
 ) *Server {
 	mux := http.NewServeMux()
-	address := fmt.Sprintf("%s:%d", cfg.ConnectConfig.Host, cfg.ConnectConfig.Port)
+	address := fmt.Sprintf(":%d", cfg.ConnectConfig.Port)
 
 	c := alice.New()
 	c = c.Append(hlog.NewHandler(*logger))
