@@ -7,9 +7,11 @@ import (
 	"time"
 
 	"firebase.google.com/go/auth"
+	"firebase.google.com/go/messaging"
 	"github.com/bufbuild/connect-go"
 	"github.com/justinas/alice"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1/foodv1connect"
+	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/job/v1/jobv1connect"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1/userv1connect"
 	"github.com/ram02z/neutral_diet/internal/service"
 	"github.com/ram02z/neutral_diet/internal/service/db"
@@ -41,6 +43,12 @@ func RegisterConnectGoServer(in RegisterConnectGoServerInput) {
 			connectInterceptorForAuth(in.AuthClient),
 		),
 	))
+	api.Handle(jobv1connect.NewJobServiceHandler(
+		in.ConnectSvc,
+		connect.WithInterceptors(
+			connectInterceptorForLogger(in.Logger),
+		),
+	))
 	// checker := grpchealth.NewStaticChecker(
 	// 	// protoc-gen-connect-go generates package-level constants
 	// 	// for these fully-qualified protobuf service names, so we'd be able
@@ -58,8 +66,12 @@ type Server struct {
 	ShutdownTimeout time.Duration
 }
 
-func NewConnectWrapper(s *db.Store, a *auth.Client) *service.ConnectWrapper {
-	return service.NewConnectWrapper(s, a)
+func NewConnectWrapper(
+	s *db.Store,
+	a *auth.Client,
+	m *messaging.Client,
+) *service.ConnectWrapper {
+	return service.NewConnectWrapper(s, a, m)
 }
 
 func NewConnectGoServer(
