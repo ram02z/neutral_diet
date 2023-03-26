@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	Credentials string `env:"GOOGLE_APPLICATION_CREDENTIALS,required"`
+	Credentials string `env:"GOOGLE_APPLICATION_CREDENTIALS"`
 }
 
 func NewConfig() (cfg Config, err error) {
