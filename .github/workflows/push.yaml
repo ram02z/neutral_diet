@@ -64,6 +64,10 @@ jobs:
       - uses: google-github-actions/auth@v1
         with:
           credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+      - name: Create environment file
+        run: |-
+          echo "${{ secrets.GCP_CREDENTIALS }}" > gcp_credentials.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=gcp_credentials.json" > .env.production
       - name: Build and Push Container
         run: |-
           docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}" ./
