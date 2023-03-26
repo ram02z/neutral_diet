@@ -51,7 +51,7 @@ jobs:
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
       - name: Run tests
-        run: go test -v ./internal/service
+        run: go test -v ./...
 
   proto:
     runs-on: ubuntu-latest

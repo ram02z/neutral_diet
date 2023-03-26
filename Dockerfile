@@ -8,6 +8,6 @@ RUN go mod download
 
 RUN go build cmd/app/main.go
 
-EXPOSE 8080
+EXPOSE $PORT
 
 CMD [ "./main" ]
