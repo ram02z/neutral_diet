@@ -60,9 +60,6 @@ func Run() {
 	if err != nil {
 		l.Fatal().Err(err)
 	}
-	if messagingClient == nil {
-		l.Fatal().Msg("client is nil")
-	}
 	l.Info().Msg("Successfully initialised Firebase Messaging client")
 
 	// Database service
