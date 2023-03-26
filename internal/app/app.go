@@ -43,11 +43,11 @@ func Run() {
 	}
 
 	// Firebase services
-	err = firebase.VerifyConfig()
+	firebaseConfig, err := firebase.NewConfig()
 	if err != nil {
 		l.Fatal().Err(err).Msg("Could not verify firebase config")
 	}
-	firebaseApp, err := firebase.NewApp()
+	firebaseApp, err := firebase.NewApp(firebaseConfig)
 	if err != nil {
 		l.Fatal().Err(err)
 	}
@@ -59,6 +59,9 @@ func Run() {
 	messagingClient, err := firebaseApp.NewMessaging()
 	if err != nil {
 		l.Fatal().Err(err)
+	}
+	if messagingClient == nil {
+		l.Fatal().Msg("client is nil")
 	}
 	l.Info().Msg("Successfully initialised Firebase Messaging client")
 

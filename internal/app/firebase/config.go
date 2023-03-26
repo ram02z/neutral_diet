@@ -7,11 +7,10 @@ import (
 )
 
 type Config struct {
-	Credentials string `env:"FIREBASE_CONFIG,required"`
+	Credentials string `env:"GOOGLE_APPLICATION_CREDENTIALS"`
 }
 
-func VerifyConfig() (err error) {
-	var cfg Config
+func NewConfig() (cfg Config, err error) {
 	err = envconfig.Process(context.Background(), &cfg)
-	return err
+	return
 }
