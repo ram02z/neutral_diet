@@ -111,7 +111,6 @@ func (s *Store) MarkCompletedGoals(ctx context.Context) {
 		Msg("MarkCompletedGoalsJob finished")
 }
 
-
 func generateNotification(
 	ctx context.Context,
 	queries *db.Queries,
