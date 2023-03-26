@@ -5,9 +5,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
-	"github.com/go-co-op/gocron"
 	"github.com/joho/godotenv"
 	"github.com/ram02z/neutral_diet/internal/app/connectgo"
 	"github.com/ram02z/neutral_diet/internal/app/firebase"
@@ -62,9 +60,6 @@ func Run() {
 	if err != nil {
 		l.Fatal().Err(err)
 	}
-	if messagingClient == nil {
-		l.Fatal().Msg("client is nil")
-	}
 	l.Info().Msg("Successfully initialised Firebase Messaging client")
 
 	// Database service
@@ -84,29 +79,12 @@ func Run() {
 
 	dataStore := service.NewDataStore(pgpool)
 
-	// Cron service
-	cronScheduler := gocron.NewScheduler(time.UTC)
-	jobContext := l.WithContext(context.Background())
-	jobWrapper := service.NewJobWrapper(pgpool, messagingClient, &jobContext)
-	for _, job := range jobWrapper.Jobs() {
-		_, err := cronScheduler.
-			Every(1).
-			Day().
-			At(job.At).
-			Do(job.Job)
-		if err != nil {
-			l.Err(err).Msg("Failed to add job")
-		}
-	}
-	cronScheduler.StartAsync()
-	l.Info().Msg("Successfully started the cron scheduler")
-
 	// Connect service
 	connectCfg, err := connectgo.NewConfig()
 	if err != nil {
 		l.Fatal().Err(err).Msg("Could not create connect-go config")
 	}
-	connectWrapper := connectgo.NewConnectWrapper(dataStore, authClient)
+	connectWrapper := connectgo.NewConnectWrapper(dataStore, authClient, messagingClient)
 	server := connectgo.NewConnectGoServer(l, connectCfg)
 	registerIn := connectgo.RegisterConnectGoServerInput{
 		Logger:     l,
