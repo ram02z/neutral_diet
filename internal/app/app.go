@@ -45,11 +45,11 @@ func Run() {
 	}
 
 	// Firebase services
-	firebaseCfg, err := firebase.NewConfig()
+	err = firebase.VerifyConfig()
 	if err != nil {
-		l.Fatal().Err(err).Msg("Could not create firebase config")
+		l.Fatal().Err(err).Msg("Could not verify firebase config")
 	}
-	firebaseApp, err := firebase.NewApp(firebaseCfg)
+	firebaseApp, err := firebase.NewApp()
 	if err != nil {
 		l.Fatal().Err(err)
 	}
