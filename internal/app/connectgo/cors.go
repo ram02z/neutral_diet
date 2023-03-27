@@ -7,20 +7,13 @@ import (
 )
 
 func newCORS() *cors.Cors {
-	// To let web developers play with the demo service from browsers, we need a
-	// very permissive CORS setup.
 	return cors.New(cors.Options{
-		AllowedMethods: []string{
-			http.MethodHead,
-			http.MethodGet,
-			http.MethodPost,
-			http.MethodPut,
-			http.MethodPatch,
-			http.MethodDelete,
-		},
-		AllowOriginFunc: func(origin string) bool {
-			// Allow all origins, which effectively disables CORS.
-			return true
+		AllowedMethods: []string{http.MethodPost},
+		AllowedOrigins: []string{
+			"localhost",
+			"neutral-diet.firebaseapp.com",
+			"neutral-diet.web.app",
+			"neutral-diet-*.web.app",
 		},
 		AllowedHeaders: []string{"*"},
 		ExposedHeaders: []string{
