@@ -1,5 +1,6 @@
-import { Button, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+
+import { Button, Stack, Typography } from '@mui/material';
 
 function NotFound() {
   return (
@@ -8,7 +9,9 @@ function NotFound() {
       <Typography variant="h5" color="text.secondary" gutterBottom>
         Page not found
       </Typography>
-      <Button component={Link} to="/" variant="contained">Back to home</Button>
+      <Button component={Link} to="/" variant="contained">
+        Back to home
+      </Button>
     </Stack>
   );
 }
