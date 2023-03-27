@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import PrivateRoute from '@/components/PrivateRoute';
 import { NAVIGATION_DRAWER_WIDTH } from '@/config';
 import useLayout from '@/hooks/useLayout';
-import ErrorPage from '@/pages/Error';
 import routes from '@/routes';
 
 import { getPageHeight } from './utils';
@@ -32,7 +31,6 @@ function Pages() {
                   <Component />
                 )
               }
-              errorElement={<ErrorPage />}
             >
               {subComponents.map(({ path, component: SubComponent }) => {
                 return (
@@ -48,7 +46,6 @@ function Pages() {
                         <SubComponent />
                       )
                     }
-                    errorElement={<ErrorPage />}
                   />
                 );
               })}
