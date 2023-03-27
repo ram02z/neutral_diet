@@ -56,7 +56,7 @@ function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDia
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField select label="Meal" error={!!error} onChange={onChange} value={value}>
                 {meals.map((meal, key) => (
-                  <MenuItem key={key} value={meal.value}>
+                  <MenuItem key={key} value={meal.value} sx={{ textTransform: 'capitalize' }}>
                     {meal.getName()}
                   </MenuItem>
                 ))}
