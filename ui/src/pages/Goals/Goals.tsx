@@ -6,6 +6,7 @@ import { Button, Tooltip, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import dayjs from 'dayjs';
+import { useSnackbar } from 'notistack';
 
 import client from '@/api/user_service';
 import AddGoalDialog from '@/components/AddGoalDialog';
@@ -17,6 +18,7 @@ import { RecommendGoalsButton } from '@/components/RecommendGoalDialog';
 import { Meal } from '@/core/meal';
 import {
   CurrentUserHeadersState,
+  LocalUserSettingsState,
   SelectedUserGoalState,
   UserGoalProgressState,
   UserGoalsState,
@@ -27,11 +29,13 @@ import { toSerializableDate } from '@/utils/date';
 function Goals() {
   const setUserGoals = useSetRecoilState(UserGoalsState);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
+  const setUserSettings = useSetRecoilState(LocalUserSettingsState);
   const selectedUserGoal = useRecoilValue(SelectedUserGoalState);
   const selectedUserGoalData = useRecoilValue(UserGoalProgressState);
   const userInsights = useRecoilValue(UserInsightsState);
   const refreshUserInsights = useRecoilRefresher_UNSTABLE(UserInsightsState);
   const [openAddDialog, setOpenAddDialog] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   const newUser = useMemo(() => userInsights.userDailyAverage === 0, [userInsights]);
   const [notificationsEnabled, setNotificationsEnabled] = useState(
     Notification.permission == 'granted',
@@ -72,6 +76,23 @@ function Goals() {
               },
             ],
           };
+        });
+        enqueueSnackbar('Added custom goal to account', {
+          variant: 'success',
+          action() {
+            return (
+              <Button
+                onClick={() =>
+                  setUserSettings((old) => {
+                    return { ...old, cfLimit: target, dirty: true };
+                  })
+                }
+                color="inherit"
+              >
+                Set as limit
+              </Button>
+            );
+          },
         });
       });
     handleCloseAddDialog();

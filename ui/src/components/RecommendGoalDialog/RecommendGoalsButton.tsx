@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Button } from '@mui/material';
 
 import dayjs from 'dayjs';
+import { useSnackbar } from 'notistack';
 
 import client from '@/api/user_service';
 import { FormValues } from '@/components/AddGoalDialog/types';
@@ -23,7 +24,8 @@ function RecommendGoalsButton() {
   const setUserGoals = useSetRecoilState(UserGoalsState);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const userInsights = useRecoilValue(UserInsightsState);
-  const userSettings = useRecoilValue(LocalUserSettingsState);
+  const [userSettings, setUserSettings] = useRecoilState(LocalUserSettingsState);
+  const { enqueueSnackbar } = useSnackbar();
   const [openRecommendDialog, setOpenRecommendDialog] = useState(false);
   const externalInsights = new Insights(userSettings.dietaryRequirement).insights;
 
@@ -59,6 +61,23 @@ function RecommendGoalsButton() {
               },
             ],
           };
+        });
+        enqueueSnackbar('Added recommended goal to account', {
+          variant: 'success',
+          action() {
+            return (
+              <Button
+                onClick={() =>
+                  setUserSettings((old) => {
+                    return { ...old, cfLimit: target, dirty: true };
+                  })
+                }
+                color="inherit"
+              >
+                Set as limit
+              </Button>
+            );
+          },
         });
       });
     handleCloseRecommendDialog();

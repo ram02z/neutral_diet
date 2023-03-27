@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil';
 
-import { Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import dayjs from 'dayjs';
@@ -63,10 +64,15 @@ function Home() {
         </Grid>
         {activeUserGoal ? (
           <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
-            <GoalDeadlineCard
-              goal={activeUserGoal}
-              currentUserAverage={userInsights.userDailyAverage}
-            />
+            <Stack spacing={2}>
+              <GoalDeadlineCard
+                goal={activeUserGoal}
+                currentUserAverage={userInsights.userDailyAverage}
+              />
+              <Button component={Link} to="/account/goals">
+                All goals
+              </Button>
+            </Stack>
           </Grid>
         ) : (
           <Grid>
