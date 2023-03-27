@@ -10,10 +10,11 @@ func newCORS() *cors.Cors {
 	return cors.New(cors.Options{
 		AllowedMethods: []string{http.MethodPost},
 		AllowedOrigins: []string{
-			"localhost",
-			"neutral-diet.firebaseapp.com",
-			"neutral-diet.web.app",
-			"neutral-diet-*.web.app",
+			"http://localhost:4173",
+			"http://localhost:5173",
+			"https://neutral-diet.firebaseapp.com",
+			"https://neutral-diet.web.app",
+			"https://neutral-diet-*.web.app",
 		},
 		AllowedHeaders: []string{"*"},
 		ExposedHeaders: []string{
