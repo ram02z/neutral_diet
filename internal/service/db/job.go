@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"firebase.google.com/go/messaging"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
 	"github.com/rs/zerolog"
@@ -160,18 +161,25 @@ func (s *Store) SendStreakNotifications(ctx context.Context, m *messaging.Client
 		}
 	}
 
-	// TODO: check that messages is < 500
-	br, err := m.SendAll(ctx, messages)
-	if err != nil {
-		logger.Err(err).Msg("Could not send messages")
-		return
+	successCount := 0
+	failureCount := 0
+	if len(messages) > 0 {
+		// TODO: check that messages is < 500
+		br, err := m.SendAll(ctx, messages)
+		if err != nil {
+			logger.Err(err).Msg("Could not send messages")
+			return
+		}
+		successCount = br.SuccessCount
+		failureCount = br.FailureCount
 	}
+
 
 	logger.
 		Info().
 		Str("Job", jobName).
-		Int("Success Count", br.SuccessCount).
-		Int("Failure Count", br.FailureCount).
+		Int("Success Count", successCount).
+		Int("Failure Count", failureCount).
 		Msg("Job finished")
 }
 
@@ -196,7 +204,7 @@ func generateStreakNotification(
 	}
 
 	streak, err := queries.GetFoodItemLogStreak(ctx, userID)
-	if err != nil {
+	if err != nil && err != pgx.ErrNoRows {
 		return nil, err
 	}
 
