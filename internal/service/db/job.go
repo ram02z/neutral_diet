@@ -174,7 +174,6 @@ func (s *Store) SendStreakNotifications(ctx context.Context, m *messaging.Client
 		failureCount = br.FailureCount
 	}
 
-
 	logger.
 		Info().
 		Str("Job", jobName).
@@ -214,7 +213,7 @@ func generateStreakNotification(
 
 	return &messaging.Notification{
 		Title: "Streak reminder",
-		Body:  fmt.Sprintf(
+		Body: fmt.Sprintf(
 			"Ensure you log food today to maintain your %d day streak!",
 			streak.ConsecutiveDates,
 		),
