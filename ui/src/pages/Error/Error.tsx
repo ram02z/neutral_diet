@@ -1,33 +1,28 @@
-import { Navigate } from 'react-router';
+import { Navigate, useRouteError } from 'react-router';
 import { useSetRecoilState } from 'recoil';
 
-import { Typography } from '@mui/material';
-
 import { Code, ConnectError } from '@bufbuild/connect-web';
+import { useSnackbar } from 'notistack';
 
 import { useSignOut } from '@/hooks/useSignOut';
 import routes from '@/routes';
 import { Pages } from '@/routes/types';
 import { PrivateRoutePathState } from '@/store/location';
 
-type ErrorProps = {
-  error: Error;
-};
-
-function ErrorPage({ error }: ErrorProps) {
+function ErrorPage() {
+  const error = useRouteError();
   const signOut = useSignOut();
+  const { enqueueSnackbar } = useSnackbar();
   const setPath = useSetRecoilState(PrivateRoutePathState);
+  signOut();
+  setPath(location.pathname);
 
   if (error instanceof ConnectError && error.code == Code.Unauthenticated) {
-    signOut();
-    setPath(location.pathname);
-    return <Navigate to={routes[Pages.Auth].path} replace />;
+    enqueueSnackbar('Session expired. Log in again to continue.', { variant: 'warning' });
+  } else {
+    enqueueSnackbar('Something went wrong. Please try again later.', { variant: 'error' });
   }
-  return (
-    <>
-      <Typography variant="h3">Error</Typography>
-    </>
-  );
+  return <Navigate to={routes[Pages.Auth].path} replace />;
 }
 
 export default ErrorPage;
