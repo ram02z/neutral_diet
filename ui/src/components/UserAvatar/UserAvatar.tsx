@@ -1,4 +1,4 @@
-import { Avatar, AvatarProps } from '@mui/material';
+import { Avatar, AvatarProps, Tooltip } from '@mui/material';
 
 function UserAvatar(props: AvatarProps & { name: string }) {
   let initials = null;
@@ -9,7 +9,11 @@ function UserAvatar(props: AvatarProps & { name: string }) {
     initials = firstNameInitial + lastNameInitial;
   }
 
-  return <Avatar {...props}>{initials}</Avatar>;
+  return (
+    <Tooltip title={props.name}>
+      <Avatar {...props}>{initials}</Avatar>
+    </Tooltip>
+  );
 }
 
 export default UserAvatar;
