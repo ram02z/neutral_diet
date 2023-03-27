@@ -29,6 +29,7 @@ const (
 type JobServiceClient interface {
 	SendGoalNotifications(context.Context, *connect_go.Request[v1.SendGoalNotificationsRequest]) (*connect_go.Response[v1.SendGoalNotificationsResponse], error)
 	MarkCompletedGoals(context.Context, *connect_go.Request[v1.MarkCompletedGoalsRequest]) (*connect_go.Response[v1.MarkCompletedGoalsResponse], error)
+	SendStreakNotifications(context.Context, *connect_go.Request[v1.SendStreakNotificationsRequest]) (*connect_go.Response[v1.SendStreakNotificationsResponse], error)
 }
 
 // NewJobServiceClient constructs a client for the neutral_diet.job.v1.JobService service. By
@@ -51,13 +52,19 @@ func NewJobServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts 
 			baseURL+"/neutral_diet.job.v1.JobService/MarkCompletedGoals",
 			opts...,
 		),
+		sendStreakNotifications: connect_go.NewClient[v1.SendStreakNotificationsRequest, v1.SendStreakNotificationsResponse](
+			httpClient,
+			baseURL+"/neutral_diet.job.v1.JobService/SendStreakNotifications",
+			opts...,
+		),
 	}
 }
 
 // jobServiceClient implements JobServiceClient.
 type jobServiceClient struct {
-	sendGoalNotifications *connect_go.Client[v1.SendGoalNotificationsRequest, v1.SendGoalNotificationsResponse]
-	markCompletedGoals    *connect_go.Client[v1.MarkCompletedGoalsRequest, v1.MarkCompletedGoalsResponse]
+	sendGoalNotifications   *connect_go.Client[v1.SendGoalNotificationsRequest, v1.SendGoalNotificationsResponse]
+	markCompletedGoals      *connect_go.Client[v1.MarkCompletedGoalsRequest, v1.MarkCompletedGoalsResponse]
+	sendStreakNotifications *connect_go.Client[v1.SendStreakNotificationsRequest, v1.SendStreakNotificationsResponse]
 }
 
 // SendGoalNotifications calls neutral_diet.job.v1.JobService.SendGoalNotifications.
@@ -70,10 +77,16 @@ func (c *jobServiceClient) MarkCompletedGoals(ctx context.Context, req *connect_
 	return c.markCompletedGoals.CallUnary(ctx, req)
 }
 
+// SendStreakNotifications calls neutral_diet.job.v1.JobService.SendStreakNotifications.
+func (c *jobServiceClient) SendStreakNotifications(ctx context.Context, req *connect_go.Request[v1.SendStreakNotificationsRequest]) (*connect_go.Response[v1.SendStreakNotificationsResponse], error) {
+	return c.sendStreakNotifications.CallUnary(ctx, req)
+}
+
 // JobServiceHandler is an implementation of the neutral_diet.job.v1.JobService service.
 type JobServiceHandler interface {
 	SendGoalNotifications(context.Context, *connect_go.Request[v1.SendGoalNotificationsRequest]) (*connect_go.Response[v1.SendGoalNotificationsResponse], error)
 	MarkCompletedGoals(context.Context, *connect_go.Request[v1.MarkCompletedGoalsRequest]) (*connect_go.Response[v1.MarkCompletedGoalsResponse], error)
+	SendStreakNotifications(context.Context, *connect_go.Request[v1.SendStreakNotificationsRequest]) (*connect_go.Response[v1.SendStreakNotificationsResponse], error)
 }
 
 // NewJobServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -93,6 +106,11 @@ func NewJobServiceHandler(svc JobServiceHandler, opts ...connect_go.HandlerOptio
 		svc.MarkCompletedGoals,
 		opts...,
 	))
+	mux.Handle("/neutral_diet.job.v1.JobService/SendStreakNotifications", connect_go.NewUnaryHandler(
+		"/neutral_diet.job.v1.JobService/SendStreakNotifications",
+		svc.SendStreakNotifications,
+		opts...,
+	))
 	return "/neutral_diet.job.v1.JobService/", mux
 }
 
@@ -105,4 +123,8 @@ func (UnimplementedJobServiceHandler) SendGoalNotifications(context.Context, *co
 
 func (UnimplementedJobServiceHandler) MarkCompletedGoals(context.Context, *connect_go.Request[v1.MarkCompletedGoalsRequest]) (*connect_go.Response[v1.MarkCompletedGoalsResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.job.v1.JobService.MarkCompletedGoals is not implemented"))
+}
+
+func (UnimplementedJobServiceHandler) SendStreakNotifications(context.Context, *connect_go.Request[v1.SendStreakNotificationsRequest]) (*connect_go.Response[v1.SendStreakNotificationsResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.job.v1.JobService.SendStreakNotifications is not implemented"))
 }

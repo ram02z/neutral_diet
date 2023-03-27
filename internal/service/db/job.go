@@ -13,25 +13,30 @@ import (
 )
 
 func (s *Store) SendGoalNotifications(ctx context.Context, m *messaging.Client) {
+	jobName := "SendGoalNotifications"
 	queries := db.New(s.dbPool)
 	logger := zerolog.Ctx(ctx)
 
 	response, err := queries.GetDevices(context.Background())
 	if err != nil {
-		logger.Err(err).Msg("Could not get user FCM tokens")
+		logger.Err(err).Str("Job", jobName).Msg("Could not get user FCM tokens")
 		return
 	}
 
 	if len(response) == 0 {
-		logger.Error().Msg("No user FCM tokens")
+		logger.Error().Str("Job", jobName).Msg("No user FCM tokens")
 		return
 	}
 
 	messages := make([]*messaging.Message, len(response))
 	for i, j := range response {
-		notification, err := generateNotification(ctx, queries, j.UserID)
+		notification, err := generateGoalNotification(ctx, queries, j.UserID)
 		if err != nil {
-			logger.Err(err).Int32("UserID", j.UserID).Msg("Could not generate notification")
+			logger.
+				Err(err).
+				Str("Job", jobName).
+				Int32("UserID", j.UserID).
+				Msg("Could not generate notification")
 			return
 		}
 		messages[i] = &messaging.Message{
@@ -49,18 +54,20 @@ func (s *Store) SendGoalNotifications(ctx context.Context, m *messaging.Client) 
 
 	logger.
 		Info().
+		Str("Job", jobName).
 		Int("Success Count", br.SuccessCount).
 		Int("Failure Count", br.FailureCount).
-		Msg("UserGoalNotificationsJob finished")
+		Msg("Job finished")
 }
 
 func (s *Store) MarkCompletedGoals(ctx context.Context) {
+	jobName := "MarkCompletedGoals"
 	queries := db.New(s.dbPool)
 	logger := zerolog.Ctx(ctx)
 
 	userIDs, err := queries.GetUserIDs(ctx)
 	if err != nil {
-		logger.Err(err).Msg("Could not get user ids")
+		logger.Err(err).Str("Job", jobName).Msg("Could not get user ids")
 		return
 	}
 
@@ -77,7 +84,11 @@ func (s *Store) MarkCompletedGoals(ctx context.Context) {
 		}
 		goals, err := queries.GetActiveCarbonFootprintGoals(ctx, id)
 		if err != nil {
-			logger.Err(err).Int32("UserID", id).Msg("Could not get active carbon footprint goals")
+			logger.
+				Err(err).
+				Str("Job", jobName).
+				Int32("UserID", id).
+				Msg("Could not get active carbon footprint goals")
 			return
 		}
 		for _, g := range goals {
@@ -90,6 +101,7 @@ func (s *Store) MarkCompletedGoals(ctx context.Context) {
 				if err != nil {
 					logger.
 						Err(err).
+						Str("Job", jobName).
 						Int32("UserID", id).
 						Int32("GoalID", g.ID).
 						Msg("Could not update carbon footprint goal")
@@ -105,13 +117,103 @@ func (s *Store) MarkCompletedGoals(ctx context.Context) {
 
 	logger.
 		Info().
+		Str("Job", jobName).
 		Int("Completed", completed).
 		Int("Failed", failed).
 		Int("Total", total).
-		Msg("MarkCompletedGoalsJob finished")
+		Msg("Job finished")
 }
 
-func generateNotification(
+func (s *Store) SendStreakNotifications(ctx context.Context, m *messaging.Client) {
+	jobName := "SendStreakNotifications"
+	queries := db.New(s.dbPool)
+	logger := zerolog.Ctx(ctx)
+
+	response, err := queries.GetDevices(context.Background())
+	if err != nil {
+		logger.Err(err).Str("Job", jobName).Msg("Could not get user FCM tokens")
+		return
+	}
+
+	if len(response) == 0 {
+		logger.Error().Str("Job", jobName).Msg("No user FCM tokens")
+		return
+	}
+
+	messages := make([]*messaging.Message, 0, len(response))
+	for _, j := range response {
+		notification, err := generateStreakNotification(ctx, queries, j.UserID)
+		if err != nil {
+			logger.
+				Err(err).
+				Str("Job", jobName).
+				Int32("UserID", j.UserID).
+				Msg("Could not generate notification")
+			return
+		}
+		if notification != nil {
+			messages = append(messages,
+				&messaging.Message{
+					Notification: notification,
+					Token:        j.FcmToken,
+				})
+		}
+	}
+
+	// TODO: check that messages is < 500
+	br, err := m.SendAll(ctx, messages)
+	if err != nil {
+		logger.Err(err).Msg("Could not send messages")
+		return
+	}
+
+	logger.
+		Info().
+		Str("Job", jobName).
+		Int("Success Count", br.SuccessCount).
+		Int("Failure Count", br.FailureCount).
+		Msg("Job finished")
+}
+
+func generateStreakNotification(
+	ctx context.Context,
+	queries *db.Queries,
+	userID int32,
+) (*messaging.Notification, error) {
+	todayLog, err := queries.GetFoodItemLogByDate(ctx, db.GetFoodItemLogByDateParams{
+		UserID: userID,
+		LogDate: pgtype.Date{
+			Time:  time.Now(),
+			Valid: true,
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	if len(todayLog) > 0 {
+		return nil, nil
+	}
+
+	streak, err := queries.GetFoodItemLogStreak(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	if !streak.Active {
+		return nil, nil
+	}
+
+	return &messaging.Notification{
+		Title: "Streak reminder",
+		Body:  fmt.Sprintf(
+			"Ensure you log food today to maintain your %d day streak!",
+			streak.ConsecutiveDates,
+		),
+	}, nil
+}
+
+func generateGoalNotification(
 	ctx context.Context,
 	queries *db.Queries,
 	userID int32,

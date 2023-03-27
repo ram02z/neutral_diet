@@ -444,3 +444,209 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = MarkCompletedGoalsResponseValidationError{}
+
+// Validate checks the field values on SendStreakNotificationsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SendStreakNotificationsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SendStreakNotificationsRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// SendStreakNotificationsRequestMultiError, or nil if none found.
+func (m *SendStreakNotificationsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SendStreakNotificationsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return SendStreakNotificationsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// SendStreakNotificationsRequestMultiError is an error wrapping multiple
+// validation errors returned by SendStreakNotificationsRequest.ValidateAll()
+// if the designated constraints aren't met.
+type SendStreakNotificationsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SendStreakNotificationsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SendStreakNotificationsRequestMultiError) AllErrors() []error { return m }
+
+// SendStreakNotificationsRequestValidationError is the validation error
+// returned by SendStreakNotificationsRequest.Validate if the designated
+// constraints aren't met.
+type SendStreakNotificationsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SendStreakNotificationsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SendStreakNotificationsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SendStreakNotificationsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SendStreakNotificationsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SendStreakNotificationsRequestValidationError) ErrorName() string {
+	return "SendStreakNotificationsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SendStreakNotificationsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSendStreakNotificationsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SendStreakNotificationsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SendStreakNotificationsRequestValidationError{}
+
+// Validate checks the field values on SendStreakNotificationsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SendStreakNotificationsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SendStreakNotificationsResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// SendStreakNotificationsResponseMultiError, or nil if none found.
+func (m *SendStreakNotificationsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SendStreakNotificationsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return SendStreakNotificationsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// SendStreakNotificationsResponseMultiError is an error wrapping multiple
+// validation errors returned by SendStreakNotificationsResponse.ValidateAll()
+// if the designated constraints aren't met.
+type SendStreakNotificationsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SendStreakNotificationsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SendStreakNotificationsResponseMultiError) AllErrors() []error { return m }
+
+// SendStreakNotificationsResponseValidationError is the validation error
+// returned by SendStreakNotificationsResponse.Validate if the designated
+// constraints aren't met.
+type SendStreakNotificationsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SendStreakNotificationsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SendStreakNotificationsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SendStreakNotificationsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SendStreakNotificationsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SendStreakNotificationsResponseValidationError) ErrorName() string {
+	return "SendStreakNotificationsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SendStreakNotificationsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSendStreakNotificationsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SendStreakNotificationsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SendStreakNotificationsResponseValidationError{}
