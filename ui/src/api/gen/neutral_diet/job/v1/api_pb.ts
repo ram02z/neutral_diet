@@ -130,3 +130,65 @@ export class MarkCompletedGoalsResponse extends Message<MarkCompletedGoalsRespon
   }
 }
 
+/**
+ * @generated from message neutral_diet.job.v1.SendStreakNotificationsRequest
+ */
+export class SendStreakNotificationsRequest extends Message<SendStreakNotificationsRequest> {
+  constructor(data?: PartialMessage<SendStreakNotificationsRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.job.v1.SendStreakNotificationsRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SendStreakNotificationsRequest {
+    return new SendStreakNotificationsRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SendStreakNotificationsRequest {
+    return new SendStreakNotificationsRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SendStreakNotificationsRequest {
+    return new SendStreakNotificationsRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SendStreakNotificationsRequest | PlainMessage<SendStreakNotificationsRequest> | undefined, b: SendStreakNotificationsRequest | PlainMessage<SendStreakNotificationsRequest> | undefined): boolean {
+    return proto3.util.equals(SendStreakNotificationsRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.job.v1.SendStreakNotificationsResponse
+ */
+export class SendStreakNotificationsResponse extends Message<SendStreakNotificationsResponse> {
+  constructor(data?: PartialMessage<SendStreakNotificationsResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.job.v1.SendStreakNotificationsResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SendStreakNotificationsResponse {
+    return new SendStreakNotificationsResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SendStreakNotificationsResponse {
+    return new SendStreakNotificationsResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SendStreakNotificationsResponse {
+    return new SendStreakNotificationsResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SendStreakNotificationsResponse | PlainMessage<SendStreakNotificationsResponse> | undefined, b: SendStreakNotificationsResponse | PlainMessage<SendStreakNotificationsResponse> | undefined): boolean {
+    return proto3.util.equals(SendStreakNotificationsResponse, a, b);
+  }
+}
+

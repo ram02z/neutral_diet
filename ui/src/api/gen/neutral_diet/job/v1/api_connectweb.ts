@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { MarkCompletedGoalsRequest, MarkCompletedGoalsResponse, SendGoalNotificationsRequest, SendGoalNotificationsResponse } from "./api_pb.js";
+import { MarkCompletedGoalsRequest, MarkCompletedGoalsResponse, SendGoalNotificationsRequest, SendGoalNotificationsResponse, SendStreakNotificationsRequest, SendStreakNotificationsResponse } from "./api_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -28,6 +28,15 @@ export const JobService = {
       name: "MarkCompletedGoals",
       I: MarkCompletedGoalsRequest,
       O: MarkCompletedGoalsResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.job.v1.JobService.SendStreakNotifications
+     */
+    sendStreakNotifications: {
+      name: "SendStreakNotifications",
+      I: SendStreakNotificationsRequest,
+      O: SendStreakNotificationsResponse,
       kind: MethodKind.Unary,
     },
   }

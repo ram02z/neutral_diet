@@ -31,3 +31,15 @@ func (c *ConnectWrapper) MarkCompletedGoals(
 
 	return connect.NewResponse(&jobv1.MarkCompletedGoalsResponse{}), nil
 }
+
+func (c *ConnectWrapper) SendStreakNotifications(
+	ctx context.Context,
+	req *connect.Request[jobv1.SendStreakNotificationsRequest],
+) (*connect.Response[jobv1.SendStreakNotificationsResponse], error) {
+	jobCtx, cancel := context.WithTimeout(ctx, time.Minute)
+	defer cancel()
+
+	c.s.SendStreakNotifications(jobCtx, c.m)
+
+	return connect.NewResponse(&jobv1.SendStreakNotificationsResponse{}), nil
+}
