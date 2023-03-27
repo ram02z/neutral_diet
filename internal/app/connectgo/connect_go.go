@@ -40,13 +40,14 @@ func RegisterConnectGoServer(in RegisterConnectGoServerInput) {
 		in.ConnectSvc,
 		connect.WithInterceptors(
 			connectInterceptorForLogger(in.Logger),
-			connectInterceptorForAuth(in.AuthClient),
+			connectInterceptorForUserAuth(in.AuthClient),
 		),
 	))
 	api.Handle(jobv1connect.NewJobServiceHandler(
 		in.ConnectSvc,
 		connect.WithInterceptors(
 			connectInterceptorForLogger(in.Logger),
+			connectInterceptorForCloudSchedulerAuth(),
 		),
 	))
 	// checker := grpchealth.NewStaticChecker(
