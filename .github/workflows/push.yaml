@@ -5,7 +5,37 @@ on:
       - master
 
 jobs:
+  files-changed:
+    name: detect what files changed
+    runs-on: ubuntu-20.04
+    outputs:
+      frontend: ${{ steps.changes.outputs.frontend }}
+      server: ${{ steps.changes.outputs.server }}
+      proto: ${{ steps.changes.outputs.proto }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            frontend:
+              - 'ui/**'
+              - '.github/workflows/push.yaml'
+            backend:
+              - 'Dockerfile'
+              - 'go.mod'
+              - 'go.sum'
+              - 'internal/**/*.go'
+              - 'cmd/**'
+              - '.github/workflows/push.yaml'
+            proto:
+              - 'internal/'
+              - 'buf.*.yaml'
+              - 'internal/proto/**'
+
   frontend:
+    if: needs.files-changed.outputs.frontend == 'true'
+    needs: files-changed
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -45,6 +75,8 @@ jobs:
           channelId: live
 
   server:
+    if: needs.files-changed.outputs.server == 'true'
+    needs: files-changed
     runs-on: ubuntu-latest
     env:
       PROJECT_ID: ${{ secrets.VITE_GOOGLE_CLOUD_PROJECT }}
@@ -85,6 +117,8 @@ jobs:
           image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}
 
   proto:
+    if: needs.files-changed.outputs.proto == 'true'
+    needs: files-changed
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
