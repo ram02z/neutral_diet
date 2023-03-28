@@ -75,7 +75,6 @@ The application server exposes various services:
     - Used by web application's private routes
     - JWT authentication (Firebase Authentication)
     - [RPCs](https://buf.build/ram02/neutral-diet/docs/main:neutral_diet.user.v1#neutral_diet.user.v1.UserService)
-- ``
 
 ## License
 
