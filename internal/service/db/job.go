@@ -93,7 +93,8 @@ func (s *Store) MarkCompletedGoals(ctx context.Context) {
 			return
 		}
 		for _, g := range goals {
-			if dailyAverage.LessThanOrEqual(g.TargetCarbonFootprint) {
+			if dailyAverage.LessThanOrEqual(g.TargetCarbonFootprint) &&
+				isDatesEqual(g.EndDate.Time, time.Now()) {
 				err := queries.UpdateCarbonFootprintGoal(ctx, db.UpdateCarbonFootprintGoalParams{
 					UserID:    id,
 					ID:        g.ID,
@@ -261,4 +262,8 @@ func generateGoalNotification(
 	}
 
 	return &notification, nil
+}
+
+func isDatesEqual(t1 time.Time, t2 time.Time) bool {
+	return (t1.Year() == t2.Year()) && (t1.YearDay() == t2.YearDay())
 }
