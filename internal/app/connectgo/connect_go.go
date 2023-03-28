@@ -9,6 +9,7 @@ import (
 	"firebase.google.com/go/auth"
 	"firebase.google.com/go/messaging"
 	"github.com/bufbuild/connect-go"
+	grpchealth "github.com/bufbuild/connect-grpchealth-go"
 	"github.com/justinas/alice"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1/foodv1connect"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/job/v1/jobv1connect"
@@ -50,13 +51,12 @@ func RegisterConnectGoServer(in RegisterConnectGoServerInput) {
 			connectInterceptorForCloudSchedulerAuth(),
 		),
 	))
-	// checker := grpchealth.NewStaticChecker(
-	// 	// protoc-gen-connect-go generates package-level constants
-	// 	// for these fully-qualified protobuf service names, so we'd be able
-	// 	// to reference foov1beta1.FooService as opposed to foo.v1beta1.FooService.
-	// 	"coop.drivers.foov1beta1.FooService",
-	// )
-	// in.Mux.Handle(grpchealth.NewHandler(checker))
+	checker := grpchealth.NewStaticChecker(
+		"neutral_diet.food.v1.FoodService",
+		"neutral_diet.user.v1.UserService",
+		"neutral_diet.job.v1.JobService",
+	)
+	in.Mux.Handle(grpchealth.NewHandler(checker))
 	in.Mux.Handle("/api/", http.StripPrefix("/api", api))
 }
 
