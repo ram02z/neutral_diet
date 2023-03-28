@@ -21,7 +21,7 @@ jobs:
             frontend:
               - 'ui/**'
               - '.github/workflows/push.yaml'
-            backend:
+            server:
               - 'Dockerfile'
               - 'go.mod'
               - 'go.sum'
