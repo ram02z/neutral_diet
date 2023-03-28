@@ -29,7 +29,7 @@ function GoalDeadlineCard({ goal, currentUserAverage }: GoalDeadlineCardProps) {
 
   return (
     <Card sx={{ minWidth: MIN_CARD_WIDTH, display: 'flex' }}>
-      <Grid container columns={5} direction="column">
+      <Grid container columns={5} direction="column" xs={4}>
         <CardContent>
           <Grid>
             <Typography variant="h5" component="div">

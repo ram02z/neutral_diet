@@ -63,14 +63,13 @@ function Diary() {
     <Grid
       container
       direction="column"
-      columns={10}
       spacing={4}
       alignItems="center"
       pt="4vh"
       pb="8vh"
       disableEqualOverflow
     >
-      <Grid container direction="row">
+      <Grid container direction="row" spacing={0}>
         <Grid>
           <Button onClick={yesterday}>Back</Button>
         </Grid>
@@ -123,13 +122,13 @@ function Diary() {
           </Button>
         </Grid>
       </Grid>
-      <Grid textAlign="center" xs={8} lg={7} xl={6}>
+      <Grid textAlign="center" xs={11} md={9} lg={7} xl={6}>
         <Grid
           sx={{ p: 0 }}
           container
           justifyContent="center"
           columns={5}
-          spacing={2}
+          spacing={{ xs: 1, md: 2 }}
           direction="row"
         >
           <Grid>
@@ -165,13 +164,13 @@ function Diary() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid xs={8} lg={7} xl={6}>
+      <Grid xs={11} md={9} lg={7} xl={6}>
         <LinearProgressWithLabel value={stats.carbonFootprintGoalPercent} />
       </Grid>
       {meals.map((meal, i) => {
         return (
           <>
-            <Grid key={i} xs={8} lg={7} xl={6}>
+            <Grid key={i} xs={11} md={9} lg={7} xl={6}>
               <Stack direction="row" justifyContent="space-between">
                 <Typography
                   sx={{ textTransform: 'capitalize' }}
@@ -189,10 +188,10 @@ function Diary() {
               </Stack>
               <Divider flexItem />
             </Grid>
-            {foodItemLog.map((foodLogItem, j) => {
+            {foodItemLog.map((foodLogItem) => {
               return (
                 foodLogItem.meal == meal.value && (
-                  <Grid key={`${i}-${j}`} xs={8} lg={7} xl={6}>
+                  <Grid key={foodLogItem.dbId} xs={11} md={9} lg={7} xl={6}>
                     <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
                       <FoodItemLogCard foodLogItem={foodLogItem} />
                     </RenderIfVisible>

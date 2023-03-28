@@ -56,14 +56,13 @@ function Search() {
     <Grid
       container
       direction="column"
-      columns={10}
       spacing={4}
       alignItems="center"
       pt="4vh"
       pb="8vh"
       disableEqualOverflow
     >
-      <Grid xs={8} lg={7} xl={6}>
+      <Grid xs={11} md={9} lg={7} xl={6}>
         <FormControl fullWidth variant="outlined">
           <OutlinedInput
             placeholder="Search for food"
@@ -102,14 +101,14 @@ function Search() {
             />
           </Grid>
           {searchFoodItems.map((foodItem, idx) => (
-            <Grid key={idx} xs={8} lg={7} xl={6}>
+            <Grid key={idx} xs={11} md={9} lg={7} xl={6}>
               <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
                 <FoodItemCard foodItem={foodItem} />
               </RenderIfVisible>
             </Grid>
           ))}
           {searchText.length > 0 && (
-            <Grid textAlign="center" xs={8} lg={7} xl={6}>
+            <Grid textAlign="center">
               <Button onClick={handleSubmit} variant="outlined" startIcon={<SearchRounded />}>
                 {`Search all foods for "${searchText}"`}
               </Button>
@@ -134,14 +133,14 @@ function Search() {
               currentSortingMethod={sortMethod}
             />
           </Grid>
-          <Grid xs={8} lg={7} xl={6}>
+          <Grid xs={11} md={9} lg={7} xl={6}>
             <Typography
               variant="subtitle1"
               color="text.secondary"
             >{`${searchFoodItems.length} results`}</Typography>
           </Grid>
           {searchFoodItems.map((foodItem, idx) => (
-            <Grid key={idx} xs={8} lg={7} xl={6}>
+            <Grid key={idx} xs={11} md={9} lg={7} xl={6}>
               <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
                 <FoodItemCard foodItem={foodItem} />
               </RenderIfVisible>

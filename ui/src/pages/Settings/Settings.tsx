@@ -48,7 +48,7 @@ function Settings() {
       spacing={4}
       alignItems="center"
       justifyContent="center"
-      width={{ xs: '60vw', md: '40vw' }}
+      minWidth={{ xs: '60vw', md: '40vw' }}
     >
       <RegionSelect />
       <DietaryRequirementSelect />

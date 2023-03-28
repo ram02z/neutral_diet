@@ -50,7 +50,7 @@ function Account() {
     return <Navigate to={routes[Pages.Auth].path} />;
   } else {
     return (
-      <Stack spacing={2} justifyContent="center" alignItems="center" pt="4vh" direction="column">
+      <Stack spacing={2} justifyContent="center" alignItems="center" py="4vh" direction="column">
         <IconButton onClick={handleOpenNameDialog}>
           <UserAvatar
             sx={{ width: 80, height: 80, fontSize: 40, bgcolor: theme.palette.primary.main }}

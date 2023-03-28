@@ -63,7 +63,7 @@ function Home() {
           </Typography>
         </Grid>
         {activeUserGoal ? (
-          <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
+          <Grid xs={11} md={10} lg={9} xl={8}>
             <Stack spacing={2}>
               <GoalDeadlineCard
                 goal={activeUserGoal}
@@ -88,7 +88,7 @@ function Home() {
           Daily
         </Typography>
       </Grid>
-      <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
+      <Grid xs={11} md={10} lg={9} xl={8}>
         <Carousel>
           <TrendCard
             title="Your average"
@@ -121,7 +121,7 @@ function Home() {
           Progress
         </Typography>
       </Grid>
-      <Grid xs={10} sm={11} md={10} lg={9} xl={8}>
+      <Grid xs={11} md={10} lg={9} xl={8}>
         <Carousel>
           <GoalLinePlot
             goal={userSettings.cfLimit}

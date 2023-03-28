@@ -121,7 +121,7 @@ function Goals() {
       alignItems="center"
       justifyContent="center"
       textAlign="center"
-      width={{ xs: '60vw', md: '40vw' }}
+      minWidth={{ xs: '80vw', md: '40vw' }}
     >
       <Grid xs={12}>
         <Typography variant="h4">Carbon footprint goals</Typography>
