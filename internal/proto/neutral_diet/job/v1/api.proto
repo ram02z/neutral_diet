@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package neutral_diet.job.v1;
+
+message SendGoalNotificationsRequest {}
+
+message SendGoalNotificationsResponse {}
+
+message MarkCompletedGoalsRequest {}
+
+message MarkCompletedGoalsResponse {}
+
+message SendStreakNotificationsRequest {}
+
+message SendStreakNotificationsResponse {}
+
+service JobService {
+  rpc SendGoalNotifications(SendGoalNotificationsRequest) returns (SendGoalNotificationsResponse) {}
+  rpc MarkCompletedGoals(MarkCompletedGoalsRequest) returns (MarkCompletedGoalsResponse) {}
+  rpc SendStreakNotifications(SendStreakNotificationsRequest) returns (SendStreakNotificationsResponse) {}
+}

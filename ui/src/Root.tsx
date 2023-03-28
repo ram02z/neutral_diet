@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { RecoilRoot } from 'recoil';
 
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 import { ConfirmProvider } from 'material-ui-confirm';
 import { SnackbarProvider } from 'notistack';
 
@@ -24,7 +27,9 @@ function render(App: ComponentType) {
                 anchorOrigin={notifications.options.anchorOrigin}
                 preventDuplicate={notifications.options.preventDuplicate}
               >
-                <App />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <App />
+                </LocalizationProvider>
               </SnackbarProvider>
             </ConfirmProvider>
           </ThemeProvider>

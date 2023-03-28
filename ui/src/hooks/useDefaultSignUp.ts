@@ -1,14 +1,17 @@
 import { useCallback, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 
-import { Auth, UserCredential, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { Auth, UserCredential, createUserWithEmailAndPassword } from 'firebase/auth';
 
 import client from '@/api/user_service';
+import { CurrentUserDisplayName } from '@/store/user';
 
 import { DefaultSignUpHook } from './types';
 
 function useDefaultSignUp(auth: Auth): DefaultSignUpHook {
   const [error, setError] = useState<boolean>(false);
   const [registeredUser, setRegisteredUser] = useState<UserCredential>();
+  const setUserDisplayName = useSetRecoilState(CurrentUserDisplayName);
   const [loading, setLoading] = useState<boolean>(false);
 
   const signUp = useCallback(
@@ -16,14 +19,18 @@ function useDefaultSignUp(auth: Auth): DefaultSignUpHook {
       setLoading(true);
       setError(false);
       try {
-        const user = await createUserWithEmailAndPassword(auth, email, password);
-        updateProfile(user.user, { displayName: displayName });
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        setUserDisplayName(displayName);
         // Add user to backend DB
-        client.createUser({ firebaseUid: user.user.uid });
+        userCredential.user.getIdToken().then((idToken) => {
+          const headers = new Headers();
+          headers.set('Authorization', `Bearer ${idToken}`);
+          client.createUser({ firebaseUid: userCredential.user.uid }, { headers: headers });
+        });
 
-        setRegisteredUser(user);
+        setRegisteredUser(userCredential);
 
-        return user;
+        return userCredential;
       } catch (err) {
         console.error(err);
         setError(true);
@@ -31,7 +38,7 @@ function useDefaultSignUp(auth: Auth): DefaultSignUpHook {
         setLoading(false);
       }
     },
-    [auth],
+    [auth, setUserDisplayName],
   );
 
   return [signUp, registeredUser, loading, error];

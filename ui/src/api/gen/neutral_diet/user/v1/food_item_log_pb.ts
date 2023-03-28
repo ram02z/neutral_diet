@@ -5,53 +5,248 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
+import { Date } from "./date_pb.js";
+import { Region } from "../../food/v1/region_pb.js";
 
 /**
- * @generated from message neutral_diet.user.v1.FoodLogItem
+ * @generated from enum neutral_diet.user.v1.Unit
  */
-export class FoodLogItem extends Message<FoodLogItem> {
+export enum Unit {
+  /**
+   * Kilogram
+   *
+   * @generated from enum value: UNIT_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: UNIT_GRAM = 1;
+   */
+  GRAM = 1,
+
+  /**
+   * @generated from enum value: UNIT_OUNCE = 2;
+   */
+  OUNCE = 2,
+
+  /**
+   * @generated from enum value: UNIT_POUND = 3;
+   */
+  POUND = 3,
+
+  /**
+   * @generated from enum value: UNIT_LITRE = 4;
+   */
+  LITRE = 4,
+
+  /**
+   * @generated from enum value: UNIT_MILLILITRE = 5;
+   */
+  MILLILITRE = 5,
+
+  /**
+   * @generated from enum value: UNIT_GALLON = 6;
+   */
+  GALLON = 6,
+
+  /**
+   * @generated from enum value: UNIT_PINT = 7;
+   */
+  PINT = 7,
+}
+// Retrieve enum metadata with: proto3.getEnumType(Unit)
+proto3.util.setEnumType(Unit, "neutral_diet.user.v1.Unit", [
+  { no: 0, name: "UNIT_UNSPECIFIED" },
+  { no: 1, name: "UNIT_GRAM" },
+  { no: 2, name: "UNIT_OUNCE" },
+  { no: 3, name: "UNIT_POUND" },
+  { no: 4, name: "UNIT_LITRE" },
+  { no: 5, name: "UNIT_MILLILITRE" },
+  { no: 6, name: "UNIT_GALLON" },
+  { no: 7, name: "UNIT_PINT" },
+]);
+
+/**
+ * @generated from enum neutral_diet.user.v1.Meal
+ */
+export enum Meal {
+  /**
+   * @generated from enum value: MEAL_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: MEAL_BREAKFAST = 1;
+   */
+  BREAKFAST = 1,
+
+  /**
+   * @generated from enum value: MEAL_LUNCH = 2;
+   */
+  LUNCH = 2,
+
+  /**
+   * @generated from enum value: MEAL_DINNER = 3;
+   */
+  DINNER = 3,
+}
+// Retrieve enum metadata with: proto3.getEnumType(Meal)
+proto3.util.setEnumType(Meal, "neutral_diet.user.v1.Meal", [
+  { no: 0, name: "MEAL_UNSPECIFIED" },
+  { no: 1, name: "MEAL_BREAKFAST" },
+  { no: 2, name: "MEAL_LUNCH" },
+  { no: 3, name: "MEAL_DINNER" },
+]);
+
+/**
+ * @generated from message neutral_diet.user.v1.FoodLogItemRequest
+ */
+export class FoodLogItemRequest extends Message<FoodLogItemRequest> {
   /**
    * @generated from field: int32 food_item_id = 1;
    */
   foodItemId = 0;
 
   /**
-   * @generated from field: double weight = 2;
+   * @generated from field: double quantity = 2;
    */
-  weight = 0;
+  quantity = 0;
 
   /**
-   * @generated from field: double carbon_footprint = 3;
+   * @generated from field: neutral_diet.user.v1.Date date = 3;
    */
-  carbonFootprint = 0;
+  date?: Date;
 
-  constructor(data?: PartialMessage<FoodLogItem>) {
+  /**
+   * @generated from field: neutral_diet.user.v1.Unit unit = 4;
+   */
+  unit = Unit.UNSPECIFIED;
+
+  /**
+   * @generated from field: neutral_diet.food.v1.Region region = 5;
+   */
+  region = Region.UNSPECIFIED;
+
+  /**
+   * @generated from field: neutral_diet.user.v1.Meal meal = 6;
+   */
+  meal = Meal.UNSPECIFIED;
+
+  constructor(data?: PartialMessage<FoodLogItemRequest>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime = proto3;
-  static readonly typeName = "neutral_diet.user.v1.FoodLogItem";
+  static readonly typeName = "neutral_diet.user.v1.FoodLogItemRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "food_item_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 2, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
-    { no: 3, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 2, name: "quantity", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 3, name: "date", kind: "message", T: Date },
+    { no: 4, name: "unit", kind: "enum", T: proto3.getEnumType(Unit) },
+    { no: 5, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
+    { no: 6, name: "meal", kind: "enum", T: proto3.getEnumType(Meal) },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItem {
-    return new FoodLogItem().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItemRequest {
+    return new FoodLogItemRequest().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): FoodLogItem {
-    return new FoodLogItem().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): FoodLogItemRequest {
+    return new FoodLogItemRequest().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): FoodLogItem {
-    return new FoodLogItem().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): FoodLogItemRequest {
+    return new FoodLogItemRequest().fromJsonString(jsonString, options);
   }
 
-  static equals(a: FoodLogItem | PlainMessage<FoodLogItem> | undefined, b: FoodLogItem | PlainMessage<FoodLogItem> | undefined): boolean {
-    return proto3.util.equals(FoodLogItem, a, b);
+  static equals(a: FoodLogItemRequest | PlainMessage<FoodLogItemRequest> | undefined, b: FoodLogItemRequest | PlainMessage<FoodLogItemRequest> | undefined): boolean {
+    return proto3.util.equals(FoodLogItemRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.FoodLogItemResponse
+ */
+export class FoodLogItemResponse extends Message<FoodLogItemResponse> {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id = 0;
+
+  /**
+   * @generated from field: int32 food_item_id = 2;
+   */
+  foodItemId = 0;
+
+  /**
+   * @generated from field: string name = 3;
+   */
+  name = "";
+
+  /**
+   * @generated from field: double quantity = 4;
+   */
+  quantity = 0;
+
+  /**
+   * @generated from field: double carbon_footprint = 5;
+   */
+  carbonFootprint = 0;
+
+  /**
+   * @generated from field: neutral_diet.user.v1.Date date = 6;
+   */
+  date?: Date;
+
+  /**
+   * @generated from field: neutral_diet.user.v1.Unit unit = 7;
+   */
+  unit = Unit.UNSPECIFIED;
+
+  /**
+   * @generated from field: neutral_diet.food.v1.Region region = 8;
+   */
+  region = Region.UNSPECIFIED;
+
+  /**
+   * @generated from field: neutral_diet.user.v1.Meal meal = 9;
+   */
+  meal = Meal.UNSPECIFIED;
+
+  constructor(data?: PartialMessage<FoodLogItemResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.FoodLogItemResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "food_item_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 3, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "quantity", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 5, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 6, name: "date", kind: "message", T: Date },
+    { no: 7, name: "unit", kind: "enum", T: proto3.getEnumType(Unit) },
+    { no: 8, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
+    { no: 9, name: "meal", kind: "enum", T: proto3.getEnumType(Meal) },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FoodLogItemResponse {
+    return new FoodLogItemResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): FoodLogItemResponse {
+    return new FoodLogItemResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): FoodLogItemResponse {
+    return new FoodLogItemResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: FoodLogItemResponse | PlainMessage<FoodLogItemResponse> | undefined, b: FoodLogItemResponse | PlainMessage<FoodLogItemResponse> | undefined): boolean {
+    return proto3.util.equals(FoodLogItemResponse, a, b);
   }
 }
 

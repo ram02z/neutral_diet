@@ -1,18 +1,21 @@
+import { useRecoilValue } from 'recoil';
+
 import { Alert, Button, Typography } from '@mui/material';
 
 import { User } from 'firebase/auth';
 import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
 
-import { ID_TOKEN_HEADER } from '@/api/transport';
 import client from '@/api/user_service';
 import { useSignOut } from '@/hooks/useSignOut';
+import { CurrentUserHeadersState } from '@/store/user';
 
 type DeleteAccountProps = {
   user: User;
 };
 
 function DeleteAccount({ user }: DeleteAccountProps) {
+  const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const confirm = useConfirm();
   const signOut = useSignOut();
   const { enqueueSnackbar } = useSnackbar();
@@ -22,7 +25,7 @@ function DeleteAccount({ user }: DeleteAccountProps) {
       title: 'Delete account',
       content: (
         <div>
-          <Alert severity="error">
+          <Alert variant="filled" severity="error">
             After you have deleted an account, it will be permanently deleted. Accounts cannot be
             recovered.
           </Alert>
@@ -33,18 +36,14 @@ function DeleteAccount({ user }: DeleteAccountProps) {
           {user.email}
         </div>
       ),
-      cancellationButtonProps: { color: 'info' },
+      cancellationButtonProps: { color: 'secondary' },
       confirmationText: 'Delete',
-      confirmationButtonProps: { color: 'error', variant: 'contained' },
+      confirmationButtonProps: { color: 'error' },
     }).then(() => {
-      user
-        .getIdToken()
-        .then((idToken) => {
-          const headers = new Headers();
-          headers.set(ID_TOKEN_HEADER, idToken);
-          client
-            .deleteUser({}, { headers: headers })
-            .then(() => enqueueSnackbar('Deleted account successfully.', { variant: 'success' }));
+      client
+        .deleteUser({}, { headers: userHeaders })
+        .then(() => {
+          enqueueSnackbar('Deleted account successfully.', { variant: 'success' });
           signOut();
         })
         .catch((err) => {

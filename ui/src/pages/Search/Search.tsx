@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import RenderIfVisible from 'react-render-if-visible';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { Close, SearchRounded } from '@mui/icons-material';
 import {
@@ -13,61 +13,56 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { AggregateFoodItem } from '@/api/gen/neutral_diet/food/v1/food_item_pb';
+import ClearHistoryButton from '@/components/ClearHistoryButton';
 import FoodItemCard from '@/components/FoodItemCard';
-import { FoodHistoryState, FoodItemsState } from '@/store/food';
+import { ESTIMATED_CARD_HEIGHT } from '@/components/FoodItemCard/FoodItemCard';
+import SortFilterMenu from '@/components/SortFilterMenu';
+import { FormValues } from '@/components/SortFilterMenu/types';
+import {
+  SearchSortState,
+  SearchTextState,
+  SearchTypeState,
+  SelectedSearchFiltersState,
+  SortedSearchFoodItemsState,
+} from '@/store/search';
+import { SearchType } from '@/store/search/types';
 
 function Search() {
-  const foodItems = useRecoilValue(FoodItemsState);
-  const foodHistory = useRecoilValue(FoodHistoryState);
-  const [searchFoodItems, setSearchFoodItems] = useState<AggregateFoodItem[]>([]);
-  const [searchFoodHistory, setSearchFoodHistory] = useState<AggregateFoodItem[]>(foodHistory);
-  const [searchText, setSearchText] = useState('');
-  const [showHistory, setShowHistory] = useState(true);
-
-  const handleSearch = (foodItemArray: AggregateFoodItem[]) => {
-    return foodItemArray.filter((foodItem) => {
-      return foodItem.foodName.toLowerCase().includes(searchText.toLowerCase());
-    });
-  };
-
+  const searchFoodItems = useRecoilValue(SortedSearchFoodItemsState);
+  const [searchText, setSearchText] = useRecoilState(SearchTextState);
+  const [searchType, setSearchType] = useRecoilState(SearchTypeState);
+  const [searchFilters, setSearchFilters] = useRecoilState(SelectedSearchFiltersState);
+  const [sortMethod, setSortMethod] = useRecoilState(SearchSortState);
   const handleSubmit = () => {
-    const newFoodItems = handleSearch(foodItems);
-    setShowHistory(false);
-    setSearchFoodItems(newFoodItems);
+    setSearchType(SearchType.Global);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setSearchText(e.target.value as string);
-    setSearchFoodItems([]);
-    if (e.target.value.length > 0) {
-      const newFoodItems = handleSearch(foodHistory);
-      setSearchFoodHistory(newFoodItems);
-    } else {
-      setSearchFoodHistory(foodHistory);
-    }
-    setShowHistory(true);
+    setSearchType(SearchType.History);
   };
 
   const clearSearch = () => {
     setSearchText('');
-    setSearchFoodItems([]);
-    setSearchFoodHistory(foodHistory);
-    setShowHistory(true);
+    setSearchType(SearchType.History);
+  };
+
+  const onFilterSubmit: SubmitHandler<FormValues> = (data) => {
+    setSearchFilters({ typologies: data.typologyNames, subTypologies: data.subTypologyNames });
+    setSortMethod(data.sortingMethod);
   };
 
   return (
     <Grid
       container
       direction="column"
-      columns={10}
       spacing={4}
       alignItems="center"
       pt="4vh"
       pb="8vh"
       disableEqualOverflow
     >
-      <Grid xs={8} sm={7} md={6} lg={5} xl={4}>
+      <Grid xs={11} md={9} lg={7} xl={6}>
         <FormControl fullWidth variant="outlined">
           <OutlinedInput
             placeholder="Search for food"
@@ -93,34 +88,60 @@ function Search() {
           />
         </FormControl>
       </Grid>
-      {showHistory ? (
+      {searchType === SearchType.History && (
         <>
           <Grid>
             <Typography variant="h4">History</Typography>
           </Grid>
-          {searchFoodHistory.map((foodItem, idx) => (
-            <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
-              <RenderIfVisible>
+          <Grid>
+            <SortFilterMenu
+              onSubmit={onFilterSubmit}
+              currentSearchFilters={searchFilters}
+              currentSortingMethod={sortMethod}
+            />
+          </Grid>
+          {searchFoodItems.map((foodItem, idx) => (
+            <Grid key={idx} xs={11} md={9} lg={7} xl={6}>
+              <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
                 <FoodItemCard foodItem={foodItem} />
               </RenderIfVisible>
             </Grid>
           ))}
           {searchText.length > 0 && (
-            <Grid textAlign="center" xs={8} sm={7} md={6} lg={5} xl={4}>
+            <Grid textAlign="center">
               <Button onClick={handleSubmit} variant="outlined" startIcon={<SearchRounded />}>
                 {`Search all foods for "${searchText}"`}
               </Button>
             </Grid>
           )}
+          {searchText.length == 0 && searchFoodItems.length > 0 && (
+            <Grid>
+              <ClearHistoryButton />
+            </Grid>
+          )}
         </>
-      ) : (
+      )}
+      {searchType === SearchType.Global && (
         <>
           <Grid>
             <Typography variant="h4">Search Results</Typography>
           </Grid>
+          <Grid>
+            <SortFilterMenu
+              onSubmit={onFilterSubmit}
+              currentSearchFilters={searchFilters}
+              currentSortingMethod={sortMethod}
+            />
+          </Grid>
+          <Grid xs={11} md={9} lg={7} xl={6}>
+            <Typography
+              variant="subtitle1"
+              color="text.secondary"
+            >{`${searchFoodItems.length} results`}</Typography>
+          </Grid>
           {searchFoodItems.map((foodItem, idx) => (
-            <Grid key={idx} xs={8} sm={7} md={6} lg={5} xl={4}>
-              <RenderIfVisible>
+            <Grid key={idx} xs={11} md={9} lg={7} xl={6}>
+              <RenderIfVisible defaultHeight={ESTIMATED_CARD_HEIGHT}>
                 <FoodItemCard foodItem={foodItem} />
               </RenderIfVisible>
             </Grid>

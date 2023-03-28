@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/bufbuild/connect-go"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
@@ -19,8 +18,8 @@ func (s *Store) CreateUser(
 
 	userID, err := queries.CreateUser(ctx, db.CreateUserParams{
 		FirebaseUid:        r.FirebaseUid,
-		Region:             sql.NullString{String: DefaultRegionName, Valid: true},
-		CfLimit:            decimal.NewFromFloat(0.0),
+		Region:             int32(foodv1.Region_REGION_UNSPECIFIED.Number()),
+		CfLimit:            decimal.NewFromFloat(0.1),
 		DietaryRequirement: int32(userv1.UserSettings_DIETARY_REQUIREMENT_UNSPECIFIED.Number()),
 	})
 	if err != nil {
@@ -36,14 +35,9 @@ func (s *Store) DeleteUser(
 ) (*userv1.DeleteUserResponse, error) {
 	queries := db.New(s.dbPool)
 
-	userID, err := queries.DeleteUserByFirebaseUID(ctx, firebaseUID)
+	err := queries.DeleteUserByFirebaseUID(ctx, firebaseUID)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeNotFound, err)
-	}
-
-	err = queries.DeleteUserLog(ctx, userID)
-	if err != nil {
-		return nil, err
 	}
 
 	return &userv1.DeleteUserResponse{}, nil
@@ -62,9 +56,7 @@ func (s *Store) GetUser(
 
 	userResponse := userv1.GetUserSettingsResponse{
 		UserSettings: &userv1.UserSettings{
-			Region: &foodv1.Region{
-				Name: user.Region.String,
-			},
+			Region:             foodv1.Region(user.Region),
 			CfLimit:            user.CfLimit.InexactFloat64(),
 			DietaryRequirement: userv1.UserSettings_DietaryRequirement(user.DietaryRequirement),
 		},
@@ -81,11 +73,8 @@ func (s *Store) UpdateUserSettings(
 	queries := db.New(s.dbPool)
 
 	err := queries.UpdateUserSettings(ctx, db.UpdateUserSettingsParams{
-		FirebaseUid: firebaseUID,
-		Region: sql.NullString{
-			String: r.GetUserSettings().GetRegion().Name,
-			Valid:  true,
-		},
+		FirebaseUid:        firebaseUID,
+		Region:             int32(r.GetUserSettings().GetRegion().Number()),
 		CfLimit:            decimal.NewFromFloat(r.GetUserSettings().CfLimit),
 		DietaryRequirement: int32(r.GetUserSettings().GetDietaryRequirement().Number()),
 	})
@@ -94,4 +83,32 @@ func (s *Store) UpdateUserSettings(
 	}
 
 	return &userv1.UpdateUserSettingsResponse{}, nil
+}
+
+func (s *Store) AddDevice(
+	ctx context.Context,
+	r *userv1.AddDeviceRequest,
+	firebaseUID string,
+) (*userv1.AddDeviceResponse, error) {
+	queries := db.New(s.dbPool)
+
+	user, err := queries.GetUserByFirebaseUID(ctx, firebaseUID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeNotFound, err)
+	}
+
+	err = queries.DeleteDeviceByUser(ctx, user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	err = queries.AddDevice(ctx, db.AddDeviceParams{
+		UserID:   user.ID,
+		FcmToken: r.FcmToken,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &userv1.AddDeviceResponse{}, nil
 }

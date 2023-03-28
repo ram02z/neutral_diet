@@ -5,6 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
+import { Region } from "./region_pb.js";
 
 /**
  * @generated from message neutral_diet.food.v1.Source
@@ -21,9 +22,9 @@ export class Source extends Message<Source> {
   year = 0;
 
   /**
-   * @generated from field: string region_name = 3;
+   * @generated from field: neutral_diet.food.v1.Region region = 3;
    */
-  regionName = "";
+  region = Region.UNSPECIFIED;
 
   constructor(data?: PartialMessage<Source>) {
     super();
@@ -35,7 +36,7 @@ export class Source extends Message<Source> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "reference", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "year", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 3, name: "region_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Source {

@@ -5,17 +5,20 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { FoodLogItem } from "./food_item_log_pb.js";
+import { FoodLogItemRequest, FoodLogItemResponse, Meal, Unit } from "./food_item_log_pb.js";
+import { Region } from "../../food/v1/region_pb.js";
+import { Date, DateRange } from "./date_pb.js";
 import { UserSettings } from "./user_pb.js";
+import { CarbonFootprintGoalRequest, CarbonFootprintGoalResponse } from "./goal_pb.js";
 
 /**
  * @generated from message neutral_diet.user.v1.AddFoodItemRequest
  */
 export class AddFoodItemRequest extends Message<AddFoodItemRequest> {
   /**
-   * @generated from field: neutral_diet.user.v1.FoodLogItem food_log_item = 2;
+   * @generated from field: neutral_diet.user.v1.FoodLogItemRequest food_log_item = 1;
    */
-  foodLogItem?: FoodLogItem;
+  foodLogItem?: FoodLogItemRequest;
 
   constructor(data?: PartialMessage<AddFoodItemRequest>) {
     super();
@@ -25,7 +28,7 @@ export class AddFoodItemRequest extends Message<AddFoodItemRequest> {
   static readonly runtime = proto3;
   static readonly typeName = "neutral_diet.user.v1.AddFoodItemRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 2, name: "food_log_item", kind: "message", T: FoodLogItem },
+    { no: 1, name: "food_log_item", kind: "message", T: FoodLogItemRequest },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AddFoodItemRequest {
@@ -54,6 +57,11 @@ export class AddFoodItemResponse extends Message<AddFoodItemResponse> {
    */
   id = 0;
 
+  /**
+   * @generated from field: double carbon_footprint = 2;
+   */
+  carbonFootprint = 0;
+
   constructor(data?: PartialMessage<AddFoodItemResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -63,6 +71,7 @@ export class AddFoodItemResponse extends Message<AddFoodItemResponse> {
   static readonly typeName = "neutral_diet.user.v1.AddFoodItemResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AddFoodItemResponse {
@@ -79,6 +88,326 @@ export class AddFoodItemResponse extends Message<AddFoodItemResponse> {
 
   static equals(a: AddFoodItemResponse | PlainMessage<AddFoodItemResponse> | undefined, b: AddFoodItemResponse | PlainMessage<AddFoodItemResponse> | undefined): boolean {
     return proto3.util.equals(AddFoodItemResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.UpdateFoodItemRequest
+ */
+export class UpdateFoodItemRequest extends Message<UpdateFoodItemRequest> {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id = 0;
+
+  /**
+   * @generated from field: double quantity = 2;
+   */
+  quantity = 0;
+
+  /**
+   * @generated from field: neutral_diet.user.v1.Unit unit = 3;
+   */
+  unit = Unit.UNSPECIFIED;
+
+  /**
+   * @generated from field: neutral_diet.food.v1.Region region = 4;
+   */
+  region = Region.UNSPECIFIED;
+
+  /**
+   * @generated from field: neutral_diet.user.v1.Meal meal = 5;
+   */
+  meal = Meal.UNSPECIFIED;
+
+  constructor(data?: PartialMessage<UpdateFoodItemRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.UpdateFoodItemRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "quantity", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 3, name: "unit", kind: "enum", T: proto3.getEnumType(Unit) },
+    { no: 4, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
+    { no: 5, name: "meal", kind: "enum", T: proto3.getEnumType(Meal) },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateFoodItemRequest {
+    return new UpdateFoodItemRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateFoodItemRequest {
+    return new UpdateFoodItemRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateFoodItemRequest {
+    return new UpdateFoodItemRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UpdateFoodItemRequest | PlainMessage<UpdateFoodItemRequest> | undefined, b: UpdateFoodItemRequest | PlainMessage<UpdateFoodItemRequest> | undefined): boolean {
+    return proto3.util.equals(UpdateFoodItemRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.UpdateFoodItemResponse
+ */
+export class UpdateFoodItemResponse extends Message<UpdateFoodItemResponse> {
+  /**
+   * @generated from field: double carbon_footprint = 1;
+   */
+  carbonFootprint = 0;
+
+  constructor(data?: PartialMessage<UpdateFoodItemResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.UpdateFoodItemResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "carbon_footprint", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateFoodItemResponse {
+    return new UpdateFoodItemResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateFoodItemResponse {
+    return new UpdateFoodItemResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateFoodItemResponse {
+    return new UpdateFoodItemResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UpdateFoodItemResponse | PlainMessage<UpdateFoodItemResponse> | undefined, b: UpdateFoodItemResponse | PlainMessage<UpdateFoodItemResponse> | undefined): boolean {
+    return proto3.util.equals(UpdateFoodItemResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.DeleteFoodItemRequest
+ */
+export class DeleteFoodItemRequest extends Message<DeleteFoodItemRequest> {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id = 0;
+
+  constructor(data?: PartialMessage<DeleteFoodItemRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.DeleteFoodItemRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteFoodItemRequest {
+    return new DeleteFoodItemRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteFoodItemRequest {
+    return new DeleteFoodItemRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteFoodItemRequest {
+    return new DeleteFoodItemRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteFoodItemRequest | PlainMessage<DeleteFoodItemRequest> | undefined, b: DeleteFoodItemRequest | PlainMessage<DeleteFoodItemRequest> | undefined): boolean {
+    return proto3.util.equals(DeleteFoodItemRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.DeleteFoodItemResponse
+ */
+export class DeleteFoodItemResponse extends Message<DeleteFoodItemResponse> {
+  constructor(data?: PartialMessage<DeleteFoodItemResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.DeleteFoodItemResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteFoodItemResponse {
+    return new DeleteFoodItemResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteFoodItemResponse {
+    return new DeleteFoodItemResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteFoodItemResponse {
+    return new DeleteFoodItemResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteFoodItemResponse | PlainMessage<DeleteFoodItemResponse> | undefined, b: DeleteFoodItemResponse | PlainMessage<DeleteFoodItemResponse> | undefined): boolean {
+    return proto3.util.equals(DeleteFoodItemResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetFoodItemLogRequest
+ */
+export class GetFoodItemLogRequest extends Message<GetFoodItemLogRequest> {
+  /**
+   * @generated from field: neutral_diet.user.v1.Date date = 1;
+   */
+  date?: Date;
+
+  constructor(data?: PartialMessage<GetFoodItemLogRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetFoodItemLogRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "date", kind: "message", T: Date },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemLogRequest {
+    return new GetFoodItemLogRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFoodItemLogRequest {
+    return new GetFoodItemLogRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFoodItemLogRequest {
+    return new GetFoodItemLogRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFoodItemLogRequest | PlainMessage<GetFoodItemLogRequest> | undefined, b: GetFoodItemLogRequest | PlainMessage<GetFoodItemLogRequest> | undefined): boolean {
+    return proto3.util.equals(GetFoodItemLogRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetFoodItemLogResponse
+ */
+export class GetFoodItemLogResponse extends Message<GetFoodItemLogResponse> {
+  /**
+   * @generated from field: repeated neutral_diet.user.v1.FoodLogItemResponse food_item_log = 1;
+   */
+  foodItemLog: FoodLogItemResponse[] = [];
+
+  constructor(data?: PartialMessage<GetFoodItemLogResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetFoodItemLogResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "food_item_log", kind: "message", T: FoodLogItemResponse, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemLogResponse {
+    return new GetFoodItemLogResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFoodItemLogResponse {
+    return new GetFoodItemLogResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFoodItemLogResponse {
+    return new GetFoodItemLogResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFoodItemLogResponse | PlainMessage<GetFoodItemLogResponse> | undefined, b: GetFoodItemLogResponse | PlainMessage<GetFoodItemLogResponse> | undefined): boolean {
+    return proto3.util.equals(GetFoodItemLogResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetFoodItemLogDaysRequest
+ */
+export class GetFoodItemLogDaysRequest extends Message<GetFoodItemLogDaysRequest> {
+  /**
+   * @generated from field: int32 month = 1;
+   */
+  month = 0;
+
+  /**
+   * @generated from field: int32 year = 2;
+   */
+  year = 0;
+
+  constructor(data?: PartialMessage<GetFoodItemLogDaysRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetFoodItemLogDaysRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "month", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "year", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemLogDaysRequest {
+    return new GetFoodItemLogDaysRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysRequest {
+    return new GetFoodItemLogDaysRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysRequest {
+    return new GetFoodItemLogDaysRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFoodItemLogDaysRequest | PlainMessage<GetFoodItemLogDaysRequest> | undefined, b: GetFoodItemLogDaysRequest | PlainMessage<GetFoodItemLogDaysRequest> | undefined): boolean {
+    return proto3.util.equals(GetFoodItemLogDaysRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetFoodItemLogDaysResponse
+ */
+export class GetFoodItemLogDaysResponse extends Message<GetFoodItemLogDaysResponse> {
+  /**
+   * @generated from field: repeated int32 days = 1;
+   */
+  days: number[] = [];
+
+  constructor(data?: PartialMessage<GetFoodItemLogDaysResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetFoodItemLogDaysResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "days", kind: "scalar", T: 5 /* ScalarType.INT32 */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFoodItemLogDaysResponse {
+    return new GetFoodItemLogDaysResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysResponse {
+    return new GetFoodItemLogDaysResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFoodItemLogDaysResponse {
+    return new GetFoodItemLogDaysResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFoodItemLogDaysResponse | PlainMessage<GetFoodItemLogDaysResponse> | undefined, b: GetFoodItemLogDaysResponse | PlainMessage<GetFoodItemLogDaysResponse> | undefined): boolean {
+    return proto3.util.equals(GetFoodItemLogDaysResponse, a, b);
   }
 }
 
@@ -351,6 +680,554 @@ export class GetUserSettingsResponse extends Message<GetUserSettingsResponse> {
 
   static equals(a: GetUserSettingsResponse | PlainMessage<GetUserSettingsResponse> | undefined, b: GetUserSettingsResponse | PlainMessage<GetUserSettingsResponse> | undefined): boolean {
     return proto3.util.equals(GetUserSettingsResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetUserInsightsRequest
+ */
+export class GetUserInsightsRequest extends Message<GetUserInsightsRequest> {
+  constructor(data?: PartialMessage<GetUserInsightsRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetUserInsightsRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserInsightsRequest {
+    return new GetUserInsightsRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserInsightsRequest {
+    return new GetUserInsightsRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserInsightsRequest {
+    return new GetUserInsightsRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetUserInsightsRequest | PlainMessage<GetUserInsightsRequest> | undefined, b: GetUserInsightsRequest | PlainMessage<GetUserInsightsRequest> | undefined): boolean {
+    return proto3.util.equals(GetUserInsightsRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetUserInsightsResponse
+ */
+export class GetUserInsightsResponse extends Message<GetUserInsightsResponse> {
+  /**
+   * @generated from field: double daily_user_average = 1;
+   */
+  dailyUserAverage = 0;
+
+  /**
+   * @generated from field: double daily_average_carbon_footprint_dietary_requirement = 2;
+   */
+  dailyAverageCarbonFootprintDietaryRequirement = 0;
+
+  /**
+   * @generated from field: double daily_average_carbon_footprint_overall = 3;
+   */
+  dailyAverageCarbonFootprintOverall = 0;
+
+  /**
+   * @generated from field: int32 streak_len = 4;
+   */
+  streakLen = 0;
+
+  /**
+   * @generated from field: bool is_streak_active = 5;
+   */
+  isStreakActive = false;
+
+  constructor(data?: PartialMessage<GetUserInsightsResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetUserInsightsResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "daily_user_average", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 2, name: "daily_average_carbon_footprint_dietary_requirement", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 3, name: "daily_average_carbon_footprint_overall", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 4, name: "streak_len", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 5, name: "is_streak_active", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserInsightsResponse {
+    return new GetUserInsightsResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserInsightsResponse {
+    return new GetUserInsightsResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserInsightsResponse {
+    return new GetUserInsightsResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetUserInsightsResponse | PlainMessage<GetUserInsightsResponse> | undefined, b: GetUserInsightsResponse | PlainMessage<GetUserInsightsResponse> | undefined): boolean {
+    return proto3.util.equals(GetUserInsightsResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetUserProgressRequest
+ */
+export class GetUserProgressRequest extends Message<GetUserProgressRequest> {
+  /**
+   * @generated from field: neutral_diet.user.v1.DateRange date_range = 1;
+   */
+  dateRange?: DateRange;
+
+  constructor(data?: PartialMessage<GetUserProgressRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetUserProgressRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "date_range", kind: "message", T: DateRange },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserProgressRequest {
+    return new GetUserProgressRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserProgressRequest {
+    return new GetUserProgressRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserProgressRequest {
+    return new GetUserProgressRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetUserProgressRequest | PlainMessage<GetUserProgressRequest> | undefined, b: GetUserProgressRequest | PlainMessage<GetUserProgressRequest> | undefined): boolean {
+    return proto3.util.equals(GetUserProgressRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetUserProgressResponse
+ */
+export class GetUserProgressResponse extends Message<GetUserProgressResponse> {
+  /**
+   * @generated from field: map<string, double> daily_progress_all = 1;
+   */
+  dailyProgressAll: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_breakfast = 2;
+   */
+  dailyProgressBreakfast: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_lunch = 3;
+   */
+  dailyProgressLunch: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_dinner = 4;
+   */
+  dailyProgressDinner: { [key: string]: number } = {};
+
+  /**
+   * @generated from field: map<string, double> daily_progress_snacks = 5;
+   */
+  dailyProgressSnacks: { [key: string]: number } = {};
+
+  constructor(data?: PartialMessage<GetUserProgressResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetUserProgressResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "daily_progress_all", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 2, name: "daily_progress_breakfast", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 3, name: "daily_progress_lunch", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 4, name: "daily_progress_dinner", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+    { no: 5, name: "daily_progress_snacks", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 1 /* ScalarType.DOUBLE */} },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserProgressResponse {
+    return new GetUserProgressResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserProgressResponse {
+    return new GetUserProgressResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserProgressResponse {
+    return new GetUserProgressResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetUserProgressResponse | PlainMessage<GetUserProgressResponse> | undefined, b: GetUserProgressResponse | PlainMessage<GetUserProgressResponse> | undefined): boolean {
+    return proto3.util.equals(GetUserProgressResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.AddCarbonFootprintGoalRequest
+ */
+export class AddCarbonFootprintGoalRequest extends Message<AddCarbonFootprintGoalRequest> {
+  /**
+   * @generated from field: neutral_diet.user.v1.CarbonFootprintGoalRequest carbon_footprint_goal = 1;
+   */
+  carbonFootprintGoal?: CarbonFootprintGoalRequest;
+
+  constructor(data?: PartialMessage<AddCarbonFootprintGoalRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.AddCarbonFootprintGoalRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "carbon_footprint_goal", kind: "message", T: CarbonFootprintGoalRequest },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AddCarbonFootprintGoalRequest {
+    return new AddCarbonFootprintGoalRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AddCarbonFootprintGoalRequest {
+    return new AddCarbonFootprintGoalRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AddCarbonFootprintGoalRequest {
+    return new AddCarbonFootprintGoalRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: AddCarbonFootprintGoalRequest | PlainMessage<AddCarbonFootprintGoalRequest> | undefined, b: AddCarbonFootprintGoalRequest | PlainMessage<AddCarbonFootprintGoalRequest> | undefined): boolean {
+    return proto3.util.equals(AddCarbonFootprintGoalRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.AddCarbonFootprintGoalResponse
+ */
+export class AddCarbonFootprintGoalResponse extends Message<AddCarbonFootprintGoalResponse> {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id = 0;
+
+  constructor(data?: PartialMessage<AddCarbonFootprintGoalResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.AddCarbonFootprintGoalResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AddCarbonFootprintGoalResponse {
+    return new AddCarbonFootprintGoalResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AddCarbonFootprintGoalResponse {
+    return new AddCarbonFootprintGoalResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AddCarbonFootprintGoalResponse {
+    return new AddCarbonFootprintGoalResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: AddCarbonFootprintGoalResponse | PlainMessage<AddCarbonFootprintGoalResponse> | undefined, b: AddCarbonFootprintGoalResponse | PlainMessage<AddCarbonFootprintGoalResponse> | undefined): boolean {
+    return proto3.util.equals(AddCarbonFootprintGoalResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.UpdateCarbonFootprintGoalRequest
+ */
+export class UpdateCarbonFootprintGoalRequest extends Message<UpdateCarbonFootprintGoalRequest> {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id = 0;
+
+  /**
+   * @generated from field: bool completed = 2;
+   */
+  completed = false;
+
+  constructor(data?: PartialMessage<UpdateCarbonFootprintGoalRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.UpdateCarbonFootprintGoalRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "completed", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateCarbonFootprintGoalRequest {
+    return new UpdateCarbonFootprintGoalRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateCarbonFootprintGoalRequest {
+    return new UpdateCarbonFootprintGoalRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateCarbonFootprintGoalRequest {
+    return new UpdateCarbonFootprintGoalRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UpdateCarbonFootprintGoalRequest | PlainMessage<UpdateCarbonFootprintGoalRequest> | undefined, b: UpdateCarbonFootprintGoalRequest | PlainMessage<UpdateCarbonFootprintGoalRequest> | undefined): boolean {
+    return proto3.util.equals(UpdateCarbonFootprintGoalRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.UpdateCarbonFootprintGoalResponse
+ */
+export class UpdateCarbonFootprintGoalResponse extends Message<UpdateCarbonFootprintGoalResponse> {
+  constructor(data?: PartialMessage<UpdateCarbonFootprintGoalResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.UpdateCarbonFootprintGoalResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateCarbonFootprintGoalResponse {
+    return new UpdateCarbonFootprintGoalResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateCarbonFootprintGoalResponse {
+    return new UpdateCarbonFootprintGoalResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateCarbonFootprintGoalResponse {
+    return new UpdateCarbonFootprintGoalResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UpdateCarbonFootprintGoalResponse | PlainMessage<UpdateCarbonFootprintGoalResponse> | undefined, b: UpdateCarbonFootprintGoalResponse | PlainMessage<UpdateCarbonFootprintGoalResponse> | undefined): boolean {
+    return proto3.util.equals(UpdateCarbonFootprintGoalResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.DeleteCarbonFootprintGoalRequest
+ */
+export class DeleteCarbonFootprintGoalRequest extends Message<DeleteCarbonFootprintGoalRequest> {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id = 0;
+
+  constructor(data?: PartialMessage<DeleteCarbonFootprintGoalRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.DeleteCarbonFootprintGoalRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteCarbonFootprintGoalRequest {
+    return new DeleteCarbonFootprintGoalRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteCarbonFootprintGoalRequest {
+    return new DeleteCarbonFootprintGoalRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteCarbonFootprintGoalRequest {
+    return new DeleteCarbonFootprintGoalRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteCarbonFootprintGoalRequest | PlainMessage<DeleteCarbonFootprintGoalRequest> | undefined, b: DeleteCarbonFootprintGoalRequest | PlainMessage<DeleteCarbonFootprintGoalRequest> | undefined): boolean {
+    return proto3.util.equals(DeleteCarbonFootprintGoalRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.DeleteCarbonFootprintGoalResponse
+ */
+export class DeleteCarbonFootprintGoalResponse extends Message<DeleteCarbonFootprintGoalResponse> {
+  constructor(data?: PartialMessage<DeleteCarbonFootprintGoalResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.DeleteCarbonFootprintGoalResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteCarbonFootprintGoalResponse {
+    return new DeleteCarbonFootprintGoalResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteCarbonFootprintGoalResponse {
+    return new DeleteCarbonFootprintGoalResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteCarbonFootprintGoalResponse {
+    return new DeleteCarbonFootprintGoalResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteCarbonFootprintGoalResponse | PlainMessage<DeleteCarbonFootprintGoalResponse> | undefined, b: DeleteCarbonFootprintGoalResponse | PlainMessage<DeleteCarbonFootprintGoalResponse> | undefined): boolean {
+    return proto3.util.equals(DeleteCarbonFootprintGoalResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetCarbonFootprintGoalsRequest
+ */
+export class GetCarbonFootprintGoalsRequest extends Message<GetCarbonFootprintGoalsRequest> {
+  constructor(data?: PartialMessage<GetCarbonFootprintGoalsRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetCarbonFootprintGoalsRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetCarbonFootprintGoalsRequest {
+    return new GetCarbonFootprintGoalsRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetCarbonFootprintGoalsRequest {
+    return new GetCarbonFootprintGoalsRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetCarbonFootprintGoalsRequest {
+    return new GetCarbonFootprintGoalsRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetCarbonFootprintGoalsRequest | PlainMessage<GetCarbonFootprintGoalsRequest> | undefined, b: GetCarbonFootprintGoalsRequest | PlainMessage<GetCarbonFootprintGoalsRequest> | undefined): boolean {
+    return proto3.util.equals(GetCarbonFootprintGoalsRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.GetCarbonFootprintGoalsResponse
+ */
+export class GetCarbonFootprintGoalsResponse extends Message<GetCarbonFootprintGoalsResponse> {
+  /**
+   * @generated from field: repeated neutral_diet.user.v1.CarbonFootprintGoalResponse completed = 1;
+   */
+  completed: CarbonFootprintGoalResponse[] = [];
+
+  /**
+   * @generated from field: repeated neutral_diet.user.v1.CarbonFootprintGoalResponse active = 2;
+   */
+  active: CarbonFootprintGoalResponse[] = [];
+
+  constructor(data?: PartialMessage<GetCarbonFootprintGoalsResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.GetCarbonFootprintGoalsResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "completed", kind: "message", T: CarbonFootprintGoalResponse, repeated: true },
+    { no: 2, name: "active", kind: "message", T: CarbonFootprintGoalResponse, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetCarbonFootprintGoalsResponse {
+    return new GetCarbonFootprintGoalsResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetCarbonFootprintGoalsResponse {
+    return new GetCarbonFootprintGoalsResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetCarbonFootprintGoalsResponse {
+    return new GetCarbonFootprintGoalsResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetCarbonFootprintGoalsResponse | PlainMessage<GetCarbonFootprintGoalsResponse> | undefined, b: GetCarbonFootprintGoalsResponse | PlainMessage<GetCarbonFootprintGoalsResponse> | undefined): boolean {
+    return proto3.util.equals(GetCarbonFootprintGoalsResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.AddDeviceRequest
+ */
+export class AddDeviceRequest extends Message<AddDeviceRequest> {
+  /**
+   * @generated from field: string fcm_token = 1;
+   */
+  fcmToken = "";
+
+  constructor(data?: PartialMessage<AddDeviceRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.AddDeviceRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "fcm_token", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AddDeviceRequest {
+    return new AddDeviceRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AddDeviceRequest {
+    return new AddDeviceRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AddDeviceRequest {
+    return new AddDeviceRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: AddDeviceRequest | PlainMessage<AddDeviceRequest> | undefined, b: AddDeviceRequest | PlainMessage<AddDeviceRequest> | undefined): boolean {
+    return proto3.util.equals(AddDeviceRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.user.v1.AddDeviceResponse
+ */
+export class AddDeviceResponse extends Message<AddDeviceResponse> {
+  constructor(data?: PartialMessage<AddDeviceResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.user.v1.AddDeviceResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AddDeviceResponse {
+    return new AddDeviceResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AddDeviceResponse {
+    return new AddDeviceResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AddDeviceResponse {
+    return new AddDeviceResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: AddDeviceResponse | PlainMessage<AddDeviceResponse> | undefined, b: AddDeviceResponse | PlainMessage<AddDeviceResponse> | undefined): boolean {
+    return proto3.util.equals(AddDeviceResponse, a, b);
   }
 }
 

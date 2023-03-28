@@ -17,6 +17,8 @@ import (
 	"unicode/utf8"
 
 	"google.golang.org/protobuf/types/known/anypb"
+
+	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 )
 
 // ensure the imports are used
@@ -33,24 +35,26 @@ var (
 	_ = (*mail.Address)(nil)
 	_ = anypb.Any{}
 	_ = sort.Sort
+
+	_ = foodv1.Region(0)
 )
 
-// Validate checks the field values on FoodLogItem with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *FoodLogItem) Validate() error {
+// Validate checks the field values on FoodLogItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *FoodLogItemRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on FoodLogItem with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in FoodLogItemMultiError, or
-// nil if none found.
-func (m *FoodLogItem) ValidateAll() error {
+// ValidateAll checks the field values on FoodLogItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// FoodLogItemRequestMultiError, or nil if none found.
+func (m *FoodLogItemRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *FoodLogItem) validate(all bool) error {
+func (m *FoodLogItemRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -59,23 +63,57 @@ func (m *FoodLogItem) validate(all bool) error {
 
 	// no validation rules for FoodItemId
 
-	// no validation rules for Weight
+	// no validation rules for Quantity
 
-	// no validation rules for CarbonFootprint
+	if all {
+		switch v := interface{}(m.GetDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, FoodLogItemRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, FoodLogItemRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return FoodLogItemRequestValidationError{
+				field:  "Date",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Unit
+
+	// no validation rules for Region
+
+	// no validation rules for Meal
 
 	if len(errors) > 0 {
-		return FoodLogItemMultiError(errors)
+		return FoodLogItemRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// FoodLogItemMultiError is an error wrapping multiple validation errors
-// returned by FoodLogItem.ValidateAll() if the designated constraints aren't met.
-type FoodLogItemMultiError []error
+// FoodLogItemRequestMultiError is an error wrapping multiple validation errors
+// returned by FoodLogItemRequest.ValidateAll() if the designated constraints
+// aren't met.
+type FoodLogItemRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m FoodLogItemMultiError) Error() string {
+func (m FoodLogItemRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -84,11 +122,11 @@ func (m FoodLogItemMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m FoodLogItemMultiError) AllErrors() []error { return m }
+func (m FoodLogItemRequestMultiError) AllErrors() []error { return m }
 
-// FoodLogItemValidationError is the validation error returned by
-// FoodLogItem.Validate if the designated constraints aren't met.
-type FoodLogItemValidationError struct {
+// FoodLogItemRequestValidationError is the validation error returned by
+// FoodLogItemRequest.Validate if the designated constraints aren't met.
+type FoodLogItemRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -96,22 +134,24 @@ type FoodLogItemValidationError struct {
 }
 
 // Field function returns field value.
-func (e FoodLogItemValidationError) Field() string { return e.field }
+func (e FoodLogItemRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e FoodLogItemValidationError) Reason() string { return e.reason }
+func (e FoodLogItemRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e FoodLogItemValidationError) Cause() error { return e.cause }
+func (e FoodLogItemRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e FoodLogItemValidationError) Key() bool { return e.key }
+func (e FoodLogItemRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e FoodLogItemValidationError) ErrorName() string { return "FoodLogItemValidationError" }
+func (e FoodLogItemRequestValidationError) ErrorName() string {
+	return "FoodLogItemRequestValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e FoodLogItemValidationError) Error() string {
+func (e FoodLogItemRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -123,14 +163,14 @@ func (e FoodLogItemValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sFoodLogItem.%s: %s%s",
+		"invalid %sFoodLogItemRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = FoodLogItemValidationError{}
+var _ error = FoodLogItemRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -138,4 +178,151 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = FoodLogItemValidationError{}
+} = FoodLogItemRequestValidationError{}
+
+// Validate checks the field values on FoodLogItemResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *FoodLogItemResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on FoodLogItemResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// FoodLogItemResponseMultiError, or nil if none found.
+func (m *FoodLogItemResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *FoodLogItemResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for FoodItemId
+
+	// no validation rules for Name
+
+	// no validation rules for Quantity
+
+	// no validation rules for CarbonFootprint
+
+	if all {
+		switch v := interface{}(m.GetDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, FoodLogItemResponseValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, FoodLogItemResponseValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return FoodLogItemResponseValidationError{
+				field:  "Date",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Unit
+
+	// no validation rules for Region
+
+	// no validation rules for Meal
+
+	if len(errors) > 0 {
+		return FoodLogItemResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// FoodLogItemResponseMultiError is an error wrapping multiple validation
+// errors returned by FoodLogItemResponse.ValidateAll() if the designated
+// constraints aren't met.
+type FoodLogItemResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m FoodLogItemResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m FoodLogItemResponseMultiError) AllErrors() []error { return m }
+
+// FoodLogItemResponseValidationError is the validation error returned by
+// FoodLogItemResponse.Validate if the designated constraints aren't met.
+type FoodLogItemResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FoodLogItemResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FoodLogItemResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FoodLogItemResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FoodLogItemResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FoodLogItemResponseValidationError) ErrorName() string {
+	return "FoodLogItemResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e FoodLogItemResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFoodLogItemResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FoodLogItemResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FoodLogItemResponseValidationError{}

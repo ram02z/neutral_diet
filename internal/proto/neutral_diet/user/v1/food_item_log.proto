@@ -2,8 +2,45 @@ syntax = "proto3";
 
 package neutral_diet.user.v1;
 
-message FoodLogItem {
+import "neutral_diet/food/v1/region.proto";
+import "neutral_diet/user/v1/date.proto";
+
+enum Unit {
+  // Kilogram
+  UNIT_UNSPECIFIED = 0;
+  UNIT_GRAM = 1;
+  UNIT_OUNCE = 2;
+  UNIT_POUND = 3;
+  UNIT_LITRE = 4;
+  UNIT_MILLILITRE = 5;
+  UNIT_GALLON = 6;
+  UNIT_PINT = 7;
+}
+
+enum Meal {
+  MEAL_UNSPECIFIED = 0;
+  MEAL_BREAKFAST = 1;
+  MEAL_LUNCH = 2;
+  MEAL_DINNER = 3;
+}
+
+message FoodLogItemRequest {
   int32 food_item_id = 1;
-  double weight = 2;
-  double carbon_footprint = 3;
+  double quantity = 2;
+  Date date = 3;
+  Unit unit = 4;
+  food.v1.Region region = 5;
+  Meal meal = 6;
+}
+
+message FoodLogItemResponse {
+  int32 id = 1;
+  int32 food_item_id = 2;
+  string name = 3;
+  double quantity = 4;
+  double carbon_footprint = 5;
+  Date date = 6;
+  Unit unit = 7;
+  food.v1.Region region = 8;
+  Meal meal = 9;
 }

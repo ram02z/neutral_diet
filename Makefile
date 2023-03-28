@@ -1,3 +1,9 @@
+DB_USER ?= postgres
+DB_PASS ?= postgres
+DB_HOST ?= localhost
+DB_NAME ?= postgres
+DB_PORT ?= 5432
+
 .PHONY: all
 all:
 	$(MAKE) gen-proto
@@ -12,8 +18,8 @@ gen-proto:
 
 .PHONY: gen-models
 gen-models:
-	sqlc compile
-	sqlc generate
+	sqlc compile --experimental
+	sqlc generate --experimental
 
 .PHONY: migrate-up
 migrate-up:
@@ -22,7 +28,7 @@ migrate-up:
 	  --network host \
 	  migrate/migrate \
 	  -path=/migrations/ \
-	  -database postgres://postgres:postgres@localhost:5432/postgres\?sslmode=disable \
+	  -database postgres://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)\?sslmode=disable \
 	  up
 
 .PHONY: migrate-down
@@ -32,5 +38,5 @@ migrate-down:
 	  --network host \
 	  migrate/migrate \
 	  -path=/migrations/ \
-	  -database postgres://postgres:postgres@localhost:5432/postgres\?sslmode=disable \
+	  -database postgres://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)\?sslmode=disable \
 	  down -all

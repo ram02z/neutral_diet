@@ -64,25 +64,6 @@ func (c *ConnectWrapper) CreateSource(
 	return out, nil
 }
 
-func (c *ConnectWrapper) CreateRegion(
-	ctx context.Context,
-	req *connect.Request[foodv1.CreateRegionRequest],
-) (*connect.Response[foodv1.CreateRegionResponse], error) {
-	err := validate(req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := c.s.CreateRegion(ctx, req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	out := connect.NewResponse(res)
-
-	return out, nil
-}
-
 func (c *ConnectWrapper) CreateTypology(
 	ctx context.Context,
 	req *connect.Request[foodv1.CreateTypologyRequest],
@@ -93,6 +74,20 @@ func (c *ConnectWrapper) CreateTypology(
 	}
 
 	res, err := c.s.CreateTypology(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) ListTypologyNames(
+	ctx context.Context,
+	req *connect.Request[foodv1.ListTypologyNamesRequest],
+) (*connect.Response[foodv1.ListTypologyNamesResponse], error) {
+	res, err := c.s.ListTypologyNames(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -121,11 +116,11 @@ func (c *ConnectWrapper) CreateSubTypology(
 	return out, nil
 }
 
-func (c *ConnectWrapper) ListRegions(
+func (c *ConnectWrapper) ListSubTypologyNames(
 	ctx context.Context,
-	req *connect.Request[foodv1.ListRegionsRequest],
-) (*connect.Response[foodv1.ListRegionsResponse], error) {
-	res, err := c.s.ListRegions(ctx, req.Msg)
+	req *connect.Request[foodv1.ListSubTypologyNamesRequest],
+) (*connect.Response[foodv1.ListSubTypologyNamesResponse], error) {
+	res, err := c.s.ListSubTypologyNames(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +134,26 @@ func (c *ConnectWrapper) ListAggregateFoodItems(
 	ctx context.Context,
 	req *connect.Request[foodv1.ListAggregateFoodItemsRequest],
 ) (*connect.Response[foodv1.ListAggregateFoodItemsResponse], error) {
+	err := validate(req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
 	res, err := c.s.ListAggregateFoodItems(ctx, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	out := connect.NewResponse(res)
+
+	return out, nil
+}
+
+func (c *ConnectWrapper) GetFoodItemInfo(
+	ctx context.Context,
+	req *connect.Request[foodv1.GetFoodItemInfoRequest],
+) (*connect.Response[foodv1.GetFoodItemInfoResponse], error) {
+	res, err := c.s.GetFoodItemInfo(ctx, req.Msg)
 	if err != nil {
 		return nil, err
 	}

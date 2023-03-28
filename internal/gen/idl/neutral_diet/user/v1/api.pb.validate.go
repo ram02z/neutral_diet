@@ -17,6 +17,8 @@ import (
 	"unicode/utf8"
 
 	"google.golang.org/protobuf/types/known/anypb"
+
+	foodv1 "github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1"
 )
 
 // ensure the imports are used
@@ -33,6 +35,8 @@ var (
 	_ = (*mail.Address)(nil)
 	_ = anypb.Any{}
 	_ = sort.Sort
+
+	_ = foodv1.Region(0)
 )
 
 // Validate checks the field values on AddFoodItemRequest with the rules
@@ -201,6 +205,8 @@ func (m *AddFoodItemResponse) validate(all bool) error {
 
 	// no validation rules for Id
 
+	// no validation rules for CarbonFootprint
+
 	if len(errors) > 0 {
 		return AddFoodItemResponseMultiError(errors)
 	}
@@ -280,6 +286,950 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = AddFoodItemResponseValidationError{}
+
+// Validate checks the field values on UpdateFoodItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateFoodItemRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateFoodItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateFoodItemRequestMultiError, or nil if none found.
+func (m *UpdateFoodItemRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateFoodItemRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetId() <= 0 {
+		err := UpdateFoodItemRequestValidationError{
+			field:  "Id",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for Quantity
+
+	// no validation rules for Unit
+
+	// no validation rules for Region
+
+	// no validation rules for Meal
+
+	if len(errors) > 0 {
+		return UpdateFoodItemRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateFoodItemRequestMultiError is an error wrapping multiple validation
+// errors returned by UpdateFoodItemRequest.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateFoodItemRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateFoodItemRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateFoodItemRequestMultiError) AllErrors() []error { return m }
+
+// UpdateFoodItemRequestValidationError is the validation error returned by
+// UpdateFoodItemRequest.Validate if the designated constraints aren't met.
+type UpdateFoodItemRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateFoodItemRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateFoodItemRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateFoodItemRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateFoodItemRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateFoodItemRequestValidationError) ErrorName() string {
+	return "UpdateFoodItemRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateFoodItemRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateFoodItemRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateFoodItemRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateFoodItemRequestValidationError{}
+
+// Validate checks the field values on UpdateFoodItemResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateFoodItemResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateFoodItemResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateFoodItemResponseMultiError, or nil if none found.
+func (m *UpdateFoodItemResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateFoodItemResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for CarbonFootprint
+
+	if len(errors) > 0 {
+		return UpdateFoodItemResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateFoodItemResponseMultiError is an error wrapping multiple validation
+// errors returned by UpdateFoodItemResponse.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateFoodItemResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateFoodItemResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateFoodItemResponseMultiError) AllErrors() []error { return m }
+
+// UpdateFoodItemResponseValidationError is the validation error returned by
+// UpdateFoodItemResponse.Validate if the designated constraints aren't met.
+type UpdateFoodItemResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateFoodItemResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateFoodItemResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateFoodItemResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateFoodItemResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateFoodItemResponseValidationError) ErrorName() string {
+	return "UpdateFoodItemResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateFoodItemResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateFoodItemResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateFoodItemResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateFoodItemResponseValidationError{}
+
+// Validate checks the field values on DeleteFoodItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeleteFoodItemRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteFoodItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeleteFoodItemRequestMultiError, or nil if none found.
+func (m *DeleteFoodItemRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteFoodItemRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetId() <= 0 {
+		err := DeleteFoodItemRequestValidationError{
+			field:  "Id",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return DeleteFoodItemRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteFoodItemRequestMultiError is an error wrapping multiple validation
+// errors returned by DeleteFoodItemRequest.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteFoodItemRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteFoodItemRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteFoodItemRequestMultiError) AllErrors() []error { return m }
+
+// DeleteFoodItemRequestValidationError is the validation error returned by
+// DeleteFoodItemRequest.Validate if the designated constraints aren't met.
+type DeleteFoodItemRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteFoodItemRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteFoodItemRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteFoodItemRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteFoodItemRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteFoodItemRequestValidationError) ErrorName() string {
+	return "DeleteFoodItemRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteFoodItemRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteFoodItemRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteFoodItemRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteFoodItemRequestValidationError{}
+
+// Validate checks the field values on DeleteFoodItemResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeleteFoodItemResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteFoodItemResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeleteFoodItemResponseMultiError, or nil if none found.
+func (m *DeleteFoodItemResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteFoodItemResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return DeleteFoodItemResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteFoodItemResponseMultiError is an error wrapping multiple validation
+// errors returned by DeleteFoodItemResponse.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteFoodItemResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteFoodItemResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteFoodItemResponseMultiError) AllErrors() []error { return m }
+
+// DeleteFoodItemResponseValidationError is the validation error returned by
+// DeleteFoodItemResponse.Validate if the designated constraints aren't met.
+type DeleteFoodItemResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteFoodItemResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteFoodItemResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteFoodItemResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteFoodItemResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteFoodItemResponseValidationError) ErrorName() string {
+	return "DeleteFoodItemResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteFoodItemResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteFoodItemResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteFoodItemResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteFoodItemResponseValidationError{}
+
+// Validate checks the field values on GetFoodItemLogRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetFoodItemLogRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFoodItemLogRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetFoodItemLogRequestMultiError, or nil if none found.
+func (m *GetFoodItemLogRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFoodItemLogRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetDate() == nil {
+		err := GetFoodItemLogRequestValidationError{
+			field:  "Date",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetFoodItemLogRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetFoodItemLogRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetFoodItemLogRequestValidationError{
+				field:  "Date",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetFoodItemLogRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFoodItemLogRequestMultiError is an error wrapping multiple validation
+// errors returned by GetFoodItemLogRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetFoodItemLogRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFoodItemLogRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFoodItemLogRequestMultiError) AllErrors() []error { return m }
+
+// GetFoodItemLogRequestValidationError is the validation error returned by
+// GetFoodItemLogRequest.Validate if the designated constraints aren't met.
+type GetFoodItemLogRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFoodItemLogRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFoodItemLogRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFoodItemLogRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFoodItemLogRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFoodItemLogRequestValidationError) ErrorName() string {
+	return "GetFoodItemLogRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetFoodItemLogRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFoodItemLogRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFoodItemLogRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFoodItemLogRequestValidationError{}
+
+// Validate checks the field values on GetFoodItemLogResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetFoodItemLogResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFoodItemLogResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetFoodItemLogResponseMultiError, or nil if none found.
+func (m *GetFoodItemLogResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFoodItemLogResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetFoodItemLog() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetFoodItemLogResponseValidationError{
+						field:  fmt.Sprintf("FoodItemLog[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetFoodItemLogResponseValidationError{
+						field:  fmt.Sprintf("FoodItemLog[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetFoodItemLogResponseValidationError{
+					field:  fmt.Sprintf("FoodItemLog[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GetFoodItemLogResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFoodItemLogResponseMultiError is an error wrapping multiple validation
+// errors returned by GetFoodItemLogResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetFoodItemLogResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFoodItemLogResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFoodItemLogResponseMultiError) AllErrors() []error { return m }
+
+// GetFoodItemLogResponseValidationError is the validation error returned by
+// GetFoodItemLogResponse.Validate if the designated constraints aren't met.
+type GetFoodItemLogResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFoodItemLogResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFoodItemLogResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFoodItemLogResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFoodItemLogResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFoodItemLogResponseValidationError) ErrorName() string {
+	return "GetFoodItemLogResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetFoodItemLogResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFoodItemLogResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFoodItemLogResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFoodItemLogResponseValidationError{}
+
+// Validate checks the field values on GetFoodItemLogDaysRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetFoodItemLogDaysRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFoodItemLogDaysRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetFoodItemLogDaysRequestMultiError, or nil if none found.
+func (m *GetFoodItemLogDaysRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFoodItemLogDaysRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if val := m.GetMonth(); val < 1 || val > 12 {
+		err := GetFoodItemLogDaysRequestValidationError{
+			field:  "Month",
+			reason: "value must be inside range [1, 12]",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if val := m.GetYear(); val < 1 || val > 9999 {
+		err := GetFoodItemLogDaysRequestValidationError{
+			field:  "Year",
+			reason: "value must be inside range [1, 9999]",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return GetFoodItemLogDaysRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFoodItemLogDaysRequestMultiError is an error wrapping multiple validation
+// errors returned by GetFoodItemLogDaysRequest.ValidateAll() if the
+// designated constraints aren't met.
+type GetFoodItemLogDaysRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFoodItemLogDaysRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFoodItemLogDaysRequestMultiError) AllErrors() []error { return m }
+
+// GetFoodItemLogDaysRequestValidationError is the validation error returned by
+// GetFoodItemLogDaysRequest.Validate if the designated constraints aren't met.
+type GetFoodItemLogDaysRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFoodItemLogDaysRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFoodItemLogDaysRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFoodItemLogDaysRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFoodItemLogDaysRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFoodItemLogDaysRequestValidationError) ErrorName() string {
+	return "GetFoodItemLogDaysRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetFoodItemLogDaysRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFoodItemLogDaysRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFoodItemLogDaysRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFoodItemLogDaysRequestValidationError{}
+
+// Validate checks the field values on GetFoodItemLogDaysResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetFoodItemLogDaysResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFoodItemLogDaysResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetFoodItemLogDaysResponseMultiError, or nil if none found.
+func (m *GetFoodItemLogDaysResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFoodItemLogDaysResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetFoodItemLogDaysResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFoodItemLogDaysResponseMultiError is an error wrapping multiple
+// validation errors returned by GetFoodItemLogDaysResponse.ValidateAll() if
+// the designated constraints aren't met.
+type GetFoodItemLogDaysResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFoodItemLogDaysResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFoodItemLogDaysResponseMultiError) AllErrors() []error { return m }
+
+// GetFoodItemLogDaysResponseValidationError is the validation error returned
+// by GetFoodItemLogDaysResponse.Validate if the designated constraints aren't met.
+type GetFoodItemLogDaysResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFoodItemLogDaysResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFoodItemLogDaysResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFoodItemLogDaysResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFoodItemLogDaysResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFoodItemLogDaysResponseValidationError) ErrorName() string {
+	return "GetFoodItemLogDaysResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetFoodItemLogDaysResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFoodItemLogDaysResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFoodItemLogDaysResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFoodItemLogDaysResponseValidationError{}
 
 // Validate checks the field values on CreateUserRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -1189,3 +2139,1630 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetUserSettingsResponseValidationError{}
+
+// Validate checks the field values on GetUserInsightsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetUserInsightsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetUserInsightsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetUserInsightsRequestMultiError, or nil if none found.
+func (m *GetUserInsightsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetUserInsightsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetUserInsightsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetUserInsightsRequestMultiError is an error wrapping multiple validation
+// errors returned by GetUserInsightsRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetUserInsightsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetUserInsightsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetUserInsightsRequestMultiError) AllErrors() []error { return m }
+
+// GetUserInsightsRequestValidationError is the validation error returned by
+// GetUserInsightsRequest.Validate if the designated constraints aren't met.
+type GetUserInsightsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetUserInsightsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetUserInsightsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetUserInsightsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetUserInsightsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetUserInsightsRequestValidationError) ErrorName() string {
+	return "GetUserInsightsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetUserInsightsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetUserInsightsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetUserInsightsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetUserInsightsRequestValidationError{}
+
+// Validate checks the field values on GetUserInsightsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetUserInsightsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetUserInsightsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetUserInsightsResponseMultiError, or nil if none found.
+func (m *GetUserInsightsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetUserInsightsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for DailyUserAverage
+
+	// no validation rules for DailyAverageCarbonFootprintDietaryRequirement
+
+	// no validation rules for DailyAverageCarbonFootprintOverall
+
+	// no validation rules for StreakLen
+
+	// no validation rules for IsStreakActive
+
+	if len(errors) > 0 {
+		return GetUserInsightsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetUserInsightsResponseMultiError is an error wrapping multiple validation
+// errors returned by GetUserInsightsResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetUserInsightsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetUserInsightsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetUserInsightsResponseMultiError) AllErrors() []error { return m }
+
+// GetUserInsightsResponseValidationError is the validation error returned by
+// GetUserInsightsResponse.Validate if the designated constraints aren't met.
+type GetUserInsightsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetUserInsightsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetUserInsightsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetUserInsightsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetUserInsightsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetUserInsightsResponseValidationError) ErrorName() string {
+	return "GetUserInsightsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetUserInsightsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetUserInsightsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetUserInsightsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetUserInsightsResponseValidationError{}
+
+// Validate checks the field values on GetUserProgressRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetUserProgressRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetUserProgressRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetUserProgressRequestMultiError, or nil if none found.
+func (m *GetUserProgressRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetUserProgressRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetDateRange()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetUserProgressRequestValidationError{
+					field:  "DateRange",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetUserProgressRequestValidationError{
+					field:  "DateRange",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDateRange()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetUserProgressRequestValidationError{
+				field:  "DateRange",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetUserProgressRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetUserProgressRequestMultiError is an error wrapping multiple validation
+// errors returned by GetUserProgressRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetUserProgressRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetUserProgressRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetUserProgressRequestMultiError) AllErrors() []error { return m }
+
+// GetUserProgressRequestValidationError is the validation error returned by
+// GetUserProgressRequest.Validate if the designated constraints aren't met.
+type GetUserProgressRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetUserProgressRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetUserProgressRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetUserProgressRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetUserProgressRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetUserProgressRequestValidationError) ErrorName() string {
+	return "GetUserProgressRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetUserProgressRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetUserProgressRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetUserProgressRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetUserProgressRequestValidationError{}
+
+// Validate checks the field values on GetUserProgressResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetUserProgressResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetUserProgressResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetUserProgressResponseMultiError, or nil if none found.
+func (m *GetUserProgressResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetUserProgressResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for DailyProgressAll
+
+	// no validation rules for DailyProgressBreakfast
+
+	// no validation rules for DailyProgressLunch
+
+	// no validation rules for DailyProgressDinner
+
+	// no validation rules for DailyProgressSnacks
+
+	if len(errors) > 0 {
+		return GetUserProgressResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetUserProgressResponseMultiError is an error wrapping multiple validation
+// errors returned by GetUserProgressResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetUserProgressResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetUserProgressResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetUserProgressResponseMultiError) AllErrors() []error { return m }
+
+// GetUserProgressResponseValidationError is the validation error returned by
+// GetUserProgressResponse.Validate if the designated constraints aren't met.
+type GetUserProgressResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetUserProgressResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetUserProgressResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetUserProgressResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetUserProgressResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetUserProgressResponseValidationError) ErrorName() string {
+	return "GetUserProgressResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetUserProgressResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetUserProgressResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetUserProgressResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetUserProgressResponseValidationError{}
+
+// Validate checks the field values on AddCarbonFootprintGoalRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *AddCarbonFootprintGoalRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AddCarbonFootprintGoalRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// AddCarbonFootprintGoalRequestMultiError, or nil if none found.
+func (m *AddCarbonFootprintGoalRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AddCarbonFootprintGoalRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetCarbonFootprintGoal() == nil {
+		err := AddCarbonFootprintGoalRequestValidationError{
+			field:  "CarbonFootprintGoal",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetCarbonFootprintGoal()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AddCarbonFootprintGoalRequestValidationError{
+					field:  "CarbonFootprintGoal",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AddCarbonFootprintGoalRequestValidationError{
+					field:  "CarbonFootprintGoal",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCarbonFootprintGoal()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AddCarbonFootprintGoalRequestValidationError{
+				field:  "CarbonFootprintGoal",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return AddCarbonFootprintGoalRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// AddCarbonFootprintGoalRequestMultiError is an error wrapping multiple
+// validation errors returned by AddCarbonFootprintGoalRequest.ValidateAll()
+// if the designated constraints aren't met.
+type AddCarbonFootprintGoalRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AddCarbonFootprintGoalRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AddCarbonFootprintGoalRequestMultiError) AllErrors() []error { return m }
+
+// AddCarbonFootprintGoalRequestValidationError is the validation error
+// returned by AddCarbonFootprintGoalRequest.Validate if the designated
+// constraints aren't met.
+type AddCarbonFootprintGoalRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AddCarbonFootprintGoalRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AddCarbonFootprintGoalRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AddCarbonFootprintGoalRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AddCarbonFootprintGoalRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AddCarbonFootprintGoalRequestValidationError) ErrorName() string {
+	return "AddCarbonFootprintGoalRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AddCarbonFootprintGoalRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAddCarbonFootprintGoalRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AddCarbonFootprintGoalRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AddCarbonFootprintGoalRequestValidationError{}
+
+// Validate checks the field values on AddCarbonFootprintGoalResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *AddCarbonFootprintGoalResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AddCarbonFootprintGoalResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// AddCarbonFootprintGoalResponseMultiError, or nil if none found.
+func (m *AddCarbonFootprintGoalResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AddCarbonFootprintGoalResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return AddCarbonFootprintGoalResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// AddCarbonFootprintGoalResponseMultiError is an error wrapping multiple
+// validation errors returned by AddCarbonFootprintGoalResponse.ValidateAll()
+// if the designated constraints aren't met.
+type AddCarbonFootprintGoalResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AddCarbonFootprintGoalResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AddCarbonFootprintGoalResponseMultiError) AllErrors() []error { return m }
+
+// AddCarbonFootprintGoalResponseValidationError is the validation error
+// returned by AddCarbonFootprintGoalResponse.Validate if the designated
+// constraints aren't met.
+type AddCarbonFootprintGoalResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AddCarbonFootprintGoalResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AddCarbonFootprintGoalResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AddCarbonFootprintGoalResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AddCarbonFootprintGoalResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AddCarbonFootprintGoalResponseValidationError) ErrorName() string {
+	return "AddCarbonFootprintGoalResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AddCarbonFootprintGoalResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAddCarbonFootprintGoalResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AddCarbonFootprintGoalResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AddCarbonFootprintGoalResponseValidationError{}
+
+// Validate checks the field values on UpdateCarbonFootprintGoalRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *UpdateCarbonFootprintGoalRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateCarbonFootprintGoalRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// UpdateCarbonFootprintGoalRequestMultiError, or nil if none found.
+func (m *UpdateCarbonFootprintGoalRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateCarbonFootprintGoalRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetId() <= 0 {
+		err := UpdateCarbonFootprintGoalRequestValidationError{
+			field:  "Id",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for Completed
+
+	if len(errors) > 0 {
+		return UpdateCarbonFootprintGoalRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateCarbonFootprintGoalRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// UpdateCarbonFootprintGoalRequest.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateCarbonFootprintGoalRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateCarbonFootprintGoalRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateCarbonFootprintGoalRequestMultiError) AllErrors() []error { return m }
+
+// UpdateCarbonFootprintGoalRequestValidationError is the validation error
+// returned by UpdateCarbonFootprintGoalRequest.Validate if the designated
+// constraints aren't met.
+type UpdateCarbonFootprintGoalRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateCarbonFootprintGoalRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateCarbonFootprintGoalRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateCarbonFootprintGoalRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateCarbonFootprintGoalRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateCarbonFootprintGoalRequestValidationError) ErrorName() string {
+	return "UpdateCarbonFootprintGoalRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateCarbonFootprintGoalRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateCarbonFootprintGoalRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateCarbonFootprintGoalRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateCarbonFootprintGoalRequestValidationError{}
+
+// Validate checks the field values on UpdateCarbonFootprintGoalResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *UpdateCarbonFootprintGoalResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateCarbonFootprintGoalResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// UpdateCarbonFootprintGoalResponseMultiError, or nil if none found.
+func (m *UpdateCarbonFootprintGoalResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateCarbonFootprintGoalResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return UpdateCarbonFootprintGoalResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateCarbonFootprintGoalResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// UpdateCarbonFootprintGoalResponse.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateCarbonFootprintGoalResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateCarbonFootprintGoalResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateCarbonFootprintGoalResponseMultiError) AllErrors() []error { return m }
+
+// UpdateCarbonFootprintGoalResponseValidationError is the validation error
+// returned by UpdateCarbonFootprintGoalResponse.Validate if the designated
+// constraints aren't met.
+type UpdateCarbonFootprintGoalResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateCarbonFootprintGoalResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateCarbonFootprintGoalResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateCarbonFootprintGoalResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateCarbonFootprintGoalResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateCarbonFootprintGoalResponseValidationError) ErrorName() string {
+	return "UpdateCarbonFootprintGoalResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateCarbonFootprintGoalResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateCarbonFootprintGoalResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateCarbonFootprintGoalResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateCarbonFootprintGoalResponseValidationError{}
+
+// Validate checks the field values on DeleteCarbonFootprintGoalRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *DeleteCarbonFootprintGoalRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteCarbonFootprintGoalRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// DeleteCarbonFootprintGoalRequestMultiError, or nil if none found.
+func (m *DeleteCarbonFootprintGoalRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteCarbonFootprintGoalRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetId() <= 0 {
+		err := DeleteCarbonFootprintGoalRequestValidationError{
+			field:  "Id",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return DeleteCarbonFootprintGoalRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteCarbonFootprintGoalRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// DeleteCarbonFootprintGoalRequest.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteCarbonFootprintGoalRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteCarbonFootprintGoalRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteCarbonFootprintGoalRequestMultiError) AllErrors() []error { return m }
+
+// DeleteCarbonFootprintGoalRequestValidationError is the validation error
+// returned by DeleteCarbonFootprintGoalRequest.Validate if the designated
+// constraints aren't met.
+type DeleteCarbonFootprintGoalRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteCarbonFootprintGoalRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteCarbonFootprintGoalRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteCarbonFootprintGoalRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteCarbonFootprintGoalRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteCarbonFootprintGoalRequestValidationError) ErrorName() string {
+	return "DeleteCarbonFootprintGoalRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteCarbonFootprintGoalRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteCarbonFootprintGoalRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteCarbonFootprintGoalRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteCarbonFootprintGoalRequestValidationError{}
+
+// Validate checks the field values on DeleteCarbonFootprintGoalResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *DeleteCarbonFootprintGoalResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteCarbonFootprintGoalResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// DeleteCarbonFootprintGoalResponseMultiError, or nil if none found.
+func (m *DeleteCarbonFootprintGoalResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteCarbonFootprintGoalResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return DeleteCarbonFootprintGoalResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteCarbonFootprintGoalResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// DeleteCarbonFootprintGoalResponse.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteCarbonFootprintGoalResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteCarbonFootprintGoalResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteCarbonFootprintGoalResponseMultiError) AllErrors() []error { return m }
+
+// DeleteCarbonFootprintGoalResponseValidationError is the validation error
+// returned by DeleteCarbonFootprintGoalResponse.Validate if the designated
+// constraints aren't met.
+type DeleteCarbonFootprintGoalResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteCarbonFootprintGoalResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteCarbonFootprintGoalResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteCarbonFootprintGoalResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteCarbonFootprintGoalResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteCarbonFootprintGoalResponseValidationError) ErrorName() string {
+	return "DeleteCarbonFootprintGoalResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteCarbonFootprintGoalResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteCarbonFootprintGoalResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteCarbonFootprintGoalResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteCarbonFootprintGoalResponseValidationError{}
+
+// Validate checks the field values on GetCarbonFootprintGoalsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetCarbonFootprintGoalsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetCarbonFootprintGoalsRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetCarbonFootprintGoalsRequestMultiError, or nil if none found.
+func (m *GetCarbonFootprintGoalsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetCarbonFootprintGoalsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetCarbonFootprintGoalsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetCarbonFootprintGoalsRequestMultiError is an error wrapping multiple
+// validation errors returned by GetCarbonFootprintGoalsRequest.ValidateAll()
+// if the designated constraints aren't met.
+type GetCarbonFootprintGoalsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetCarbonFootprintGoalsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetCarbonFootprintGoalsRequestMultiError) AllErrors() []error { return m }
+
+// GetCarbonFootprintGoalsRequestValidationError is the validation error
+// returned by GetCarbonFootprintGoalsRequest.Validate if the designated
+// constraints aren't met.
+type GetCarbonFootprintGoalsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetCarbonFootprintGoalsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetCarbonFootprintGoalsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetCarbonFootprintGoalsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetCarbonFootprintGoalsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetCarbonFootprintGoalsRequestValidationError) ErrorName() string {
+	return "GetCarbonFootprintGoalsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetCarbonFootprintGoalsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetCarbonFootprintGoalsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetCarbonFootprintGoalsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetCarbonFootprintGoalsRequestValidationError{}
+
+// Validate checks the field values on GetCarbonFootprintGoalsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetCarbonFootprintGoalsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetCarbonFootprintGoalsResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetCarbonFootprintGoalsResponseMultiError, or nil if none found.
+func (m *GetCarbonFootprintGoalsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetCarbonFootprintGoalsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetCompleted() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetCarbonFootprintGoalsResponseValidationError{
+						field:  fmt.Sprintf("Completed[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetCarbonFootprintGoalsResponseValidationError{
+						field:  fmt.Sprintf("Completed[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetCarbonFootprintGoalsResponseValidationError{
+					field:  fmt.Sprintf("Completed[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetActive() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetCarbonFootprintGoalsResponseValidationError{
+						field:  fmt.Sprintf("Active[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetCarbonFootprintGoalsResponseValidationError{
+						field:  fmt.Sprintf("Active[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetCarbonFootprintGoalsResponseValidationError{
+					field:  fmt.Sprintf("Active[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GetCarbonFootprintGoalsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetCarbonFootprintGoalsResponseMultiError is an error wrapping multiple
+// validation errors returned by GetCarbonFootprintGoalsResponse.ValidateAll()
+// if the designated constraints aren't met.
+type GetCarbonFootprintGoalsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetCarbonFootprintGoalsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetCarbonFootprintGoalsResponseMultiError) AllErrors() []error { return m }
+
+// GetCarbonFootprintGoalsResponseValidationError is the validation error
+// returned by GetCarbonFootprintGoalsResponse.Validate if the designated
+// constraints aren't met.
+type GetCarbonFootprintGoalsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetCarbonFootprintGoalsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetCarbonFootprintGoalsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetCarbonFootprintGoalsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetCarbonFootprintGoalsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetCarbonFootprintGoalsResponseValidationError) ErrorName() string {
+	return "GetCarbonFootprintGoalsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetCarbonFootprintGoalsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetCarbonFootprintGoalsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetCarbonFootprintGoalsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetCarbonFootprintGoalsResponseValidationError{}
+
+// Validate checks the field values on AddDeviceRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AddDeviceRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AddDeviceRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AddDeviceRequestMultiError, or nil if none found.
+func (m *AddDeviceRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AddDeviceRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for FcmToken
+
+	if len(errors) > 0 {
+		return AddDeviceRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// AddDeviceRequestMultiError is an error wrapping multiple validation errors
+// returned by AddDeviceRequest.ValidateAll() if the designated constraints
+// aren't met.
+type AddDeviceRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AddDeviceRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AddDeviceRequestMultiError) AllErrors() []error { return m }
+
+// AddDeviceRequestValidationError is the validation error returned by
+// AddDeviceRequest.Validate if the designated constraints aren't met.
+type AddDeviceRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AddDeviceRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AddDeviceRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AddDeviceRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AddDeviceRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AddDeviceRequestValidationError) ErrorName() string { return "AddDeviceRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AddDeviceRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAddDeviceRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AddDeviceRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AddDeviceRequestValidationError{}
+
+// Validate checks the field values on AddDeviceResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AddDeviceResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AddDeviceResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AddDeviceResponseMultiError, or nil if none found.
+func (m *AddDeviceResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AddDeviceResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return AddDeviceResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// AddDeviceResponseMultiError is an error wrapping multiple validation errors
+// returned by AddDeviceResponse.ValidateAll() if the designated constraints
+// aren't met.
+type AddDeviceResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AddDeviceResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AddDeviceResponseMultiError) AllErrors() []error { return m }
+
+// AddDeviceResponseValidationError is the validation error returned by
+// AddDeviceResponse.Validate if the designated constraints aren't met.
+type AddDeviceResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AddDeviceResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AddDeviceResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AddDeviceResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AddDeviceResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AddDeviceResponseValidationError) ErrorName() string {
+	return "AddDeviceResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AddDeviceResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAddDeviceResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AddDeviceResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AddDeviceResponseValidationError{}

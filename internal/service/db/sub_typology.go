@@ -14,10 +14,23 @@ func (s *Store) CreateSubTypology(
 ) (*foodv1.CreateSubTypologyResponse, error) {
 	queries := db.New(s.dbPool)
 
-	subTypologyID, err := queries.CreateSubTypology(ctx, r.SubTypology.GetName())
+	subTypologyID, err := queries.CreateSubTypology(ctx, r.SubTypology.Name)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeAlreadyExists, err)
 	}
 
 	return &foodv1.CreateSubTypologyResponse{Id: subTypologyID}, nil
+}
+
+func (s *Store) ListSubTypologyNames(
+	ctx context.Context,
+) (*foodv1.ListSubTypologyNamesResponse, error) {
+	queries := db.New(s.dbPool)
+
+	subTypologyNames, err := queries.ListSubTypologyNames(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &foodv1.ListSubTypologyNamesResponse{Names: subTypologyNames}, nil
 }

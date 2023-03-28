@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { AddFoodItemRequest, AddFoodItemResponse, CreateUserRequest, CreateUserResponse, DeleteUserRequest, DeleteUserResponse, GetUserSettingsRequest, GetUserSettingsResponse, UpdateUserSettingsRequest, UpdateUserSettingsResponse } from "./api_pb.js";
+import { AddCarbonFootprintGoalRequest, AddCarbonFootprintGoalResponse, AddDeviceRequest, AddDeviceResponse, AddFoodItemRequest, AddFoodItemResponse, CreateUserRequest, CreateUserResponse, DeleteCarbonFootprintGoalRequest, DeleteCarbonFootprintGoalResponse, DeleteFoodItemRequest, DeleteFoodItemResponse, DeleteUserRequest, DeleteUserResponse, GetCarbonFootprintGoalsRequest, GetCarbonFootprintGoalsResponse, GetFoodItemLogDaysRequest, GetFoodItemLogDaysResponse, GetFoodItemLogRequest, GetFoodItemLogResponse, GetUserInsightsRequest, GetUserInsightsResponse, GetUserProgressRequest, GetUserProgressResponse, GetUserSettingsRequest, GetUserSettingsResponse, UpdateCarbonFootprintGoalRequest, UpdateCarbonFootprintGoalResponse, UpdateFoodItemRequest, UpdateFoodItemResponse, UpdateUserSettingsRequest, UpdateUserSettingsResponse } from "./api_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -19,6 +19,42 @@ export const UserService = {
       name: "AddFoodItem",
       I: AddFoodItemRequest,
       O: AddFoodItemResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.UpdateFoodItem
+     */
+    updateFoodItem: {
+      name: "UpdateFoodItem",
+      I: UpdateFoodItemRequest,
+      O: UpdateFoodItemResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.DeleteFoodItem
+     */
+    deleteFoodItem: {
+      name: "DeleteFoodItem",
+      I: DeleteFoodItemRequest,
+      O: DeleteFoodItemResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.GetFoodItemLog
+     */
+    getFoodItemLog: {
+      name: "GetFoodItemLog",
+      I: GetFoodItemLogRequest,
+      O: GetFoodItemLogResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.GetFoodItemLogDays
+     */
+    getFoodItemLogDays: {
+      name: "GetFoodItemLogDays",
+      I: GetFoodItemLogDaysRequest,
+      O: GetFoodItemLogDaysResponse,
       kind: MethodKind.Unary,
     },
     /**
@@ -55,6 +91,69 @@ export const UserService = {
       name: "UpdateUserSettings",
       I: UpdateUserSettingsRequest,
       O: UpdateUserSettingsResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.GetUserInsights
+     */
+    getUserInsights: {
+      name: "GetUserInsights",
+      I: GetUserInsightsRequest,
+      O: GetUserInsightsResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.GetUserProgress
+     */
+    getUserProgress: {
+      name: "GetUserProgress",
+      I: GetUserProgressRequest,
+      O: GetUserProgressResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.AddCarbonFootprintGoal
+     */
+    addCarbonFootprintGoal: {
+      name: "AddCarbonFootprintGoal",
+      I: AddCarbonFootprintGoalRequest,
+      O: AddCarbonFootprintGoalResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.UpdateCarbonFootprintGoal
+     */
+    updateCarbonFootprintGoal: {
+      name: "UpdateCarbonFootprintGoal",
+      I: UpdateCarbonFootprintGoalRequest,
+      O: UpdateCarbonFootprintGoalResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.DeleteCarbonFootprintGoal
+     */
+    deleteCarbonFootprintGoal: {
+      name: "DeleteCarbonFootprintGoal",
+      I: DeleteCarbonFootprintGoalRequest,
+      O: DeleteCarbonFootprintGoalResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.GetCarbonFootprintGoals
+     */
+    getCarbonFootprintGoals: {
+      name: "GetCarbonFootprintGoals",
+      I: GetCarbonFootprintGoalsRequest,
+      O: GetCarbonFootprintGoalsResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.user.v1.UserService.AddDevice
+     */
+    addDevice: {
+      name: "AddDevice",
+      I: AddDeviceRequest,
+      O: AddDeviceResponse,
       kind: MethodKind.Unary,
     },
   }

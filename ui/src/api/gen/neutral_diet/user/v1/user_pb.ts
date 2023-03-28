@@ -14,7 +14,7 @@ export class UserSettings extends Message<UserSettings> {
   /**
    * @generated from field: neutral_diet.food.v1.Region region = 1;
    */
-  region?: Region;
+  region = Region.UNSPECIFIED;
 
   /**
    * @generated from field: double cf_limit = 2;
@@ -34,7 +34,7 @@ export class UserSettings extends Message<UserSettings> {
   static readonly runtime = proto3;
   static readonly typeName = "neutral_diet.user.v1.UserSettings";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "region", kind: "message", T: Region },
+    { no: 1, name: "region", kind: "enum", T: proto3.getEnumType(Region) },
     { no: 2, name: "cf_limit", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 3, name: "dietary_requirement", kind: "enum", T: proto3.getEnumType(UserSettings_DietaryRequirement) },
   ]);

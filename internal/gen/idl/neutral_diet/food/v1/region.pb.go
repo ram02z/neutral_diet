@@ -20,51 +20,68 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Region struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
+type Region int32
 
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-}
+const (
+	Region_REGION_UNSPECIFIED   Region = 0
+	Region_REGION_AFRICA        Region = 1
+	Region_REGION_AMERICA       Region = 2
+	Region_REGION_ASIA          Region = 3
+	Region_REGION_EUROPE        Region = 4
+	Region_REGION_MEDITERRANEAN Region = 5
+	Region_REGION_OCEANIA       Region = 6
+	Region_REGION_WORLD         Region = 7
+)
 
-func (x *Region) Reset() {
-	*x = Region{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_neutral_diet_food_v1_region_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
+// Enum value maps for Region.
+var (
+	Region_name = map[int32]string{
+		0: "REGION_UNSPECIFIED",
+		1: "REGION_AFRICA",
+		2: "REGION_AMERICA",
+		3: "REGION_ASIA",
+		4: "REGION_EUROPE",
+		5: "REGION_MEDITERRANEAN",
+		6: "REGION_OCEANIA",
+		7: "REGION_WORLD",
 	}
-}
-
-func (x *Region) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Region) ProtoMessage() {}
-
-func (x *Region) ProtoReflect() protoreflect.Message {
-	mi := &file_neutral_diet_food_v1_region_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
+	Region_value = map[string]int32{
+		"REGION_UNSPECIFIED":   0,
+		"REGION_AFRICA":        1,
+		"REGION_AMERICA":       2,
+		"REGION_ASIA":          3,
+		"REGION_EUROPE":        4,
+		"REGION_MEDITERRANEAN": 5,
+		"REGION_OCEANIA":       6,
+		"REGION_WORLD":         7,
 	}
-	return mi.MessageOf(x)
+)
+
+func (x Region) Enum() *Region {
+	p := new(Region)
+	*p = x
+	return p
 }
 
-// Deprecated: Use Region.ProtoReflect.Descriptor instead.
-func (*Region) Descriptor() ([]byte, []int) {
+func (x Region) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Region) Descriptor() protoreflect.EnumDescriptor {
+	return file_neutral_diet_food_v1_region_proto_enumTypes[0].Descriptor()
+}
+
+func (Region) Type() protoreflect.EnumType {
+	return &file_neutral_diet_food_v1_region_proto_enumTypes[0]
+}
+
+func (x Region) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Region.Descriptor instead.
+func (Region) EnumDescriptor() ([]byte, []int) {
 	return file_neutral_diet_food_v1_region_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *Region) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
 }
 
 var File_neutral_diet_food_v1_region_proto protoreflect.FileDescriptor
@@ -73,9 +90,18 @@ var file_neutral_diet_food_v1_region_proto_rawDesc = []byte{
 	0x0a, 0x21, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2f, 0x66,
 	0x6f, 0x6f, 0x64, 0x2f, 0x76, 0x31, 0x2f, 0x72, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x12, 0x14, 0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65,
-	0x74, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x22, 0x1c, 0x0a, 0x06, 0x52, 0x65, 0x67,
-	0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x42, 0xe2, 0x01, 0x0a, 0x18, 0x63, 0x6f, 0x6d, 0x2e,
+	0x74, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2a, 0xab, 0x01, 0x0a, 0x06, 0x52, 0x65,
+	0x67, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x0a, 0x12, 0x52, 0x45, 0x47, 0x49, 0x4f, 0x4e, 0x5f, 0x55,
+	0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x11, 0x0a, 0x0d,
+	0x52, 0x45, 0x47, 0x49, 0x4f, 0x4e, 0x5f, 0x41, 0x46, 0x52, 0x49, 0x43, 0x41, 0x10, 0x01, 0x12,
+	0x12, 0x0a, 0x0e, 0x52, 0x45, 0x47, 0x49, 0x4f, 0x4e, 0x5f, 0x41, 0x4d, 0x45, 0x52, 0x49, 0x43,
+	0x41, 0x10, 0x02, 0x12, 0x0f, 0x0a, 0x0b, 0x52, 0x45, 0x47, 0x49, 0x4f, 0x4e, 0x5f, 0x41, 0x53,
+	0x49, 0x41, 0x10, 0x03, 0x12, 0x11, 0x0a, 0x0d, 0x52, 0x45, 0x47, 0x49, 0x4f, 0x4e, 0x5f, 0x45,
+	0x55, 0x52, 0x4f, 0x50, 0x45, 0x10, 0x04, 0x12, 0x18, 0x0a, 0x14, 0x52, 0x45, 0x47, 0x49, 0x4f,
+	0x4e, 0x5f, 0x4d, 0x45, 0x44, 0x49, 0x54, 0x45, 0x52, 0x52, 0x41, 0x4e, 0x45, 0x41, 0x4e, 0x10,
+	0x05, 0x12, 0x12, 0x0a, 0x0e, 0x52, 0x45, 0x47, 0x49, 0x4f, 0x4e, 0x5f, 0x4f, 0x43, 0x45, 0x41,
+	0x4e, 0x49, 0x41, 0x10, 0x06, 0x12, 0x10, 0x0a, 0x0c, 0x52, 0x45, 0x47, 0x49, 0x4f, 0x4e, 0x5f,
+	0x57, 0x4f, 0x52, 0x4c, 0x44, 0x10, 0x07, 0x42, 0xe2, 0x01, 0x0a, 0x18, 0x63, 0x6f, 0x6d, 0x2e,
 	0x6e, 0x65, 0x75, 0x74, 0x72, 0x61, 0x6c, 0x5f, 0x64, 0x69, 0x65, 0x74, 0x2e, 0x66, 0x6f, 0x6f,
 	0x64, 0x2e, 0x76, 0x31, 0x42, 0x0b, 0x52, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74,
 	0x6f, 0x50, 0x01, 0x5a, 0x4b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
@@ -105,9 +131,9 @@ func file_neutral_diet_food_v1_region_proto_rawDescGZIP() []byte {
 	return file_neutral_diet_food_v1_region_proto_rawDescData
 }
 
-var file_neutral_diet_food_v1_region_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_neutral_diet_food_v1_region_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_neutral_diet_food_v1_region_proto_goTypes = []interface{}{
-	(*Region)(nil), // 0: neutral_diet.food.v1.Region
+	(Region)(0), // 0: neutral_diet.food.v1.Region
 }
 var file_neutral_diet_food_v1_region_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -122,33 +148,19 @@ func file_neutral_diet_food_v1_region_proto_init() {
 	if File_neutral_diet_food_v1_region_proto != nil {
 		return
 	}
-	if !protoimpl.UnsafeEnabled {
-		file_neutral_diet_food_v1_region_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Region); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_neutral_diet_food_v1_region_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   1,
+			NumEnums:      1,
+			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_neutral_diet_food_v1_region_proto_goTypes,
 		DependencyIndexes: file_neutral_diet_food_v1_region_proto_depIdxs,
-		MessageInfos:      file_neutral_diet_food_v1_region_proto_msgTypes,
+		EnumInfos:         file_neutral_diet_food_v1_region_proto_enumTypes,
 	}.Build()
 	File_neutral_diet_food_v1_region_proto = out.File
 	file_neutral_diet_food_v1_region_proto_rawDesc = nil

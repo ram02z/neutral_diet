@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/bufbuild/connect-go"
 	"github.com/ram02z/neutral_diet/internal/gen/db"
@@ -15,15 +14,9 @@ func (s *Store) CreateTypology(
 ) (*foodv1.CreateTypologyResponse, error) {
 	queries := db.New(s.dbPool)
 
-	subTypologyID := sql.NullInt32{}
-	if r.Typology.SubTypologyId != nil {
-		subTypologyID.Valid = true
-		subTypologyID.Int32 = *r.Typology.SubTypologyId
-	}
-
 	source := db.CreateTypologyParams{
-		Name:          r.Typology.GetName(),
-		SubTypologyID: subTypologyID,
+		Name:          r.Typology.Name,
+		SubTypologyID: r.Typology.SubTypologyId,
 	}
 
 	typologyID, err := queries.CreateTypology(ctx, source)
@@ -32,4 +25,17 @@ func (s *Store) CreateTypology(
 	}
 
 	return &foodv1.CreateTypologyResponse{Id: typologyID}, nil
+}
+
+func (s *Store) ListTypologyNames(
+	ctx context.Context,
+) (*foodv1.ListTypologyNamesResponse, error) {
+	queries := db.New(s.dbPool)
+
+	typologyNames, err := queries.ListTypologyNames(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &foodv1.ListTypologyNamesResponse{Names: typologyNames}, nil
 }

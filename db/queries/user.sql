@@ -4,11 +4,9 @@ INSERT INTO "user" (firebase_uid, region, cf_limit, dietary_requirement)
 RETURNING
     id;
 
--- name: DeleteUserByFirebaseUID :one
+-- name: DeleteUserByFirebaseUID :exec
 DELETE FROM "user"
-WHERE firebase_uid = $1
-RETURNING
-    id;
+WHERE firebase_uid = $1;
 
 -- name: UpdateUserSettings :exec
 UPDATE
@@ -27,3 +25,6 @@ FROM
     "user"
 WHERE
     firebase_uid = $1;
+
+-- name: GetUserIDs :many
+SELECT id FROM "user";

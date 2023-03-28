@@ -1,6 +1,6 @@
 import { Notifications } from './types';
 
-const notifications: Notifications = {
+export const notifications: Notifications = {
   options: {
     anchorOrigin: {
       vertical: 'bottom',
@@ -11,6 +11,10 @@ const notifications: Notifications = {
   maxSnack: 1,
 };
 
-const MIN_WIDTH = '250px';
+export const MIN_CARD_WIDTH = '250px';
 
-export { notifications, MIN_WIDTH };
+export const MIN_CF_LIMIT = 0.1;
+
+export const MAX_CF_LIMIT = 10.0;
+
+export const NAVIGATION_DRAWER_WIDTH = '240px';

@@ -7,10 +7,12 @@ import (
 	"time"
 
 	"firebase.google.com/go/auth"
+	"firebase.google.com/go/messaging"
 	"github.com/bufbuild/connect-go"
+	grpchealth "github.com/bufbuild/connect-grpchealth-go"
 	"github.com/justinas/alice"
-	frontend "github.com/ram02z/neutral_diet"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/food/v1/foodv1connect"
+	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/job/v1/jobv1connect"
 	"github.com/ram02z/neutral_diet/internal/gen/idl/neutral_diet/user/v1/userv1connect"
 	"github.com/ram02z/neutral_diet/internal/service"
 	"github.com/ram02z/neutral_diet/internal/service/db"
@@ -24,27 +26,37 @@ type RegisterConnectGoServerInput struct {
 	Logger     *zerolog.Logger
 	ConnectSvc *service.ConnectWrapper
 	Mux        *http.ServeMux `name:"connectGoMux"`
+	AuthClient *auth.Client
 }
 
 func RegisterConnectGoServer(in RegisterConnectGoServerInput) {
-	interceptors := connect.WithInterceptors(getUnaryInterceptors(in.Logger)...)
 	api := http.NewServeMux()
 	api.Handle(foodv1connect.NewFoodServiceHandler(
 		in.ConnectSvc,
-		interceptors,
+		connect.WithInterceptors(
+			connectInterceptorForLogger(in.Logger),
+		),
 	))
 	api.Handle(userv1connect.NewUserServiceHandler(
 		in.ConnectSvc,
-		interceptors,
+		connect.WithInterceptors(
+			connectInterceptorForLogger(in.Logger),
+			connectInterceptorForUserAuth(in.AuthClient),
+		),
 	))
-	// checker := grpchealth.NewStaticChecker(
-	// 	// protoc-gen-connect-go generates package-level constants
-	// 	// for these fully-qualified protobuf service names, so we'd be able
-	// 	// to reference foov1beta1.FooService as opposed to foo.v1beta1.FooService.
-	// 	"coop.drivers.foov1beta1.FooService",
-	// )
-	// in.Mux.Handle(grpchealth.NewHandler(checker))
-	in.Mux.Handle("/", handleStatic())
+	api.Handle(jobv1connect.NewJobServiceHandler(
+		in.ConnectSvc,
+		connect.WithInterceptors(
+			connectInterceptorForLogger(in.Logger),
+			connectInterceptorForCloudSchedulerAuth(),
+		),
+	))
+	checker := grpchealth.NewStaticChecker(
+		"neutral_diet.food.v1.FoodService",
+		"neutral_diet.user.v1.UserService",
+		"neutral_diet.job.v1.JobService",
+	)
+	in.Mux.Handle(grpchealth.NewHandler(checker))
 	in.Mux.Handle("/api/", http.StripPrefix("/api", api))
 }
 
@@ -55,8 +67,12 @@ type Server struct {
 	ShutdownTimeout time.Duration
 }
 
-func NewConnectWrapper(s *db.Store, a *auth.Client) *service.ConnectWrapper {
-	return service.NewConnectWrapper(s, a)
+func NewConnectWrapper(
+	s *db.Store,
+	a *auth.Client,
+	m *messaging.Client,
+) *service.ConnectWrapper {
+	return service.NewConnectWrapper(s, a, m)
 }
 
 func NewConnectGoServer(
@@ -64,7 +80,7 @@ func NewConnectGoServer(
 	cfg Config,
 ) *Server {
 	mux := http.NewServeMux()
-	address := fmt.Sprintf("%s:%d", cfg.ConnectConfig.Host, cfg.ConnectConfig.Port)
+	address := fmt.Sprintf(":%d", cfg.ConnectConfig.Port)
 
 	c := alice.New()
 	c = c.Append(hlog.NewHandler(*logger))
@@ -114,7 +130,6 @@ func NewConnectGoServer(
 
 func (s *Server) start(logger *zerolog.Logger) {
 	go func() {
-		logger.Info().Str("address", s.Server.Addr).Str("path", "/").Msg("Serving static files")
 		logger.Info().Str("address", s.Server.Addr).Str("path", "/api").Msg("Listening for connect-go")
 		s.notify <- s.Server.ListenAndServe()
 		close(s.notify)
@@ -130,8 +145,4 @@ func (s *Server) Shutdown() error {
 	defer cancel()
 
 	return s.Server.Shutdown(ctx)
-}
-
-func handleStatic() http.Handler {
-	return http.FileServer(frontend.DistFS())
 }

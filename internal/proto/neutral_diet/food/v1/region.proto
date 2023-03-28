@@ -2,6 +2,13 @@ syntax = "proto3";
 
 package neutral_diet.food.v1;
 
-message Region {
-  string name = 1;
+enum Region {
+  REGION_UNSPECIFIED = 0;
+  REGION_AFRICA = 1;
+  REGION_AMERICA = 2;
+  REGION_ASIA = 3;
+  REGION_EUROPE = 4;
+  REGION_MEDITERRANEAN = 5;
+  REGION_OCEANIA = 6;
+  REGION_WORLD = 7;
 }

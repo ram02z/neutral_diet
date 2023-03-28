@@ -3,22 +3,29 @@ on:
   push:
     branches:
       - master
-permissions:
-  contents: read
 
 jobs:
-  frontend_lint:
+  frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ui
+    env:
+      VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+      VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+      VITE_VAPID_KEY: ${{ secrets.VITE_VAPID_KEY }}
+      VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+      VITE_GOOGLE_CLOUD_PROJECT: ${{ secrets.VITE_GOOGLE_CLOUD_PROJECT }}
+      VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+      VITE_GA_MEASUREMENT_ID: ${{ secrets.VITE_GA_MEASUREMENT_ID }}
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
-          cache-dependency-path: 'ui/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "ui/package-lock.json"
       - name: Install dependencies
         run: npm ci
       - name: Run prettier
@@ -27,10 +34,24 @@ jobs:
       - name: Run eslint
         run: |-
           npx eslint 'src/**/*.{js,ts,tsx,json}'
-      # TODO: add tsc step
+      - name: Build static assets
+        run: npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          entryPoint: ui
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_NEUTRAL_DIET }}"
+          projectId: neutral-diet
+          channelId: live
 
-  go:
+  server:
     runs-on: ubuntu-latest
+    env:
+      PROJECT_ID: ${{ secrets.VITE_GOOGLE_CLOUD_PROJECT }}
+      GAR_LOCATION: ${{ secrets.GAR_LOCATION }}
+      REPOSITORY: ${{ secrets.GAR_REPOSITORY }}
+      SERVICE: ${{ secrets.CR_SERVICE_NAME }}
+      REGION: ${{ secrets.CR_SERVICE_REGION }}
     steps:
       - uses: actions/setup-go@v3
         with:
@@ -39,7 +60,29 @@ jobs:
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
       - name: Run tests
-        run: go test -v ./internal/service
+        run: go test -v ./...
+      - uses: google-github-actions/auth@v1
+        id: auth
+        with:
+          token_format: "access_token"
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+      - name: Docker Auth
+        id: docker-auth
+        uses: "docker/login-action@v1"
+        with:
+          username: "oauth2accesstoken"
+          password: "${{ steps.auth.outputs.access_token }}"
+          registry: "${{ env.GAR_LOCATION }}-docker.pkg.dev"
+      - name: Build and Push Container
+        run: |-
+          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}" ./
+          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: ${{ env.SERVICE }}
+          region: ${{ env.REGION }}
+          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}
 
   proto:
     runs-on: ubuntu-latest

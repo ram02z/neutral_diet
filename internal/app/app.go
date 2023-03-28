@@ -1,13 +1,14 @@
 package app
 
 import (
+	"context"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/joho/godotenv"
-	"github.com/ram02z/neutral_diet/internal/app/auth"
 	"github.com/ram02z/neutral_diet/internal/app/connectgo"
+	"github.com/ram02z/neutral_diet/internal/app/firebase"
 	"github.com/ram02z/neutral_diet/internal/app/logging"
 	"github.com/ram02z/neutral_diet/internal/app/service"
 	"github.com/ram02z/neutral_diet/internal/app/sql"
@@ -41,21 +42,34 @@ func Run() {
 		l.Warn().Msg(err.Error())
 	}
 
-	// Firebase Auth service
-	firebaseCfg, err := auth.NewConfig()
+	// Firebase services
+	firebaseConfig, err := firebase.NewConfig()
 	if err != nil {
-		l.Fatal().Err(err).Msg("Could not create firebase config")
+		l.Fatal().Err(err).Msg("Could not verify firebase config")
 	}
-	authClient, err := auth.NewAuth(firebaseCfg)
+	firebaseApp, err := firebase.NewApp(firebaseConfig)
 	if err != nil {
 		l.Fatal().Err(err)
 	}
-	l.Info().Msg("Successfully created Firebase Auth client")
+	authClient, err := firebaseApp.NewAuth()
+	if err != nil {
+		l.Fatal().Err(err)
+	}
+	l.Info().Msg("Successfully initialised Firebase Auth client")
+	messagingClient, err := firebaseApp.NewMessaging()
+	if err != nil {
+		l.Fatal().Err(err)
+	}
+	l.Info().Msg("Successfully initialised Firebase Messaging client")
 
 	// Database service
 	pgpool, err := sql.NewDatabase()
 	if err != nil {
 		l.Fatal().Err(err).Msg("Could not connect to postgres")
+	}
+	err = pgpool.Ping(context.Background())
+	if err != nil {
+		l.Fatal().Err(err).Msg("Could not ping the DB")
 	}
 	l.Info().Msg("Successfully connected to postgres")
 	defer func() {
@@ -70,12 +84,13 @@ func Run() {
 	if err != nil {
 		l.Fatal().Err(err).Msg("Could not create connect-go config")
 	}
-	connectWrapper := connectgo.NewConnectWrapper(dataStore, authClient)
+	connectWrapper := connectgo.NewConnectWrapper(dataStore, authClient, messagingClient)
 	server := connectgo.NewConnectGoServer(l, connectCfg)
 	registerIn := connectgo.RegisterConnectGoServerInput{
 		Logger:     l,
 		ConnectSvc: connectWrapper,
 		Mux:        server.Mux,
+		AuthClient: authClient,
 	}
 	connectgo.RegisterConnectGoServer(registerIn)
 

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package neutral_diet.user.v1;
+
+import "neutral_diet/user/v1/date.proto";
+
+message CarbonFootprintGoalRequest {
+  string description = 1;
+  Date start_date = 2;
+  Date end_date = 3;
+  double start_carbon_footprint = 4;
+  double target_carbon_footprint = 5;
+}
+
+message CarbonFootprintGoalResponse {
+  int32 id = 1;
+  string description = 2;
+  Date start_date = 3;
+  Date end_date = 4;
+  double start_carbon_footprint = 5;
+  double target_carbon_footprint = 6;
+}
