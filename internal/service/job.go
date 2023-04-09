@@ -43,3 +43,15 @@ func (c *ConnectWrapper) SendStreakNotifications(
 
 	return connect.NewResponse(&jobv1.SendStreakNotificationsResponse{}), nil
 }
+
+func (c *ConnectWrapper) RemoveStaleRegistrationTokens(
+	ctx context.Context,
+	req *connect.Request[jobv1.RemoveStaleRegistrationTokensRequest],
+) (*connect.Response[jobv1.RemoveStaleRegistrationTokensResponse], error) {
+	jobCtx, cancel := context.WithTimeout(ctx, time.Minute)
+	defer cancel()
+
+	c.s.RemoveStaleRegistrationTokens(jobCtx)
+
+	return connect.NewResponse(&jobv1.RemoveStaleRegistrationTokensResponse{}), nil
+}

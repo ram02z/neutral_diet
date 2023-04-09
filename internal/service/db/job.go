@@ -183,6 +183,53 @@ func (s *Store) SendStreakNotifications(ctx context.Context, m *messaging.Client
 		Msg("Job finished")
 }
 
+func (s *Store) RemoveStaleRegistrationTokens(ctx context.Context) {
+	jobName := "RemoveStaleRegistrationTokens"
+	queries := db.New(s.dbPool)
+	logger := zerolog.Ctx(ctx)
+
+	devices, err := queries.GetDevices(ctx)
+	if err != nil {
+		logger.Err(err).Str("Job", jobName).Msg("Could not get devices")
+		return
+	}
+
+	var staleDeviceIDs []int32
+	// Stale date threshold is two months
+	// https://firebase.google.com/docs/cloud-messaging/manage-tokens
+	staleDate := time.Now().AddDate(0, -2, 0)
+	for _, device := range devices {
+		if device.UpdatedAt.Time.Before(staleDate) {
+			staleDeviceIDs = append(staleDeviceIDs, device.ID)
+		}
+	}
+
+	successCount := 0
+	failureCount := 0
+	res := queries.DeleteDevice(ctx, staleDeviceIDs)
+	res.Exec(func(i int, err error) {
+		if err != nil {
+			logger.Err(err).Str("Job", jobName).Int32("DeviceID", staleDeviceIDs[i]).Msg("Failed to exec")
+			failureCount += 1
+		} else {
+			successCount += 1
+		}
+	})
+	err = res.Close()
+	if err != nil {
+		logger.Err(err).Str("Job", jobName).Msg("Could not close batch operation")
+		return
+	}
+
+	logger.
+		Info().
+		Str("Job", jobName).
+		Int("Success Count", successCount).
+		Int("Failure Count", failureCount).
+		Msg("Job finished")
+
+}
+
 func generateStreakNotification(
 	ctx context.Context,
 	queries *db.Queries,

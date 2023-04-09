@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { MarkCompletedGoalsRequest, MarkCompletedGoalsResponse, SendGoalNotificationsRequest, SendGoalNotificationsResponse, SendStreakNotificationsRequest, SendStreakNotificationsResponse } from "./api_pb.js";
+import { MarkCompletedGoalsRequest, MarkCompletedGoalsResponse, RemoveStaleRegistrationTokensRequest, RemoveStaleRegistrationTokensResponse, SendGoalNotificationsRequest, SendGoalNotificationsResponse, SendStreakNotificationsRequest, SendStreakNotificationsResponse } from "./api_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -37,6 +37,15 @@ export const JobService = {
       name: "SendStreakNotifications",
       I: SendStreakNotificationsRequest,
       O: SendStreakNotificationsResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc neutral_diet.job.v1.JobService.RemoveStaleRegistrationTokens
+     */
+    removeStaleRegistrationTokens: {
+      name: "RemoveStaleRegistrationTokens",
+      I: RemoveStaleRegistrationTokensRequest,
+      O: RemoveStaleRegistrationTokensResponse,
       kind: MethodKind.Unary,
     },
   }

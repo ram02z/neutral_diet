@@ -30,6 +30,7 @@ type JobServiceClient interface {
 	SendGoalNotifications(context.Context, *connect_go.Request[v1.SendGoalNotificationsRequest]) (*connect_go.Response[v1.SendGoalNotificationsResponse], error)
 	MarkCompletedGoals(context.Context, *connect_go.Request[v1.MarkCompletedGoalsRequest]) (*connect_go.Response[v1.MarkCompletedGoalsResponse], error)
 	SendStreakNotifications(context.Context, *connect_go.Request[v1.SendStreakNotificationsRequest]) (*connect_go.Response[v1.SendStreakNotificationsResponse], error)
+	RemoveStaleRegistrationTokens(context.Context, *connect_go.Request[v1.RemoveStaleRegistrationTokensRequest]) (*connect_go.Response[v1.RemoveStaleRegistrationTokensResponse], error)
 }
 
 // NewJobServiceClient constructs a client for the neutral_diet.job.v1.JobService service. By
@@ -57,14 +58,20 @@ func NewJobServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts 
 			baseURL+"/neutral_diet.job.v1.JobService/SendStreakNotifications",
 			opts...,
 		),
+		removeStaleRegistrationTokens: connect_go.NewClient[v1.RemoveStaleRegistrationTokensRequest, v1.RemoveStaleRegistrationTokensResponse](
+			httpClient,
+			baseURL+"/neutral_diet.job.v1.JobService/RemoveStaleRegistrationTokens",
+			opts...,
+		),
 	}
 }
 
 // jobServiceClient implements JobServiceClient.
 type jobServiceClient struct {
-	sendGoalNotifications   *connect_go.Client[v1.SendGoalNotificationsRequest, v1.SendGoalNotificationsResponse]
-	markCompletedGoals      *connect_go.Client[v1.MarkCompletedGoalsRequest, v1.MarkCompletedGoalsResponse]
-	sendStreakNotifications *connect_go.Client[v1.SendStreakNotificationsRequest, v1.SendStreakNotificationsResponse]
+	sendGoalNotifications         *connect_go.Client[v1.SendGoalNotificationsRequest, v1.SendGoalNotificationsResponse]
+	markCompletedGoals            *connect_go.Client[v1.MarkCompletedGoalsRequest, v1.MarkCompletedGoalsResponse]
+	sendStreakNotifications       *connect_go.Client[v1.SendStreakNotificationsRequest, v1.SendStreakNotificationsResponse]
+	removeStaleRegistrationTokens *connect_go.Client[v1.RemoveStaleRegistrationTokensRequest, v1.RemoveStaleRegistrationTokensResponse]
 }
 
 // SendGoalNotifications calls neutral_diet.job.v1.JobService.SendGoalNotifications.
@@ -82,11 +89,17 @@ func (c *jobServiceClient) SendStreakNotifications(ctx context.Context, req *con
 	return c.sendStreakNotifications.CallUnary(ctx, req)
 }
 
+// RemoveStaleRegistrationTokens calls neutral_diet.job.v1.JobService.RemoveStaleRegistrationTokens.
+func (c *jobServiceClient) RemoveStaleRegistrationTokens(ctx context.Context, req *connect_go.Request[v1.RemoveStaleRegistrationTokensRequest]) (*connect_go.Response[v1.RemoveStaleRegistrationTokensResponse], error) {
+	return c.removeStaleRegistrationTokens.CallUnary(ctx, req)
+}
+
 // JobServiceHandler is an implementation of the neutral_diet.job.v1.JobService service.
 type JobServiceHandler interface {
 	SendGoalNotifications(context.Context, *connect_go.Request[v1.SendGoalNotificationsRequest]) (*connect_go.Response[v1.SendGoalNotificationsResponse], error)
 	MarkCompletedGoals(context.Context, *connect_go.Request[v1.MarkCompletedGoalsRequest]) (*connect_go.Response[v1.MarkCompletedGoalsResponse], error)
 	SendStreakNotifications(context.Context, *connect_go.Request[v1.SendStreakNotificationsRequest]) (*connect_go.Response[v1.SendStreakNotificationsResponse], error)
+	RemoveStaleRegistrationTokens(context.Context, *connect_go.Request[v1.RemoveStaleRegistrationTokensRequest]) (*connect_go.Response[v1.RemoveStaleRegistrationTokensResponse], error)
 }
 
 // NewJobServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -111,6 +124,11 @@ func NewJobServiceHandler(svc JobServiceHandler, opts ...connect_go.HandlerOptio
 		svc.SendStreakNotifications,
 		opts...,
 	))
+	mux.Handle("/neutral_diet.job.v1.JobService/RemoveStaleRegistrationTokens", connect_go.NewUnaryHandler(
+		"/neutral_diet.job.v1.JobService/RemoveStaleRegistrationTokens",
+		svc.RemoveStaleRegistrationTokens,
+		opts...,
+	))
 	return "/neutral_diet.job.v1.JobService/", mux
 }
 
@@ -127,4 +145,8 @@ func (UnimplementedJobServiceHandler) MarkCompletedGoals(context.Context, *conne
 
 func (UnimplementedJobServiceHandler) SendStreakNotifications(context.Context, *connect_go.Request[v1.SendStreakNotificationsRequest]) (*connect_go.Response[v1.SendStreakNotificationsResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.job.v1.JobService.SendStreakNotifications is not implemented"))
+}
+
+func (UnimplementedJobServiceHandler) RemoveStaleRegistrationTokens(context.Context, *connect_go.Request[v1.RemoveStaleRegistrationTokensRequest]) (*connect_go.Response[v1.RemoveStaleRegistrationTokensResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("neutral_diet.job.v1.JobService.RemoveStaleRegistrationTokens is not implemented"))
 }
