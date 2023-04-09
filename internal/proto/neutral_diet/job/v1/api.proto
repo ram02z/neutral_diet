@@ -14,8 +14,13 @@ message SendStreakNotificationsRequest {}
 
 message SendStreakNotificationsResponse {}
 
+message RemoveStaleRegistrationTokensRequest {}
+
+message RemoveStaleRegistrationTokensResponse {}
+
 service JobService {
   rpc SendGoalNotifications(SendGoalNotificationsRequest) returns (SendGoalNotificationsResponse) {}
   rpc MarkCompletedGoals(MarkCompletedGoalsRequest) returns (MarkCompletedGoalsResponse) {}
   rpc SendStreakNotifications(SendStreakNotificationsRequest) returns (SendStreakNotificationsResponse) {}
+  rpc RemoveStaleRegistrationTokens(RemoveStaleRegistrationTokensRequest) returns (RemoveStaleRegistrationTokensResponse) {}
 }

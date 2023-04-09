@@ -14,3 +14,7 @@ FROM
 -- name: DeleteDeviceByUser :exec
 DELETE FROM "device"
 WHERE user_id = $1;
+
+-- name: DeleteDevice :batchexec
+DELETE FROM "device"
+WHERE id = $1;

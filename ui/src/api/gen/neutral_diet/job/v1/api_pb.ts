@@ -192,3 +192,65 @@ export class SendStreakNotificationsResponse extends Message<SendStreakNotificat
   }
 }
 
+/**
+ * @generated from message neutral_diet.job.v1.RemoveStaleRegistrationTokensRequest
+ */
+export class RemoveStaleRegistrationTokensRequest extends Message<RemoveStaleRegistrationTokensRequest> {
+  constructor(data?: PartialMessage<RemoveStaleRegistrationTokensRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.job.v1.RemoveStaleRegistrationTokensRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): RemoveStaleRegistrationTokensRequest {
+    return new RemoveStaleRegistrationTokensRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): RemoveStaleRegistrationTokensRequest {
+    return new RemoveStaleRegistrationTokensRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): RemoveStaleRegistrationTokensRequest {
+    return new RemoveStaleRegistrationTokensRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: RemoveStaleRegistrationTokensRequest | PlainMessage<RemoveStaleRegistrationTokensRequest> | undefined, b: RemoveStaleRegistrationTokensRequest | PlainMessage<RemoveStaleRegistrationTokensRequest> | undefined): boolean {
+    return proto3.util.equals(RemoveStaleRegistrationTokensRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message neutral_diet.job.v1.RemoveStaleRegistrationTokensResponse
+ */
+export class RemoveStaleRegistrationTokensResponse extends Message<RemoveStaleRegistrationTokensResponse> {
+  constructor(data?: PartialMessage<RemoveStaleRegistrationTokensResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "neutral_diet.job.v1.RemoveStaleRegistrationTokensResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): RemoveStaleRegistrationTokensResponse {
+    return new RemoveStaleRegistrationTokensResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): RemoveStaleRegistrationTokensResponse {
+    return new RemoveStaleRegistrationTokensResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): RemoveStaleRegistrationTokensResponse {
+    return new RemoveStaleRegistrationTokensResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: RemoveStaleRegistrationTokensResponse | PlainMessage<RemoveStaleRegistrationTokensResponse> | undefined, b: RemoveStaleRegistrationTokensResponse | PlainMessage<RemoveStaleRegistrationTokensResponse> | undefined): boolean {
+    return proto3.util.equals(RemoveStaleRegistrationTokensResponse, a, b);
+  }
+}
+

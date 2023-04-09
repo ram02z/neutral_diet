@@ -82,9 +82,11 @@ type DailyUserAverageByDietaryRequirement struct {
 }
 
 type Device struct {
-	ID       int32
-	UserID   int32
-	FcmToken string
+	ID        int32
+	UserID    int32
+	FcmToken  string
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
 }
 
 type FoodItem struct {

@@ -650,3 +650,213 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = SendStreakNotificationsResponseValidationError{}
+
+// Validate checks the field values on RemoveStaleRegistrationTokensRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *RemoveStaleRegistrationTokensRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RemoveStaleRegistrationTokensRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// RemoveStaleRegistrationTokensRequestMultiError, or nil if none found.
+func (m *RemoveStaleRegistrationTokensRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RemoveStaleRegistrationTokensRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return RemoveStaleRegistrationTokensRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// RemoveStaleRegistrationTokensRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// RemoveStaleRegistrationTokensRequest.ValidateAll() if the designated
+// constraints aren't met.
+type RemoveStaleRegistrationTokensRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RemoveStaleRegistrationTokensRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RemoveStaleRegistrationTokensRequestMultiError) AllErrors() []error { return m }
+
+// RemoveStaleRegistrationTokensRequestValidationError is the validation error
+// returned by RemoveStaleRegistrationTokensRequest.Validate if the designated
+// constraints aren't met.
+type RemoveStaleRegistrationTokensRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RemoveStaleRegistrationTokensRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RemoveStaleRegistrationTokensRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RemoveStaleRegistrationTokensRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RemoveStaleRegistrationTokensRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RemoveStaleRegistrationTokensRequestValidationError) ErrorName() string {
+	return "RemoveStaleRegistrationTokensRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RemoveStaleRegistrationTokensRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRemoveStaleRegistrationTokensRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RemoveStaleRegistrationTokensRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RemoveStaleRegistrationTokensRequestValidationError{}
+
+// Validate checks the field values on RemoveStaleRegistrationTokensResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *RemoveStaleRegistrationTokensResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RemoveStaleRegistrationTokensResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// RemoveStaleRegistrationTokensResponseMultiError, or nil if none found.
+func (m *RemoveStaleRegistrationTokensResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RemoveStaleRegistrationTokensResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return RemoveStaleRegistrationTokensResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// RemoveStaleRegistrationTokensResponseMultiError is an error wrapping
+// multiple validation errors returned by
+// RemoveStaleRegistrationTokensResponse.ValidateAll() if the designated
+// constraints aren't met.
+type RemoveStaleRegistrationTokensResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RemoveStaleRegistrationTokensResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RemoveStaleRegistrationTokensResponseMultiError) AllErrors() []error { return m }
+
+// RemoveStaleRegistrationTokensResponseValidationError is the validation error
+// returned by RemoveStaleRegistrationTokensResponse.Validate if the
+// designated constraints aren't met.
+type RemoveStaleRegistrationTokensResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RemoveStaleRegistrationTokensResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RemoveStaleRegistrationTokensResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RemoveStaleRegistrationTokensResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RemoveStaleRegistrationTokensResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RemoveStaleRegistrationTokensResponseValidationError) ErrorName() string {
+	return "RemoveStaleRegistrationTokensResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RemoveStaleRegistrationTokensResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRemoveStaleRegistrationTokensResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RemoveStaleRegistrationTokensResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RemoveStaleRegistrationTokensResponseValidationError{}

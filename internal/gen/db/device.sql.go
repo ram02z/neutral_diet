@@ -39,7 +39,7 @@ func (q *Queries) DeleteDeviceByUser(ctx context.Context, userID int32) error {
 
 const getDevices = `-- name: GetDevices :many
 SELECT
-    id, user_id, fcm_token
+    id, user_id, fcm_token, created_at, updated_at
 FROM
     "device"
 `
@@ -53,7 +53,13 @@ func (q *Queries) GetDevices(ctx context.Context) ([]Device, error) {
 	var items []Device
 	for rows.Next() {
 		var i Device
-		if err := rows.Scan(&i.ID, &i.UserID, &i.FcmToken); err != nil {
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.FcmToken,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
