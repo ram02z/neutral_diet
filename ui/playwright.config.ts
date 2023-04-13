@@ -5,6 +5,7 @@ export default defineConfig({
     command: 'npm run build && npm run preview',
     port: 4173,
   },
+  reporter: process.env.CI ? 'github' : 'list',
   testDir: 'tests',
   projects: [
     /* Test against desktop browsers */
