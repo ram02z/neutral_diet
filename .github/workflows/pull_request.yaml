@@ -36,12 +36,6 @@ jobs:
           npx eslint 'src/**/*.{js,ts,tsx,json}'
       - name: Run Playwright tests
         run: npm run test
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
       - name: Build static assets
         run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
