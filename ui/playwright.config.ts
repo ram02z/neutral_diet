@@ -1,12 +1,4 @@
-import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
-
-const config: PlaywrightTestConfig = {
-	webServer: {
-		command: 'npm run build && npm run preview',
-		port: 4173
-	},
-	testDir: 'tests'
-};
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   webServer: {
