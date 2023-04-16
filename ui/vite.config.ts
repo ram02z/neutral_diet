@@ -1,6 +1,7 @@
 import * as path from "path";
 import { build, defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import svgr from 'vite-plugin-svgr'
 
 const firebaseSwPlugin: import('vite').Plugin = {
   name: 'firebaseSwPlugin',
@@ -33,6 +34,7 @@ const firebaseSwPlugin: import('vite').Plugin = {
 export default defineConfig({
   plugins: [
     react(),
+    svgr(),
     firebaseSwPlugin,
   ],
   resolve: {
