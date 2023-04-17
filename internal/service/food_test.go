@@ -235,7 +235,7 @@ func TestGetFoodItemInfo(t *testing.T) {
 		"Valid": {
 			build: func() *foodv1.GetFoodItemInfoRequest {
 				return &foodv1.GetFoodItemInfoRequest{
-					Id: 1,
+					Id:     1,
 					Region: foodv1.Region_REGION_ASIA,
 				}
 			},
@@ -272,4 +272,3 @@ func TestGetFoodItemInfo(t *testing.T) {
 		})
 	}
 }
-

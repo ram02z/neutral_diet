@@ -41,6 +41,7 @@ func TestAddFoodItem(t *testing.T) {
 		})
 	}
 }
+
 func TestUpdateFoodItem(t *testing.T) {
 	cases := map[string]struct {
 		build  func() *userv1.UpdateFoodItemRequest
@@ -342,7 +343,7 @@ func TestUpdateCarbonFootprintGoal(t *testing.T) {
 		"Valid": {
 			build: func() *userv1.UpdateCarbonFootprintGoalRequest {
 				return &userv1.UpdateCarbonFootprintGoalRequest{
-					Id:        1,
+					Id: 1,
 				}
 			},
 			expect: func(t *testing.T, err error) {
@@ -376,7 +377,7 @@ func TestDeleteCarbonFootprintGoal(t *testing.T) {
 		"Valid": {
 			build: func() *userv1.DeleteCarbonFootprintGoalRequest {
 				return &userv1.DeleteCarbonFootprintGoalRequest{
-					Id:        1,
+					Id: 1,
 				}
 			},
 			expect: func(t *testing.T, err error) {
