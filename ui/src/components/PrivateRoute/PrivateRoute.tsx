@@ -12,6 +12,10 @@ import routes from '@/routes';
 import { Pages } from '@/routes/types';
 import { PrivateRoutePathState } from '@/store/location';
 
+/**
+ * Represents a client route that requires user authentication.
+ * User is signed out when an error occurs and redirected Auth page.
+ */
 const PrivateRoute: FC<{ children: JSX.Element }> = ({ children }) => {
   const user = useCurrentUser();
   const signOut = useSignOut();

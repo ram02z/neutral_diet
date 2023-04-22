@@ -9,6 +9,9 @@ type SourceTableProps = {
   sources: Source[];
 };
 
+/**
+ * Table that represents a list of {@link Source}
+ */
 function SourceTable({ sources }: SourceTableProps) {
   return (
     <TableContainer component={Paper}>

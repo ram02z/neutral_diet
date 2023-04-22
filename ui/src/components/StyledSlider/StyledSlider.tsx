@@ -28,6 +28,9 @@ function ValueLabelComponent(props: SliderValueLabelProps) {
   );
 }
 
+/**
+ * Generic slider component with value tooltips.
+ */
 function StyledSlider({
   label,
   value,

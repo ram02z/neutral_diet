@@ -21,6 +21,9 @@ type FoodItemInfoDialogProps = {
   foodItemInfo?: FoodItemInfo;
 };
 
+/**
+ * Dialog to show additional food item information
+ */
 function FoodItemInfoDialog({ openDialog, handleClose, foodItemInfo }: FoodItemInfoDialogProps) {
   return (
     <Dialog fullWidth open={openDialog} onClose={handleClose}>

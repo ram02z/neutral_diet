@@ -18,6 +18,9 @@ type AddGoalDialogProps = {
   startCarbonFootprint: number;
 };
 
+/**
+ * Dialog used to add goals to user account.
+ */
 function AddGoalDialog({
   onSubmit,
   openDialog,

@@ -26,6 +26,10 @@ type GoalCardProps = {
   active: boolean;
 };
 
+/**
+ * Card containing information about a carbon footprint goal.
+ * Handles the goal deletion logic.
+ */
 function GoalCard({ goal, active }: GoalCardProps) {
   const setUserGoals = useSetRecoilState(UserGoalsState);
   const [selectedUserGoal, setSelectedUserGoal] = useRecoilState(SelectedUserGoalState);

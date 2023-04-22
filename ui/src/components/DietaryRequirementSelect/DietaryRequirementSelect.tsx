@@ -5,6 +5,9 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@m
 import { MIN_CARD_WIDTH } from '@/config';
 import { DietaryRequirementsState, LocalUserSettingsState } from '@/store/user';
 
+/**
+ * Select component using the dietary requirements state. Local user settings are updated on change.
+ */
 function DietaryRequirementSelect() {
   const localUserSettings = useRecoilValue(LocalUserSettingsState);
   const setLocalUserSettings = useSetRecoilState(LocalUserSettingsState);

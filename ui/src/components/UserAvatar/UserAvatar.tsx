@@ -1,5 +1,8 @@
 import { Avatar, AvatarProps, Tooltip } from '@mui/material';
 
+/**
+ * Avatar using name initials.
+ */
 function UserAvatar(props: AvatarProps & { name: string }) {
   let initials = null;
   if (props.name) {

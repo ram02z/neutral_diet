@@ -43,6 +43,9 @@ type SortFilterMenuProps = {
   currentSortingMethod: SearchSortMethod;
 };
 
+/**
+ * Menu with sort and filter settings. Multi-select is enabled for filters.
+ */
 function SortFilterMenu({
   onSubmit,
   currentSearchFilters,

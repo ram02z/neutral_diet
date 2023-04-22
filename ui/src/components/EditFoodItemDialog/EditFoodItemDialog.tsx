@@ -17,6 +17,9 @@ type EditFoodItemDialogProps = {
   currentMeal: number;
 };
 
+/**
+ * Dialog to edit food items in user's food diary
+ */
 function EditFoodItemDialog({
   openDialog,
   currentQuantity,

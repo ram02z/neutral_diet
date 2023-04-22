@@ -33,6 +33,12 @@ type FoodItemCardProps = {
   foodItem: FoodItem;
 };
 
+/**
+ * Card containing information about food item.
+ * Implements buttons for dialogs:
+ * - {@link AddFoodItemDialog}
+ * - {@link FoodItemInfoDialog}
+ */
 export function FoodItemCard({ foodItem }: FoodItemCardProps) {
   const [foodHistory, setFoodHistory] = useRecoilState(FoodHistoryState);
   const setDate = useSetRecoilState(FoodItemLogDateState);

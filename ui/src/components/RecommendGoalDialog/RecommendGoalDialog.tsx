@@ -26,6 +26,9 @@ type RecommendGoalDialogProps = {
   goals: Insight[];
 };
 
+/**
+ * Dialog used to provide recommended goals to users.
+ */
 function RecommendGoalDialog({
   onSubmit,
   openDialog,

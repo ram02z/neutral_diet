@@ -7,6 +7,9 @@ import { Box, Stack, Tab, Typography } from '@mui/material';
 import { GoalCard } from '@/components/GoalCard';
 import { UserGoalsState } from '@/store/user';
 
+/**
+ * List of active and completed user carbon footprint goals.
+ */
 function GoalList() {
   const [tab, setTab] = useState('1');
   const userGoals = useRecoilValue(UserGoalsState);

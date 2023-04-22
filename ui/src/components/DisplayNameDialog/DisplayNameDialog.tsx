@@ -13,6 +13,9 @@ type DisplayNameDialogProps = {
   currentDisplayName: string;
 };
 
+/**
+ * Dialog to allow users to update their display name.
+ */
 function DisplayNameDialog({
   onSubmit,
   openDialog,

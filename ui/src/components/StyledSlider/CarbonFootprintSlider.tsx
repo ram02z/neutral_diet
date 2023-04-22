@@ -6,6 +6,9 @@ import { LocalUserSettingsState } from '@/store/user';
 
 import StyledSlider from './StyledSlider';
 
+/**
+ * Slider using user daily carbon footprint limit. Local user settings are updated on change.
+ */
 function CarbonFootprintSlider() {
   const localUserSettings = useRecoilValue(LocalUserSettingsState);
   const setLocalUserSettings = useSetRecoilState(LocalUserSettingsState);

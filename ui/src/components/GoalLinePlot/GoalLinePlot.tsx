@@ -45,6 +45,9 @@ type GoalLinePlotProps = {
   title: string;
 };
 
+/**
+ * Line plot with carbon footprint goal and actual goal progress.
+ */
 function GoalLinePlot({ actualData, goal, title }: GoalLinePlotProps) {
   const labels = Object.keys(actualData);
   const theme = useTheme();

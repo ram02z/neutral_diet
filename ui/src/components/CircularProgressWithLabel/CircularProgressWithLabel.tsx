@@ -6,6 +6,9 @@ type CircularProgressWithLabelProps = {
   remaining: number;
 };
 
+/**
+ * Carbon footprint circular progress bar.
+ */
 function CircularProgressWithLabel({ value, size, remaining }: CircularProgressWithLabelProps) {
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>

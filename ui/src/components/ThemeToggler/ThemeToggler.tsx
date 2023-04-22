@@ -5,6 +5,9 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { useTheme } from '@/hooks/useTheme';
 
+/**
+ * Button to toggle between application's dark and light themes.
+ */
 function ThemeToggler() {
   const [theme, themeActions] = useTheme();
 

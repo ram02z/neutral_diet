@@ -1,6 +1,9 @@
 import { LinearProgress, LinearProgressProps, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
+/**
+ * Generic progress bar with percentage label.
+ */
 function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
