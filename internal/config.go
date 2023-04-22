@@ -1,5 +1,7 @@
+// Package config contains custom configuration types.
 package config
 
 type key int
 
-const UserIDKey key = iota
+// UserTokenKey is used as a key for storing a user token in a context
+const UserTokenKey key = iota

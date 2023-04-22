@@ -6,6 +6,7 @@ import (
 	"github.com/rs/cors"
 )
 
+// newCORS returns global CORS policy.
 func newCORS() *cors.Cors {
 	return cors.New(cors.Options{
 		AllowedMethods: []string{http.MethodPost},

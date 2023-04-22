@@ -1,3 +1,4 @@
+// Package sql provides functions for working with PostgreSQL databases.
 package sql
 
 import (
@@ -8,10 +9,12 @@ import (
 	"github.com/sethvargo/go-envconfig"
 )
 
+// Config contains database configuration information.
 type Config struct {
 	DBConfig *DBConfig `env:",prefix=DB_"`
 }
 
+// DBConfig contains database connection settings.
 type DBConfig struct {
 	User string `env:"USER,default=postgres"`
 	Pass string `env:"PASS,default=postgres"`
@@ -20,6 +23,8 @@ type DBConfig struct {
 	Port int    `env:"PORT,default=5432"`
 }
 
+// NewDatabase creates a new connection pool to a PostgreSQL database using the using the
+// configuration specified in the environment variables.
 func NewDatabase() (*pgxpool.Pool, error) {
 	var cfg Config
 	err := envconfig.Process(context.Background(), &cfg)
