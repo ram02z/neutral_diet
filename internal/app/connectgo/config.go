@@ -18,7 +18,6 @@ type ConnectConfig struct {
 	ShutdownTimeout time.Duration `env:"TIMEOUT,default=3s"`
 }
 
-
 // NewConfig reads connect-go configuration settings from environment variables.
 func NewConfig() (cfg Config, err error) {
 	err = envconfig.Process(context.Background(), &cfg)
