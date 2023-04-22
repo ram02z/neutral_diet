@@ -1,3 +1,4 @@
+// Package app provides the entry point to neutral-diet application.
 package app
 
 import (
@@ -14,6 +15,7 @@ import (
 	"github.com/ram02z/neutral_diet/internal/app/sql"
 )
 
+// Run starts the application.
 func Run() {
 	l := logging.NewLogger()
 

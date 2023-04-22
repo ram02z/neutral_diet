@@ -12,6 +12,7 @@ import (
 	"google.golang.org/api/idtoken"
 )
 
+// connectInterceptorForLogger adds a logger with context to a connect request.
 func connectInterceptorForLogger(logger *zerolog.Logger) connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
 		return connect.UnaryFunc(func(
@@ -24,6 +25,7 @@ func connectInterceptorForLogger(logger *zerolog.Logger) connect.UnaryIntercepto
 	return connect.UnaryInterceptorFunc(interceptor)
 }
 
+// connectInterceptorForUserAuth adds authentication for UserService.
 func connectInterceptorForUserAuth(auth *auth.Client) connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
 		return connect.UnaryFunc(func(
@@ -56,7 +58,7 @@ func connectInterceptorForUserAuth(auth *auth.Client) connect.UnaryInterceptorFu
 				)
 			}
 
-			newCtx := context.WithValue(ctx, config.UserIDKey, token.UID)
+			newCtx := context.WithValue(ctx, config.UserTokenKey, token.UID)
 
 			return next(newCtx, req)
 		})
@@ -65,6 +67,7 @@ func connectInterceptorForUserAuth(auth *auth.Client) connect.UnaryInterceptorFu
 	return connect.UnaryInterceptorFunc(interceptor)
 }
 
+// connectInterceptorForUserAuth adds authentication for JobService.
 func connectInterceptorForCloudSchedulerAuth() connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
 		return connect.UnaryFunc(func(

@@ -1,3 +1,4 @@
+// Package firebase provides wrapper functions for Firebase App initialisers.
 package firebase
 
 import (
@@ -12,6 +13,9 @@ type FirebaseApp struct {
 	app *firebase.App
 }
 
+// NewApp creates a Firebase app with given configuration.
+// If the Config Credentials field is non-empty, the field is used as the credentials file path.
+// Otherwise, Google application default credentials are used.
 func NewApp(cfg Config) (*FirebaseApp, error) {
 	var app *firebase.App
 	var err error

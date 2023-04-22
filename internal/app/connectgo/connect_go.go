@@ -1,3 +1,4 @@
+// Package connectgo implements utilities for building and serving neutral-diet services.
 package connectgo
 
 import (
@@ -22,6 +23,7 @@ import (
 	"golang.org/x/net/http2/h2c"
 )
 
+// RegisterConnectGoServerInput represents the input to the RegisterConnectGoServer function.
 type RegisterConnectGoServerInput struct {
 	Logger     *zerolog.Logger
 	ConnectSvc *service.ConnectWrapper
@@ -29,6 +31,7 @@ type RegisterConnectGoServerInput struct {
 	AuthClient *auth.Client
 }
 
+// RegisterConnectGoServer registers the handlers for the connect-go server.
 func RegisterConnectGoServer(in RegisterConnectGoServerInput) {
 	api := http.NewServeMux()
 	api.Handle(foodv1connect.NewFoodServiceHandler(
@@ -60,6 +63,7 @@ func RegisterConnectGoServer(in RegisterConnectGoServerInput) {
 	in.Mux.Handle("/api/", http.StripPrefix("/api", api))
 }
 
+// A Server represents a HTTP server with a shutdown timer.
 type Server struct {
 	Server          *http.Server
 	notify          chan error
@@ -67,6 +71,7 @@ type Server struct {
 	ShutdownTimeout time.Duration
 }
 
+// NewConnectWrapper creates a [service.ConnectWrapper] instance
 func NewConnectWrapper(
 	s *db.Store,
 	a *auth.Client,
@@ -75,6 +80,8 @@ func NewConnectWrapper(
 	return service.NewConnectWrapper(s, a, m)
 }
 
+// NewConnectGoServer starts and returns server.
+// Adds HTTP logger handlers to Mux.
 func NewConnectGoServer(
 	logger *zerolog.Logger,
 	cfg Config,
@@ -128,6 +135,7 @@ func NewConnectGoServer(
 	return s
 }
 
+// start listen and serves server in separate goroutine
 func (s *Server) start(logger *zerolog.Logger) {
 	go func() {
 		logger.Info().Str("address", s.Server.Addr).Str("path", "/api").Msg("Listening for connect-go")
@@ -136,10 +144,12 @@ func (s *Server) start(logger *zerolog.Logger) {
 	}()
 }
 
+// Notify returns the notify channel
 func (s *Server) Notify() <-chan error {
 	return s.notify
 }
 
+// Shutdown shuts down the server after all connections active are finished
 func (s *Server) Shutdown() error {
 	ctx, cancel := context.WithTimeout(context.Background(), s.ShutdownTimeout)
 	defer cancel()
