@@ -1,5 +1,9 @@
 # Neutral Diet
 
+> Carbon footprint food journal
+
+[Live webapp](https://neutral-diet.web.app)
+
 ## Getting started
 
 ### Prerequisites
