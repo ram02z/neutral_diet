@@ -10,6 +10,9 @@ import useDefaultSignUp from '@/hooks/useDefaultSignUp';
 
 import { FormValues } from './types';
 
+/**
+ * Sign up form with input validation.
+ */
 function SignUp() {
   const { handleSubmit, control } = useForm<FormValues>();
   const [signUp, , loading, error] = useDefaultSignUp(auth);

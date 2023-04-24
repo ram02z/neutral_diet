@@ -40,6 +40,12 @@ type FoodItemCardProps = {
   foodLogItem: LocalFoodLogItem;
 };
 
+/**
+ * Card containing information about food item in food diary.
+ * Implements buttons for dialogs:
+ * - {@link EditFoodItemDialog}
+ * - {@link FoodItemInfoDialog}
+ */
 export function FoodItemLogCard({ foodLogItem }: FoodItemCardProps) {
   const confirm = useConfirm();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);

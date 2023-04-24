@@ -4,21 +4,25 @@
 
 ### Prerequisites
 
-- Go
-- GNU Make
-- Docker Compose
+- [Go](https://go.dev/)
+- [GNU Make](https://www.gnu.org/software/make/)
+- [Docker Compose](https://docs.docker.com/compose/)
 - [buf](https://github.com/bufbuild/buf)
 - [sqlc](https://github.com/kyleconroy/sqlc)
+- Firebase Project
 
 ### Environment
 
-There are two files included to track the environment variables:
+The application includes `.env.development` files with sample working
+development environment variables. Not all required environment variables are
+included in `.env.development`, i.e. Firebase environment variables.
 
-- [Backend .env.example](./.env.example)
-- [Frontend .env.example](./ui/.env.example)
+- `GOOGLE_APPLICATION_CREDENTIALS`: path to Google Cloud service account key (JSON)
+    - [Docs](https://cloud.google.com/docs/authentication/application-default-credentials#GAC)
 
-The application also includes `.env.development` files for both the backend and frontend.
-Not all required environment variables are included in `.env.development`, i.e. Firebase environment variables.
+
+Refer to [.env.example](./.env.example) for the complete list of required
+environment variables.
 
 The application follows the [dotenv convention](https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use) for managing multiple environments.
 The order is summarised below:
@@ -34,16 +38,21 @@ Once the environment is setup, run the following commands to setup and run the a
 
 ```bash
 # Start postgres server (and application server)
-# Use .env.docker unless you want to run the applcation server another way
+# Use .env.docker unless you want to run the application server another way
 docker-compose --env-file .env.[mode] up
+```
 
-# Create the database schema
-make migrate up
-
+Alternatively, you can run the application directly:
+```bash
 # Start application server
 go run cmd/app/main.go
 # OR for live reloading
 air
+```
+
+Once the database and server are running, you can create the database schema using the migration files:
+```bash
+make migrate-up
 ```
 
 ### Database
@@ -51,13 +60,18 @@ air
 Before starting to use the application, you need to pre-populate the database.
 To populate the database with food items, follow these [steps](./data/README.md). 
 
-The database relies on materialized views for querying the aggregate food items.
+The database relies on materialized views for querying the aggregate food items used for the search functionality.
 Ensure you run the following to setup the materialized views:
 
 ```sql
 REFRESH MATERIALIZED VIEW aggregate_food_item;
 REFRESH MATERIALIZED VIEW regional_aggregate_food_item;
 ```
+
+### UI
+
+Once the database and server instances are setup and running, you can follow
+the UI setup [guide](/ui/README.md).
 
 ### Services
 

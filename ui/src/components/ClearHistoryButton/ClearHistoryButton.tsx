@@ -7,6 +7,9 @@ import { useConfirm } from 'material-ui-confirm';
 
 import { FoodHistoryState } from '@/store/food';
 
+/**
+ * Button to clear search history with confirmation.
+ */
 function ClearHistoryButton() {
   const confirm = useConfirm();
   const setFoodHistory = useSetRecoilState(FoodHistoryState);

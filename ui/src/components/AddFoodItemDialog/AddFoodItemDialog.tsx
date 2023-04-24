@@ -17,6 +17,9 @@ type AddFoodItemDialogProps = {
   handleClose: () => void;
 };
 
+/**
+ * Dialog used to add food items to food diary.
+ */
 function AddFoodItemDialog({ openDialog, handleClose, onSubmit }: AddFoodItemDialogProps) {
   const { handleSubmit, control } = useForm<FormValues>();
   const foodUnits = useRecoilValue(FoodUnitsState);

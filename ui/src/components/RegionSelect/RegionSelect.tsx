@@ -3,9 +3,14 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 import { MIN_CARD_WIDTH } from '@/config';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import UserRegion from '@/core/regions';
 import { RegionsState } from '@/store/food';
 import { LocalUserSettingsState } from '@/store/user';
 
+/**
+ * Select component using the {@link UserRegion} enum. Local user settings are updated on change.
+ */
 function RegionSelect() {
   const localUserSettings = useRecoilValue(LocalUserSettingsState);
   const setLocalUserSettings = useSetRecoilState(LocalUserSettingsState);

@@ -8,6 +8,9 @@ type CarouselProps = {
   children: ReactNode[];
 };
 
+/**
+ * Simple carousel with no animations.
+ */
 function Carousel(props: CarouselProps) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);

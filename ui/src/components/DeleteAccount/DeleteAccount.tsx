@@ -14,6 +14,9 @@ type DeleteAccountProps = {
   user: User;
 };
 
+/**
+ * Button to delete user account with confirmation.
+ */
 function DeleteAccount({ user }: DeleteAccountProps) {
   const userHeaders = useRecoilValue(CurrentUserHeadersState);
   const confirm = useConfirm();

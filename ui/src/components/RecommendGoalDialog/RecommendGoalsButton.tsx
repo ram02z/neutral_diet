@@ -20,6 +20,9 @@ import { toSerializableDate } from '@/utils/date';
 
 import RecommendGoalDialog from './RecommendGoalDialog';
 
+/**
+ * Button used to handle form submission of {@link RecommendGoalDialog}
+ */
 function RecommendGoalsButton() {
   const setUserGoals = useSetRecoilState(UserGoalsState);
   const userHeaders = useRecoilValue(CurrentUserHeadersState);

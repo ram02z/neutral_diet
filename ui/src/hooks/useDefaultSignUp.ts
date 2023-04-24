@@ -8,6 +8,10 @@ import { CurrentUserDisplayName } from '@/store/user';
 
 import { DefaultSignUpHook } from './types';
 
+/**
+ * Create a user with email and password.
+ * Wraps the underlying firebase.auth().createUserWithEmailAndPassword method and provides additional loading and error information.
+ */
 function useDefaultSignUp(auth: Auth): DefaultSignUpHook {
   const [error, setError] = useState<boolean>(false);
   const [registeredUser, setRegisteredUser] = useState<UserCredential>();

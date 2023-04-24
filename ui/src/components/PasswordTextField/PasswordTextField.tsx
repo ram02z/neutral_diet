@@ -17,6 +17,9 @@ type PasswordTextFieldProps = {
   errorText?: string;
 };
 
+/**
+ * Text field with a visibility toggle.
+ */
 function PasswordTextField({
   password,
   onChangeHandler,

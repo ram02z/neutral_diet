@@ -12,6 +12,10 @@ type TrendCardProps = {
   source?: string;
 };
 
+/**
+ * Card containing comparison between the current day carbon footprint and an external carbon footprint.
+ * External source is included if available.
+ */
 function TrendCard({ title, stat, today, source }: TrendCardProps) {
   let statDiff = 0;
   if (today > 0) {

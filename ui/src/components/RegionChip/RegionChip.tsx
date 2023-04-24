@@ -7,6 +7,9 @@ type RegionChipProps = {
   region: UserRegion;
 };
 
+/**
+ * Chip with user region setting.
+ */
 function RegionChip({ region }: RegionChipProps) {
   return <Chip icon={<LanguageIcon />} label={region.getSettingName()} variant="outlined" />;
 }

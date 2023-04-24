@@ -14,6 +14,9 @@ type GoalDeadlineCardProps = {
   currentUserAverage: number;
 };
 
+/**
+ * Card containing statistics and time left till active goal can be marked as completed.
+ */
 function GoalDeadlineCard({ goal, currentUserAverage }: GoalDeadlineCardProps) {
   let statDiff = 0;
   if (currentUserAverage > 0) {

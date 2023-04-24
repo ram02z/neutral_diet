@@ -11,6 +11,9 @@ import useDefaultSignIn from '@/hooks/useDefaultSignIn';
 
 import { FormValues } from './types';
 
+/**
+ * Login form with input validation.
+ */
 function LogIn() {
   const { handleSubmit, control } = useForm<FormValues>();
   const [signIn, , loading, error] = useDefaultSignIn(auth);

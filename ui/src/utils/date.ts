@@ -4,6 +4,13 @@ import isYesterday from 'dayjs/plugin/isYesterday';
 
 import { SerializableDate } from '@/store/user/types';
 
+/**
+ * Returns a formatted string representation of the current date.
+ * If the date is today, it returns 'Today'.
+ * If the date is yesterday, it returns 'Yesterday'.
+ * If the date is from the same year as the current date, it returns the day of the week, month and day.
+ * Otherwise, it returns the day of the week, month, day and year.
+ */
 export function getDateString(date: dayjs.Dayjs): string {
   dayjs.extend(isToday);
   dayjs.extend(isYesterday);

@@ -8,6 +8,10 @@ import { Stack } from '@mui/system';
 import { auth } from '@/core/firebase';
 import { useSignInWithGoogle } from '@/hooks/useSignInWithPopup';
 
+/**
+ * Button using Google Sign-in.
+ * Shows error alert if sign-in fails.
+ */
 function GoogleAuthButton() {
   const [signIn, , loading, error] = useSignInWithGoogle(auth);
   const [open, setOpen] = useState(false);
