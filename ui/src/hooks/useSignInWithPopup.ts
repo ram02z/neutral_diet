@@ -36,7 +36,6 @@ export const useSignInWithGoogle = (auth: Auth): SignInWithPopupHook => {
   return useSignInWithPopup(auth, createGoogleAuthProvider);
 };
 
-
 const useSignInWithPopup = (
   auth: Auth,
   createProvider: (scopes?: string[], customOAuthParameters?: CustomParameters) => AuthProvider,
