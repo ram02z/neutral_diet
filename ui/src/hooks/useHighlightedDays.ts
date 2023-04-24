@@ -8,6 +8,9 @@ import { CurrentUserHeadersState } from '@/store/user';
 
 import { HighlightedDaysHook } from './types';
 
+/**
+ * Get days in current month where food has been logged.
+ */
 function useHighlightedDays(): HighlightedDaysHook {
   const [loading, setLoading] = useState(false);
   const [highlightedDays, setHighlightedDays] = useState<number[]>([]);

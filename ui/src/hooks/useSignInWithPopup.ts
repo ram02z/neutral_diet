@@ -15,6 +15,10 @@ import { CurrentUserDisplayName } from '@/store/user';
 
 import { SignInWithPopupHook } from './types';
 
+/**
+ * Login a user with Google Authentication.
+ * Wraps the underlying auth.signInWithPopup method with the GoogleAuthProvider and provides additional loading and error information.
+ */
 export const useSignInWithGoogle = (auth: Auth): SignInWithPopupHook => {
   const createGoogleAuthProvider = useCallback(
     (scopes?: string[], customOAuthParameters?: CustomParameters) => {
@@ -31,6 +35,7 @@ export const useSignInWithGoogle = (auth: Auth): SignInWithPopupHook => {
   );
   return useSignInWithPopup(auth, createGoogleAuthProvider);
 };
+
 
 const useSignInWithPopup = (
   auth: Auth,

@@ -7,6 +7,10 @@ import { CurrentUserDisplayName } from '@/store/user';
 
 import { DefaultSignInHook } from './types';
 
+/**
+ * Login a user with email and password.
+ * Wraps the underlying firebase().auth.signInWithEmailAndPassword method and provides additional loading and error information.
+ */
 function useDefaultSignIn(auth: Auth): DefaultSignInHook {
   const [error, setError] = useState<boolean>(false);
   const [loggedInUser, setLoggedInUser] = useState<UserCredential>();

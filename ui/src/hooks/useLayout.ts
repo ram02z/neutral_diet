@@ -3,6 +3,9 @@ import { isMobile } from 'react-device-detect';
 
 import { useMediaQuery, useTheme } from '@mui/material';
 
+/**
+ * Determine the current layout of the application using the screen size and device type.
+ */
 function useLayout() {
   const [desktopLayout, setDesktopLayout] = useState(false);
   const theme = useTheme();
